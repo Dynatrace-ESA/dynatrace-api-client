@@ -1,0 +1,51 @@
+{
+  "name": "@dt-esa/dynatrace-api-client",
+  "version": "0.1.231",
+  "description": "",
+  "main": "./build/index.js",
+  "scripts": {
+    "prebuild": "npm run generate",
+    "build": "tsc",
+    "generate:config": "swagger-typescript-api -p ./src/spec/config.json -o ./src/api -n config.ts",
+    "generate:env1": "  swagger-typescript-api -p ./src/spec/env_v1.json -o ./src/api -n env-v1.ts",
+    "generate:env2": "  swagger-typescript-api -p ./src/spec/env_v2.json -o ./src/api -n env-v2.ts",
+    "generate:cmc1": "  swagger-typescript-api -p ./src/spec/cmc_v1.json -o ./src/api -n cmc-v1.ts",
+    "generate:cmc2": "  swagger-typescript-api -p ./src/spec/cmc_v2.json -o ./src/api -n cmc-v2.ts",
+    "generate:iam": "   swagger-typescript-api -p ./src/spec/iam.json    -o ./src/api -n iam.ts   ",
+    "pregenerate": "rm src/api/*.ts",
+    "generate": "npm-run-all -p generate:config generate:env1 generate:env2 generate:cmc1 generate:cmc2 generate:iam",
+    "postgenerate": "node generator.js",
+    "test": "ava"
+  },
+  "ava": {
+    "typescript": {
+      "compile": false,
+      "rewritePaths": {
+        "src/": "build/"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dynatrace-esa/dynatrace-api-client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dynatrace-esa/dynatrace-api-client/issues"
+  },
+  "homepage": "https://github.com/dynatrace-esa/dynatrace-api-client#readme",
+  "dependencies": {
+    "@dt-esa/platform-constants": "^1.0.0",
+    "axios": "^0.24.0",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^2.0.0",
+    "ava": "^3.15.0",
+    "chalk": "^5.0.0",
+    "npm-run-all": "^4.1.5",
+    "swagger-typescript-api": "^9.3.1",
+    "typescript": "^4.5.4"
+  }
+}

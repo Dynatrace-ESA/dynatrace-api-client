@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./build/",
+    "sourceMap": true,
+    "declaration": true,
+    "downlevelIteration": false,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "target": "es2015",
+    "module": "commonjs"
+  }
+}
