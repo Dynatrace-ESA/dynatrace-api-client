@@ -16,10 +16,8 @@ test('Environment V2: Events', async t => {
     t.assert(data.events);
 });
 
-test('Environment V2: Test', async t => {
-    let data = await api.v2.securityProblems.getRemediationItems("11497873967941161718");
+// test('Environment V2: Test', async t => {
+//     let data = await api.v2.securityProblems.getRemediationItems("11497873967941161718");
 
-    
-    
-});
+// });
 

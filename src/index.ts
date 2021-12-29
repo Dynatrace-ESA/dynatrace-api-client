@@ -78,7 +78,7 @@ const checkConnection = (handler, mode?) => {
 
     // Check if we can hit the Dynatrace API endpoint provided.
     handler.request({
-        apiPath: 'api/v1/time',
+        path: '/time',
         method: "get" 
     })
         .then( res => console.log(  'Connected to your Dynatrace instance in', (new Date().getTime() - sTime), 'ms'))
@@ -136,7 +136,7 @@ export class DynatraceTenantAPI extends APIBase{
         this.v1.useUrl(url);
         this.v2.useUrl(url);
         this.config.useUrl(url);
-        
+
         return this;        
     }
 }

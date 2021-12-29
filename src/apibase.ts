@@ -6,10 +6,6 @@ const sleep = (sleepTimeMs) => {
     return new Promise(r => setTimeout(r, sleepTimeMs));
 };
 
-{
-    retryDelay: 1000
-}
-
 export class APIBase {
 
     constructor(
@@ -52,7 +48,7 @@ export class APIBase {
     }
 
 
-    protected request = async <T = any, E = any>({ body = null, method = "GET", path, query = {}, headers = {}, ...params }): Promise<T | E> => {
+    protected request = async <T = any, E = any>({ body = null, method = "GET", path, query = {}, headers = {}, ...params }): Promise<T> => {
 
         const token = this.environment.token;
         const apiPath = this.apiRoute + path;
@@ -66,7 +62,7 @@ export class APIBase {
         if (!token)       throw "Missing API Token.";
         if (/^(PUT|POST)$/i.test(method) && !body) throw "Missing Payload.";
 
-        let result: T | Array<any>;
+        let result: T | Array<any> = [];
 
         try {
             let tries = 0;

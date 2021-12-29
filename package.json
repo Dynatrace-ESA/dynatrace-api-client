@@ -11,6 +11,7 @@
   "scripts": {
     "prebuild": "npm run generate",
     "build": "tsc",
+    "tsc": "tsc",
     "generate:config": "swagger-typescript-api -p ./src/spec/config.json -o ./src/api -n config.ts",
     "generate:env1": "  swagger-typescript-api -p ./src/spec/env_v1.json -o ./src/api -n env-v1.ts",
     "generate:env2": "  swagger-typescript-api -p ./src/spec/env_v2.json -o ./src/api -n env-v2.ts",
@@ -26,7 +27,7 @@
     "typescript": {
       "compile": false,
       "rewritePaths": {
-        "src/": "build/"
+        "src/": "dist/"
       }
     }
   },

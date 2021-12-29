@@ -2,19 +2,19 @@ import test from 'ava';
 import { DynatraceClusterManagementAPIV2 } from '../index';
 
 // @ts-ignore
-console.log("Running unit tests against cluster ", process.env['CLUSTER_URL']);
+// console.log("Running unit tests against cluster ", process.env['CLUSTER_URL']);
 
-const api = new DynatraceClusterManagementAPIV2({
-    // @ts-ignore
-    url: process.env['CLUSTER_URL'],
-    // @ts-ignore
-    token: process.env['CLUSTER_TOKEN']
-});
+// const api = new DynatraceClusterManagementAPIV2({
+//     // @ts-ignore
+//     url: process.env['CLUSTER_URL'],
+//     // @ts-ignore
+//     token: process.env['CLUSTER_TOKEN']
+// });
 
-test('CMC V2: Time', async t => {
-    let data = await api.activeGates.getAllActiveGates();
-    t.assert(data.activeGates.length > 0);
-});
+// test('CMC V2: Time', async t => {
+//     let data = await api.activeGates.getAllActiveGates();
+//     t.assert(data.activeGates.length > 0);
+// });
 
 // test('Environment V1: ActiveGate Installer Versions', async t => {
 //     let data = await api.v1.deployment.getActiveGateInstallerAvailableVersions("unix");
