@@ -18,28 +18,6 @@ const api = new DynatraceTenantAPI({
     token: process.env['TENANT_TOKEN']
 });
 
-test('', async t => {
-
-    let hosts = await api.v1.entity.getHosts();
-    // Do host data stuff.
-
-    let processes = await api.v1.entity.getProcesses();
-
-
-    let host = await api.v1.entity.getSingleHost("HOST-1234567890abcdef");
-    // let name = host.zosVirtualization + "foo";
-
-
-    let data = await api.v1.entity.getApplications();
-    t.assert(Array.isArray(data));
-
-    api.v1
-
-
-
-
-});
-
 test('Environment V1: Time', async t => {
     let time = await paasAPI.v1.time.getCurrentClusterTime();
     t.assert(typeof time == 'number');

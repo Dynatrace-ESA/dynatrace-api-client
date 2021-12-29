@@ -1,8 +1,13 @@
 {
   "name": "@dt-esa/dynatrace-api-client",
-  "version": "0.1.231",
+  "version": "1.213.2",
   "description": "",
-  "main": "./build/index.js",
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "prebuild": "npm run generate",
     "build": "tsc",

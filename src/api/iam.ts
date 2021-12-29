@@ -712,13 +712,11 @@ export class Api extends APIBase {
      * @name UsersControllerGetUsers
      * @summary Lists all users of an account
      * @request GET:/iam/v1/accounts/{accountUuid}/users
-     * @secure
      */
     usersControllerGetUsers: (accountUuid: string, params: RequestParams = {}) =>
       this.request<UserListDto, any>({
         path: `/iam/v1/accounts/${accountUuid}/users`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -730,14 +728,12 @@ export class Api extends APIBase {
      * @name UsersControllerCreateUserForAccount
      * @summary Creates a new user in an account
      * @request POST:/iam/v1/accounts/{accountUuid}/users
-     * @secure
      */
     usersControllerCreateUserForAccount: (accountUuid: string, data: UserEmailDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/iam/v1/accounts/${accountUuid}/users`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -749,13 +745,11 @@ export class Api extends APIBase {
      * @name UsersControllerGetUserGroups
      * @summary Lists all groups of a user
      * @request GET:/iam/v1/accounts/{accountUuid}/users/{email}
-     * @secure
      */
     usersControllerGetUserGroups: (accountUuid: string, email: string, params: RequestParams = {}) =>
       this.request<GroupUserDto, any>({
         path: `/iam/v1/accounts/${accountUuid}/users/${email}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -767,14 +761,12 @@ export class Api extends APIBase {
      * @name UsersControllerAddUserToGroups
      * @summary Adds a user to groups. Any existing group membership remains unaffected.
      * @request POST:/iam/v1/accounts/{accountUuid}/users/{email}
-     * @secure
      */
     usersControllerAddUserToGroups: (accountUuid: string, email: string, data: string[], params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/iam/v1/accounts/${accountUuid}/users/${email}`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -786,13 +778,11 @@ export class Api extends APIBase {
      * @name UsersControllerRemoveUserFromAccount
      * @summary Removes a user from an account
      * @request DELETE:/iam/v1/accounts/{accountUuid}/users/{email}
-     * @secure
      */
     usersControllerRemoveUserFromAccount: (accountUuid: string, email: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/iam/v1/accounts/${accountUuid}/users/${email}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -803,7 +793,6 @@ export class Api extends APIBase {
      * @name UsersControllerReplaceUserGroups
      * @summary Sets group membership of a user. Any existing membership is overwritten.
      * @request PUT:/iam/v1/accounts/{accountUuid}/users/{email}/groups
-     * @secure
      */
     usersControllerReplaceUserGroups: (
       accountUuid: string,
@@ -815,7 +804,6 @@ export class Api extends APIBase {
         path: `/iam/v1/accounts/${accountUuid}/users/${email}/groups`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -827,7 +815,6 @@ export class Api extends APIBase {
      * @name UsersControllerRemoveUserFromGroups
      * @summary Removes a user from groups
      * @request DELETE:/iam/v1/accounts/{accountUuid}/users/{email}/groups
-     * @secure
      */
     usersControllerRemoveUserFromGroups: (
       accountUuid: string,
@@ -839,7 +826,6 @@ export class Api extends APIBase {
         path: `/iam/v1/accounts/${accountUuid}/users/${email}/groups`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -850,13 +836,11 @@ export class Api extends APIBase {
      * @name GroupsControllerGetGroups
      * @summary Lists all user groups of an account
      * @request GET:/iam/v1/accounts/{accountUuid}/groups
-     * @secure
      */
     groupsControllerGetGroups: (accountUuid: string, params: RequestParams = {}) =>
       this.request<GroupListDto, any>({
         path: `/iam/v1/accounts/${accountUuid}/groups`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -868,14 +852,12 @@ export class Api extends APIBase {
      * @name GroupsControllerCreateGroups
      * @summary Creates new user groups
      * @request POST:/iam/v1/accounts/{accountUuid}/groups
-     * @secure
      */
     groupsControllerCreateGroups: (accountUuid: string, data: PutGroupDto[], params: RequestParams = {}) =>
       this.request<GetGroupDto[], any>({
         path: `/iam/v1/accounts/${accountUuid}/groups`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -888,13 +870,11 @@ export class Api extends APIBase {
      * @name GroupsControllerGetUsersForGroup
      * @summary Lists all members of a group
      * @request GET:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/users
-     * @secure
      */
     groupsControllerGetUsersForGroup: (accountUuid: string, groupUuid: string, params: RequestParams = {}) =>
       this.request<GroupUserListDto, any>({
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}/users`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -906,7 +886,6 @@ export class Api extends APIBase {
      * @name GroupsControllerEditGroup
      * @summary Edits a user group
      * @request PUT:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}
-     * @secure
      */
     groupsControllerEditGroup: (
       accountUuid: string,
@@ -918,7 +897,6 @@ export class Api extends APIBase {
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -930,13 +908,11 @@ export class Api extends APIBase {
      * @name GroupsControllerDeleteGroup
      * @summary Deletes a user group
      * @request DELETE:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}
-     * @secure
      */
     groupsControllerDeleteGroup: (accountUuid: string, groupUuid: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -947,13 +923,11 @@ export class Api extends APIBase {
      * @name PermissionsControllerGetGroupPermissions
      * @summary Get all permissions for a group
      * @request GET:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
-     * @secure
      */
     permissionsControllerGetGroupPermissions: (accountUuid: string, groupUuid: string, params: RequestParams = {}) =>
       this.request<PermissionsGroupDto, any>({
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}/permissions`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -965,7 +939,6 @@ export class Api extends APIBase {
      * @name PermissionsControllerAddGroupPermissions
      * @summary Add permissions to a group
      * @request POST:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
-     * @secure
      */
     permissionsControllerAddGroupPermissions: (
       accountUuid: string,
@@ -977,7 +950,6 @@ export class Api extends APIBase {
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}/permissions`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -989,7 +961,6 @@ export class Api extends APIBase {
      * @name PermissionsControllerOverwriteGroupPermissions
      * @summary Set permissions for a group
      * @request PUT:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
-     * @secure
      */
     permissionsControllerOverwriteGroupPermissions: (
       accountUuid: string,
@@ -1001,7 +972,6 @@ export class Api extends APIBase {
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}/permissions`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1013,7 +983,6 @@ export class Api extends APIBase {
      * @name PermissionsControllerRemoveGroupPermissions
      * @summary Remove a permission from a group
      * @request DELETE:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
-     * @secure
      */
     permissionsControllerRemoveGroupPermissions: (
       accountUuid: string,
@@ -1042,7 +1011,6 @@ export class Api extends APIBase {
         path: `/iam/v1/accounts/${accountUuid}/groups/${groupUuid}/permissions`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -1053,13 +1021,11 @@ export class Api extends APIBase {
      * @name PolicyControllerGetPolicyOverviewList
      * @summary Lists all policies for a level, including inherited from higher levels
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/policies/aggregate
-     * @secure
      */
     policyControllerGetPolicyOverviewList: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<PolicyOverviewDtoList, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/policies/aggregate`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1071,13 +1037,11 @@ export class Api extends APIBase {
      * @name PolicyControllerGetLevelPolicies
      * @summary Lists all native policies of a level
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/policies
-     * @secure
      */
     policyControllerGetLevelPolicies: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<PolicyDtoList, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/policies`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1089,7 +1053,6 @@ export class Api extends APIBase {
      * @name PolicyControllerCreateLevelPolicy
      * @summary Creates a new policy
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/policies
-     * @secure
      */
     policyControllerCreateLevelPolicy: (
       levelType: string,
@@ -1101,7 +1064,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/policies`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1114,7 +1076,6 @@ export class Api extends APIBase {
      * @name PolicyControllerValidateNewLevelPolicy
      * @summary Validates the payload for the `POST /iam/v1/repo/{levelType}/{levelId}/policies` request
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/policies/validation
-     * @secure
      */
     policyControllerValidateNewLevelPolicy: (
       levelType: string,
@@ -1126,7 +1087,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/policies/validation`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1139,7 +1099,6 @@ export class Api extends APIBase {
      * @name PolicyControllerValidateLevelPolicy
      * @summary Validates the payload for the `PUT /iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}` request
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/policies/validation/{policyUuid}
-     * @secure
      */
     policyControllerValidateLevelPolicy: (
       levelType: string,
@@ -1152,7 +1111,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/policies/validation/${policyUuid}`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1165,7 +1123,6 @@ export class Api extends APIBase {
      * @name PolicyControllerGetLevelPolicy
      * @summary Gets a policy
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}
-     * @secure
      */
     policyControllerGetLevelPolicy: (
       levelType: string,
@@ -1176,7 +1133,6 @@ export class Api extends APIBase {
       this.request<LevelPolicyDto, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/policies/${policyUuid}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1188,7 +1144,6 @@ export class Api extends APIBase {
      * @name PolicyControllerUpdateLevelPolicy
      * @summary Updates a policy
      * @request PUT:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}
-     * @secure
      */
     policyControllerUpdateLevelPolicy: (
       levelType: string,
@@ -1201,7 +1156,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/policies/${policyUuid}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1214,7 +1168,6 @@ export class Api extends APIBase {
      * @name PolicyControllerDeleteLevelPolicy
      * @summary Deletes a policy
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}
-     * @secure
      */
     policyControllerDeleteLevelPolicy: (
       levelType: string,
@@ -1226,7 +1179,6 @@ export class Api extends APIBase {
       this.request<void, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/policies/${policyUuid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -1237,7 +1189,6 @@ export class Api extends APIBase {
      * @name PolicyControllerGetPolicyUuidsBindings
      * @summary Lists all policies for a user group
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/bindings/groups/{groupUuid}
-     * @secure
      */
     policyControllerGetPolicyUuidsBindings: (
       levelType: string,
@@ -1248,7 +1199,6 @@ export class Api extends APIBase {
       this.request<PolicyUuidsDto, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings/groups/${groupUuid}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1260,7 +1210,6 @@ export class Api extends APIBase {
      * @name PolicyControllerUpdatePolicyBindingsToGroup
      * @summary Updates policies for a user group
      * @request PUT:/iam/v1/repo/{levelType}/{levelId}/bindings/groups/{groupUuid}
-     * @secure
      */
     policyControllerUpdatePolicyBindingsToGroup: (
       levelType: string,
@@ -1273,7 +1222,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings/groups/${groupUuid}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1285,13 +1233,11 @@ export class Api extends APIBase {
      * @name PolicyControllerGetLevelPolicyBindings
      * @summary Lists all policy bindings of a level
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/bindings
-     * @secure
      */
     policyControllerGetLevelPolicyBindings: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<LevelPolicyBindingDto, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1303,7 +1249,6 @@ export class Api extends APIBase {
      * @name PolicyControllerUpdateLevelPolicyBindings
      * @summary Updates policy bindings of a level
      * @request PUT:/iam/v1/repo/{levelType}/{levelId}/bindings
-     * @secure
      */
     policyControllerUpdateLevelPolicyBindings: (
       levelType: string,
@@ -1315,7 +1260,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1327,13 +1271,11 @@ export class Api extends APIBase {
      * @name PolicyControllerDeleteLevelPolicyBindings
      * @summary Deletes all policy bindings from a level
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/bindings
-     * @secure
      */
     policyControllerDeleteLevelPolicyBindings: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<void, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -1344,7 +1286,6 @@ export class Api extends APIBase {
      * @name PolicyControllerAppendLevelPolicyBindings
      * @summary Adds policy bindings to a level
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}
-     * @secure
      */
     policyControllerAppendLevelPolicyBindings: (
       levelType: string,
@@ -1357,7 +1298,6 @@ export class Api extends APIBase {
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings/${policyUuid}`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1370,7 +1310,6 @@ export class Api extends APIBase {
      * @name PolicyControllerDeleteLevelPolicyBindingsForPolicy
      * @summary Deletes all bindings of a policy
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}
-     * @secure
      */
     policyControllerDeleteLevelPolicyBindingsForPolicy: (
       levelType: string,
@@ -1381,7 +1320,6 @@ export class Api extends APIBase {
       this.request<void, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings/${policyUuid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -1392,7 +1330,6 @@ export class Api extends APIBase {
      * @name PolicyControllerDeleteLevelPolicyBindingsForPolicyAndGroup
      * @summary Deletes a policy binding from a user group
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}/{groupUuid}
-     * @secure
      */
     policyControllerDeleteLevelPolicyBindingsForPolicyAndGroup: (
       levelType: string,
@@ -1404,7 +1341,6 @@ export class Api extends APIBase {
       this.request<void, ErrorDto>({
         path: `/iam/v1/repo/${levelType}/${levelId}/bindings/${policyUuid}/${groupUuid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
   };
@@ -1416,13 +1352,11 @@ export class Api extends APIBase {
      * @name QuotaControllerGetQuota
      * @summary Gets the host units quota of an account
      * @request GET:/env/v1/accounts/{accountUuid}/quotas/host-monitoring
-     * @secure
      */
     quotaControllerGetQuota: (accountUuid: string, params: RequestParams = {}) =>
       this.request<ContractLimitDto, any>({
         path: `/env/v1/accounts/${accountUuid}/quotas/host-monitoring`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1434,7 +1368,6 @@ export class Api extends APIBase {
      * @name QuotaControllerSplitHostMonitoringCredits
      * @summary Updates environment-level host unit quotas
      * @request PATCH:/env/v1/accounts/{accountUuid}/quotas/host-monitoring
-     * @secure
      */
     quotaControllerSplitHostMonitoringCredits: (
       accountUuid: string,
@@ -1445,7 +1378,6 @@ export class Api extends APIBase {
         path: `/env/v1/accounts/${accountUuid}/quotas/host-monitoring`,
         method: "PATCH",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1457,7 +1389,6 @@ export class Api extends APIBase {
      * @name QuotaControllerEnableOverage
      * @summary Sets the host units overage
      * @request PUT:/env/v1/accounts/{accountUuid}/quotas/host-monitoring/environments/{environmentUuid}/overage
-     * @secure
      */
     quotaControllerEnableOverage: (
       accountUuid: string,
@@ -1469,7 +1400,6 @@ export class Api extends APIBase {
         path: `/env/v1/accounts/${accountUuid}/quotas/host-monitoring/environments/${environmentUuid}/overage`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1481,13 +1411,11 @@ export class Api extends APIBase {
      * @name EnvironmentResourcesControllerGetEnvironmentResources
      * @summary Lists all environments and management zones of an account
      * @request GET:/env/v1/accounts/{accountUuid}/environments
-     * @secure
      */
     environmentResourcesControllerGetEnvironmentResources: (accountUuid: string, params: RequestParams = {}) =>
       this.request<EnvironmentResourceDto, any>({
         path: `/env/v1/accounts/${accountUuid}/environments`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1500,13 +1428,11 @@ export class Api extends APIBase {
      * @name ReferenceDataControllerGetTimezones
      * @summary Get names of all timezones available
      * @request GET:/ref/v1/time-zones
-     * @secure
      */
     referenceDataControllerGetTimezones: (params: RequestParams = {}) =>
       this.request<TimeZoneDto[], any>({
         path: `/ref/v1/time-zones`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1518,13 +1444,11 @@ export class Api extends APIBase {
      * @name ReferenceDataControllerGetRegions
      * @summary Get names of all regions available
      * @request GET:/ref/v1/regions
-     * @secure
      */
     referenceDataControllerGetRegions: (params: RequestParams = {}) =>
       this.request<RegionDto[], any>({
         path: `/ref/v1/regions`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1536,13 +1460,11 @@ export class Api extends APIBase {
      * @name ReferenceDataControllerGetPermissions
      * @summary Get names of all permissions available for any given account
      * @request GET:/ref/v1/account/permissions
-     * @secure
      */
     referenceDataControllerGetPermissions: (params: RequestParams = {}) =>
       this.request<PermissionDto[], any>({
         path: `/ref/v1/account/permissions`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1555,13 +1477,11 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetClaSubscriptions
      * @summary Lists all Dynatrace platform subscriptions of an account
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions
-     * @secure
      */
     limaClaControllerGetClaSubscriptions: (accountUuid: string, params: RequestParams = {}) =>
       this.request<ClaSubscriptionListDto, any>({
         path: `/sub/v1/accounts/${accountUuid}/subscriptions`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1573,13 +1493,11 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetClaSubscriptionClusterDetails
      * @summary Lists all clusters of an account
      * @request GET:/sub/v1/accounts/{accountUuid}/clusters
-     * @secure
      */
     limaClaControllerGetClaSubscriptionClusterDetails: (accountUuid: string, params: RequestParams = {}) =>
       this.request<ClaClusterListDto, any>({
         path: `/sub/v1/accounts/${accountUuid}/clusters`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1591,13 +1509,11 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetClaSubscriptionEnvironmentDetails
      * @summary Lists all clusters of an account
      * @request GET:/sub/v1/accounts/{accountUuid}/environments
-     * @secure
      */
     limaClaControllerGetClaSubscriptionEnvironmentDetails: (accountUuid: string, params: RequestParams = {}) =>
       this.request<ClaEnvironmentListDto, any>({
         path: `/sub/v1/accounts/${accountUuid}/environments`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1609,7 +1525,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetProductLevelClaLicenseConsumptionData
      * @summary Gets the consumption of a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/consumption
-     * @secure
      */
     limaClaControllerGetProductLevelClaLicenseConsumptionData: (
       accountUuid: string,
@@ -1625,7 +1540,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/consumption`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1637,7 +1551,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetClusterLevelClaLicenseConsumptionData
      * @summary Gets the cluster-level consumption of a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/consumption
-     * @secure
      */
     limaClaControllerGetClusterLevelClaLicenseConsumptionData: (
       accountUuid: string,
@@ -1654,7 +1567,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/clusters/consumption`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1666,7 +1578,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetTenantLevelClaLicenseConsumptionData
      * @summary Gets the environment-level consumption of a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/consumption
-     * @secure
      */
     limaClaControllerGetTenantLevelClaLicenseConsumptionData: (
       accountUuid: string,
@@ -1683,7 +1594,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/environments/consumption`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1695,7 +1605,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetClaLicenseDetailsById
      * @summary Gets the active term of a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/term
-     * @secure
      */
     limaClaControllerGetClaLicenseDetailsById: (
       accountUuid: string,
@@ -1705,7 +1614,6 @@ export class Api extends APIBase {
       this.request<ClaSubscriptionTermDto, any>({
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/term`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1717,13 +1625,11 @@ export class Api extends APIBase {
      * @name LimaClaControllerGetClaBudgetLimits
      * @summary Lists limits for a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/limits
-     * @secure
      */
     limaClaControllerGetClaBudgetLimits: (accountUuid: string, subscriptionId: number, params: RequestParams = {}) =>
       this.request<ClaBudgetLimitRecordListDto, any>({
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/limits`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1735,7 +1641,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerAddClaBudgetLimitForCluster
      * @summary Creates a limit for a cluster
      * @request POST:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/{clusterUuid}/limits
-     * @secure
      */
     limaClaControllerAddClaBudgetLimitForCluster: (
       accountUuid: string,
@@ -1748,7 +1653,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/clusters/${clusterUuid}/limits`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1761,7 +1665,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerUpdateClaBudgetLimitForCluster
      * @summary Updates the limit for a cluster
      * @request PUT:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/{clusterUuid}/limits
-     * @secure
      */
     limaClaControllerUpdateClaBudgetLimitForCluster: (
       accountUuid: string,
@@ -1774,7 +1677,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/clusters/${clusterUuid}/limits`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1787,7 +1689,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerAddClaBudgetLimitForEnvironment
      * @summary Creates a limit for an environment
      * @request POST:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/{environmentUuid}/limits
-     * @secure
      */
     limaClaControllerAddClaBudgetLimitForEnvironment: (
       accountUuid: string,
@@ -1800,7 +1701,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/environments/${environmentUuid}/limits`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1813,7 +1713,6 @@ export class Api extends APIBase {
      * @name LimaClaControllerUpdateClaBudgetLimitForEnvironment
      * @summary Updates the limit for an environment
      * @request PUT:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/{environmentUuid}/limits
-     * @secure
      */
     limaClaControllerUpdateClaBudgetLimitForEnvironment: (
       accountUuid: string,
@@ -1826,7 +1725,6 @@ export class Api extends APIBase {
         path: `/sub/v1/accounts/${accountUuid}/subscriptions/${subscriptionId}/environments/${environmentUuid}/limits`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,

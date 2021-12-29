@@ -2727,14 +2727,12 @@ export class Api extends APIBase {
      * @name GetBillingHour
      * @summary Retrieve license consumption
      * @request GET:/license/consumption/hour
-     * @secure
      */
     getBillingHour: (query?: { startTs?: number }, params: RequestParams = {}) =>
       this.request<BillingRequestDto, void>({
         path: `/license/consumption/hour`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2745,14 +2743,12 @@ export class Api extends APIBase {
      * @name GetBillingArchive
      * @summary Export license consumption data
      * @request GET:/license/consumption
-     * @secure
      */
     getBillingArchive: (query?: { startTs?: number; endTs?: number }, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/license/consumption`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
   };
@@ -2764,7 +2760,6 @@ export class Api extends APIBase {
      * @name GetSingleEnvironment
      * @summary Gets the properties of the specified environment.
      * @request GET:/environments/{id}
-     * @secure
      */
     getSingleEnvironment: (
       id: string,
@@ -2779,7 +2774,6 @@ export class Api extends APIBase {
         path: `/environments/${id}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2790,7 +2784,6 @@ export class Api extends APIBase {
      * @name CreateOrUpdateEnvironment
      * @summary Updates an existing environment or creates a new one.
      * @request PUT:/environments/{id}
-     * @secure
      */
     createOrUpdateEnvironment: (
       id: string,
@@ -2803,7 +2796,6 @@ export class Api extends APIBase {
         method: "PUT",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -2814,13 +2806,11 @@ export class Api extends APIBase {
      * @name DeleteEnvironment
      * @summary Deletes the specified environment. An environment must be disabled before it can be deleted.
      * @request DELETE:/environments/{id}
-     * @secure
      */
     deleteEnvironment: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/environments/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -2831,14 +2821,12 @@ export class Api extends APIBase {
      * @name CreateTokenManagementToken
      * @summary Creates a new tenant management token for an environment.
      * @request POST:/environments/{id}/tokenManagementToken
-     * @secure
      */
     createTokenManagementToken: (id: string, data: CreateEnvironmentTokenManagementToken, params: RequestParams = {}) =>
       this.request<Token, ErrorEnvelope>({
         path: `/environments/${id}/tokenManagementToken`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -2849,7 +2837,6 @@ export class Api extends APIBase {
      * @name GetAllEnvironments
      * @summary Lists all existing environments.
      * @request GET:/environments
-     * @secure
      */
     getAllEnvironments: (
       query?: {
@@ -2867,7 +2854,6 @@ export class Api extends APIBase {
         path: `/environments`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2878,7 +2864,6 @@ export class Api extends APIBase {
      * @name CreateEnvironment
      * @summary Creates a new environment.
      * @request POST:/environments
-     * @secure
      */
     createEnvironment: (data: Environment, query?: { createToken?: boolean }, params: RequestParams = {}) =>
       this.request<EnvironmentShortRepresentation, void>({
@@ -2886,7 +2871,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -2898,14 +2882,12 @@ export class Api extends APIBase {
      * @name AccessRequestChangeState
      * @summary Change state of access request
      * @request PUT:/remoteaccess/requests/{requestId}/state
-     * @secure
      */
     accessRequestChangeState: (requestId: string, data: AccessRequestStateData, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/remoteaccess/requests/${requestId}/state`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -2916,13 +2898,11 @@ export class Api extends APIBase {
      * @name GetAllAccessRequests
      * @summary Get all access requests
      * @request GET:/remoteaccess/requests
-     * @secure
      */
     getAllAccessRequests: (params: RequestParams = {}) =>
       this.request<AccessRequestData[], void>({
         path: `/remoteaccess/requests`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2934,14 +2914,12 @@ export class Api extends APIBase {
      * @name AddAccessRequest
      * @summary Grant remote access permission
      * @request POST:/remoteaccess/requests
-     * @secure
      */
     addAccessRequest: (data: CreateAccessRequestDto, params: RequestParams = {}) =>
       this.request<AccessRequestData, void>({
         path: `/remoteaccess/requests`,
         method: "POST",
         body: data,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2953,13 +2931,11 @@ export class Api extends APIBase {
      * @name GetAccessRequest
      * @summary Get access request
      * @request GET:/remoteaccess/requests/{requestId}
-     * @secure
      */
     getAccessRequest: (requestId: string, params: RequestParams = {}) =>
       this.request<AccessRequestData, void>({
         path: `/remoteaccess/requests/${requestId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2972,13 +2948,11 @@ export class Api extends APIBase {
      * @name GetConcurrentSessionPolicyConfig
      * @summary Get user sessions configuration
      * @request GET:/clusterConfig/userSessions
-     * @secure
      */
     getConcurrentSessionPolicyConfig: (params: RequestParams = {}) =>
       this.request<UserSessionsConfig, any>({
         path: `/clusterConfig/userSessions`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2990,14 +2964,12 @@ export class Api extends APIBase {
      * @name UpdateConcurrentSessionPolicyConfig
      * @summary Update user sessions configuration
      * @request PUT:/clusterConfig/userSessions
-     * @secure
      */
     updateConcurrentSessionPolicyConfig: (data: UserSessionsConfig, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/clusterConfig/userSessions`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3010,14 +2982,12 @@ export class Api extends APIBase {
      * @name GetUserSessions
      * @summary Get user sessions
      * @request GET:/userSessions
-     * @secure
      */
     getUserSessions: (query?: { userId?: string }, params: RequestParams = {}) =>
       this.request<UserSession[], void>({
         path: `/userSessions`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3029,14 +2999,12 @@ export class Api extends APIBase {
      * @name RemoveUserSession
      * @summary Remove user sessions for a given user
      * @request DELETE:/userSessions
-     * @secure
      */
     removeUserSession: (query?: { userId?: string }, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/userSessions`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
   };
@@ -3048,13 +3016,11 @@ export class Api extends APIBase {
      * @name GetAutoUpdateConfigById
      * @summary Gets the configuration of auto-update for the specified ActiveGate
      * @request GET:/activeGates/{agId}/autoUpdate
-     * @secure
      */
     getAutoUpdateConfigById: (agId: string, params: RequestParams = {}) =>
       this.request<ActiveGateAutoUpdateConfig, ErrorEnvelope>({
         path: `/activeGates/${agId}/autoUpdate`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3065,14 +3031,12 @@ export class Api extends APIBase {
      * @name PutAutoUpdateConfigById
      * @summary Updates the configuration of auto-update for the specified ActiveGate
      * @request PUT:/activeGates/{agId}/autoUpdate
-     * @secure
      */
     putAutoUpdateConfigById: (agId: string, data: ActiveGateAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/${agId}/autoUpdate`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3083,14 +3047,12 @@ export class Api extends APIBase {
      * @name ValidateAutoUpdateConfigById
      * @summary Validates the payload for the `POST /activeGates/{agId}/autoUpdate` request.
      * @request POST:/activeGates/{agId}/autoUpdate/validator
-     * @secure
      */
     validateAutoUpdateConfigById: (agId: string, data: ActiveGateAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/${agId}/autoUpdate/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3101,13 +3063,11 @@ export class Api extends APIBase {
      * @name GetClusterGlobalAutoUpdateConfig
      * @summary Gets the global auto-update configuration of cluster ActiveGates.
      * @request GET:/activeGates/autoUpdate
-     * @secure
      */
     getClusterGlobalAutoUpdateConfig: (params: RequestParams = {}) =>
       this.request<ActiveGateGlobalAutoUpdateConfig, any>({
         path: `/activeGates/autoUpdate`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3118,14 +3078,12 @@ export class Api extends APIBase {
      * @name PutClusterGlobalAutoUpdateConfig
      * @summary Puts the global auto-update configuration of cluster ActiveGates.
      * @request PUT:/activeGates/autoUpdate
-     * @secure
      */
     putClusterGlobalAutoUpdateConfig: (data: ActiveGateGlobalAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/autoUpdate`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3136,14 +3094,12 @@ export class Api extends APIBase {
      * @name ValidateClusterGlobalAutoUpdateConfig
      * @summary Validates the payload for the `POST /activeGates/autoUpdate` request.
      * @request POST:/activeGates/autoUpdate/validator
-     * @secure
      */
     validateClusterGlobalAutoUpdateConfig: (data: ActiveGateGlobalAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/autoUpdate/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3154,13 +3110,11 @@ export class Api extends APIBase {
      * @name GetGlobalAutoUpdateConfigForTenant
      * @summary Gets the global auto-update configuration of environment ActiveGates.
      * @request GET:/activeGates/autoUpdate/{envId}
-     * @secure
      */
     getGlobalAutoUpdateConfigForTenant: (envId: string, params: RequestParams = {}) =>
       this.request<ActiveGateGlobalAutoUpdateConfig, ErrorEnvelope>({
         path: `/activeGates/autoUpdate/${envId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3171,7 +3125,6 @@ export class Api extends APIBase {
      * @name PutGlobalAutoUpdateConfigForTenant
      * @summary Puts the global auto-update configuration of environment ActiveGates.
      * @request PUT:/activeGates/autoUpdate/{envId}
-     * @secure
      */
     putGlobalAutoUpdateConfigForTenant: (
       envId: string,
@@ -3182,7 +3135,6 @@ export class Api extends APIBase {
         path: `/activeGates/autoUpdate/${envId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3193,7 +3145,6 @@ export class Api extends APIBase {
      * @name ValidateGlobalAutoUpdateConfigForTenant
      * @summary Validates the payload for the `POST /activeGates/autoUpdate/{envId}` request.
      * @request POST:/activeGates/autoUpdate/{envId}/validator
-     * @secure
      */
     validateGlobalAutoUpdateConfigForTenant: (
       envId: string,
@@ -3204,7 +3155,6 @@ export class Api extends APIBase {
         path: `/activeGates/autoUpdate/${envId}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3215,7 +3165,6 @@ export class Api extends APIBase {
      * @name GetAllUpdateJobList
      * @summary List ActiveGates with update jobs
      * @request GET:/activeGates/updateJobs
-     * @secure
      */
     getAllUpdateJobList: (
       query?: {
@@ -3234,7 +3183,6 @@ export class Api extends APIBase {
         path: `/activeGates/updateJobs`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -3245,7 +3193,6 @@ export class Api extends APIBase {
      * @name GetUpdateJobListByAgId
      * @summary Lists update jobs for the specified ActiveGate
      * @request GET:/activeGates/{agId}/updateJobs
-     * @secure
      */
     getUpdateJobListByAgId: (
       agId: string,
@@ -3265,7 +3212,6 @@ export class Api extends APIBase {
         path: `/activeGates/${agId}/updateJobs`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -3276,14 +3222,12 @@ export class Api extends APIBase {
      * @name CreateUpdateJobForAg
      * @summary Creates a new update job for the specified ActiveGate
      * @request POST:/activeGates/{agId}/updateJobs
-     * @secure
      */
     createUpdateJobForAg: (agId: string, data: UpdateJob, params: RequestParams = {}) =>
       this.request<UpdateJob, ErrorEnvelope>({
         path: `/activeGates/${agId}/updateJobs`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3294,13 +3238,11 @@ export class Api extends APIBase {
      * @name GetUpdateJobByJobIdForAg
      * @summary Gets the parameters of the specified update job
      * @request GET:/activeGates/{agId}/updateJobs/{jobId}
-     * @secure
      */
     getUpdateJobByJobIdForAg: (agId: string, jobId: string, params: RequestParams = {}) =>
       this.request<UpdateJob, ErrorEnvelope>({
         path: `/activeGates/${agId}/updateJobs/${jobId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3311,13 +3253,11 @@ export class Api extends APIBase {
      * @name DeleteUpdateJobByJobIdForAg
      * @summary Deletes the specified update job
      * @request DELETE:/activeGates/{agId}/updateJobs/{jobId}
-     * @secure
      */
     deleteUpdateJobByJobIdForAg: (agId: string, jobId: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/${agId}/updateJobs/${jobId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -3328,14 +3268,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateJobForAg
      * @summary Validates the payload for the `POST /activeGates/{agId}/updateJobs` request.
      * @request POST:/activeGates/{agId}/updateJobs/validator
-     * @secure
      */
     validateUpdateJobForAg: (agId: string, data: UpdateJob, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/${agId}/updateJobs/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3346,7 +3284,6 @@ export class Api extends APIBase {
      * @name GetAllActiveGates
      * @summary Lists all available ActiveGates
      * @request GET:/activeGates
-     * @secure
      */
     getAllActiveGates: (
       query?: {
@@ -3417,7 +3354,6 @@ export class Api extends APIBase {
         path: `/activeGates`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -3428,13 +3364,11 @@ export class Api extends APIBase {
      * @name GetOneActiveGateById
      * @summary Gets the details of the specified ActiveGate
      * @request GET:/activeGates/{agId}
-     * @secure
      */
     getOneActiveGateById: (agId: string, params: RequestParams = {}) =>
       this.request<ActiveGate, ErrorEnvelope>({
         path: `/activeGates/${agId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -3446,13 +3380,11 @@ export class Api extends APIBase {
      * @name GetActiveGateInstallerAvailableVersions
      * @summary Lists all available versions of ActiveGate installer
      * @request GET:/deployment/installer/gateway/versions/{osType}
-     * @secure
      */
     getActiveGateInstallerAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
       this.request<ActiveGateInstallerVersions, ErrorEnvelope>({
         path: `/deployment/installer/gateway/versions/${osType}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3465,13 +3397,11 @@ export class Api extends APIBase {
      * @name GetAllNetworkZones
      * @summary Lists all existing network zones | maturity=EARLY_ADOPTER
      * @request GET:/networkZones
-     * @secure
      */
     getAllNetworkZones: (params: RequestParams = {}) =>
       this.request<NetworkZoneList, any>({
         path: `/networkZones`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3482,13 +3412,11 @@ export class Api extends APIBase {
      * @name GetSingleNetworkZone
      * @summary Gets parameters of the specified network zone | maturity=EARLY_ADOPTER
      * @request GET:/networkZones/{id}
-     * @secure
      */
     getSingleNetworkZone: (id: string, params: RequestParams = {}) =>
       this.request<NetworkZone, any>({
         path: `/networkZones/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3499,14 +3427,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateNetworkZone
      * @summary Updates an existing network zone or creates a new one | maturity=EARLY_ADOPTER
      * @request PUT:/networkZones/{id}
-     * @secure
      */
     createOrUpdateNetworkZone: (id: string, data: NetworkZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/networkZones/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3517,13 +3443,11 @@ export class Api extends APIBase {
      * @name DeleteNetworkZone
      * @summary Deletes the specified network zone | maturity=EARLY_ADOPTER
      * @request DELETE:/networkZones/{id}
-     * @secure
      */
     deleteNetworkZone: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/networkZones/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
   };
@@ -3535,13 +3459,11 @@ export class Api extends APIBase {
      * @name GetTokenMetadata
      * @summary Lists token metadata by token ID
      * @request GET:/tokens/{id}
-     * @secure
      */
     getTokenMetadata: (id: string, params: RequestParams = {}) =>
       this.request<TokenMetadata, ErrorEnvelope>({
         path: `/tokens/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -3552,14 +3474,12 @@ export class Api extends APIBase {
      * @name UpdateToken
      * @summary Updates the specified token
      * @request PUT:/tokens/{id}
-     * @secure
      */
     updateToken: (id: string, data: UpdateToken, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/tokens/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3570,13 +3490,11 @@ export class Api extends APIBase {
      * @name DeleteToken
      * @summary Deletes the specified token
      * @request DELETE:/tokens/{id}
-     * @secure
      */
     deleteToken: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/tokens/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -3587,14 +3505,12 @@ export class Api extends APIBase {
      * @name GetTokenMetadataBySecret
      * @summary Lists token metadata by token itself
      * @request POST:/tokens/lookup
-     * @secure
      */
     getTokenMetadataBySecret: (data: Token, params: RequestParams = {}) =>
       this.request<TokenMetadata, any>({
         path: `/tokens/lookup`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -3605,7 +3521,6 @@ export class Api extends APIBase {
      * @name ListTokens
      * @summary Lists available tokens in your environment
      * @request GET:/tokens
-     * @secure
      */
     listTokens: (
       query?: {
@@ -3635,7 +3550,6 @@ export class Api extends APIBase {
         path: `/tokens`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -3646,14 +3560,12 @@ export class Api extends APIBase {
      * @name CreateToken
      * @summary Creates a new token
      * @request POST:/tokens
-     * @secure
      */
     createToken: (data: CreateToken, params: RequestParams = {}) =>
       this.request<Token, ErrorEnvelope>({
         path: `/tokens`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -3665,7 +3577,6 @@ export class Api extends APIBase {
      * @name GetPolicyStatementConfiguration
      * @summary Gets configuration for policy statements. Available values for services, permissions, conditions and operators
      * @request GET:/iam/configuration/policystatements
-     * @secure
      */
     getPolicyStatementConfiguration: (
       query?: { statuses?: ("GENERAL_AVAILABILITY" | "IN_DEVELOPMENT")[] },
@@ -3675,7 +3586,6 @@ export class Api extends APIBase {
         path: `/iam/configuration/policystatements`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3687,13 +3597,11 @@ export class Api extends APIBase {
      * @name GetPolicyUuids
      * @summary Get policy UUIDs for a given level by level ID and group
      * @request GET:/iam/repo/{level-type}/{level-id}/bindings/groups/{group-uuid}
-     * @secure
      */
     getPolicyUuids: (levelType: string, levelId: string, groupUuid: string, params: RequestParams = {}) =>
       this.request<PolicyUuids, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/bindings/groups/${groupUuid}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3705,7 +3613,6 @@ export class Api extends APIBase {
      * @name Replace
      * @summary Create or update policy bindings within a level for a group
      * @request PUT:/iam/repo/{level-type}/{level-id}/bindings/groups/{group-uuid}
-     * @secure
      */
     replace: (
       levelType: string,
@@ -3718,7 +3625,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/bindings/groups/${groupUuid}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3730,13 +3636,11 @@ export class Api extends APIBase {
      * @name GetAll
      * @summary Get policy bindings for a level
      * @request GET:/iam/repo/{level-type}/{level-id}/bindings
-     * @secure
      */
     getAll: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<LevelPolicyBindingsList, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/bindings`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3748,7 +3652,6 @@ export class Api extends APIBase {
      * @name Replace1
      * @summary Update policy bindings within a level
      * @request PUT:/iam/repo/{level-type}/{level-id}/bindings
-     * @secure
      */
     replace1: (
       levelType: string,
@@ -3760,7 +3663,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/bindings`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3772,13 +3674,11 @@ export class Api extends APIBase {
      * @name Delete2
      * @summary Delete all policy bindings from a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/bindings
-     * @secure
      */
     delete2: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<void, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/bindings`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -3789,7 +3689,6 @@ export class Api extends APIBase {
      * @name Append
      * @summary Append policy bindings within a level
      * @request POST:/iam/repo/{level-type}/{level-id}/bindings/{policy-uuid}
-     * @secure
      */
     append: (
       levelType: string,
@@ -3802,7 +3701,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/bindings/${policyUuid}`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3814,13 +3712,11 @@ export class Api extends APIBase {
      * @name Delete1
      * @summary Delete all policy bindings within a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/bindings/{policy-uuid}
-     * @secure
      */
     delete1: (levelType: string, levelId: string, policyUuid: string, params: RequestParams = {}) =>
       this.request<void, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/bindings/${policyUuid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -3831,13 +3727,11 @@ export class Api extends APIBase {
      * @name Delete
      * @summary Delete a policy binding from a group within a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/bindings/{policy-uuid}/{group-uuid}
-     * @secure
      */
     delete: (levelType: string, levelId: string, policyUuid: string, groupUuid: string, params: RequestParams = {}) =>
       this.request<void, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/bindings/${policyUuid}/${groupUuid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -3848,13 +3742,11 @@ export class Api extends APIBase {
      * @name GetPolicyOverviewList
      * @summary Get overview of all policies for a given level, descendant and ancestor levels
      * @request GET:/iam/repo/{level-type}/{level-id}/policies/aggregate
-     * @secure
      */
     getPolicyOverviewList: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<PolicyOverviewList, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/policies/aggregate`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3866,14 +3758,12 @@ export class Api extends APIBase {
      * @name GetAll1
      * @summary Get all policies for a level
      * @request GET:/iam/repo/{level-type}/{level-id}/policies
-     * @secure
      */
     getAll1: (levelType: string, levelId: string, query?: { name?: string }, params: RequestParams = {}) =>
       this.request<LevelPoliciesBasicDataList, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/policies`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3885,14 +3775,12 @@ export class Api extends APIBase {
      * @name Create
      * @summary Create a policy within a level
      * @request POST:/iam/repo/{level-type}/{level-id}/policies
-     * @secure
      */
     create: (levelType: string, levelId: string, data: CreateOrUpdateLevelPolicyRequest, params: RequestParams = {}) =>
       this.request<Policy, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/policies`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3905,13 +3793,11 @@ export class Api extends APIBase {
      * @name Get
      * @summary Get a policy within a level
      * @request GET:/iam/repo/{level-type}/{level-id}/policies/{uuid}
-     * @secure
      */
     get: (levelType: string, levelId: string, uuid: string, params: RequestParams = {}) =>
       this.request<Policy, ErrorMessage>({
         path: `/iam/repo/${levelType}/${levelId}/policies/${uuid}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3923,7 +3809,6 @@ export class Api extends APIBase {
      * @name Put
      * @summary Update or create a new policy within a level
      * @request PUT:/iam/repo/{level-type}/{level-id}/policies/{uuid}
-     * @secure
      */
     put: (
       levelType: string,
@@ -3936,7 +3821,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/policies/${uuid}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3949,7 +3833,6 @@ export class Api extends APIBase {
      * @name Delete3
      * @summary Delete a policy from a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/policies/{uuid}
-     * @secure
      */
     delete3: (
       levelType: string,
@@ -3962,7 +3845,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/policies/${uuid}`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -3973,7 +3855,6 @@ export class Api extends APIBase {
      * @name Validate
      * @summary Validates policy before creation or update
      * @request POST:/iam/repo/{level-type}/{level-id}/policies/validation
-     * @secure
      */
     validate: (
       levelType: string,
@@ -3985,7 +3866,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/policies/validation`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3998,7 +3878,6 @@ export class Api extends APIBase {
      * @name Validate1
      * @summary Validates policy before creation or update
      * @request POST:/iam/repo/{level-type}/{level-id}/policies/validation/{policy-uuid}
-     * @secure
      */
     validate1: (
       levelType: string,
@@ -4011,7 +3890,6 @@ export class Api extends APIBase {
         path: `/iam/repo/${levelType}/${levelId}/policies/validation/${policyUuid}`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -4024,13 +3902,11 @@ export class Api extends APIBase {
      * @name GetDescendants
      * @summary Get descendant organizational levels for a given level by level ID
      * @request GET:/iam/organizational-levels/{level-type}/{level-id}/descendants
-     * @secure
      */
     getDescendants: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<LevelList, ErrorMessage>({
         path: `/iam/organizational-levels/${levelType}/${levelId}/descendants`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -4042,13 +3918,11 @@ export class Api extends APIBase {
      * @name Get1
      * @summary Get an organizational level by level ID
      * @request GET:/iam/organizational-levels/{level-type}/{level-id}
-     * @secure
      */
     get1: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<Level, ErrorMessage>({
         path: `/iam/organizational-levels/${levelType}/${levelId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -4061,7 +3935,6 @@ export class Api extends APIBase {
      * @name GetSettingsObjects
      * @summary Lists available settings objects | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects
-     * @secure
      */
     getSettingsObjects: (
       query?: { schemaIds?: string; scopes?: string; fields?: string; nextPageKey?: string; pageSize?: number },
@@ -4071,7 +3944,6 @@ export class Api extends APIBase {
         path: `/settings/objects`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -4082,7 +3954,6 @@ export class Api extends APIBase {
      * @name PostSettingsObjects
      * @summary Creates a new settings object | maturity=EARLY_ADOPTER
      * @request POST:/settings/objects
-     * @secure
      */
     postSettingsObjects: (
       data: SettingsObjectCreate[],
@@ -4094,7 +3965,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -4105,13 +3975,11 @@ export class Api extends APIBase {
      * @name GetSettingsObjectByObjectId
      * @summary Gets the specified settings object | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects/{objectId}
-     * @secure
      */
     getSettingsObjectByObjectId: (objectId: string, params: RequestParams = {}) =>
       this.request<SettingsObject, SettingsObjectResponse>({
         path: `/settings/objects/${objectId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -4122,14 +3990,12 @@ export class Api extends APIBase {
      * @name PutSettingsObjectByObjectId
      * @summary Updates an existing settings object | maturity=EARLY_ADOPTER
      * @request PUT:/settings/objects/{objectId}
-     * @secure
      */
     putSettingsObjectByObjectId: (objectId: string, data: SettingsObjectUpdate, params: RequestParams = {}) =>
       this.request<SettingsObjectResponse, SettingsObjectResponse>({
         path: `/settings/objects/${objectId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -4140,14 +4006,12 @@ export class Api extends APIBase {
      * @name DeleteSettingsObjectByObjectId
      * @summary Deletes the specified settings object | maturity=EARLY_ADOPTER
      * @request DELETE:/settings/objects/{objectId}
-     * @secure
      */
     deleteSettingsObjectByObjectId: (objectId: string, query?: { updateToken?: string }, params: RequestParams = {}) =>
       this.request<void, SettingsObjectResponse>({
         path: `/settings/objects/${objectId}`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -4158,13 +4022,11 @@ export class Api extends APIBase {
      * @name GetAvailableSchemaDefinitions
      * @summary Lists available settings schemas | maturity=EARLY_ADOPTER
      * @request GET:/settings/schemas
-     * @secure
      */
     getAvailableSchemaDefinitions: (params: RequestParams = {}) =>
       this.request<SchemaList, any>({
         path: `/settings/schemas`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -4175,14 +4037,12 @@ export class Api extends APIBase {
      * @name GetSchemaDefinition
      * @summary Gets parameters of the specified settings schema | maturity=EARLY_ADOPTER
      * @request GET:/settings/schemas/{schemaId}
-     * @secure
      */
     getSchemaDefinition: (schemaId: string, query?: { schemaVersion?: string }, params: RequestParams = {}) =>
       this.request<SchemaDefinitionRestDto, ErrorEnvelope>({
         path: `/settings/schemas/${schemaId}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
   };
@@ -4194,13 +4054,11 @@ export class Api extends APIBase {
      * @name GetLocations
      * @summary Lists all cluster private synthetic locations
      * @request GET:/synthetic/locations
-     * @secure
      */
     getLocations: (params: RequestParams = {}) =>
       this.request<SyntheticLocations, any>({
         path: `/synthetic/locations`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -4211,14 +4069,12 @@ export class Api extends APIBase {
      * @name AddLocation
      * @summary Creates a new private synthetic cluster location
      * @request POST:/synthetic/locations
-     * @secure
      */
     addLocation: (data: PrivateSyntheticLocation, params: RequestParams = {}) =>
       this.request<SyntheticLocationIdsDto, any>({
         path: `/synthetic/locations`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -4229,13 +4085,11 @@ export class Api extends APIBase {
      * @name GetLocation
      * @summary Gets properties of the specified cluster location
      * @request GET:/synthetic/locations/{locationId}
-     * @secure
      */
     getLocation: (locationId: string, params: RequestParams = {}) =>
       this.request<SyntheticLocation, any>({
         path: `/synthetic/locations/${locationId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -4246,14 +4100,12 @@ export class Api extends APIBase {
      * @name UpdateLocation
      * @summary Updates the specified private synthetic cluster location
      * @request PUT:/synthetic/locations/{locationId}
-     * @secure
      */
     updateLocation: (locationId: string, data: PrivateSyntheticLocation, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/synthetic/locations/${locationId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -4264,13 +4116,11 @@ export class Api extends APIBase {
      * @name RemoveLocation
      * @summary Deletes the specified private synthetic cluster location
      * @request DELETE:/synthetic/locations/{locationId}
-     * @secure
      */
     removeLocation: (locationId: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/synthetic/locations/${locationId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -4281,13 +4131,11 @@ export class Api extends APIBase {
      * @name GetNode
      * @summary Lists properties of the specified synthetic cluster node | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/nodes/{nodeId}
-     * @secure
      */
     getNode: (nodeId: string, params: RequestParams = {}) =>
       this.request<Node, any>({
         path: `/synthetic/nodes/${nodeId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -4298,13 +4146,11 @@ export class Api extends APIBase {
      * @name GetNodes
      * @summary Lists all synthetic cluster nodes | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/nodes
-     * @secure
      */
     getNodes: (params: RequestParams = {}) =>
       this.request<Nodes, any>({
         path: `/synthetic/nodes`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };

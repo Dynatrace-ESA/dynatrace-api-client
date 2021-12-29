@@ -37,6 +37,19 @@ const stringReplacementPatches = [
         // Remove extraneous HttpResponse object.
         rx: /export interface HttpResponse(.|[\r\n])+?\n}/,
         value: ""
+    },
+
+    // We implicitly decide on security contexts, so here we override the annotation and objects
+    // that are passed between the contexts.
+    {
+        // Remove @secure annotations.
+        rx: /\n\s+\* @secure/g,
+        value: ""
+    },
+    {
+        // Remove secure properties.
+        rx: /\n\s+secure: (true|false),/g,
+        value: ""
     }
 ]
 

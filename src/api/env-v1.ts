@@ -6322,13 +6322,11 @@ export class Api extends APIBase {
      * @name GetVersion
      * @summary Gets the current version of the Dynatrace server
      * @request GET:/config/clusterversion
-     * @secure
      */
     getVersion: (params: RequestParams = {}) =>
       this.request<ClusterVersion, any>({
         path: `/config/clusterversion`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6341,7 +6339,6 @@ export class Api extends APIBase {
      * @name DownloadLatestAgentInstaller
      * @summary Downloads the latest OneAgent installer
      * @request GET:/deployment/installer/agent/{osType}/{installerType}/latest
-     * @secure
      */
     downloadLatestAgentInstaller: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6360,7 +6357,6 @@ export class Api extends APIBase {
         path: `/deployment/installer/agent/${osType}/${installerType}/latest`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -6371,13 +6367,11 @@ export class Api extends APIBase {
      * @name GetLatestLambdaBuildUnits
      * @summary Get the latest version names of the OneAgent for AWS Lambda
      * @request GET:/deployment/lambda/agent/latest
-     * @secure
      */
     getLatestLambdaBuildUnits: (params: RequestParams = {}) =>
       this.request<LatestLambdaLayerNames, any>({
         path: `/deployment/lambda/agent/latest`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6389,7 +6383,6 @@ export class Api extends APIBase {
      * @name DownloadBoshReleaseWithVersion
      * @summary Downloads BOSH release tarballs of the specified version, OneAgent included
      * @request GET:/deployment/boshrelease/agent/{osType}/version/{version}
-     * @secure
      */
     downloadBoshReleaseWithVersion: (
       osType: "windows" | "unix",
@@ -6401,7 +6394,6 @@ export class Api extends APIBase {
         path: `/deployment/boshrelease/agent/${osType}/version/${version}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -6412,7 +6404,6 @@ export class Api extends APIBase {
      * @name GetBoshReleaseChecksum
      * @summary Gets the checksum of the specified BOSH release tarbell
      * @request GET:/deployment/boshrelease/agent/{osType}/version/{version}/checksum
-     * @secure
      */
     getBoshReleaseChecksum: (
       osType: "windows" | "unix",
@@ -6424,7 +6415,6 @@ export class Api extends APIBase {
         path: `/deployment/boshrelease/agent/${osType}/version/${version}/checksum`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6436,13 +6426,11 @@ export class Api extends APIBase {
      * @name GetBoshReleaseAvailableVersions
      * @summary Gets the list of available OneAgent versions for BOSH release tarballs
      * @request GET:/deployment/boshrelease/versions/{osType}
-     * @secure
      */
     getBoshReleaseAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
       this.request<BoshReleaseAvailableVersions, any>({
         path: `/deployment/boshrelease/versions/${osType}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6454,7 +6442,6 @@ export class Api extends APIBase {
      * @name GetAgentInstallerAvailableVersions
      * @summary Lists all available versions of OneAgent installer
      * @request GET:/deployment/installer/agent/versions/{osType}/{installerType}
-     * @secure
      */
     getAgentInstallerAvailableVersions: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6469,7 +6456,6 @@ export class Api extends APIBase {
         path: `/deployment/installer/agent/versions/${osType}/${installerType}`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6481,7 +6467,6 @@ export class Api extends APIBase {
      * @name DownloadAgentInstallerWithVersion
      * @summary Downloads OneAgent installer of the specified version
      * @request GET:/deployment/installer/agent/{osType}/{installerType}/version/{version}
-     * @secure
      */
     downloadAgentInstallerWithVersion: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6501,7 +6486,6 @@ export class Api extends APIBase {
         path: `/deployment/installer/agent/${osType}/${installerType}/version/${version}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -6512,13 +6496,11 @@ export class Api extends APIBase {
      * @name DownloadLatestGatewayInstaller
      * @summary Downloads the configured standard ActiveGate installer of the latest version for the specified OS
      * @request GET:/deployment/installer/gateway/{osType}/latest
-     * @secure
      */
     downloadLatestGatewayInstaller: (osType: "windows" | "unix", params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/deployment/installer/gateway/${osType}/latest`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -6529,13 +6511,11 @@ export class Api extends APIBase {
      * @name DownloadGatewayInstallerWithVersion
      * @summary Downloads the ActiveGate installer of the specified version
      * @request GET:/deployment/installer/gateway/{osType}/version/{version}
-     * @secure
      */
     downloadGatewayInstallerWithVersion: (osType: "windows" | "unix", version: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/deployment/installer/gateway/${osType}/version/${version}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -6546,14 +6526,12 @@ export class Api extends APIBase {
      * @name GetAgentInstallerConnectionInfo
      * @summary Gets the connectivity information for OneAgent
      * @request GET:/deployment/installer/agent/connectioninfo
-     * @secure
      */
     getAgentInstallerConnectionInfo: (query?: { networkZone?: string; version?: string }, params: RequestParams = {}) =>
       this.request<ConnectionInfo, any>({
         path: `/deployment/installer/agent/connectioninfo`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6565,14 +6543,12 @@ export class Api extends APIBase {
      * @name GetActiveGateInstallerConnectionInfo
      * @summary Gets the connectivity information for Environment ActiveGate
      * @request GET:/deployment/installer/gateway/connectioninfo
-     * @secure
      */
     getActiveGateInstallerConnectionInfo: (query?: { networkZone?: string }, params: RequestParams = {}) =>
       this.request<ActiveGateConnectionInfo, any>({
         path: `/deployment/installer/gateway/connectioninfo`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6584,14 +6560,12 @@ export class Api extends APIBase {
      * @name GetAgentInstallerConnectionInfoEndpoints
      * @summary Gets the list of the ActiveGate-Endpoints to be used for Agents ordered by networkzone-priorities. | maturity=EARLY_ADOPTER
      * @request GET:/deployment/installer/agent/connectioninfo/endpoints
-     * @secure
      */
     getAgentInstallerConnectionInfoEndpoints: (query?: { networkZone?: string }, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/deployment/installer/agent/connectioninfo/endpoints`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -6602,7 +6576,6 @@ export class Api extends APIBase {
      * @name GetAgentInstallerMetaInfo
      * @summary Gets the latest available version of the OneAgent installer of the specified type
      * @request GET:/deployment/installer/agent/{osType}/{installerType}/latest/metainfo
-     * @secure
      */
     getAgentInstallerMetaInfo: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6618,7 +6591,6 @@ export class Api extends APIBase {
         path: `/deployment/installer/agent/${osType}/${installerType}/latest/metainfo`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6630,13 +6602,11 @@ export class Api extends APIBase {
      * @name DownloadLatestAgentOrchestration
      * @summary Downloads the latest OneAgent deployment orchestration tarball
      * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest
-     * @secure
      */
     downloadLatestAgentOrchestration: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/deployment/orchestration/agent/${orchestrationType}/latest`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -6647,13 +6617,11 @@ export class Api extends APIBase {
      * @name DownloadLatestAgentOrchestrationSignature
      * @summary Downloads the latest OneAgent deployment orchestration tarball's signature
      * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest/signature
-     * @secure
      */
     downloadLatestAgentOrchestrationSignature: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/deployment/orchestration/agent/${orchestrationType}/latest/signature`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -6664,7 +6632,6 @@ export class Api extends APIBase {
      * @name DownloadAgentOrchestrationWithVersion
      * @summary Downloads the requested version matching OneAgent deployment orchestration tarball
      * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}
-     * @secure
      */
     downloadAgentOrchestrationWithVersion: (
       orchestrationType: "ansible" | "puppet",
@@ -6674,7 +6641,6 @@ export class Api extends APIBase {
       this.request<void, void>({
         path: `/deployment/orchestration/agent/${orchestrationType}/version/${version}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -6685,7 +6651,6 @@ export class Api extends APIBase {
      * @name DownloadAgentOrchestrationSignatureWithVersion
      * @summary Downloads the requested version matching OneAgent deployment orchestration tarball's signature
      * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}/signature
-     * @secure
      */
     downloadAgentOrchestrationSignatureWithVersion: (
       orchestrationType: "ansible" | "puppet",
@@ -6695,7 +6660,6 @@ export class Api extends APIBase {
       this.request<void, void>({
         path: `/deployment/orchestration/agent/${orchestrationType}/version/${version}/signature`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -6706,14 +6670,12 @@ export class Api extends APIBase {
      * @name GetAgentProcessModuleConfig
      * @summary Gets the latest process module config | maturity=EARLY_ADOPTER
      * @request GET:/deployment/installer/agent/processmoduleconfig
-     * @secure
      */
     getAgentProcessModuleConfig: (query?: { revision?: number }, params: RequestParams = {}) =>
       this.request<AgentProcessModuleConfigResponse, void>({
         path: `/deployment/installer/agent/processmoduleconfig`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6725,13 +6687,11 @@ export class Api extends APIBase {
      * @name GetActiveGateInstallerAvailableVersions
      * @summary Lists all available versions of ActiveGate installer
      * @request GET:/deployment/installer/gateway/versions/{osType}
-     * @secure
      */
     getActiveGateInstallerAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
       this.request<ActiveGateInstallerVersions, void>({
         path: `/deployment/installer/gateway/versions/${osType}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6744,7 +6704,6 @@ export class Api extends APIBase {
      * @name Anonymize
      * @summary Creates user session anonymization job
      * @request PUT:/anonymize/anonymizationJobs
-     * @secure
      */
     anonymize: (
       query?: {
@@ -6786,7 +6745,6 @@ export class Api extends APIBase {
         path: `/anonymize/anonymizationJobs`,
         method: "PUT",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6798,13 +6756,11 @@ export class Api extends APIBase {
      * @name GetStatus
      * @summary Shows the progress of the specified anonymization job
      * @request GET:/anonymize/anonymizationJobs/{requestId}
-     * @secure
      */
     getStatus: (requestId: string, params: RequestParams = {}) =>
       this.request<AnonymizationProgressResult, void>({
         path: `/anonymize/anonymizationJobs/${requestId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6817,7 +6773,6 @@ export class Api extends APIBase {
      * @name GetDtaqlResultAsTree
      * @summary Returns the result of the query as a tree structure
      * @request GET:/userSessionQueryLanguage/tree
-     * @secure
      */
     getDtaqlResultAsTree: (
       query: {
@@ -6834,7 +6789,6 @@ export class Api extends APIBase {
         path: `/userSessionQueryLanguage/tree`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6846,7 +6800,6 @@ export class Api extends APIBase {
      * @name GetDtaqlResultAsTable
      * @summary Returns the result of the query as a table structure
      * @request GET:/userSessionQueryLanguage/table
-     * @secure
      */
     getDtaqlResultAsTable: (
       query: {
@@ -6865,7 +6818,6 @@ export class Api extends APIBase {
         path: `/userSessionQueryLanguage/table`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6878,13 +6830,11 @@ export class Api extends APIBase {
      * @name GetEventById
      * @summary Gets the parameters of the specified event
      * @request GET:/events/{eventId}
-     * @secure
      */
     getEventById: (eventId: string, params: RequestParams = {}) =>
       this.request<EventRestEntry, any>({
         path: `/events/${eventId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -6896,7 +6846,6 @@ export class Api extends APIBase {
      * @name QueryEvents
      * @summary Lists all the events of your environment, along with their parameters
      * @request GET:/events
-     * @secure
      */
     queryEvents: (
       query?: {
@@ -7048,7 +6997,6 @@ export class Api extends APIBase {
         path: `/events`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -7060,14 +7008,12 @@ export class Api extends APIBase {
      * @name PostEvent
      * @summary Pushes custom events to one or more monitored entities
      * @request POST:/events
-     * @secure
      */
     postEvent: (data: EventCreation, params: RequestParams = {}) =>
       this.request<EventStoreResult, any>({
         path: `/events`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -7081,14 +7027,12 @@ export class Api extends APIBase {
      * @name TestResults
      * @summary Pushes third-party synthetic monitors, locations, and results to Dynatrace
      * @request POST:/synthetic/ext/tests
-     * @secure
      */
     testResults: (data: Type3rdPartySyntheticTests, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/synthetic/ext/tests`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7099,14 +7043,12 @@ export class Api extends APIBase {
      * @name PushEvents
      * @summary Pushes third-party synthetic events to Dynatrace
      * @request POST:/synthetic/ext/events
-     * @secure
      */
     pushEvents: (data: Type3rdPartySyntheticEvents, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/synthetic/ext/events`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7117,14 +7059,12 @@ export class Api extends APIBase {
      * @name PushStateModification
      * @summary Modifies the operation state of all third-party monitors
      * @request POST:/synthetic/ext/stateModifications
-     * @secure
      */
     pushStateModification: (data: StateModification, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/synthetic/ext/stateModifications`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7135,7 +7075,6 @@ export class Api extends APIBase {
      * @name GetMonitorsCollection
      * @summary Lists all synthetic monitors in your Dynatrace environment
      * @request GET:/synthetic/monitors
-     * @secure
      */
     getMonitorsCollection: (
       query?: {
@@ -7154,7 +7093,6 @@ export class Api extends APIBase {
         path: `/synthetic/monitors`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -7165,14 +7103,12 @@ export class Api extends APIBase {
      * @name AddMonitor
      * @summary Creates a new synthetic monitor
      * @request POST:/synthetic/monitors
-     * @secure
      */
     addMonitor: (data: SyntheticMonitorUpdate, params: RequestParams = {}) =>
       this.request<EntityIdDto, any>({
         path: `/synthetic/monitors`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7183,13 +7119,11 @@ export class Api extends APIBase {
      * @name GetMonitor
      * @summary Gets parameters of the specified synthetic monitor
      * @request GET:/synthetic/monitors/{monitorId}
-     * @secure
      */
     getMonitor: (monitorId: string, params: RequestParams = {}) =>
       this.request<SyntheticMonitor, any>({
         path: `/synthetic/monitors/${monitorId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7200,14 +7134,12 @@ export class Api extends APIBase {
      * @name ReplaceMonitor
      * @summary Updates parameters of the specified synthetic monitor
      * @request PUT:/synthetic/monitors/{monitorId}
-     * @secure
      */
     replaceMonitor: (monitorId: string, data: SyntheticMonitorUpdate, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/synthetic/monitors/${monitorId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7218,13 +7150,11 @@ export class Api extends APIBase {
      * @name DeleteMonitor
      * @summary Deletes the specified synthetic monitor
      * @request DELETE:/synthetic/monitors/{monitorId}
-     * @secure
      */
     deleteMonitor: (monitorId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/synthetic/monitors/${monitorId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -7235,13 +7165,11 @@ export class Api extends APIBase {
      * @name GetLocationsStatus
      * @summary Returns whether public locations are enabled or not | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/locations/status
-     * @secure
      */
     getLocationsStatus: (params: RequestParams = {}) =>
       this.request<SyntheticPublicLocationsStatus, any>({
         path: `/synthetic/locations/status`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7252,14 +7180,12 @@ export class Api extends APIBase {
      * @name UpdateLocationsStatus
      * @summary Enable/disable public synthetic locations | maturity=EARLY_ADOPTER
      * @request PUT:/synthetic/locations/status
-     * @secure
      */
     updateLocationsStatus: (data: SyntheticPublicLocationsStatus, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/synthetic/locations/status`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7270,7 +7196,6 @@ export class Api extends APIBase {
      * @name GetLocations
      * @summary Lists all synthetic locations (both public and private) available for your environment
      * @request GET:/synthetic/locations
-     * @secure
      */
     getLocations: (
       query?: { cloudPlatform?: "AWS" | "AZURE" | "ALIBABA" | "GOOGLE_CLOUD" | "OTHER"; type?: "PUBLIC" | "PRIVATE" },
@@ -7280,7 +7205,6 @@ export class Api extends APIBase {
         path: `/synthetic/locations`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -7291,14 +7215,12 @@ export class Api extends APIBase {
      * @name AddLocation
      * @summary Creates a new private synthetic location
      * @request POST:/synthetic/locations
-     * @secure
      */
     addLocation: (data: PrivateSyntheticLocation, params: RequestParams = {}) =>
       this.request<EntityIdDto, any>({
         path: `/synthetic/locations`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7309,13 +7231,11 @@ export class Api extends APIBase {
      * @name GetLocation
      * @summary Gets properties of the specified location
      * @request GET:/synthetic/locations/{locationId}
-     * @secure
      */
     getLocation: (locationId: string, params: RequestParams = {}) =>
       this.request<SyntheticLocation, any>({
         path: `/synthetic/locations/${locationId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7326,14 +7246,12 @@ export class Api extends APIBase {
      * @name UpdateLocation
      * @summary Updates the specified synthetic location
      * @request PUT:/synthetic/locations/{locationId}
-     * @secure
      */
     updateLocation: (locationId: string, data: SyntheticLocationUpdate, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/synthetic/locations/${locationId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7344,13 +7262,11 @@ export class Api extends APIBase {
      * @name RemoveLocation
      * @summary Deletes the specified private synthetic location
      * @request DELETE:/synthetic/locations/{locationId}
-     * @secure
      */
     removeLocation: (locationId: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/synthetic/locations/${locationId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -7361,13 +7277,11 @@ export class Api extends APIBase {
      * @name GetNode
      * @summary Lists properties of the specified synthetic node
      * @request GET:/synthetic/nodes/{nodeId}
-     * @secure
      */
     getNode: (nodeId: string, params: RequestParams = {}) =>
       this.request<Node, any>({
         path: `/synthetic/nodes/${nodeId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7378,13 +7292,11 @@ export class Api extends APIBase {
      * @name GetNodes
      * @summary Lists all synthetic nodes available in your environment
      * @request GET:/synthetic/nodes
-     * @secure
      */
     getNodes: (params: RequestParams = {}) =>
       this.request<Nodes, any>({
         path: `/synthetic/nodes`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -7396,13 +7308,11 @@ export class Api extends APIBase {
      * @name GetAsyncCodeSnippet
      * @summary Downloads the asynchronous code snippet
      * @request GET:/rum/asyncCS/{entity}
-     * @secure
      */
     getAsyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/asyncCS/${entity}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7413,13 +7323,11 @@ export class Api extends APIBase {
      * @name GetSyncCodeSnippet
      * @summary Downloads the synchronous code snippet
      * @request GET:/rum/syncCS/{entity}
-     * @secure
      */
     getSyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/syncCS/${entity}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7430,13 +7338,11 @@ export class Api extends APIBase {
      * @name GetJsTagComplete
      * @summary Downloads JavaScript tag
      * @request GET:/rum/jsTagComplete/{entity}
-     * @secure
      */
     getJsTagComplete: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/jsTagComplete/${entity}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7447,13 +7353,11 @@ export class Api extends APIBase {
      * @name GetJsScript
      * @summary Downloads OneAgent JavaScript tag
      * @request GET:/rum/jsTag/{entity}
-     * @secure
      */
     getJsScript: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/jsTag/${entity}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7464,13 +7368,11 @@ export class Api extends APIBase {
      * @name GetJsInlineScript
      * @summary Downloads inline code
      * @request GET:/rum/jsInlineScript/{entity}
-     * @secure
      */
     getJsInlineScript: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/jsInlineScript/${entity}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7481,13 +7383,11 @@ export class Api extends APIBase {
      * @name GetJsLatestVersion
      * @summary Gets the latest version of OneAgent JavaScript library
      * @request GET:/rum/jsLatestVersion
-     * @secure
      */
     getJsLatestVersion: (params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/jsLatestVersion`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7498,13 +7398,11 @@ export class Api extends APIBase {
      * @name GetManualApps
      * @summary Lists all manually injected applications
      * @request GET:/rum/manualApps
-     * @secure
      */
     getManualApps: (params: RequestParams = {}) =>
       this.request<ManualApplication[], any>({
         path: `/rum/manualApps`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7515,13 +7413,11 @@ export class Api extends APIBase {
      * @name GetAppRevision
      * @summary Gets the version of the RUM JavaScript code injected into specified application
      * @request GET:/rum/appRevision/{entity}
-     * @secure
      */
     getAppRevision: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/appRevision/${entity}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -7534,7 +7430,6 @@ export class Api extends APIBase {
      * @summary Lists all parameters of all maintenance windows available in your Dynatrace environment.
      * @request GET:/maintenance
      * @deprecated
-     * @secure
      */
     getAllMaintenanceWindowConfigs: (
       query?: { from?: number; to?: number; type?: "Planned" | "Unknown" | "Unplanned" },
@@ -7544,7 +7439,6 @@ export class Api extends APIBase {
         path: `/maintenance`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -7557,14 +7451,12 @@ export class Api extends APIBase {
      * @summary Creates a new or updates an existing maintenance window
      * @request POST:/maintenance
      * @deprecated
-     * @secure
      */
     storeMaintenanceWindowConfig: (data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/maintenance`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -7577,13 +7469,11 @@ export class Api extends APIBase {
      * @summary Lists all parameters of the specified maintenance window.
      * @request GET:/maintenance/{uid}
      * @deprecated
-     * @secure
      */
     getMaintenanceWindowConfig: (uid: string, params: RequestParams = {}) =>
       this.request<MaintenanceWindow, any>({
         path: `/maintenance/${uid}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -7596,13 +7486,11 @@ export class Api extends APIBase {
      * @summary Deletes the specified maintenance window
      * @request DELETE:/maintenance/{uid}
      * @deprecated
-     * @secure
      */
     removeMaintenanceWindowConfig: (uid: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/maintenance/${uid}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
   };
@@ -7614,14 +7502,12 @@ export class Api extends APIBase {
      * @name CreateCustomDataPoints
      * @summary Creates or updates a custom device, or reports metric data points to the custom device.
      * @request POST:/entity/infrastructure/custom/{customDeviceId}
-     * @secure
      */
     createCustomDataPoints: (customDeviceId: string, data: CustomDevicePushMessage, params: RequestParams = {}) =>
       this.request<CustomDevicePushResult, ErrorEnvelope>({
         path: `/entity/infrastructure/custom/${customDeviceId}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7632,13 +7518,11 @@ export class Api extends APIBase {
      * @name GetSingleHost
      * @summary Gets parameters of the specified host
      * @request GET:/entity/infrastructure/hosts/{meIdentifier}
-     * @secure
      */
     getSingleHost: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<Host, any>({
         path: `/entity/infrastructure/hosts/${meIdentifier}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7649,14 +7533,12 @@ export class Api extends APIBase {
      * @name UpdateHost
      * @summary Updates properties of the specified host
      * @request POST:/entity/infrastructure/hosts/{meIdentifier}
-     * @secure
      */
     updateHost: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/entity/infrastructure/hosts/${meIdentifier}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7667,13 +7549,11 @@ export class Api extends APIBase {
      * @name RemoveTags
      * @summary Remove tag of the specified host
      * @request DELETE:/entity/infrastructure/hosts/{meIdentifier}/tags/{tag}
-     * @secure
      */
     removeTags: (meIdentifier: string, tag: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope | void>({
         path: `/entity/infrastructure/hosts/${meIdentifier}/tags/${tag}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -7684,7 +7564,6 @@ export class Api extends APIBase {
      * @name GetHosts
      * @summary Lists all available hosts in your environment
      * @request GET:/entity/infrastructure/hosts
-     * @secure
      */
     getHosts: (
       query?: {
@@ -7717,7 +7596,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/hosts`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -7728,13 +7606,11 @@ export class Api extends APIBase {
      * @name GetSingleProcessGroup
      * @summary List properties of the specified process group
      * @request GET:/entity/infrastructure/process-groups/{meIdentifier}
-     * @secure
      */
     getSingleProcessGroup: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<ProcessGroup, any>({
         path: `/entity/infrastructure/process-groups/${meIdentifier}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7745,14 +7621,12 @@ export class Api extends APIBase {
      * @name UpdateProcessGroup
      * @summary Updates properties of the specified process group
      * @request POST:/entity/infrastructure/process-groups/{meIdentifier}
-     * @secure
      */
     updateProcessGroup: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/entity/infrastructure/process-groups/${meIdentifier}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7763,7 +7637,6 @@ export class Api extends APIBase {
      * @name GetProcessGroups
      * @summary Lists all process groups of your environment, along with their parameters
      * @request GET:/entity/infrastructure/process-groups
-     * @secure
      */
     getProcessGroups: (
       query?: {
@@ -7794,7 +7667,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/process-groups`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -7805,13 +7677,11 @@ export class Api extends APIBase {
      * @name GetSingleProcess
      * @summary List properties of the specified process
      * @request GET:/entity/infrastructure/processes/{meIdentifier}
-     * @secure
      */
     getSingleProcess: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<ProcessGroupInstance, any>({
         path: `/entity/infrastructure/processes/${meIdentifier}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7822,7 +7692,6 @@ export class Api extends APIBase {
      * @name GetProcesses
      * @summary Lists all monitored processes along with their parameters
      * @request GET:/entity/infrastructure/processes
-     * @secure
      */
     getProcesses: (
       query?: {
@@ -7856,7 +7725,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/processes`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -7867,13 +7735,11 @@ export class Api extends APIBase {
      * @name GetBaselineValuesForSingleApplication
      * @summary Gets baseline data for the specified application | maturity=EARLY_ADOPTER
      * @request GET:/entity/applications/{meIdentifier}/baseline
-     * @secure
      */
     getBaselineValuesForSingleApplication: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<ApplicationBaselineValues, any>({
         path: `/entity/applications/${meIdentifier}/baseline`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7884,7 +7750,6 @@ export class Api extends APIBase {
      * @name GetApplications
      * @summary Gets the list of all applications in your environment along with their parameters
      * @request GET:/entity/applications
-     * @secure
      */
     getApplications: (
       query?: {
@@ -7914,7 +7779,6 @@ export class Api extends APIBase {
         path: `/entity/applications`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -7925,13 +7789,11 @@ export class Api extends APIBase {
      * @name GetSingleApplication
      * @summary Gets parameters of the specified application
      * @request GET:/entity/applications/{meIdentifier}
-     * @secure
      */
     getSingleApplication: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<Application, any>({
         path: `/entity/applications/${meIdentifier}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7942,14 +7804,12 @@ export class Api extends APIBase {
      * @name UpdateApplication
      * @summary Updates parameters of the specified application
      * @request POST:/entity/applications/{meIdentifier}
-     * @secure
      */
     updateApplication: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/entity/applications/${meIdentifier}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7960,13 +7820,11 @@ export class Api extends APIBase {
      * @name GetSingleService
      * @summary Gets parameters of the specified service
      * @request GET:/entity/services/{meIdentifier}
-     * @secure
      */
     getSingleService: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<Service, any>({
         path: `/entity/services/${meIdentifier}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -7977,14 +7835,12 @@ export class Api extends APIBase {
      * @name UpdateService
      * @summary Updates parameters of the specified service
      * @request POST:/entity/services/{meIdentifier}
-     * @secure
      */
     updateService: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/entity/services/${meIdentifier}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -7995,13 +7851,11 @@ export class Api extends APIBase {
      * @name GetBaselineValuesForSingleService
      * @summary Gets baseline data for the specified service | maturity=EARLY_ADOPTER
      * @request GET:/entity/services/{meIdentifier}/baseline
-     * @secure
      */
     getBaselineValuesForSingleService: (meIdentifier: string, params: RequestParams = {}) =>
       this.request<ServiceBaselineValues, any>({
         path: `/entity/services/${meIdentifier}/baseline`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8012,7 +7866,6 @@ export class Api extends APIBase {
      * @name GetServices
      * @summary Lists all available services in your environment
      * @request GET:/entity/services
-     * @secure
      */
     getServices: (
       query?: {
@@ -8042,7 +7895,6 @@ export class Api extends APIBase {
         path: `/entity/services`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8053,7 +7905,6 @@ export class Api extends APIBase {
      * @name HostLogJobRecords
      * @summary Gets the full content of the analyzed log
      * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
-     * @secure
      */
     hostLogJobRecords: (
       hostId: string,
@@ -8065,7 +7916,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8076,7 +7926,6 @@ export class Api extends APIBase {
      * @name HostLogJobRecordsFiltered
      * @summary Gets the filtered content of the analyzed log
      * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
-     * @secure
      */
     hostLogJobRecordsFiltered: (
       hostId: string,
@@ -8090,7 +7939,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8101,13 +7949,11 @@ export class Api extends APIBase {
      * @name HostLogList
      * @summary Lists all the available OS logs on the specified host
      * @request GET:/entity/infrastructure/hosts/{hostId}/logs
-     * @secure
      */
     hostLogList: (hostId: string, params: RequestParams = {}) =>
       this.request<LogList4HostResult, ErrorEnvelope>({
         path: `/entity/infrastructure/hosts/${hostId}/logs`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8118,13 +7964,11 @@ export class Api extends APIBase {
      * @name HostLogJobStatus
      * @summary Gets status of the specified log analysis job
      * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
-     * @secure
      */
     hostLogJobStatus: (hostId: string, jobId: string, params: RequestParams = {}) =>
       this.request<LogJobStatusResult, ErrorEnvelope>({
         path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8135,13 +7979,11 @@ export class Api extends APIBase {
      * @name HostLogJobDelete
      * @summary Deletes or cancels the specified log analysis job
      * @request DELETE:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
-     * @secure
      */
     hostLogJobDelete: (hostId: string, jobId: string, params: RequestParams = {}) =>
       this.request<LogJobDeleteResult, ErrorEnvelope>({
         path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -8152,14 +7994,12 @@ export class Api extends APIBase {
      * @name HostLogJobRecordsTop
      * @summary Gets the top values of fields present in the content of the analyzed log
      * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records/top
-     * @secure
      */
     hostLogJobRecordsTop: (hostId: string, jobId: string, data: FilterTopLogRecords, params: RequestParams = {}) =>
       this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
         path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records/top`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8170,7 +8010,6 @@ export class Api extends APIBase {
      * @name HostLogJobStart
      * @summary Starts the analysis job for the specified OS log
      * @request POST:/entity/infrastructure/hosts/{hostId}/logs/{logPath}
-     * @secure
      */
     hostLogJobStart: (
       hostId: string,
@@ -8184,7 +8023,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8195,7 +8033,6 @@ export class Api extends APIBase {
      * @name ProcessGroupLogJobRecords
      * @summary Gets the content of the analyzed log
      * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
-     * @secure
      */
     processGroupLogJobRecords: (
       pgId: string,
@@ -8207,7 +8044,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8218,7 +8054,6 @@ export class Api extends APIBase {
      * @name ProcessGroupLogJobRecordsFiltered
      * @summary Gets the content of the analyzed log
      * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
-     * @secure
      */
     processGroupLogJobRecordsFiltered: (
       pgId: string,
@@ -8232,7 +8067,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8243,13 +8077,11 @@ export class Api extends APIBase {
      * @name ProcessGroupLogList
      * @summary Lists all the available logs of the specified process group
      * @request GET:/entity/infrastructure/process-groups/{pgId}/logs
-     * @secure
      */
     processGroupLogList: (pgId: string, params: RequestParams = {}) =>
       this.request<LogList4PgResult, ErrorEnvelope>({
         path: `/entity/infrastructure/process-groups/${pgId}/logs`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8260,13 +8092,11 @@ export class Api extends APIBase {
      * @name ProcessGroupLogJobStatus
      * @summary Gets status of the specified log analysis job
      * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
-     * @secure
      */
     processGroupLogJobStatus: (pgId: string, jobId: string, params: RequestParams = {}) =>
       this.request<LogJobStatusResult, ErrorEnvelope>({
         path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8277,13 +8107,11 @@ export class Api extends APIBase {
      * @name ProcessGroupLogJobDelete
      * @summary Deletes or cancels the specified log analysis job
      * @request DELETE:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
-     * @secure
      */
     processGroupLogJobDelete: (pgId: string, jobId: string, params: RequestParams = {}) =>
       this.request<LogJobDeleteResult, ErrorEnvelope>({
         path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -8294,7 +8122,6 @@ export class Api extends APIBase {
      * @name ProcessGroupLogJobRecordsTop
      * @summary Gets the top values of fields present in the content of the analyzed log
      * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records/top
-     * @secure
      */
     processGroupLogJobRecordsTop: (
       pgId: string,
@@ -8306,7 +8133,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records/top`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8317,7 +8143,6 @@ export class Api extends APIBase {
      * @name ProcessGroupLogJobStart
      * @summary Starts analysis job for the specified process group log
      * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/{logPath}
-     * @secure
      */
     processGroupLogJobStart: (
       pgId: string,
@@ -8331,7 +8156,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8342,7 +8166,6 @@ export class Api extends APIBase {
      * @name CustomDeviceLogJobRecords
      * @summary Gets the content of the analyzed log
      * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
-     * @secure
      */
     customDeviceLogJobRecords: (
       customDeviceId: string,
@@ -8354,7 +8177,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8365,7 +8187,6 @@ export class Api extends APIBase {
      * @name CustomDeviceLogJobRecordsFiltered
      * @summary Gets the filtered content of the analyzed log
      * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
-     * @secure
      */
     customDeviceLogJobRecordsFiltered: (
       customDeviceId: string,
@@ -8379,7 +8200,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8390,13 +8210,11 @@ export class Api extends APIBase {
      * @name CustomDeviceLogList
      * @summary Lists all the available logs on the specified custom device
      * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs
-     * @secure
      */
     customDeviceLogList: (customDeviceId: string, params: RequestParams = {}) =>
       this.request<LogListForCustomDeviceResult, ErrorEnvelope>({
         path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8407,13 +8225,11 @@ export class Api extends APIBase {
      * @name CustomDeviceLogJobStatus
      * @summary Gets status of the specified log analysis job
      * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
-     * @secure
      */
     customDeviceLogJobStatus: (customDeviceId: string, jobId: string, params: RequestParams = {}) =>
       this.request<LogJobStatusResult, ErrorEnvelope>({
         path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8424,13 +8240,11 @@ export class Api extends APIBase {
      * @name CustomDeviceLogJobDelete
      * @summary Deletes or cancels the specified log analysis job
      * @request DELETE:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
-     * @secure
      */
     customDeviceLogJobDelete: (customDeviceId: string, jobId: string, params: RequestParams = {}) =>
       this.request<LogJobDeleteResult, ErrorEnvelope>({
         path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -8441,7 +8255,6 @@ export class Api extends APIBase {
      * @name CustomDeviceLogJobRecordsTop
      * @summary Gets the top values of fields present in the content of the analyzed log
      * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records/top
-     * @secure
      */
     customDeviceLogJobRecordsTop: (
       customDeviceId: string,
@@ -8453,7 +8266,6 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records/top`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8464,7 +8276,6 @@ export class Api extends APIBase {
      * @name CustomDeviceLogJobStart
      * @summary Starts the analysis job for the specified custom device log
      * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/{logPath}
-     * @secure
      */
     customDeviceLogJobStart: (
       customDeviceId: string,
@@ -8478,7 +8289,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -8490,7 +8300,6 @@ export class Api extends APIBase {
      * @name GetHostsWithSpecificAgents
      * @summary Gets the list of hosts with OneAgent deployment information for each host
      * @request GET:/oneagents
-     * @secure
      */
     getHostsWithSpecificAgents: (
       query?: {
@@ -8626,7 +8435,6 @@ export class Api extends APIBase {
         path: `/oneagents`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
   };
@@ -8638,13 +8446,11 @@ export class Api extends APIBase {
      * @name GetComment
      * @summary Gets all the comments to the specified problem
      * @request GET:/problem/details/{problemId}/comments
-     * @secure
      */
     getComment: (problemId: string, params: RequestParams = {}) =>
       this.request<ProblemCommentList, any>({
         path: `/problem/details/${problemId}/comments`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8655,14 +8461,12 @@ export class Api extends APIBase {
      * @name PushComment
      * @summary Adds a new comment to the specified problem
      * @request POST:/problem/details/{problemId}/comments
-     * @secure
      */
     pushComment: (problemId: string, data: PushProblemComment, params: RequestParams = {}) =>
       this.request<ProblemComment, any>({
         path: `/problem/details/${problemId}/comments`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8673,14 +8477,12 @@ export class Api extends APIBase {
      * @name UpdateComment
      * @summary Updates an existing comment to the specified problem
      * @request PUT:/problem/details/{problemId}/comments/{commentId}
-     * @secure
      */
     updateComment: (problemId: string, commentId: string, data: PushProblemComment, params: RequestParams = {}) =>
       this.request<ProblemComment, any>({
         path: `/problem/details/${problemId}/comments/${commentId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8691,13 +8493,11 @@ export class Api extends APIBase {
      * @name DeleteComment
      * @summary Deletes an existing comment to the specified problem.
      * @request DELETE:/problem/details/{problemId}/comments/{commentId}
-     * @secure
      */
     deleteComment: (problemId: string, commentId: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/problem/details/${problemId}/comments/${commentId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -8708,13 +8508,11 @@ export class Api extends APIBase {
      * @name GetProblemStatus
      * @summary Lists the number of open problems, split by impact level
      * @request GET:/problem/status
-     * @secure
      */
     getProblemStatus: (params: RequestParams = {}) =>
       this.request<ProblemStatusResultWrapper, any>({
         path: `/problem/status`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -8725,7 +8523,6 @@ export class Api extends APIBase {
      * @name GetFeed
      * @summary Gets the information about problems within the specified timeframe
      * @request GET:/problem/feed
-     * @secure
      */
     getFeed: (
       query?: {
@@ -8762,7 +8559,6 @@ export class Api extends APIBase {
         path: `/problem/feed`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8773,14 +8569,12 @@ export class Api extends APIBase {
      * @name CloseProblem
      * @summary Closes the specified problem and adds a closing comment to it
      * @request POST:/problem/details/{problemId}/close
-     * @secure
      */
     closeProblem: (problemId: string, query?: { content?: string }, params: RequestParams = {}) =>
       this.request<ProblemCloseResult, any>({
         path: `/problem/details/${problemId}/close`,
         method: "POST",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8791,13 +8585,11 @@ export class Api extends APIBase {
      * @name GetDetails
      * @summary Gets the properties of the specified problem
      * @request GET:/problem/details/{problemId}
-     * @secure
      */
     getDetails: (problemId: string, params: RequestParams = {}) =>
       this.request<ProblemDetailsResultWrapper, any>({
         path: `/problem/details/${problemId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -8810,7 +8602,6 @@ export class Api extends APIBase {
      * @summary Gets all configured thresholds for plugins and custom events in your environment
      * @request GET:/thresholds
      * @deprecated
-     * @secure
      */
     readCustomThresholds: (
       query?: { filter?: "ALL" | "PLUGIN" | "REMOTE_PLUGIN" | "USER_INTERACTION" },
@@ -8820,7 +8611,6 @@ export class Api extends APIBase {
         path: `/thresholds`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8832,14 +8622,12 @@ export class Api extends APIBase {
      * @summary Creates or updates an existing threshold for a plugin or a custom event
      * @request PUT:/thresholds/{thresholdId}
      * @deprecated
-     * @secure
      */
     createCustomThreshold: (thresholdId: string, data: ThresholdRegistrationMessage, params: RequestParams = {}) =>
       this.request<Threshold, any>({
         path: `/thresholds/${thresholdId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8851,13 +8639,11 @@ export class Api extends APIBase {
      * @summary Deletes the specified threshold
      * @request DELETE:/thresholds/{thresholdId}
      * @deprecated
-     * @secure
      */
     deleteCustomThreshold: (thresholdId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/thresholds/${thresholdId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
   };
@@ -8869,7 +8655,6 @@ export class Api extends APIBase {
      * @name GetAllTimeseriesDefinitions
      * @summary Lists all metric definitions, with the parameters of each metric
      * @request GET:/timeseries
-     * @secure
      */
     getAllTimeseriesDefinitions: (
       query?: { source?: "ALL" | "BUILTIN" | "CUSTOM" | "PLUGIN" | "REMOTE_PLUGIN"; detailedSource?: string },
@@ -8879,7 +8664,6 @@ export class Api extends APIBase {
         path: `/timeseries`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8890,7 +8674,6 @@ export class Api extends APIBase {
      * @name ReadTimeseriesData
      * @summary Gets the parameters of the specified metric and, optionally, its data points
      * @request GET:/timeseries/{timeseriesIdentifier}
-     * @secure
      */
     readTimeseriesData: (
       timeseriesIdentifier: string,
@@ -8926,7 +8709,6 @@ export class Api extends APIBase {
         path: `/timeseries/${timeseriesIdentifier}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -8937,7 +8719,6 @@ export class Api extends APIBase {
      * @name CreateCustomTimeseries
      * @summary Creates a new custom metric
      * @request PUT:/timeseries/{timeseriesIdentifier}
-     * @secure
      */
     createCustomTimeseries: (
       timeseriesIdentifier: string,
@@ -8948,7 +8729,6 @@ export class Api extends APIBase {
         path: `/timeseries/${timeseriesIdentifier}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8959,14 +8739,12 @@ export class Api extends APIBase {
      * @name ReadTimeseriesComplex
      * @summary Lists all available metric data points, matching the specified parameters
      * @request POST:/timeseries/{timeseriesIdentifier}
-     * @secure
      */
     readTimeseriesComplex: (timeseriesIdentifier: string, data: TimeseriesQueryMessage, params: RequestParams = {}) =>
       this.request<TimeseriesQueryResultWrapper, any>({
         path: `/timeseries/${timeseriesIdentifier}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -8977,13 +8755,11 @@ export class Api extends APIBase {
      * @name DeleteCustomTimeseries
      * @summary Deletes the specified custom metric
      * @request DELETE:/timeseries/{timeseriesIdentifier}
-     * @secure
      */
     deleteCustomTimeseries: (timeseriesIdentifier: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/timeseries/${timeseriesIdentifier}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
   };
@@ -9011,7 +8787,6 @@ export class Api extends APIBase {
      * @name ListTokens
      * @summary Lists available tokens in your environment
      * @request GET:/tokens
-     * @secure
      */
     listTokens: (
       query?: {
@@ -9098,7 +8873,6 @@ export class Api extends APIBase {
         path: `/tokens`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -9109,14 +8883,12 @@ export class Api extends APIBase {
      * @name CreateToken
      * @summary Creates a new token
      * @request POST:/tokens
-     * @secure
      */
     createToken: (data: CreateToken, params: RequestParams = {}) =>
       this.request<Token, ErrorEnvelope>({
         path: `/tokens`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -9127,13 +8899,11 @@ export class Api extends APIBase {
      * @name GetTokenMetadata
      * @summary Lists token metadata by token ID
      * @request GET:/tokens/{id}
-     * @secure
      */
     getTokenMetadata: (id: string, params: RequestParams = {}) =>
       this.request<TokenMetadata, ErrorEnvelope>({
         path: `/tokens/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -9144,14 +8914,12 @@ export class Api extends APIBase {
      * @name UpdateToken
      * @summary Updates the specified token
      * @request PUT:/tokens/{id}
-     * @secure
      */
     updateToken: (id: string, data: UpdateToken, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/tokens/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -9162,13 +8930,11 @@ export class Api extends APIBase {
      * @name DeleteToken
      * @summary Deletes the specified token
      * @request DELETE:/tokens/{id}
-     * @secure
      */
     deleteToken: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/tokens/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -9179,14 +8945,12 @@ export class Api extends APIBase {
      * @name GetTokenMetadataBySecret
      * @summary Lists token metadata by token itself
      * @request POST:/tokens/lookup
-     * @secure
      */
     getTokenMetadataBySecret: (data: Token, params: RequestParams = {}) =>
       this.request<TokenMetadata, any>({
         path: `/tokens/lookup`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };

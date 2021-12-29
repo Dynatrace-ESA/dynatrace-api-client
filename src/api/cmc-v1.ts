@@ -863,14 +863,12 @@ export class Api extends APIBase {
      * @name CheckBackupDirForCluster
      * @summary Check if given directory is valid for backup in the cluster
      * @request GET:/backup/clusterCheckDir
-     * @secure
      */
     checkBackupDirForCluster: (query?: { dir?: string; datacenter?: string }, params: RequestParams = {}) =>
       this.request<StorageTestImpl, void>({
         path: `/backup/clusterCheckDir`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -882,13 +880,11 @@ export class Api extends APIBase {
      * @name GetBackupConfig
      * @summary Return backup configuration overview
      * @request GET:/backup/config
-     * @secure
      */
     getBackupConfig: (params: RequestParams = {}) =>
       this.request<BackupConfigDto, any>({
         path: `/backup/config`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -900,14 +896,12 @@ export class Api extends APIBase {
      * @name ChangeBackupConfig
      * @summary Change backup configuration
      * @request PUT:/backup/config
-     * @secure
      */
     changeBackupConfig: (data: BackupConfigDto, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/backup/config`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -919,14 +913,12 @@ export class Api extends APIBase {
      * @name GetStatusOfChangeBackupConfig
      * @summary Check status of change backup configuration
      * @request GET:/backup/config/status
-     * @secure
      */
     getStatusOfChangeBackupConfig: (query?: { requestId?: string }, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/backup/config/status`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
   };
@@ -938,13 +930,11 @@ export class Api extends APIBase {
      * @name GetInstallerMetadata
      * @summary Get installer metadata
      * @request GET:/bootstrapManagement/files/installerMetadata
-     * @secure
      */
     getInstallerMetadata: (params: RequestParams = {}) =>
       this.request<InstallerMetadata, any>({
         path: `/bootstrapManagement/files/installerMetadata`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -956,13 +946,11 @@ export class Api extends APIBase {
      * @name GetActiveGateConfigProperties
      * @summary Get ActiveGate config properties
      * @request GET:/bootstrapManagement/files/ag/configProperties
-     * @secure
      */
     getActiveGateConfigProperties: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/files/ag/configProperties`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -974,13 +962,11 @@ export class Api extends APIBase {
      * @name GetActiveGateSecureConfigProperties
      * @summary Get ActiveGate secure config properties
      * @request GET:/bootstrapManagement/files/ag/secureConfigProperties
-     * @secure
      */
     getActiveGateSecureConfigProperties: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/files/ag/secureConfigProperties`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -992,13 +978,11 @@ export class Api extends APIBase {
      * @name GenerateNewNodeId
      * @summary Get new node id
      * @request POST:/bootstrapManagement/newNodeId
-     * @secure
      */
     generateNewNodeId: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/newNodeId`,
         method: "POST",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1010,13 +994,11 @@ export class Api extends APIBase {
      * @name GetSecureConfigProperties
      * @summary Get secure config properties
      * @request GET:/bootstrapManagement/files/secureConfigProperties
-     * @secure
      */
     getSecureConfigProperties: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/files/secureConfigProperties`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1028,13 +1010,11 @@ export class Api extends APIBase {
      * @name GetRuntimeProperties
      * @summary Get runtime properties
      * @request GET:/bootstrapManagement/files/runtimeProperties
-     * @secure
      */
     getRuntimeProperties: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/files/runtimeProperties`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1046,13 +1026,11 @@ export class Api extends APIBase {
      * @name GetKeyStore
      * @summary Get key store
      * @request GET:/bootstrapManagement/files/keyStore
-     * @secure
      */
     getKeyStore: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/files/keyStore`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1064,13 +1042,11 @@ export class Api extends APIBase {
      * @name GetConfigProperties
      * @summary Get config properties
      * @request GET:/bootstrapManagement/files/configProperties
-     * @secure
      */
     getConfigProperties: (params: RequestParams = {}) =>
       this.request<FileDto, void>({
         path: `/bootstrapManagement/files/configProperties`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1083,13 +1059,11 @@ export class Api extends APIBase {
      * @name GetWebUiAddress
      * @summary Get WebUi address
      * @request GET:/endpoint/webUiAddress
-     * @secure
      */
     getWebUiAddress: (params: RequestParams = {}) =>
       this.request<AddressWrapper, any>({
         path: `/endpoint/webUiAddress`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1101,14 +1075,12 @@ export class Api extends APIBase {
      * @name UpdateWebUiAddress
      * @summary Update WebUi address
      * @request POST:/endpoint/webUiAddress
-     * @secure
      */
     updateWebUiAddress: (data: AddressWrapper, params: RequestParams = {}) =>
       this.request<AddressWrapper, void>({
         path: `/endpoint/webUiAddress`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1121,13 +1093,11 @@ export class Api extends APIBase {
      * @name GetBeaconForwarderAddress
      * @summary Get beacon forwarder address
      * @request GET:/endpoint/beaconForwarderAddress
-     * @secure
      */
     getBeaconForwarderAddress: (params: RequestParams = {}) =>
       this.request<AddressWrapper, any>({
         path: `/endpoint/beaconForwarderAddress`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1139,14 +1109,12 @@ export class Api extends APIBase {
      * @name UpdateBeaconForwarderAddress
      * @summary Update beacon forwarder address
      * @request POST:/endpoint/beaconForwarderAddress
-     * @secure
      */
     updateBeaconForwarderAddress: (data: AddressWrapper, params: RequestParams = {}) =>
       this.request<AddressWrapper, void>({
         path: `/endpoint/beaconForwarderAddress`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1159,13 +1127,11 @@ export class Api extends APIBase {
      * @name GetNodeIpForDomain
      * @summary Get node IP for domain
      * @request GET:/endpoint/publicIp/domain/{nodeId}
-     * @secure
      */
     getNodeIpForDomain: (nodeId: number, params: RequestParams = {}) =>
       this.request<AddressWrapper, void>({
         path: `/endpoint/publicIp/domain/${nodeId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1177,14 +1143,12 @@ export class Api extends APIBase {
      * @name StoreNodeIpForDomain
      * @summary Store node IP for domain
      * @request PUT:/endpoint/publicIp/domain/{nodeId}
-     * @secure
      */
     storeNodeIpForDomain: (nodeId: number, data: string, params: RequestParams = {}) =>
       this.request<AddressWrapper, void>({
         path: `/endpoint/publicIp/domain/${nodeId}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1197,13 +1161,11 @@ export class Api extends APIBase {
      * @name GetNodeIpForAgents
      * @summary Get node IP for OneAgents
      * @request GET:/endpoint/publicIp/agents/{nodeId}
-     * @secure
      */
     getNodeIpForAgents: (nodeId: number, params: RequestParams = {}) =>
       this.request<AddressWrapper, void>({
         path: `/endpoint/publicIp/agents/${nodeId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1215,14 +1177,12 @@ export class Api extends APIBase {
      * @name StoreNodeIpForAgents
      * @summary Store node IP for OneAgents
      * @request PUT:/endpoint/publicIp/agents/{nodeId}
-     * @secure
      */
     storeNodeIpForAgents: (nodeId: number, data: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/endpoint/publicIp/agents/${nodeId}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1234,13 +1194,11 @@ export class Api extends APIBase {
      * @name GetRootCdnAddress
      * @summary Get root CDN address
      * @request GET:/endpoint/cdnAddress
-     * @secure
      */
     getRootCdnAddress: (params: RequestParams = {}) =>
       this.request<AddressWrapper, any>({
         path: `/endpoint/cdnAddress`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1252,14 +1210,12 @@ export class Api extends APIBase {
      * @name UpdateRootCdnAddress
      * @summary Update root CDN address
      * @request POST:/endpoint/cdnAddress
-     * @secure
      */
     updateRootCdnAddress: (data: AddressWrapper, params: RequestParams = {}) =>
       this.request<AddressWrapper, void>({
         path: `/endpoint/cdnAddress`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1273,13 +1229,11 @@ export class Api extends APIBase {
      * @name NodesConfiguration
      * @summary Cluster nodes configuration
      * @request GET:/cluster/configuration
-     * @secure
      */
     nodesConfiguration: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/cluster/configuration`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1290,14 +1244,12 @@ export class Api extends APIBase {
      * @name ConfigureNodes
      * @summary Configure cluster nodes responsibilities
      * @request POST:/cluster/configuration
-     * @secure
      */
     configureNodes: (data: ClusterNodesConfigDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/cluster/configuration`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1309,13 +1261,11 @@ export class Api extends APIBase {
      * @name GetClustersInfo
      * @summary Get information about known servers
      * @request GET:/cluster
-     * @secure
      */
     getClustersInfo: (params: RequestParams = {}) =>
       this.request<Cluster[], any>({
         path: `/cluster`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1327,13 +1277,11 @@ export class Api extends APIBase {
      * @name ConfigureNodesStatus
      * @summary Get cluster nodes configuration current status
      * @request GET:/cluster/configuration/status
-     * @secure
      */
     configureNodesStatus: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/cluster/configuration/status`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1344,13 +1292,11 @@ export class Api extends APIBase {
      * @name ConfigureNodesRequestStatus
      * @summary Get cluster nodes configuration request status
      * @request GET:/cluster/configuration/status/{requestedAt}
-     * @secure
      */
     configureNodesRequestStatus: (requestedAt: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/cluster/configuration/status/${requestedAt}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -1362,13 +1308,11 @@ export class Api extends APIBase {
      * @name GetPrepareClusterForReplicationProgress
      * @summary Get progress status of cluster preparation for a replication | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterReplicationPreparation
-     * @secure
      */
     getPrepareClusterForReplicationProgress: (params: RequestParams = {}) =>
       this.request<ClusterPreparationForReplicationDto, void | ClusterPreparationForReplicationDto>({
         path: `/multiDc/migration/clusterReplicationPreparation`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1380,13 +1324,11 @@ export class Api extends APIBase {
      * @name InitPrepareClusterForReplication
      * @summary Start procedure of cluster preparation for a replication | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/clusterReplicationPreparation
-     * @secure
      */
     initPrepareClusterForReplication: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/clusterReplicationPreparation`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1397,13 +1339,11 @@ export class Api extends APIBase {
      * @name GetMultiDcTopologyDraft
      * @summary Get cluster topology draft | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/datacenterTopology
-     * @secure
      */
     getMultiDcTopologyDraft: (params: RequestParams = {}) =>
       this.request<MultiDatacenterTopology, any>({
         path: `/multiDc/migration/datacenterTopology`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1415,14 +1355,12 @@ export class Api extends APIBase {
      * @name CreateMultiDcTopologyDraft
      * @summary Create cluster topology draft | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/datacenterTopology
-     * @secure
      */
     createMultiDcTopologyDraft: (data: DatacenterMigrationDto, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/datacenterTopology`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -1433,13 +1371,11 @@ export class Api extends APIBase {
      * @name DeleteMultiDcTopologyDraft
      * @summary Delete cluster topology draft | maturity=EARLY_ADOPTER
      * @request DELETE:/multiDc/migration/datacenterTopology
-     * @secure
      */
     deleteMultiDcTopologyDraft: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/multiDc/migration/datacenterTopology`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -1450,13 +1386,11 @@ export class Api extends APIBase {
      * @name InitTopologyConfiguration
      * @summary Start cluster topology configuration - open firewall ports | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/clusterNodes/currentDc
-     * @secure
      */
     initTopologyConfiguration: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/clusterNodes/currentDc`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1467,13 +1401,11 @@ export class Api extends APIBase {
      * @name GetTopologyConfiguration
      * @summary Get topology configuration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterNodes/currentDc/{requestId}
-     * @secure
      */
     getTopologyConfiguration: (requestId: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/clusterNodes/currentDc/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1484,13 +1416,11 @@ export class Api extends APIBase {
      * @name GetMultiDcNodekeeperHealthcheck
      * @summary Get nodekeeper helathcheck | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/nodekeeper/healthCheck
-     * @secure
      */
     getMultiDcNodekeeperHealthcheck: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/nodekeeper/healthCheck`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1501,13 +1431,11 @@ export class Api extends APIBase {
      * @name InitMigrateCassandraOldDatacenter
      * @summary Start cassandra migration in current datacenter | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/cassandra/currentDc
-     * @secure
      */
     initMigrateCassandraOldDatacenter: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/cassandra/currentDc`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1518,13 +1446,11 @@ export class Api extends APIBase {
      * @name GetMigrateCassandraOldDatacenter
      * @summary Get cassandra migration status in current datacenter | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/cassandra/currentDc/{requestId}
-     * @secure
      */
     getMigrateCassandraOldDatacenter: (requestId: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/cassandra/currentDc/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1535,13 +1461,11 @@ export class Api extends APIBase {
      * @name InitMigrateCassandraNewDatacenter
      * @summary Start cassandra migration in new datacenter | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/cassandra/newDc
-     * @secure
      */
     initMigrateCassandraNewDatacenter: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/cassandra/newDc`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1552,13 +1476,11 @@ export class Api extends APIBase {
      * @name GetMigrateCassandraNewDatacenter
      * @summary Get cassandra migration status in new datacenter | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/cassandra/newDc/{requestId}
-     * @secure
      */
     getMigrateCassandraNewDatacenter: (requestId: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/cassandra/newDc/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1569,13 +1491,11 @@ export class Api extends APIBase {
      * @name MigrateElasticsearch
      * @summary Start elasticsearch migration | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/elasticsearch
-     * @secure
      */
     migrateElasticsearch: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/elasticsearch`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1586,13 +1506,11 @@ export class Api extends APIBase {
      * @name GetMigrateElasticsearchStatus
      * @summary Get elasticsearch migration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/elasticsearch/{requestId}
-     * @secure
      */
     getMigrateElasticsearchStatus: (requestId: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/elasticsearch/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1603,13 +1521,11 @@ export class Api extends APIBase {
      * @name GetVerifyElasticsearchMigration
      * @summary Verify elasticsearch migration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/elasticsearch/indexMigrationStatus
-     * @secure
      */
     getVerifyElasticsearchMigration: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/elasticsearch/indexMigrationStatus`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1620,13 +1536,11 @@ export class Api extends APIBase {
      * @name GetVerifyCassandraStatus
      * @summary Verify cassandra rebuild status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/cassandra/rebuildStatus
-     * @secure
      */
     getVerifyCassandraStatus: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/cassandra/rebuildStatus`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1637,13 +1551,11 @@ export class Api extends APIBase {
      * @name MigrateServer
      * @summary Start server migration in current datacenter | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/server
-     * @secure
      */
     migrateServer: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/server`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1654,13 +1566,11 @@ export class Api extends APIBase {
      * @name GetMigrateServerStatus
      * @summary Get server migration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/server/{requestId}
-     * @secure
      */
     getMigrateServerStatus: (requestId: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/server/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1671,13 +1581,11 @@ export class Api extends APIBase {
      * @name InitDatacenterCleanUp
      * @summary Clean up lost datacenter settings | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/lostDatacenterCleanUp
-     * @secure
      */
     initDatacenterCleanUp: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/lostDatacenterCleanUp`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1688,13 +1596,11 @@ export class Api extends APIBase {
      * @name FinishMigration
      * @summary Finish migration | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/finish
-     * @secure
      */
     finishMigration: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/migration/finish`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1705,13 +1611,11 @@ export class Api extends APIBase {
      * @name GetClusterState
      * @summary Get cluster state of migration from single to multi datacenter cluster and its sub steps | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterState
-     * @secure
      */
     getClusterState: (params: RequestParams = {}) =>
       this.request<SingleToMultiDcMigrationClusterState, any>({
         path: `/multiDc/migration/clusterState`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1723,7 +1627,6 @@ export class Api extends APIBase {
      * @name ModifyClusterState
      * @summary Modify the overall cluster state of migration from single to multi datacenter cluster | maturity=EARLY_ADOPTER
      * @request PUT:/multiDc/migration/clusterState
-     * @secure
      */
     modifyClusterState: (
       query?: { status?: "FAILED" | "IN_PROGRESS" | "NOT_STARTED" | "SUCCEEDED"; details?: string },
@@ -1733,7 +1636,6 @@ export class Api extends APIBase {
         path: `/multiDc/migration/clusterState`,
         method: "PUT",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -1744,13 +1646,11 @@ export class Api extends APIBase {
      * @name GetSubStepState
      * @summary Get sub step of migration from single to multi datacenter cluster | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterState/{subStep}
-     * @secure
      */
     getSubStepState: (subStep: "SERVER_RECONFIGURATION", params: RequestParams = {}) =>
       this.request<MigrationState, any>({
         path: `/multiDc/migration/clusterState/${subStep}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1762,7 +1662,6 @@ export class Api extends APIBase {
      * @name ModifySubStepState
      * @summary Modify sub step of migration from single to multi datacenter cluster | maturity=EARLY_ADOPTER
      * @request PUT:/multiDc/migration/clusterState/{subStep}
-     * @secure
      */
     modifySubStepState: (
       subStep: "SERVER_RECONFIGURATION",
@@ -1773,7 +1672,6 @@ export class Api extends APIBase {
         path: `/multiDc/migration/clusterState/${subStep}`,
         method: "PUT",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -1784,13 +1682,11 @@ export class Api extends APIBase {
      * @name GetMigrationStateForAllComponents
      * @summary Get state of in-server config migration (from single to multi datacenter cluster) | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/inServerconfigState
-     * @secure
      */
     getMigrationStateForAllComponents: (params: RequestParams = {}) =>
       this.request<InServerConfigDatacenterMigrationState, any>({
         path: `/multiDc/migration/inServerconfigState`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1802,13 +1698,11 @@ export class Api extends APIBase {
      * @name GetRecoverStatus
      * @summary Get status of disaster recovery. | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/restore/elasticsearch/recover
-     * @secure
      */
     getRecoverStatus: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/restore/elasticsearch/recover`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1819,13 +1713,11 @@ export class Api extends APIBase {
      * @name StartRecover
      * @summary Recover elasticsearch from a snapshot on one datacenter. | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/restore/elasticsearch/recover
-     * @secure
      */
     startRecover: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/restore/elasticsearch/recover`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -1836,13 +1728,11 @@ export class Api extends APIBase {
      * @name StartComponentsAfterMigration
      * @summary Get status after server migration and start components in disaster recovery | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/restore/server/recovery/{requestId}
-     * @secure
      */
     startComponentsAfterMigration: (requestId: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/restore/server/recovery/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1853,13 +1743,11 @@ export class Api extends APIBase {
      * @name StartComponentsAfterMigration1
      * @summary Migrate servers and start components after disaster recovery | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/restore/server/recovery
-     * @secure
      */
     startComponentsAfterMigration1: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/multiDc/restore/server/recovery`,
         method: "POST",
-        secure: true,
         ...params,
       }),
   };
@@ -1871,7 +1759,6 @@ export class Api extends APIBase {
      * @name CheckElasticsearchUpgradePossibility
      * @summary Checks if it is safe to upgrade elasticsearch
      * @request GET:/elastic/upgradeStatus
-     * @secure
      */
     checkElasticsearchUpgradePossibility: (
       query?: { expectedElasticsearchNodes?: number },
@@ -1881,7 +1768,6 @@ export class Api extends APIBase {
         path: `/elastic/upgradeStatus`,
         method: "GET",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1893,13 +1779,11 @@ export class Api extends APIBase {
      * @name CreateAutoFollowPattern
      * @summary Creates auto follow pattern for MultiDC environment
      * @request POST:/elastic/ccr/autoFollowPattern
-     * @secure
      */
     createAutoFollowPattern: (params: RequestParams = {}) =>
       this.request<ElasticsearchOperationDto, any>({
         path: `/elastic/ccr/autoFollowPattern`,
         method: "POST",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1911,13 +1795,11 @@ export class Api extends APIBase {
      * @name DeleteAutoFollowPattern
      * @summary Deletes auto follow pattern for MultiDC environment
      * @request DELETE:/elastic/ccr/autoFollowPattern
-     * @secure
      */
     deleteAutoFollowPattern: (params: RequestParams = {}) =>
       this.request<ElasticsearchOperationDto, any>({
         path: `/elastic/ccr/autoFollowPattern`,
         method: "DELETE",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1930,14 +1812,12 @@ export class Api extends APIBase {
      * @name AddClusterNodes
      * @summary Add cluster node
      * @request POST:/firewallManagement/addClusterNode
-     * @secure
      */
     addClusterNodes: (data: NodeConfigDto, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/firewallManagement/addClusterNode`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -1949,13 +1829,11 @@ export class Api extends APIBase {
      * @name GetClusterNodes
      * @summary Get cluster nodes
      * @request GET:/firewallManagement/clusterNodes
-     * @secure
      */
     getClusterNodes: (params: RequestParams = {}) =>
       this.request<ClusterNodesConfigDto, void>({
         path: `/firewallManagement/clusterNodes`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -1966,13 +1844,11 @@ export class Api extends APIBase {
      * @tags Firewall configuration
      * @name GetAsyncNodeRemovalStatus
      * @request GET:/firewallManagement/removeClusterNode
-     * @secure
      */
     getAsyncNodeRemovalStatus: (params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/firewallManagement/removeClusterNode`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -1983,14 +1859,12 @@ export class Api extends APIBase {
      * @name RemoveClusterNodes
      * @summary Remove cluster node
      * @request POST:/firewallManagement/removeClusterNode
-     * @secure
      */
     removeClusterNodes: (data: FirewallNodeIp, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/firewallManagement/removeClusterNode`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -2001,7 +1875,6 @@ export class Api extends APIBase {
      * @tags Firewall configuration
      * @name RemoveClusterNodesDeleteMethod
      * @request DELETE:/firewallManagement/removeClusterNode/{ip}
-     * @secure
      */
     removeClusterNodesDeleteMethod: (
       ip: string,
@@ -2012,7 +1885,6 @@ export class Api extends APIBase {
         path: `/firewallManagement/removeClusterNode/${ip}`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
   };
@@ -2024,7 +1896,6 @@ export class Api extends APIBase {
      * @name ForceCassandraQuorumOverride
      * @summary Override cassandra read quorum at runtime only for this particular server instance
      * @request PUT:/nodeManagement/cassandraQuorumOverride/{quorum}
-     * @secure
      */
     forceCassandraQuorumOverride: (
       quorum:
@@ -2043,7 +1914,6 @@ export class Api extends APIBase {
       this.request<void, any>({
         path: `/nodeManagement/cassandraQuorumOverride/${quorum}`,
         method: "PUT",
-        secure: true,
         ...params,
       }),
 
@@ -2054,13 +1924,11 @@ export class Api extends APIBase {
      * @name GetCassandraQuorumOverride
      * @summary Get the cassandra read quorum override.
      * @request GET:/nodeManagement/cassandraQuorumOverride
-     * @secure
      */
     getCassandraQuorumOverride: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/nodeManagement/cassandraQuorumOverride`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -2070,7 +1938,6 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name TryLockRemoval
      * @request PUT:/nodeManagement/tryLockRemoval
-     * @secure
      */
     tryLockRemoval: (
       query?: { id?: number; ip?: string; requestedOnNode?: number; requestedByUser?: string },
@@ -2080,7 +1947,6 @@ export class Api extends APIBase {
         path: `/nodeManagement/tryLockRemoval`,
         method: "PUT",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2090,14 +1956,12 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name UnlockRemoval
      * @request PUT:/nodeManagement/unlockRemoval
-     * @secure
      */
     unlockRemoval: (query?: { id?: number; ip?: string; removalStopReason?: string }, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/nodeManagement/unlockRemoval`,
         method: "PUT",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2108,13 +1972,11 @@ export class Api extends APIBase {
      * @name GetNodeRemovalStatus
      * @summary Get node removal status
      * @request GET:/nodeManagement/nodeRemovalStatus
-     * @secure
      */
     getNodeRemovalStatus: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/nodeManagement/nodeRemovalStatus`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -2124,7 +1986,6 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name DeadNodeCleaning
      * @request DELETE:/nodeManagement/deadNodeCleaning
-     * @secure
      */
     deadNodeCleaning: (
       query?: { ip?: string; requestedOnNode?: number; requestedByUser?: string },
@@ -2134,7 +1995,6 @@ export class Api extends APIBase {
         path: `/nodeManagement/deadNodeCleaning`,
         method: "DELETE",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2145,14 +2005,12 @@ export class Api extends APIBase {
      * @name TriggerRemoveNode
      * @summary Remove node
      * @request POST:/nodeManagement/triggerRemoveNode
-     * @secure
      */
     triggerRemoveNode: (data: RemoveNode, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/nodeManagement/triggerRemoveNode`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -2162,7 +2020,6 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name SetInstallerStatus
      * @request POST:/nodeManagement/installerStatus
-     * @secure
      */
     setInstallerStatus: (data: InstallerStatusDto, query?: { ip?: string }, params: RequestParams = {}) =>
       this.request<any, void>({
@@ -2170,7 +2027,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -2180,14 +2036,12 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name TryLockJoining
      * @request PUT:/nodeManagement/tryLockJoining
-     * @secure
      */
     tryLockJoining: (query?: { ip?: string }, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/nodeManagement/tryLockJoining`,
         method: "PUT",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2197,7 +2051,6 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name FinalizeJoining
      * @request PUT:/nodeManagement/finalizeJoining
-     * @secure
      */
     finalizeJoining: (
       data: FinalizeNodeJoiningRequestDto,
@@ -2213,7 +2066,6 @@ export class Api extends APIBase {
         method: "PUT",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -2223,7 +2075,6 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name InitializeNodeJoining
      * @request POST:/nodeManagement/joining
-     * @secure
      */
     initializeNodeJoining: (
       query?: { ip?: string; timestamp?: number; datacenter?: string },
@@ -2233,7 +2084,6 @@ export class Api extends APIBase {
         path: `/nodeManagement/joining`,
         method: "POST",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -2243,13 +2093,11 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name GetNodeJoining
      * @request GET:/nodeManagement/joining/{requestId}
-     * @secure
      */
     getNodeJoining: (requestId: string, params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/nodeManagement/joining/${requestId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -2260,7 +2108,6 @@ export class Api extends APIBase {
      * @name InitializeNodeJoinCheck
      * @summary Initialize verification if a node can be added to the cluster
      * @request POST:/nodeManagement/join/check
-     * @secure
      */
     initializeNodeJoinCheck: (
       query?: { ip?: string; timestamp?: number; datacenter?: string },
@@ -2270,7 +2117,6 @@ export class Api extends APIBase {
         path: `/nodeManagement/join/check`,
         method: "POST",
         query: query,
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2282,13 +2128,11 @@ export class Api extends APIBase {
      * @name GetNodeJoin
      * @summary Verification if a node can be added to the cluster status
      * @request GET:/nodeManagement/join/check/{requestId}
-     * @secure
      */
     getNodeJoin: (requestId: string, params: RequestParams = {}) =>
       this.request<NodeJoiningPreCheckStatusDto, any>({
         path: `/nodeManagement/join/check/${requestId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2300,13 +2144,11 @@ export class Api extends APIBase {
      * @name NodeRestart
      * @summary Restart node
      * @request POST:/nodeManagement/nodeRestart
-     * @secure
      */
     nodeRestart: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/nodeManagement/nodeRestart`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -2317,7 +2159,6 @@ export class Api extends APIBase {
      * @name GetNodeServerStatus
      * @summary Get node's server status
      * @request GET:/nodeManagement/nodeServerStatus
-     * @secure
      */
     getNodeServerStatus: (params: RequestParams = {}) =>
       this.request<
@@ -2337,7 +2178,6 @@ export class Api extends APIBase {
       >({
         path: `/nodeManagement/nodeServerStatus`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2349,13 +2189,11 @@ export class Api extends APIBase {
      * @name GetNodeProductVersion
      * @summary Get product version
      * @request GET:/nodeManagement/productVersion
-     * @secure
      */
     getNodeProductVersion: (params: RequestParams = {}) =>
       this.request<ProductVersion, any>({
         path: `/nodeManagement/productVersion`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2366,13 +2204,11 @@ export class Api extends APIBase {
      * @tags Cluster node
      * @name GetNodekeeperProductVersion
      * @request GET:/nodeManagement/nodekeeperProductVersion
-     * @secure
      */
     getNodekeeperProductVersion: (params: RequestParams = {}) =>
       this.request<any, void>({
         path: `/nodeManagement/nodekeeperProductVersion`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -2383,14 +2219,12 @@ export class Api extends APIBase {
      * @name ResponsibilityOverride
      * @summary Override which nodes can perform internal responsibilities
      * @request PUT:/nodeManagement/responsibilityOverride
-     * @secure
      */
     responsibilityOverride: (data: ResponsibilityOverrideDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/nodeManagement/responsibilityOverride`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -2402,13 +2236,11 @@ export class Api extends APIBase {
      * @name GetProperties
      * @summary Get Dynatrace Managed specific properties
      * @request GET:/preferences
-     * @secure
      */
     getProperties: (params: RequestParams = {}) =>
       this.request<Preferences, any>({
         path: `/preferences`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2420,14 +2252,12 @@ export class Api extends APIBase {
      * @name UpdateProperties
      * @summary Update properties
      * @request POST:/preferences
-     * @secure
      */
     updateProperties: (data: Preferences, params: RequestParams = {}) =>
       this.request<Preferences, void>({
         path: `/preferences`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2441,13 +2271,11 @@ export class Api extends APIBase {
      * @name GetSmtpConfiguration
      * @summary Get SMTP configuration
      * @request GET:/smtp
-     * @secure
      */
     getSmtpConfiguration: (params: RequestParams = {}) =>
       this.request<SmtpConfiguration, any>({
         path: `/smtp`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2459,14 +2287,12 @@ export class Api extends APIBase {
      * @name UpdateSmtpConfiguration
      * @summary Update SMTP configuration
      * @request POST:/smtp
-     * @secure
      */
     updateSmtpConfiguration: (data: SmtpConfiguration, params: RequestParams = {}) =>
       this.request<SmtpConfiguration, void>({
         path: `/smtp`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2479,13 +2305,11 @@ export class Api extends APIBase {
      * @name SendTestEmail
      * @summary Send test email
      * @request POST:/smtp/sendTestMessage/{emailAddress}
-     * @secure
      */
     sendTestEmail: (emailAddress: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/smtp/sendTestMessage/${emailAddress}`,
         method: "POST",
-        secure: true,
         ...params,
       }),
   };
@@ -2497,7 +2321,6 @@ export class Api extends APIBase {
      * @name GetStoringSslCertificateStatus
      * @summary Get certificate-storage status
      * @request GET:/sslCertificate/store/{entityType}/{entityId}
-     * @secure
      */
     getStoringSslCertificateStatus: (
       entityType: "COLLECTOR" | "SERVER",
@@ -2507,7 +2330,6 @@ export class Api extends APIBase {
       this.request<CertificateStoreStatus, CertificateStoreStatus | void>({
         path: `/sslCertificate/store/${entityType}/${entityId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2519,7 +2341,6 @@ export class Api extends APIBase {
      * @name StoreSslCertificateStatus
      * @summary Store SSL certificate status
      * @request POST:/sslCertificate/store/{entityType}/{entityId}
-     * @secure
      */
     storeSslCertificateStatus: (
       entityType: "COLLECTOR" | "SERVER",
@@ -2531,7 +2352,6 @@ export class Api extends APIBase {
         path: `/sslCertificate/store/${entityType}/${entityId}`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2544,13 +2364,11 @@ export class Api extends APIBase {
      * @name GetSslCertificateDetails
      * @summary SSL certificate details.
      * @request GET:/sslCertificate/{entityType}/{entityId}
-     * @secure
      */
     getSslCertificateDetails: (entityType: "COLLECTOR" | "SERVER", entityId: number, params: RequestParams = {}) =>
       this.request<SSLDetails, void>({
         path: `/sslCertificate/${entityType}/${entityId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2563,13 +2381,11 @@ export class Api extends APIBase {
      * @name GetSamlSpCert
      * @summary Get SAML SP X.509 certificate details
      * @request GET:/sso/saml/sp/cert
-     * @secure
      */
     getSamlSpCert: (params: RequestParams = {}) =>
       this.request<CertificateDetails, void>({
         path: `/sso/saml/sp/cert`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2581,14 +2397,12 @@ export class Api extends APIBase {
      * @name UpdateSamlSpCert
      * @summary Update SAML SP X.509 certificate
      * @request PUT:/sso/saml/sp/cert
-     * @secure
      */
     updateSamlSpCert: (data: CertDto, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope | void>({
         path: `/sso/saml/sp/cert`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -2601,13 +2415,11 @@ export class Api extends APIBase {
      * @name GetSupportArchive
      * @summary Get support upgrade file
      * @request GET:/supportArchive/{id}
-     * @secure
      */
     getSupportArchive: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/supportArchive/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -2618,13 +2430,11 @@ export class Api extends APIBase {
      * @name CancelSupportArchiveCreation
      * @summary Cancel support upgrade generation
      * @request PUT:/supportArchive/{id}
-     * @secure
      */
     cancelSupportArchiveCreation: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/supportArchive/${id}`,
         method: "PUT",
-        secure: true,
         ...params,
       }),
 
@@ -2635,13 +2445,11 @@ export class Api extends APIBase {
      * @name DeleteSupportArchive
      * @summary Delete existing support archive
      * @request DELETE:/supportArchive/{id}
-     * @secure
      */
     deleteSupportArchive: (id: number, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/supportArchive/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -2652,13 +2460,11 @@ export class Api extends APIBase {
      * @name GetSupportArchiveStatus
      * @summary Get support upgrade generation status
      * @request GET:/supportArchive/{id}/status
-     * @secure
      */
     getSupportArchiveStatus: (id: number, params: RequestParams = {}) =>
       this.request<SupportArchiveDownload, void>({
         path: `/supportArchive/${id}/status`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2670,13 +2476,11 @@ export class Api extends APIBase {
      * @name GetSupportArchiveReport
      * @summary Get support upgrade generation report
      * @request GET:/supportArchive/{id}/report
-     * @secure
      */
     getSupportArchiveReport: (id: number, params: RequestParams = {}) =>
       this.request<SupportArchiveDownload, void>({
         path: `/supportArchive/${id}/report`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2688,14 +2492,12 @@ export class Api extends APIBase {
      * @name StartCreatingSupportArchive
      * @summary Trigger support upgrade generation
      * @request POST:/supportArchive
-     * @secure
      */
     startCreatingSupportArchive: (data: OnPremClusterSupportArchiveRequestImpl, params: RequestParams = {}) =>
       this.request<number, void>({
         path: `/supportArchive`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2709,13 +2511,11 @@ export class Api extends APIBase {
      * @name GetClusterUpgradeStartupState
      * @summary Get system precondition check state for the cluster
      * @request GET:/upgradeManagement/clusterUpgradeStartupState
-     * @secure
      */
     getClusterUpgradeStartupState: (params: RequestParams = {}) =>
       this.request<UpgradeStartupState, any>({
         path: `/upgradeManagement/clusterUpgradeStartupState`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2727,13 +2527,11 @@ export class Api extends APIBase {
      * @name GetInstallationFileList
      * @summary Get list of installation files and their cluster-wide availability information
      * @request GET:/upgradeManagement/installationFiles
-     * @secure
      */
     getInstallationFileList: (params: RequestParams = {}) =>
       this.request<InstallationPackage[], any>({
         path: `/upgradeManagement/installationFiles`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -2744,7 +2542,6 @@ export class Api extends APIBase {
      * @name EditInstallationBatch
      * @summary Modify update package state. Particular package might be excluded from download or re-downloaded.
      * @request PUT:/upgradeManagement/installationFiles/{type}/{version}
-     * @secure
      */
     editInstallationBatch: (
       type:
@@ -2765,7 +2562,6 @@ export class Api extends APIBase {
         path: `/upgradeManagement/installationFiles/${type}/${version}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -2777,7 +2573,6 @@ export class Api extends APIBase {
      * @name RemoveInstallationBatch
      * @summary Trigger removal of installation package
      * @request DELETE:/upgradeManagement/installationFiles/{type}/{version}
-     * @secure
      */
     removeInstallationBatch: (
       type:
@@ -2796,7 +2591,6 @@ export class Api extends APIBase {
       this.request<void, void>({
         path: `/upgradeManagement/installationFiles/${type}/${version}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -2807,13 +2601,11 @@ export class Api extends APIBase {
      * @name TriggerManualUpgrade
      * @summary Trigger manual cluster upgrade
      * @request POST:/upgradeManagement/triggerUpgrade
-     * @secure
      */
     triggerManualUpgrade: (params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/upgradeManagement/triggerUpgrade`,
         method: "POST",
-        secure: true,
         ...params,
       }),
   };
@@ -2825,14 +2617,12 @@ export class Api extends APIBase {
      * @name CreateGroups
      * @summary Create groups
      * @request POST:/groups/bulk
-     * @secure
      */
     createGroups: (data: GroupConfig[], params: RequestParams = {}) =>
       this.request<GroupConfig[], void | GroupConfig[]>({
         path: `/groups/bulk`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2845,13 +2635,11 @@ export class Api extends APIBase {
      * @name GetGroups
      * @summary Get groups
      * @request GET:/groups
-     * @secure
      */
     getGroups: (params: RequestParams = {}) =>
       this.request<GroupConfig[], any>({
         path: `/groups`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2863,14 +2651,12 @@ export class Api extends APIBase {
      * @name UpdateGroup
      * @summary Update group
      * @request PUT:/groups
-     * @secure
      */
     updateGroup: (data: GroupConfig, params: RequestParams = {}) =>
       this.request<GroupConfig, void>({
         path: `/groups`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2883,14 +2669,12 @@ export class Api extends APIBase {
      * @name CreateGroup
      * @summary Create group
      * @request POST:/groups
-     * @secure
      */
     createGroup: (data: GroupConfig, params: RequestParams = {}) =>
       this.request<GroupConfig, void>({
         path: `/groups`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -2903,13 +2687,11 @@ export class Api extends APIBase {
      * @name GetGroup
      * @summary Get group
      * @request GET:/groups/{groupId}
-     * @secure
      */
     getGroup: (groupId: string, params: RequestParams = {}) =>
       this.request<GroupConfig, void>({
         path: `/groups/${groupId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2921,13 +2703,11 @@ export class Api extends APIBase {
      * @name RemoveGroup
      * @summary Delete group
      * @request DELETE:/groups/{groupId}
-     * @secure
      */
     removeGroup: (groupId: string, params: RequestParams = {}) =>
       this.request<GroupConfig, void>({
         path: `/groups/${groupId}`,
         method: "DELETE",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2939,13 +2719,11 @@ export class Api extends APIBase {
      * @name GetManagementZonesPermissions
      * @summary Get management zone permissions for all groups
      * @request GET:/groups/managementZones
-     * @secure
      */
     getManagementZonesPermissions: (params: RequestParams = {}) =>
       this.request<MzPermissionsForGroup[], any>({
         path: `/groups/managementZones`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2957,14 +2735,12 @@ export class Api extends APIBase {
      * @name UpdateManagementZonesPermissionsForGroup
      * @summary Update management zone permissions for a single group
      * @request PUT:/groups/managementZones
-     * @secure
      */
     updateManagementZonesPermissionsForGroup: (data: MzPermissionsForGroup, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/groups/managementZones`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -2976,13 +2752,11 @@ export class Api extends APIBase {
      * @name GetManagementZonesPermissionsForGroup
      * @summary Get management zone permissions for a given group
      * @request GET:/groups/managementZones/{groupId}
-     * @secure
      */
     getManagementZonesPermissionsForGroup: (groupId: string, params: RequestParams = {}) =>
       this.request<MzPermissionsForGroup, void>({
         path: `/groups/managementZones/${groupId}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -2995,13 +2769,11 @@ export class Api extends APIBase {
      * @name GetUsers
      * @summary Get users
      * @request GET:/users
-     * @secure
      */
     getUsers: (params: RequestParams = {}) =>
       this.request<UserConfig[], any>({
         path: `/users`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3013,14 +2785,12 @@ export class Api extends APIBase {
      * @name UpdateUser
      * @summary Update user
      * @request PUT:/users
-     * @secure
      */
     updateUser: (data: UserConfig, params: RequestParams = {}) =>
       this.request<UserConfig, void>({
         path: `/users`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3033,14 +2803,12 @@ export class Api extends APIBase {
      * @name CreateUser
      * @summary Create user
      * @request POST:/users
-     * @secure
      */
     createUser: (data: UserConfig, params: RequestParams = {}) =>
       this.request<UserConfig, void>({
         path: `/users`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3053,14 +2821,12 @@ export class Api extends APIBase {
      * @name CreateUsers
      * @summary Create users
      * @request POST:/users/bulk
-     * @secure
      */
     createUsers: (data: UserConfig[], params: RequestParams = {}) =>
       this.request<UserConfig[], void | UserConfig[]>({
         path: `/users/bulk`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3073,13 +2839,11 @@ export class Api extends APIBase {
      * @name GetUser
      * @summary Get user
      * @request GET:/users/{id}
-     * @secure
      */
     getUser: (id: string, params: RequestParams = {}) =>
       this.request<UserConfig, void>({
         path: `/users/${id}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3091,13 +2855,11 @@ export class Api extends APIBase {
      * @name RemoveUser
      * @summary Delete user
      * @request DELETE:/users/{id}
-     * @secure
      */
     removeUser: (id: string, params: RequestParams = {}) =>
       this.request<UserConfig, void>({
         path: `/users/${id}`,
         method: "DELETE",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3110,13 +2872,11 @@ export class Api extends APIBase {
      * @name GetAuthenticationMode
      * @summary Get authentication mode
      * @request GET:/userRepository/authenticationMode
-     * @secure
      */
     getAuthenticationMode: (params: RequestParams = {}) =>
       this.request<AuthenticationMode, any>({
         path: `/userRepository/authenticationMode`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3128,14 +2888,12 @@ export class Api extends APIBase {
      * @name UpdateAuthenticationMode
      * @summary Update authentication mode
      * @request POST:/userRepository/authenticationMode
-     * @secure
      */
     updateAuthenticationMode: (data: AuthenticationModel, params: RequestParams = {}) =>
       this.request<AuthenticationMode, void>({
         path: `/userRepository/authenticationMode`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3148,13 +2906,11 @@ export class Api extends APIBase {
      * @name GetLdapConnectionConfiguration
      * @summary Get LDAP configuration
      * @request GET:/userRepository/ldap/connectionConfiguration
-     * @secure
      */
     getLdapConnectionConfiguration: (params: RequestParams = {}) =>
       this.request<LdapConnectionDescImpl, any>({
         path: `/userRepository/ldap/connectionConfiguration`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3166,14 +2922,12 @@ export class Api extends APIBase {
      * @name UpdateLdapConnection
      * @summary Update LDAP connection
      * @request POST:/userRepository/ldap/connectionConfiguration
-     * @secure
      */
     updateLdapConnection: (data: LdapConnectionDescImpl, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/userRepository/ldap/connectionConfiguration`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3185,13 +2939,11 @@ export class Api extends APIBase {
      * @name GetLdapGroupsQuery
      * @summary Get LDAP group configuration
      * @request GET:/userRepository/ldap/queryGroups
-     * @secure
      */
     getLdapGroupsQuery: (params: RequestParams = {}) =>
       this.request<LdapGroupsQueryDtoImpl, any>({
         path: `/userRepository/ldap/queryGroups`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3203,14 +2955,12 @@ export class Api extends APIBase {
      * @name UpdateLdapGroupsQuery
      * @summary Update LDAP groups query configuration
      * @request POST:/userRepository/ldap/queryGroups
-     * @secure
      */
     updateLdapGroupsQuery: (data: LdapGroupsQueryDtoImpl, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/userRepository/ldap/queryGroups`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3222,13 +2972,11 @@ export class Api extends APIBase {
      * @name GetLdapLdapUsersQuery
      * @summary Get LDAP users query configuration
      * @request GET:/userRepository/ldap/queryUsers
-     * @secure
      */
     getLdapLdapUsersQuery: (params: RequestParams = {}) =>
       this.request<LdapUsersQueryDescImpl, any>({
         path: `/userRepository/ldap/queryUsers`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3240,14 +2988,12 @@ export class Api extends APIBase {
      * @name UpdateLdapUsersQueryDescImpl
      * @summary Update LDAP users query configuration
      * @request POST:/userRepository/ldap/queryUsers
-     * @secure
      */
     updateLdapUsersQueryDescImpl: (data: LdapUsersQueryDescImpl, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/userRepository/ldap/queryUsers`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3260,14 +3006,12 @@ export class Api extends APIBase {
      * @name TestConnectionInSingleDcMode
      * @summary Test Internet connection using given proxy configuration
      * @request PUT:/proxy/test
-     * @secure
      */
     testConnectionInSingleDcMode: (data: InternetProxyChangeRequest, params: RequestParams = {}) =>
       this.request<ConnectionStatus, any>({
         path: `/proxy/test`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3280,14 +3024,12 @@ export class Api extends APIBase {
      * @name TestConnectionInMultiDcMode
      * @summary Test Internet connection from specific Data Center using given proxy configuration (Multi Data Center deployment)
      * @request PUT:/proxy/test/{dc}
-     * @secure
      */
     testConnectionInMultiDcMode: (dc: string, data: InternetProxyChangeRequest, params: RequestParams = {}) =>
       this.request<ConnectionStatus, any>({
         path: `/proxy/test/${dc}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -3300,13 +3042,11 @@ export class Api extends APIBase {
      * @name GetSingleDcConfiguration
      * @summary Get cluster proxy configuration
      * @request GET:/proxy/configuration
-     * @secure
      */
     getSingleDcConfiguration: (params: RequestParams = {}) =>
       this.request<InternetProxy, void>({
         path: `/proxy/configuration`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3318,14 +3058,12 @@ export class Api extends APIBase {
      * @name ModifySingleDcConfiguration
      * @summary Set/update cluster proxy configuration
      * @request PUT:/proxy/configuration
-     * @secure
      */
     modifySingleDcConfiguration: (data: InternetProxyChangeRequest, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/proxy/configuration`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3337,13 +3075,11 @@ export class Api extends APIBase {
      * @name DeleteSingleDcConfiguration
      * @summary Remove cluster proxy configuration
      * @request DELETE:/proxy/configuration
-     * @secure
      */
     deleteSingleDcConfiguration: (params: RequestParams = {}) =>
       this.request<InternetProxy, void>({
         path: `/proxy/configuration`,
         method: "DELETE",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3355,13 +3091,11 @@ export class Api extends APIBase {
      * @name GetAllMultiDcConfigurations
      * @summary Get proxy configurations for all Data Centers (Multi Data Center deployment)
      * @request GET:/proxy/configurations
-     * @secure
      */
     getAllMultiDcConfigurations: (params: RequestParams = {}) =>
       this.request<ProxyConfigurations, any>({
         path: `/proxy/configurations`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3373,13 +3107,11 @@ export class Api extends APIBase {
      * @name GetOneOfMultiDcConfiguration
      * @summary Get Data Center proxy configuration (Multi Data Center deployment)
      * @request GET:/proxy/configurations/{dc}
-     * @secure
      */
     getOneOfMultiDcConfiguration: (dc: string, params: RequestParams = {}) =>
       this.request<InternetProxy, void>({
         path: `/proxy/configurations/${dc}`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3391,14 +3123,12 @@ export class Api extends APIBase {
      * @name ModifyOneOfMultiDcConfiguration
      * @summary Set/update Data Center proxy configuration (Multi Data Center deployment)
      * @request PUT:/proxy/configurations/{dc}
-     * @secure
      */
     modifyOneOfMultiDcConfiguration: (dc: string, data: InternetProxyChangeRequest, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/proxy/configurations/${dc}`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -3410,13 +3140,11 @@ export class Api extends APIBase {
      * @name DeleteOneOfMultiDcConfiguration
      * @summary Remove Data Center proxy configuration (Multi Data Center deployment)
      * @request DELETE:/proxy/configurations/{dc}
-     * @secure
      */
     deleteOneOfMultiDcConfiguration: (dc: string, params: RequestParams = {}) =>
       this.request<InternetProxy, void>({
         path: `/proxy/configurations/${dc}`,
         method: "DELETE",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3429,13 +3157,11 @@ export class Api extends APIBase {
      * @name GetDefaultPasswordPolicy
      * @summary Get default's realm password policy configuration
      * @request GET:/passwordPolicy
-     * @secure
      */
     getDefaultPasswordPolicy: (params: RequestParams = {}) =>
       this.request<PasswordPolicy, void>({
         path: `/passwordPolicy`,
         method: "GET",
-        secure: true,
         format: "json",
         ...params,
       }),
@@ -3447,14 +3173,12 @@ export class Api extends APIBase {
      * @name UpdatePasswordPolicy
      * @summary Update password policy configuration
      * @request PUT:/passwordPolicy
-     * @secure
      */
     updatePasswordPolicy: (data: PasswordPolicy, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope | void>({
         path: `/passwordPolicy`,
         method: "PUT",
         body: data,
-        secure: true,
         type: ContentType.Json,
         ...params,
       }),

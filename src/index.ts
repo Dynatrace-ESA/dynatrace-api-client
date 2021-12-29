@@ -3,7 +3,7 @@ import { dynatraceTokenRegex, dynatraceUrlRegex } from "@dt-esa/platform-constan
 
 // Environment API
 import { Api as EnvironmentV1 } from "./api/env-v1";
-import { Api as EnvironmentV2 } from "./api/env-v2";
+import { Api as EnvironmentV2, Entity } from "./api/env-v2";
 
 // Env Config
 import { Api as EnvironmentConfig } from "./api/config";
@@ -14,11 +14,7 @@ import { Api as ClusterManagementV2 } from './api/cmc-v2';
 
 // IAM: (SaaS) https://api.dynatrace.com/spec-json
 import { Api as AccountManagement } from "./api/iam";
-
-
-const sleep = (sleepTimeMs) => {
-    return new Promise(r => setTimeout(r, sleepTimeMs));
-};
+import { APIBase } from './apibase';
 
 export type DynatraceConnection = {
     token: string,
@@ -27,43 +23,6 @@ export type DynatraceConnection = {
     tenantId?: string
 }
 
-export type DynatraceAPIOptions = {
-    automaticallyPage: boolean,
-    maxThrottledTries: number,
-    throttleDelay: number,
-    allowPaging: boolean,
-    customAxios: AxiosStatic
-}
-
-const defaults: DynatraceAPIOptions = {
-    automaticallyPage: true,
-    maxThrottledTries: 10,
-    throttleDelay: 1000,
-    allowPaging: true,
-    customAxios: Axios
-}
-
-/**
- * Convert options map into query string.
- * @param opts 
- * @returns Query string
- */
-const optsToQueryString = (opts = {}): string => {
-    let queryString = '';
-    Object.keys(opts).forEach((optId, i) => {
-        if (opts[optId] != undefined && ((typeof opts[optId] == 'object' && opts[optId].length > 0) || typeof opts[optId] != 'object')) {
-            let params = '';
-            if (typeof opts[optId] == 'object')
-                // tag=tag1&tag=tag2
-                params = `${optId}=${opts[optId].join(`&${optId}=`)}`;
-            else
-                params = `${optId}=${opts[optId]}`;
-
-            queryString += `${i == 0 ? '?' : '&'}${params}`;
-        }
-    });
-    return queryString;
-}
 
 /**
  * 
@@ -109,175 +68,6 @@ const checkEnvironment = (environment: DynatraceConnection, mode) => {
 }
 
 /**
- * Custom Request handler for Dynatrace.
- * @returns Promise<data>
- */
-const dynatraceRequest = async ({customAxios = Axios, apiPath, data, query: queryParams, method, tenantUrl, token, timeframe }: 
-    { 
-        customAxios?: AxiosStatic,
-        apiPath: string, 
-        data?: any, 
-        query: any,
-        method: Method, 
-        tenantUrl: string, 
-        token: string,
-        timeframe?: { start, end }
-    }, options?: DynatraceAPIOptions): Promise<any | AxiosResponse<any, any>> => {
-
-    // Validation of assignments.
-    if (!customAxios) throw "Missing Axios client.";
-    if (!apiPath)     throw "Missing API Path.";
-    if (!method)      throw "Missing HTTP Method.";
-    if (!token)       throw "Missing API Token.";
-    if (/^(PUT|POST)$/i.test(method) && !data) throw "Missing Payload.";
-
-
-    if(queryParams?.allowPaging == false){
-        queryParams.allowPaging = undefined;
-    }
-
-    if (/^api\/v2\//i.test(apiPath)) {
-        if (timeframe) {
-            queryParams.from = timeframe.start;
-            queryParams.to   = timeframe.end;
-        }
-    }
-    else {
-        if (timeframe) {
-            queryParams.startTimestamp = timeframe.start;
-            queryParams.endTimestamp   = timeframe.end;
-        }
-    }
-
-    let result = <any>[];
-
-    let res: AxiosResponse<any, any>;
-    try {
-        let nextPageKey;
-        let tries = 0;
-        do {
-
-            // Inject the next page key.
-            if (nextPageKey ) {
-                if(/\/v1\//.test(apiPath)) // V1 APIs need the query parameters maintained
-                    queryParams.nextPageKey = nextPageKey.replace(/\+/g, '%2B');
-                else
-                    queryParams = { nextPageKey: nextPageKey.replace(/\+/g, '%2B') };
-            }
-
-            const headers = {
-                'Authorization': 'Api-Token ' + token
-            };
-
-            const targetUrl = tenantUrl + apiPath + optsToQueryString(queryParams);
-
-            console.debug("Running API Query", method, targetUrl);
-            try {
-                res = (await customAxios(targetUrl, { 
-                    method,
-                    data,
-                    headers
-                }));
-            }
-            catch(ex){
-                const failure = {
-                    url: `[${method}] ${targetUrl}`,
-                    error: ex.response.statusText,
-                    message: ex.response.data.message 
-                          || ex.response.data.error?.error?.message 
-                          || ex.response.data.error 
-                };
-                console.error(failure);
-                throw failure;
-            }
-
-            const errorMessage = res.data?.error?.message;
-            if (res.status == 404 && errorMessage){
-                if (/userSessionQueryLanguage/i.test(apiPath))
-                    throw { title: 'USQL Error', message: errorMessage };
-                else
-                    throw { title: 'Error', message: errorMessage };
-            }
-
-
-            let violations = res.data?.error?.constraintViolations;
-            if (res.status == 400 && violations) {
-                let payload = violations.map(v => `Path: ${v.path}\n Message: ${v.message}`).join('\n');
-
-                throw { title: 'Error', message: payload };
-            }
-
-
-            else if (res.status >= 500){
-                console.error("REST API Failure", res);
-                throw {
-                    status: res.status,
-                    error: res.statusText,
-                    message: res.data.error?.error?.message 
-                          || res.data.error 
-                };
-            }
-            else if (res.status >= 400 && res.status != 429){
-                // If we're getting some other 4xx, throw it.
-                throw res;
-            }
-
-            // let response = extractContents(res, apiPath);
-            let response = res.data || {};
-            result = Array.isArray(response) ? result.concat(response) : response;
-            
-            // Only go through pages if we decide to.
-            if (options.allowPaging) {
-                nextPageKey = res.headers['Next-Page-Key'] || res.data.nextPageKey;
-            }
-
-            const throttleDelay = typeof options.throttleDelay == "number" ? options.throttleDelay : defaults.throttleDelay;
-            // If no API threads are available, wait 1 second and try again
-            if (res.status == 429) { sleep(throttleDelay); tries++; }
-
-
-            // Loop if we have a next page key OR if we had to wait.
-        } while (nextPageKey || (res.status == 429 && tries <= 10))
-
-        if (tries >= 10) {
-            console.error('API Threads Locked', 'Failed to acquire an available API thread after 10 tries.');
-            throw Error("Failed to acquire API Thread");
-        }
-    }
-    catch (ex) {
-
-        /**
-         * status code '0' occurs in the following scenarios:
-         * - Request Timeout (sometimes an exception)
-         * - Request blocked by an AdBlocker
-         * - Invalid HTTP URL.
-        */
-        if (ex.status == 0) {
-            console.error('Developer Note: If you are seeing this and your AdBlocker is disabled and check the selected environment URL.');
-            console.error('CORS Error', 'Please try disabling your AdBlocker or contact the developer.');
-        }
-
-        // Token is missing or doesn't have permissions for the selected API.
-        const errorMessage = ex.error?.error?.message || ex.message;
-        if(errorMessage){
-            console.error('Authentication Error', errorMessage);
-        }
-
-        throw ex;
-    }
-
-    // If the result simply returned a text response, 
-    if(typeof result == 'string') return result;
-
-    // Bind metadata to the result.
-    let out = result;
-    // TODO: Review 
-    // out._totalCount = (typeof requests[0].data.totalCount) == 'number' ? requests[0].data.totalCount : -1;
-
-    return out;
-}
-
-/**
  * 
  * @param handler 
  * @param mode 
@@ -295,16 +85,6 @@ const checkConnection = (handler, mode?) => {
         .catch(err => console.error("Failed to connect to the Dynatrace API endpoint.", err))
 }
 
-const resolveTarget = (api) => {
-    if(api.environment.baseUrl || api.environment.tenantId){
-        if(!api.baseUrl) throw "Base url does not exist.";
-        if(!api.environment.tenantId) throw "";
-        return  api.baseUrl + '/' + api.environment.tenantId + '/';
-    }
-
-    return api.environment.url;
-}
-
 /**
  * Dynatrace Tenant API
  * 
@@ -313,37 +93,50 @@ const resolveTarget = (api) => {
  * - v2: DynatraceEnvironmentAPIV2
  * - config: DynatraceConfigurationAPI
  */
-export class DynatraceTenantAPI {
+export class DynatraceTenantAPI extends APIBase{
     v1: DynatraceEnvironmentAPIV1;
     v2: DynatraceEnvironmentAPIV2;
     config: DynatraceConfigurationAPI;
 
-    constructor(private environment: DynatraceConnection, options?: DynatraceAPIOptions){
-        checkEnvironment(environment, 'env');
+    constructor(protected environment: DynatraceConnection, testConnection = true, customAxios?){
+        super(environment, '', customAxios);
 
-        this.v1     = new DynatraceEnvironmentAPIV1(environment, options, true);
-        this.v2     = new DynatraceEnvironmentAPIV2(environment, options, false);
-        this.config = new DynatraceConfigurationAPI(environment, options, false);
+        this.v1     = new DynatraceEnvironmentAPIV1(environment, testConnection, customAxios);
+        this.v2     = new DynatraceEnvironmentAPIV2(environment, false, customAxios);
+        this.config = new DynatraceConfigurationAPI(environment, false, customAxios);
     }
 
-    useBase(url: string) { 
-        this.environment.baseUrl = url;
+    public useBase(url: string) { 
+        this.v1.useBase(url);
+        this.v2.useBase(url);
+        this.config.useBase(url);
+        
         return this;
     }
-    useTenant(id: string) {
-        this.environment.tenantId = id;
+    public useTenant(id: string) {
+        this.v1.useTenant(id);
+        this.v2.useTenant(id);
+        this.config.useTenant(id);
+        
         return this;
     }
-    useToken(token: string){
+    public useToken(token: string) {
         if(dynatraceTokenRegex.test(token)){
-            this.environment.token = token;
+
+            this.v1.useToken(token);
+            this.v2.useToken(token);
+            this.config.useToken(token);
+
             return this;
         }
         
         throw Error("Invalid Token: " + token);
     }
-    useUrl(url: string){
-        this.environment.url = url;
+    public useUrl(url: string) {
+        this.v1.useUrl(url);
+        this.v2.useUrl(url);
+        this.config.useUrl(url);
+        
         return this;        
     }
 }
@@ -352,30 +145,14 @@ export class DynatraceTenantAPI {
  * Dynatrace Tenant Environmnent API v1
  */
 export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
-    private options: DynatraceAPIOptions;
 
-    constructor(environment: DynatraceConnection, options?: DynatraceAPIOptions, testConnection = true) {
-        super(environment);
-
-        checkEnvironment(environment, 'env');
+    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
+        super(environment, "api/v1", customAxios);
         
-        let config: any & DynatraceAPIOptions = {};
-        config = { ...defaults, ...options };
-        this.options = config;
-
-        if(testConnection)
+        if(testConnection) {
+            checkEnvironment(environment, 'env');
             checkConnection(this);
-    }
-
-    protected request = async <T = any, E = any>({ apiPath, body, path, query, cancelToken, ...params }): Promise<T | E> => {
-        return dynatraceRequest({
-            apiPath: apiPath || 'api/v1' + path,
-            tenantUrl: resolveTarget(this),
-            data: body,
-            query: query,
-            method: params.method,
-            token: this.environment.token
-        }, this.options);
+        }
     }
 }
 
@@ -383,30 +160,48 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
  * Dynatrace Tenant Environmnent API v2
  */
 export class DynatraceEnvironmentAPIV2 extends EnvironmentV2{
-    private options: DynatraceAPIOptions;
 
-    constructor(environment: DynatraceConnection, options?: DynatraceAPIOptions, testConnection = true) {
-        super(environment);
-
-        checkEnvironment(environment, 'env');
+    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
+        super(environment, "api/v2", customAxios);
         
-        let config: any & DynatraceAPIOptions = {};
-        config = { ...defaults, ...options };
-        this.options = config;
-
-        if(testConnection)
+        if(testConnection) {
+            checkEnvironment(environment, 'env');
             checkConnection(this);
+        }
     }
 
-    protected request = async <T = any, E = any>({ apiPath, body, path, query, cancelToken, ...params }): Promise<T> => {
-        return dynatraceRequest({
-            apiPath: apiPath || 'api/v2' + path,
-            tenantUrl: resolveTarget(this),
-            data: body,
-            query: query,
-            method: params.method,
-            token: this.environment.token
-        }, this.options);
+    /**
+     * Contrary to `getEntities`, this method will automatically page
+     * through results for you.
+     * @param param0 
+     */
+    getAllEntities = async ({...args}): Promise<Array<Entity>> => {
+        let nextPageKey: string;
+        let entities = [];
+
+        do {
+            let result = await this.entities.getEntities(
+                nextPageKey ? { nextPageKey } : args
+            );
+
+            entities = entities.concat(entities, result.entities);
+            nextPageKey = result.nextPageKey;
+
+        } while (nextPageKey != null)
+
+        return entities;
+    }
+
+    entities = {
+        getAllEntities: this.getAllEntities,
+        /**
+         * Get entities that match an entity selector.
+         * If you want automatic paging, use `getAllEntities` with the same signature.
+         * @param args 
+         * @returns 
+         */
+        getEntities: (...args) => super.entities.getEntities,
+        ...super.entities,
     }
 }
 
@@ -414,35 +209,13 @@ export class DynatraceEnvironmentAPIV2 extends EnvironmentV2{
  * Dynatrace Tenant Config API
  */
 export class DynatraceConfigurationAPI extends EnvironmentConfig {
-    private options: DynatraceAPIOptions;
-
-    constructor(environment: DynatraceConnection, options?: DynatraceAPIOptions, testConnection = true) {
-        super(environment);
-
-        checkEnvironment(environment, 'env');
+    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
+        super(environment, "api/config/v1", customAxios);
         
-        let config: any & DynatraceAPIOptions = {};
-        config = { ...defaults, ...options };
-        this.options = config;
-
-        if(testConnection)
-            checkConnection(this);
-    }
-
-    /**
-     * Internal HTTP Request interface.
-     * 
-     * @deprecated The method should not be used. 
-     */
-    protected request = async <T = any, E = any>({ apiPath, body, path, query, cancelToken, ...params }): Promise<T> => {
-        return dynatraceRequest({
-            apiPath: apiPath || 'api/config/v1' + path,
-            tenantUrl: this.environment.url,
-            data: body,
-            query: query,
-            method: params.method,
-            token: this.environment.token
-        }, this.options);
+        if(testConnection) {
+            checkEnvironment(environment, 'env');
+            checkConnection(this, "env");
+        }
     }
 }
 
@@ -450,43 +223,22 @@ export class DynatraceConfigurationAPI extends EnvironmentConfig {
  * Dynatrace Cluster Management API v1 
  */
 export class DynatraceClusterManagementAPIV1 extends ClusterManagementV1 {
-    private options: DynatraceAPIOptions;
 
+    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
+        super(environment, "", customAxios);
 
-    constructor(environment: DynatraceConnection, options?: DynatraceAPIOptions) {
-        super(environment);
-
-        checkEnvironment(environment, "cmc");
-        
-        let config: any & DynatraceAPIOptions = {};
-        config = { ...defaults, ...options };
-        this.options = config;
-
-        checkConnection(this);
+        if(testConnection) {
+            checkEnvironment(environment, "cmc");
+            checkConnection(this, "cmc");
+        }
     }
 
     /**
-     * Internal HTTP Request interface.
-     * 
-     * @deprecated The method should not be used. 
-     */
-    protected request = async <T = any, E = any>({ body, path, query, cancelToken, ...params }): Promise<T> => {
-        return dynatraceRequest({
-            apiPath: path,
-            tenantUrl: this.environment.url,
-            data: body,
-            query: query,
-            method: params.method,
-            token: this.environment.token
-        }, this.options);
-    }
-
-    /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useBase(url: string): any {}
     /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useTenant(url: string): any {}
 }
@@ -495,42 +247,22 @@ export class DynatraceClusterManagementAPIV1 extends ClusterManagementV1 {
  * Dynatrace Cluster Management API v2 
  */
 export class DynatraceClusterManagementAPIV2 extends ClusterManagementV2 {
-    private options: DynatraceAPIOptions;
 
-    constructor(environment: DynatraceConnection, options?: DynatraceAPIOptions) {
-        super(environment);
+    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
+        super(environment, "", customAxios);
 
-        checkEnvironment(environment, "cmc");
-        
-        let config: any & DynatraceAPIOptions = {};
-        config = { ...defaults, ...options };
-        this.options = config;
-
-        checkConnection(this);
+        if(testConnection) {
+            checkEnvironment(environment, "cmc");
+            checkConnection(this, "cmc");
+        }
     }
 
     /**
-     * Internal HTTP Request interface.
-     * 
-     * @deprecated The method should not be used. 
-     */
-    protected request = async <T = any, E = any>({ body, path, query, cancelToken, ...params }): Promise<T> => {
-        return dynatraceRequest({
-            apiPath: path,
-            tenantUrl: this.environment.url,
-            data: body,
-            query: query,
-            method: params.method,
-            token: this.environment.token
-        }, this.options);
-    }
-  
-    /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useBase(url: string): any {}
     /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useTenant(url: string): any {}
 }
@@ -540,49 +272,28 @@ export class DynatraceClusterManagementAPIV2 extends ClusterManagementV2 {
  * 
  * Always connects to `api.dynatrace.com`.
  */
+const endpoint = "https://api.dynatrace.com/iam/v1/";
 export class DynatraceAccountManagementAPI extends AccountManagement {
-
-    private readonly endpoint = "https://api.dynatrace.com/iam/v1/";
-    private options: DynatraceAPIOptions;
-
-    constructor(private token: string, options?: DynatraceAPIOptions) {
-        super({ token });
+    
+    constructor(private token: string, testConnection = true, customAxios?) {
+        super({ baseUrl: endpoint, token }, '', customAxios);
         
-        let config: any & DynatraceAPIOptions = {};
-        config = { ...defaults, ...options };
-        this.options = config;
-
-        checkConnection(this, "iam");
-
+        if(testConnection) {
+            checkConnection(this, "iam");
+        }
         console.warn("Untested interface.");
     }
 
     /**
-     * Internal HTTP Request interface.
-     * 
-     * @deprecated The method should not be used. 
-     */    
-    protected request = async <T = any, E = any>({ body, path, query, cancelToken, ...params }): Promise<T> => {
-        return dynatraceRequest({
-            apiPath: path,
-            tenantUrl: this.endpoint,
-            data: body,
-            query: query,
-            method: params.method,
-            token: this.token
-        }, this.options);
-    }
-
-    /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useUrl(url: string): any {}
     /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useBase(url: string): any {}
     /**
-     * @deprecated
+     * @deprecated Not valid
      */
     useTenant(url: string): any {}
 }

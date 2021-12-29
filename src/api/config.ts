@@ -12574,13 +12574,11 @@ export class Api extends APIBase {
      * @name GetAlertingProfile
      * @summary Gets the properties of the specified alerting profile | maturity=EARLY_ADOPTER
      * @request GET:/alertingProfiles/{id}
-     * @secure
      */
     getAlertingProfile: (id: string, params: RequestParams = {}) =>
       this.request<AlertingProfile, any>({
         path: `/alertingProfiles/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12591,14 +12589,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateAlertingProfile
      * @summary Updates an existing alerting profile | maturity=EARLY_ADOPTER
      * @request PUT:/alertingProfiles/{id}
-     * @secure
      */
     createOrUpdateAlertingProfile: (id: string, data: AlertingProfile, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/alertingProfiles/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12609,13 +12605,11 @@ export class Api extends APIBase {
      * @name DeleteAlertingProfile
      * @summary Deletes the specified alerting profile | maturity=EARLY_ADOPTER
      * @request DELETE:/alertingProfiles/{id}
-     * @secure
      */
     deleteAlertingProfile: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/alertingProfiles/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -12626,13 +12620,11 @@ export class Api extends APIBase {
      * @name GetAlertingProfiles
      * @summary Lists all alerting profiles available in your environment | maturity=EARLY_ADOPTER
      * @request GET:/alertingProfiles
-     * @secure
      */
     getAlertingProfiles: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/alertingProfiles`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12643,14 +12635,12 @@ export class Api extends APIBase {
      * @name CreateAlertingProfile
      * @summary Creates a new alerting profile | maturity=EARLY_ADOPTER
      * @request POST:/alertingProfiles
-     * @secure
      */
     createAlertingProfile: (data: AlertingProfile, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/alertingProfiles`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12661,14 +12651,12 @@ export class Api extends APIBase {
      * @name ValidateCreateAlertingProfile
      * @summary Validates the payload the `POST /alertingProfiles` request | maturity=EARLY_ADOPTER
      * @request POST:/alertingProfiles/validator
-     * @secure
      */
     validateCreateAlertingProfile: (data: AlertingProfile, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/alertingProfiles/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12679,14 +12667,12 @@ export class Api extends APIBase {
      * @name ValidateCreateOrUpdateAlertingProfile
      * @summary Validates the payload the `PUT /alertingProfiles/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/alertingProfiles/{id}/validator
-     * @secure
      */
     validateCreateOrUpdateAlertingProfile: (id: string, data: AlertingProfile, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/alertingProfiles/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -12698,14 +12684,12 @@ export class Api extends APIBase {
      * @name ValidateApplicationAnomalyDetectionConfig
      * @summary Validates the configuration of anomaly detection for applications for the `PUT /anomalyDetection/applications` request
      * @request POST:/anomalyDetection/applications/validator
-     * @secure
      */
     validateApplicationAnomalyDetectionConfig: (data: ApplicationAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/applications/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12716,13 +12700,11 @@ export class Api extends APIBase {
      * @name GetApplicationAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for applications
      * @request GET:/anomalyDetection/applications
-     * @secure
      */
     getApplicationAnomalyDetectionConfig: (params: RequestParams = {}) =>
       this.request<ApplicationAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/applications`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12733,14 +12715,12 @@ export class Api extends APIBase {
      * @name UpdateApplicationAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for applications
      * @request PUT:/anomalyDetection/applications
-     * @secure
      */
     updateApplicationAnomalyDetectionConfig: (data: ApplicationAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/applications`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12751,14 +12731,12 @@ export class Api extends APIBase {
      * @name ValidateAwsAnomalyDetectionConfig
      * @summary Validates the configuration of anomaly detection for AWS for the `PUT /anomalyDetection/aws` request
      * @request POST:/anomalyDetection/aws/validator
-     * @secure
      */
     validateAwsAnomalyDetectionConfig: (data: AwsAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/aws/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12769,13 +12747,11 @@ export class Api extends APIBase {
      * @name GetAwsAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for AWS
      * @request GET:/anomalyDetection/aws
-     * @secure
      */
     getAwsAnomalyDetectionConfig: (params: RequestParams = {}) =>
       this.request<AwsAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/aws`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12786,14 +12762,12 @@ export class Api extends APIBase {
      * @name UpdateAwsAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for AWS
      * @request PUT:/anomalyDetection/aws
-     * @secure
      */
     updateAwsAnomalyDetectionConfig: (data: AwsAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/aws`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12804,13 +12778,11 @@ export class Api extends APIBase {
      * @name GetDatabaseServiceAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for database services
      * @request GET:/anomalyDetection/databaseServices
-     * @secure
      */
     getDatabaseServiceAnomalyDetectionConfig: (params: RequestParams = {}) =>
       this.request<DatabaseAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/databaseServices`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12821,14 +12793,12 @@ export class Api extends APIBase {
      * @name UpdateDatabaseServiceAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for database services
      * @request PUT:/anomalyDetection/databaseServices
-     * @secure
      */
     updateDatabaseServiceAnomalyDetectionConfig: (data: DatabaseAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/databaseServices`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12839,14 +12809,12 @@ export class Api extends APIBase {
      * @name ValidateDatabaseServiceAnomalyDetectionConfig
      * @summary Validates the payload for the `PUT /anomalyDetection/databaseServices` request
      * @request POST:/anomalyDetection/databaseServices/validator
-     * @secure
      */
     validateDatabaseServiceAnomalyDetectionConfig: (data: DatabaseAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/databaseServices/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12857,14 +12825,12 @@ export class Api extends APIBase {
      * @name ValidateCreateDiskEventConfig
      * @summary Validates the payload for the `POST /anomalyDetection/diskEvents` request | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/diskEvents/validator
-     * @secure
      */
     validateCreateDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/diskEvents/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12875,14 +12841,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateDiskEventConfig
      * @summary Validates the payload for the `PUT /anomalyDetection/diskEvents/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/diskEvents/{id}/validator
-     * @secure
      */
     validateUpdateDiskEventConfig: (id: string, data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope | void>({
         path: `/anomalyDetection/diskEvents/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12893,13 +12857,11 @@ export class Api extends APIBase {
      * @name GetDiskEventConfig
      * @summary Gets the properties of the specified disk event rule | maturity=EARLY_ADOPTER
      * @request GET:/anomalyDetection/diskEvents/{id}
-     * @secure
      */
     getDiskEventConfig: (id: string, params: RequestParams = {}) =>
       this.request<DiskEventAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/diskEvents/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12910,14 +12872,12 @@ export class Api extends APIBase {
      * @name UpdateDiskEventConfig
      * @summary Updates or creates a disk event rule | maturity=EARLY_ADOPTER
      * @request PUT:/anomalyDetection/diskEvents/{id}
-     * @secure
      */
     updateDiskEventConfig: (id: string, data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope | void>({
         path: `/anomalyDetection/diskEvents/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12928,13 +12888,11 @@ export class Api extends APIBase {
      * @name DeleteDiskEventConfig
      * @summary Deletes the specified disk event rule | maturity=EARLY_ADOPTER
      * @request DELETE:/anomalyDetection/diskEvents/{id}
-     * @secure
      */
     deleteDiskEventConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/anomalyDetection/diskEvents/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -12945,13 +12903,11 @@ export class Api extends APIBase {
      * @name ListDiskEventConfigs
      * @summary Lists all existing disk event rules | maturity=EARLY_ADOPTER
      * @request GET:/anomalyDetection/diskEvents
-     * @secure
      */
     listDiskEventConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/anomalyDetection/diskEvents`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12962,14 +12918,12 @@ export class Api extends APIBase {
      * @name CreateDiskEventConfig
      * @summary Creates a new disk event rule | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/diskEvents
-     * @secure
      */
     createDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/anomalyDetection/diskEvents`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -12980,13 +12934,11 @@ export class Api extends APIBase {
      * @name GetHostEventsConfig
      * @summary Gets the configuration of anomaly detection for hosts
      * @request GET:/anomalyDetection/hosts
-     * @secure
      */
     getHostEventsConfig: (params: RequestParams = {}) =>
       this.request<HostsAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/hosts`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -12997,14 +12949,12 @@ export class Api extends APIBase {
      * @name UpdateHostEventsConfig
      * @summary Updates the configuration of anomaly detection for hosts
      * @request PUT:/anomalyDetection/hosts
-     * @secure
      */
     updateHostEventsConfig: (data: HostsAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/hosts`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13015,14 +12965,12 @@ export class Api extends APIBase {
      * @name ValidateHostEventsConfig
      * @summary Validates the configuration of anomaly detection for hosts for the `PUT /anomalyDetection/hosts` request
      * @request POST:/anomalyDetection/hosts/validator
-     * @secure
      */
     validateHostEventsConfig: (data: HostsAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/hosts/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13033,14 +12981,12 @@ export class Api extends APIBase {
      * @name ListMetricEventConfigs
      * @summary Lists all configured metric events
      * @request GET:/anomalyDetection/metricEvents
-     * @secure
      */
     listMetricEventConfigs: (query?: { includeEntityFilterMetricEvents?: boolean }, params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/anomalyDetection/metricEvents`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -13051,14 +12997,12 @@ export class Api extends APIBase {
      * @name CreateMetricEvent
      * @summary Creates a new metric event
      * @request POST:/anomalyDetection/metricEvents
-     * @secure
      */
     createMetricEvent: (data: MetricEvent, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/anomalyDetection/metricEvents`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13069,13 +13013,11 @@ export class Api extends APIBase {
      * @name GetMetricEventConfig
      * @summary Gets the properties of the specified metric event
      * @request GET:/anomalyDetection/metricEvents/{id}
-     * @secure
      */
     getMetricEventConfig: (id: string, params: RequestParams = {}) =>
       this.request<MetricEvent, any>({
         path: `/anomalyDetection/metricEvents/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13086,14 +13028,12 @@ export class Api extends APIBase {
      * @name UpdateMetricEvent
      * @summary Updates an existing metric event or creates a new one
      * @request PUT:/anomalyDetection/metricEvents/{id}
-     * @secure
      */
     updateMetricEvent: (id: string, data: MetricEvent, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/anomalyDetection/metricEvents/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13104,13 +13044,11 @@ export class Api extends APIBase {
      * @name DeleteMetricEvent
      * @summary Deletes the specified metric event
      * @request DELETE:/anomalyDetection/metricEvents/{id}
-     * @secure
      */
     deleteMetricEvent: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/anomalyDetection/metricEvents/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13121,14 +13059,12 @@ export class Api extends APIBase {
      * @name ValidateCreateMetricEvent
      * @summary Validates the payload for the `POST /anomalyDetection/metricEvents` request
      * @request POST:/anomalyDetection/metricEvents/validator
-     * @secure
      */
     validateCreateMetricEvent: (data: MetricEvent, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/metricEvents/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13139,14 +13075,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateMetricEvent
      * @summary Validates the payload for the `PUT /anomalyDetection/metricEvents/{id}` request
      * @request POST:/anomalyDetection/metricEvents/{id}/validator
-     * @secure
      */
     validateUpdateMetricEvent: (id: string, data: MetricEvent, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/metricEvents/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13157,13 +13091,11 @@ export class Api extends APIBase {
      * @name GetLocalAvailabilityConfig
      * @summary Gets the configuration of anomaly detection for the specified process group | maturity=EARLY_ADOPTER
      * @request GET:/anomalyDetection/processGroups/{id}
-     * @secure
      */
     getLocalAvailabilityConfig: (id: string, params: RequestParams = {}) =>
       this.request<AnomalyDetectionPG, ErrorEnvelope>({
         path: `/anomalyDetection/processGroups/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13174,14 +13106,12 @@ export class Api extends APIBase {
      * @name SetLocalAvailabilityConfig
      * @summary Updates the configuration of anomaly detection for the specified process group | maturity=EARLY_ADOPTER
      * @request PUT:/anomalyDetection/processGroups/{id}
-     * @secure
      */
     setLocalAvailabilityConfig: (id: string, data: AnomalyDetectionPG, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/processGroups/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13192,13 +13122,11 @@ export class Api extends APIBase {
      * @name DeleteLocalAvailabilityConfig
      * @summary Switches off anomaly detection for the specified process group | maturity=EARLY_ADOPTER
      * @request DELETE:/anomalyDetection/processGroups/{id}
-     * @secure
      */
     deleteLocalAvailabilityConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/processGroups/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13209,14 +13137,12 @@ export class Api extends APIBase {
      * @name ValidateLocalPgAvailabilityAlertingEvent
      * @summary Validates the payload for the `PUT /anomalyDetection/processGroups/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/processGroups/{id}/validator
-     * @secure
      */
     validateLocalPgAvailabilityAlertingEvent: (id: string, data: AnomalyDetectionPG, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/processGroups/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13227,14 +13153,12 @@ export class Api extends APIBase {
      * @name ValidateServiceAnomalyDetectionConfig
      * @summary Validates the payload for the `PUT /anomalyDetection/services` request
      * @request POST:/anomalyDetection/services/validator
-     * @secure
      */
     validateServiceAnomalyDetectionConfig: (data: ServiceAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/services/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13245,13 +13169,11 @@ export class Api extends APIBase {
      * @name GetServiceAnomalyDetectionConfig
      * @summary Gets the service anomaly detection configuration
      * @request GET:/anomalyDetection/services
-     * @secure
      */
     getServiceAnomalyDetectionConfig: (params: RequestParams = {}) =>
       this.request<ServiceAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/services`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13262,14 +13184,12 @@ export class Api extends APIBase {
      * @name UpdateServiceAnomalyDetectionConfig
      * @summary Updates the service anomaly detection configuration
      * @request PUT:/anomalyDetection/services
-     * @secure
      */
     updateServiceAnomalyDetectionConfig: (data: ServiceAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/services`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13280,13 +13200,11 @@ export class Api extends APIBase {
      * @name GetVMwareAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for VMware
      * @request GET:/anomalyDetection/vmware
-     * @secure
      */
     getVMwareAnomalyDetectionConfig: (params: RequestParams = {}) =>
       this.request<VMwareAnomalyDetectionConfig, any>({
         path: `/anomalyDetection/vmware`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13297,14 +13215,12 @@ export class Api extends APIBase {
      * @name UpdateVMwareAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for VMware
      * @request PUT:/anomalyDetection/vmware
-     * @secure
      */
     updateVMwareAnomalyDetectionConfig: (data: VMwareAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/vmware`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13315,14 +13231,12 @@ export class Api extends APIBase {
      * @name ValidateVMwareAnomalyDetectionConfig
      * @summary Validates the configuration of anomaly detection for VMware for the `PUT /anomalyDetection/vmware` request
      * @request POST:/anomalyDetection/vmware/validator
-     * @secure
      */
     validateVMwareAnomalyDetectionConfig: (data: VMwareAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/vmware/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -13334,13 +13248,11 @@ export class Api extends APIBase {
      * @name ListMobileApplicationConfigs
      * @summary Lists all existing mobile and custom applications
      * @request GET:/applications/mobile
-     * @secure
      */
     listMobileApplicationConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/applications/mobile`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13351,14 +13263,12 @@ export class Api extends APIBase {
      * @name CreateMobileApplicationConfig
      * @summary Creates a new mobile or custom application
      * @request POST:/applications/mobile
-     * @secure
      */
     createMobileApplicationConfig: (data: NewMobileCustomAppConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/applications/mobile`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13369,13 +13279,11 @@ export class Api extends APIBase {
      * @name GetMobileApplicationConfig
      * @summary Gets the configuration of the specified mobile or custom application
      * @request GET:/applications/mobile/{id}
-     * @secure
      */
     getMobileApplicationConfig: (id: string, params: RequestParams = {}) =>
       this.request<MobileCustomAppConfig, void>({
         path: `/applications/mobile/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13386,14 +13294,12 @@ export class Api extends APIBase {
      * @name UpdateMobileApplicationConfig
      * @summary Updates the configuration of the specified mobile or custom application
      * @request PUT:/applications/mobile/{id}
-     * @secure
      */
     updateMobileApplicationConfig: (id: string, data: MobileCustomAppConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope | void>({
         path: `/applications/mobile/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13404,13 +13310,11 @@ export class Api extends APIBase {
      * @name DeleteMobileApplicationConfig
      * @summary Deletes the specified mobile or custom application
      * @request DELETE:/applications/mobile/{id}
-     * @secure
      */
     deleteMobileApplicationConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/applications/mobile/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13421,14 +13325,12 @@ export class Api extends APIBase {
      * @name ValidateCreateMobileApplicationConfig
      * @summary Validates the payload for the `POST /applications/mobile` request
      * @request POST:/applications/mobile/validator
-     * @secure
      */
     validateCreateMobileApplicationConfig: (data: NewMobileCustomAppConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/mobile/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13439,14 +13341,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateMobileApplicationConfig
      * @summary Validates the payload for the `PUT /applications/mobile/{id}` request.
      * @request POST:/applications/mobile/{id}/validator
-     * @secure
      */
     validateUpdateMobileApplicationConfig: (id: string, data: MobileCustomAppConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/mobile/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13457,13 +13357,11 @@ export class Api extends APIBase {
      * @name ListSessionProperties
      * @summary Lists all mobile session and user action properties for the specified application
      * @request GET:/applications/mobile/{applicationId}/userActionAndSessionProperties
-     * @secure
      */
     listSessionProperties: (applicationId: string, params: RequestParams = {}) =>
       this.request<MobileSessionUserActionPropertyList, any>({
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13474,14 +13372,12 @@ export class Api extends APIBase {
      * @name CreateSessionProperty
      * @summary Creates a new mobile session or user action property for the specified application
      * @request POST:/applications/mobile/{applicationId}/userActionAndSessionProperties
-     * @secure
      */
     createSessionProperty: (applicationId: string, data: MobileSessionUserActionProperty, params: RequestParams = {}) =>
       this.request<MobileSessionUserActionPropertyShort, ErrorEnvelope>({
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13492,13 +13388,11 @@ export class Api extends APIBase {
      * @name GetSessionProperty
      * @summary Gets the specified mobile session or user action property of an application
      * @request GET:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}
-     * @secure
      */
     getSessionProperty: (applicationId: string, key: string, params: RequestParams = {}) =>
       this.request<MobileSessionUserActionProperty, void>({
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties/${key}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13509,7 +13403,6 @@ export class Api extends APIBase {
      * @name UpdateSessionProperty
      * @summary Updates the specified mobile session or user action property for an application
      * @request PUT:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}
-     * @secure
      */
     updateSessionProperty: (
       applicationId: string,
@@ -13521,7 +13414,6 @@ export class Api extends APIBase {
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties/${key}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13532,13 +13424,11 @@ export class Api extends APIBase {
      * @name DeleteSessionProperty
      * @summary Deletes the specified mobile session or user action property for an application
      * @request DELETE:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}
-     * @secure
      */
     deleteSessionProperty: (applicationId: string, key: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties/${key}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13549,7 +13439,6 @@ export class Api extends APIBase {
      * @name ValidateCreateSessionProperty
      * @summary Validates the payload for the `POST /applications/mobile/{applicationId}/userActionAndSessionProperties` request
      * @request POST:/applications/mobile/{applicationId}/userActionAndSessionProperties/validator
-     * @secure
      */
     validateCreateSessionProperty: (
       applicationId: string,
@@ -13560,7 +13449,6 @@ export class Api extends APIBase {
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13571,7 +13459,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateSessionProperty
      * @summary Validates the payload for the `PUT /applications/mobile/{applicationId}/userActionAndSessionProperties/{key}` request
      * @request POST:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}/validator
-     * @secure
      */
     validateUpdateSessionProperty: (
       applicationId: string,
@@ -13583,7 +13470,6 @@ export class Api extends APIBase {
         path: `/applications/mobile/${applicationId}/userActionAndSessionProperties/${key}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13594,13 +13480,11 @@ export class Api extends APIBase {
      * @name CreateMobileKeyUserAction
      * @summary Marks the user action as a key user action in the specified application
      * @request POST:/applications/mobile/{applicationId}/keyUserActions/{actionName}
-     * @secure
      */
     createMobileKeyUserAction: (applicationId: string, actionName: string, params: RequestParams = {}) =>
       this.request<KeyUserActionMobile, void>({
         path: `/applications/mobile/${applicationId}/keyUserActions/${actionName}`,
         method: "POST",
-        secure: true,
         ...params,
       }),
 
@@ -13611,13 +13495,11 @@ export class Api extends APIBase {
      * @name DeleteMobileKeyUserAction
      * @summary Removes the specified user action from the list of key user actions in the specified application
      * @request DELETE:/applications/mobile/{applicationId}/keyUserActions/{actionName}
-     * @secure
      */
     deleteMobileKeyUserAction: (applicationId: string, actionName: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/applications/mobile/${applicationId}/keyUserActions/${actionName}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13628,13 +13510,11 @@ export class Api extends APIBase {
      * @name ListMobileKeyUserActions
      * @summary Gets the list of key user actions in the specified application
      * @request GET:/applications/mobile/{applicationId}/keyUserActions
-     * @secure
      */
     listMobileKeyUserActions: (applicationId: string, params: RequestParams = {}) =>
       this.request<KeyUserActionMobileList, void>({
         path: `/applications/mobile/${applicationId}/keyUserActions`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13645,13 +13525,11 @@ export class Api extends APIBase {
      * @name ListDataPrivacySettings
      * @summary Lists data privacy settings of all web applications
      * @request GET:/applications/web/dataPrivacy
-     * @secure
      */
     listDataPrivacySettings: (params: RequestParams = {}) =>
       this.request<ApplicationDataPrivacyList, any>({
         path: `/applications/web/dataPrivacy`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13662,13 +13540,11 @@ export class Api extends APIBase {
      * @name GetDataPrivacySettings
      * @summary Gets the data privacy settings of the specified web application
      * @request GET:/applications/web/{id}/dataPrivacy
-     * @secure
      */
     getDataPrivacySettings: (id: string, params: RequestParams = {}) =>
       this.request<ApplicationDataPrivacy, any>({
         path: `/applications/web/${id}/dataPrivacy`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13679,14 +13555,12 @@ export class Api extends APIBase {
      * @name UpdateDataPrivacySettings
      * @summary Updates the data privacy settings of the specified web application
      * @request PUT:/applications/web/{id}/dataPrivacy
-     * @secure
      */
     updateDataPrivacySettings: (id: string, data: ApplicationDataPrivacy, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/${id}/dataPrivacy`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13697,13 +13571,11 @@ export class Api extends APIBase {
      * @name GetDefaultApplicationDataPrivacySettings
      * @summary Gets the data privacy settings of the default web application
      * @request GET:/applications/web/default/dataPrivacy
-     * @secure
      */
     getDefaultApplicationDataPrivacySettings: (params: RequestParams = {}) =>
       this.request<ApplicationDataPrivacy, any>({
         path: `/applications/web/default/dataPrivacy`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13714,14 +13586,12 @@ export class Api extends APIBase {
      * @name UpdateDefaultApplicationDataPrivacySettings
      * @summary Updates the data privacy settings of the default web application
      * @request PUT:/applications/web/default/dataPrivacy
-     * @secure
      */
     updateDefaultApplicationDataPrivacySettings: (data: ApplicationDataPrivacy, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/default/dataPrivacy`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13732,14 +13602,12 @@ export class Api extends APIBase {
      * @name ValidateDataPrivacySettings
      * @summary Validates data privacy settings for the `PUT /applications/web/{id}/dataPrivacy` request
      * @request POST:/applications/web/{id}/dataPrivacy/validator
-     * @secure
      */
     validateDataPrivacySettings: (id: string, data: ApplicationDataPrivacy, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/${id}/dataPrivacy/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13750,14 +13618,12 @@ export class Api extends APIBase {
      * @name ValidateDefaultApplicationDataPrivacySettings
      * @summary Validates data privacy settings of the default web application for the `PUT /applications/web/default/dataPrivacy` request
      * @request POST:/applications/web/default/dataPrivacy/validator
-     * @secure
      */
     validateDefaultApplicationDataPrivacySettings: (data: ApplicationDataPrivacy, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/default/dataPrivacy/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13768,13 +13634,11 @@ export class Api extends APIBase {
      * @name ListKeyUserActions
      * @summary Gets the list of key user actions in the specified web application
      * @request GET:/applications/web/{id}/keyUserActions
-     * @secure
      */
     listKeyUserActions: (id: string, params: RequestParams = {}) =>
       this.request<KeyUserActionList, any>({
         path: `/applications/web/${id}/keyUserActions`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13785,14 +13649,12 @@ export class Api extends APIBase {
      * @name CreateKeyUserAction
      * @summary Marks the user action as a key user action in the specified web application
      * @request POST:/applications/web/{id}/keyUserActions
-     * @secure
      */
     createKeyUserAction: (id: string, data: KeyUserAction, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/applications/web/${id}/keyUserActions`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13803,13 +13665,11 @@ export class Api extends APIBase {
      * @name DeleteKeyUserAction
      * @summary Removes the specified user action from the list of key user actions in the specified web application
      * @request DELETE:/applications/web/{id}/keyUserActions/{keyUserActionId}
-     * @secure
      */
     deleteKeyUserAction: (id: string, keyUserActionId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/applications/web/${id}/keyUserActions/${keyUserActionId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13820,13 +13680,11 @@ export class Api extends APIBase {
      * @name GetApplicationErrorConfig
      * @summary Gets the configuration of error rules in the specified application
      * @request GET:/applications/web/{id}/errorRules
-     * @secure
      */
     getApplicationErrorConfig: (id: string, params: RequestParams = {}) =>
       this.request<ApplicationErrorRules, any>({
         path: `/applications/web/${id}/errorRules`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13837,14 +13695,12 @@ export class Api extends APIBase {
      * @name UpdateApplicationErrorConfig
      * @summary Updates the configuration of error rules in the specified application
      * @request PUT:/applications/web/{id}/errorRules
-     * @secure
      */
     updateApplicationErrorConfig: (id: string, data: ApplicationErrorRules, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/${id}/errorRules`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13855,13 +13711,11 @@ export class Api extends APIBase {
      * @name ListWebApplicationConfigs
      * @summary Lists all existing web applications
      * @request GET:/applications/web
-     * @secure
      */
     listWebApplicationConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/applications/web`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13872,14 +13726,12 @@ export class Api extends APIBase {
      * @name CreateWebApplicationConfig
      * @summary Creates a new web application
      * @request POST:/applications/web
-     * @secure
      */
     createWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/applications/web`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13890,13 +13742,11 @@ export class Api extends APIBase {
      * @name GetWebApplicationConfig
      * @summary Gets the configuration of the specified web application
      * @request GET:/applications/web/{id}
-     * @secure
      */
     getWebApplicationConfig: (id: string, params: RequestParams = {}) =>
       this.request<WebApplicationConfig, any>({
         path: `/applications/web/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13907,14 +13757,12 @@ export class Api extends APIBase {
      * @name UpdateWebApplicationConfig
      * @summary Updates the configuration of the specified web application or creates a new one
      * @request PUT:/applications/web/{id}
-     * @secure
      */
     updateWebApplicationConfig: (id: string, data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/applications/web/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13925,13 +13773,11 @@ export class Api extends APIBase {
      * @name DeleteWebApplicationConfig
      * @summary Deletes the specified web application
      * @request DELETE:/applications/web/{id}
-     * @secure
      */
     deleteWebApplicationConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/applications/web/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -13942,14 +13788,12 @@ export class Api extends APIBase {
      * @name ValidateCreateWebApplicationConfig
      * @summary Validates the configuration of the web application for the `POST /applications/web` request
      * @request POST:/applications/web/validator
-     * @secure
      */
     validateCreateWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13960,14 +13804,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateWebApplicationConfig
      * @summary Validates the configuration of the web application for the `PUT /applications/web/{id}` request.
      * @request POST:/applications/web/{id}/validator
-     * @secure
      */
     validateUpdateWebApplicationConfig: (id: string, data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -13978,13 +13820,11 @@ export class Api extends APIBase {
      * @name GetDefaultApplication
      * @summary Gets the configuration of the default web application
      * @request GET:/applications/web/default
-     * @secure
      */
     getDefaultApplication: (params: RequestParams = {}) =>
       this.request<WebApplicationConfig, any>({
         path: `/applications/web/default`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -13995,14 +13835,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateDefaultConfiguration
      * @summary Updates the configuration of the default web application
      * @request PUT:/applications/web/default
-     * @secure
      */
     createOrUpdateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/default`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14013,14 +13851,12 @@ export class Api extends APIBase {
      * @name ValidateDefaultConfiguration
      * @summary Validates the configuration of the default web application for the `PUT /applications/web/default` request
      * @request POST:/applications/web/default/validator
-     * @secure
      */
     validateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applications/web/default/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -14032,14 +13868,12 @@ export class Api extends APIBase {
      * @name OrderApplicationDetectionConfigs
      * @summary Reorders the application detection rules
      * @request PUT:/applicationDetectionRules/order
-     * @secure
      */
     orderApplicationDetectionConfigs: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applicationDetectionRules/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14050,13 +13884,11 @@ export class Api extends APIBase {
      * @name GetApplicationDetectionConfig
      * @summary Gets the parameters of the specified application detection rule
      * @request GET:/applicationDetectionRules/{id}
-     * @secure
      */
     getApplicationDetectionConfig: (id: string, params: RequestParams = {}) =>
       this.request<ApplicationDetectionRuleConfig, any>({
         path: `/applicationDetectionRules/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14067,14 +13899,12 @@ export class Api extends APIBase {
      * @name UpdateApplicationDetectionConfig
      * @summary Updates the specified application detection rule
      * @request PUT:/applicationDetectionRules/{id}
-     * @secure
      */
     updateApplicationDetectionConfig: (id: string, data: ApplicationDetectionRuleConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/applicationDetectionRules/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14085,13 +13915,11 @@ export class Api extends APIBase {
      * @name DeleteApplicationDetectionConfig
      * @summary Deletes the specified application detection rule
      * @request DELETE:/applicationDetectionRules/{id}
-     * @secure
      */
     deleteApplicationDetectionConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/applicationDetectionRules/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -14102,13 +13930,11 @@ export class Api extends APIBase {
      * @name ListApplicationDetectionConfigs
      * @summary Lists all available application detection rules
      * @request GET:/applicationDetectionRules
-     * @secure
      */
     listApplicationDetectionConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/applicationDetectionRules`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14119,7 +13945,6 @@ export class Api extends APIBase {
      * @name CreateApplicationDetectionConfig
      * @summary Creates a new application detection rule
      * @request POST:/applicationDetectionRules
-     * @secure
      */
     createApplicationDetectionConfig: (
       data: ApplicationDetectionRuleConfig,
@@ -14131,7 +13956,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14142,14 +13966,12 @@ export class Api extends APIBase {
      * @name ValidateCreateApplicationDetectionConfig
      * @summary Validates the payload for the `POST /applicationDetection` request
      * @request POST:/applicationDetectionRules/validator
-     * @secure
      */
     validateCreateApplicationDetectionConfig: (data: ApplicationDetectionRuleConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applicationDetectionRules/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14160,7 +13982,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateApplicationDetectionConfig
      * @summary Validate the payload for the `PUT /applicationDetection/{id}` request
      * @request POST:/applicationDetectionRules/{id}/validator
-     * @secure
      */
     validateUpdateApplicationDetectionConfig: (
       id: string,
@@ -14171,7 +13992,6 @@ export class Api extends APIBase {
         path: `/applicationDetectionRules/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14182,13 +14002,11 @@ export class Api extends APIBase {
      * @name GetHostDetectionConfig
      * @summary Gets the configuration of host detection headers
      * @request GET:/applicationDetectionRules/hostDetection
-     * @secure
      */
     getHostDetectionConfig: (params: RequestParams = {}) =>
       this.request<ApplicationDetectionRulesHostDetectionSettings, any>({
         path: `/applicationDetectionRules/hostDetection`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14199,14 +14017,12 @@ export class Api extends APIBase {
      * @name UpdateHostDetectionConfig
      * @summary Updates the configuration of host detection headers
      * @request PUT:/applicationDetectionRules/hostDetection
-     * @secure
      */
     updateHostDetectionConfig: (data: ApplicationDetectionRulesHostDetectionSettings, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applicationDetectionRules/hostDetection`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14217,14 +14033,12 @@ export class Api extends APIBase {
      * @name ValidateHostDetectionConfig
      * @summary Validate the payload for `PUT /applicationDetection/hostDetection` request.
      * @request POST:/applicationDetectionRules/hostDetection/validator
-     * @secure
      */
     validateHostDetectionConfig: (data: ApplicationDetectionRulesHostDetectionSettings, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/applicationDetectionRules/hostDetection/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -14236,13 +14050,11 @@ export class Api extends APIBase {
      * @name ListAutoTags
      * @summary Lists all configured auto-tags
      * @request GET:/autoTags
-     * @secure
      */
     listAutoTags: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/autoTags`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14253,14 +14065,12 @@ export class Api extends APIBase {
      * @name CreateAutoTag
      * @summary Creates a new auto-tag
      * @request POST:/autoTags
-     * @secure
      */
     createAutoTag: (data: AutoTag, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/autoTags`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14271,14 +14081,12 @@ export class Api extends APIBase {
      * @name GetAutoTag
      * @summary Gets the properties of the specified auto-tag
      * @request GET:/autoTags/{id}
-     * @secure
      */
     getAutoTag: (id: string, query?: { includeProcessGroupReferences?: boolean }, params: RequestParams = {}) =>
       this.request<AutoTag, any>({
         path: `/autoTags/${id}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -14289,14 +14097,12 @@ export class Api extends APIBase {
      * @name UpdateAutoTag
      * @summary Updates an existing auto-tag
      * @request PUT:/autoTags/{id}
-     * @secure
      */
     updateAutoTag: (id: string, data: AutoTag, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/autoTags/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14307,13 +14113,11 @@ export class Api extends APIBase {
      * @name DeleteAutoTag
      * @summary Deletes the specified auto-tag
      * @request DELETE:/autoTags/{id}
-     * @secure
      */
     deleteAutoTag: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/autoTags/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -14324,14 +14128,12 @@ export class Api extends APIBase {
      * @name ValidateCreateAutoTag
      * @summary Validates the payload for the `POST /autoTags` request
      * @request POST:/autoTags/validator
-     * @secure
      */
     validateCreateAutoTag: (data: AutoTag, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/autoTags/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14342,14 +14144,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateAutoTag
      * @summary Validates the payload for the `PUT /autoTags/{id}` request
      * @request POST:/autoTags/{id}/validator
-     * @secure
      */
     validateUpdateAutoTag: (id: string, data: AutoTag, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/autoTags/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -14361,13 +14161,11 @@ export class Api extends APIBase {
      * @name GetAutoUpdateConfig
      * @summary Gets the environment-wide configuration of OneAgents auto-update
      * @request GET:/hosts/autoupdate
-     * @secure
      */
     getAutoUpdateConfig: (params: RequestParams = {}) =>
       this.request<EnvironmentAutoUpdateConfig, any>({
         path: `/hosts/autoupdate`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14378,14 +14176,12 @@ export class Api extends APIBase {
      * @name SetAutoUpdateConfig
      * @summary Updates the environment-wide configuration of OneAgents auto-update
      * @request PUT:/hosts/autoupdate
-     * @secure
      */
     setAutoUpdateConfig: (data: EnvironmentAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hosts/autoupdate`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14396,14 +14192,12 @@ export class Api extends APIBase {
      * @name ValidateAutoUpdateConfig
      * @summary Validates the payload for the `PUT /hosts/autoupdate` request
      * @request POST:/hosts/autoupdate/validator
-     * @secure
      */
     validateAutoUpdateConfig: (data: EnvironmentAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hosts/autoupdate/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14414,13 +14208,11 @@ export class Api extends APIBase {
      * @name GetAutoUpdateConfig1
      * @summary Gets the configuration of OneAgent auto-update on the specified host
      * @request GET:/hosts/{id}/autoupdate
-     * @secure
      */
     getAutoUpdateConfig1: (id: string, params: RequestParams = {}) =>
       this.request<HostAutoUpdateConfig, any>({
         path: `/hosts/${id}/autoupdate`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14431,14 +14223,12 @@ export class Api extends APIBase {
      * @name UpdateAutoUpdateConfig
      * @summary Updates the configuration of OneAgent auto-update on the specified host
      * @request PUT:/hosts/{id}/autoupdate
-     * @secure
      */
     updateAutoUpdateConfig: (id: string, data: HostAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hosts/${id}/autoupdate`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14449,14 +14239,12 @@ export class Api extends APIBase {
      * @name ValidateAutoUpdateConfig1
      * @summary Validates the payload for the `PUT /hosts/{id}/autoupdate` request
      * @request POST:/hosts/{id}/autoupdate/validator
-     * @secure
      */
     validateAutoUpdateConfig1: (id: string, data: HostAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hosts/${id}/autoupdate/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14467,13 +14255,11 @@ export class Api extends APIBase {
      * @name GetHostConfig
      * @summary Gets the OneAgent configuration on the specified host
      * @request GET:/hosts/{id}
-     * @secure
      */
     getHostConfig: (id: string, params: RequestParams = {}) =>
       this.request<HostConfig, any>({
         path: `/hosts/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14484,13 +14270,11 @@ export class Api extends APIBase {
      * @name GetMonitoringConfig
      * @summary Gets the monitoring configuration of OneAgent on the specified host
      * @request GET:/hosts/{id}/monitoring
-     * @secure
      */
     getMonitoringConfig: (id: string, params: RequestParams = {}) =>
       this.request<MonitoringConfig, any>({
         path: `/hosts/${id}/monitoring`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14501,14 +14285,12 @@ export class Api extends APIBase {
      * @name UpdateMonitoringConfig
      * @summary Updates the monitoring configuration of OneAgent on the specified host
      * @request PUT:/hosts/{id}/monitoring
-     * @secure
      */
     updateMonitoringConfig: (id: string, data: MonitoringConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hosts/${id}/monitoring`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14519,14 +14301,12 @@ export class Api extends APIBase {
      * @name ValidateMonitoringConfig
      * @summary Validates the payload for the `PUT /hosts/{id}/monitoring` request
      * @request POST:/hosts/{id}/monitoring/validator
-     * @secure
      */
     validateMonitoringConfig: (id: string, data: MonitoringConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hosts/${id}/monitoring/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14537,13 +14317,11 @@ export class Api extends APIBase {
      * @name GetTechHostConfigs
      * @summary Gets the configuration of monitored technologies on the specified host
      * @request GET:/hosts/{id}/technologies
-     * @secure
      */
     getTechHostConfigs: (id: string, params: RequestParams = {}) =>
       this.request<TechMonitoringList, any>({
         path: `/hosts/${id}/technologies`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -14555,13 +14333,11 @@ export class Api extends APIBase {
      * @name GetAllowedBeaconOriginsConfig
      * @summary Gets the configuration of the allowed beacon origins for CORS requests
      * @request GET:/allowedBeaconOriginsForCors
-     * @secure
      */
     getAllowedBeaconOriginsConfig: (params: RequestParams = {}) =>
       this.request<AllowedBeaconOrigins, any>({
         path: `/allowedBeaconOriginsForCors`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14572,14 +14348,12 @@ export class Api extends APIBase {
      * @name PutAllowedBeaconOriginsConfig
      * @summary Updates the configuration of the allowed beacon origins for CORS requests
      * @request PUT:/allowedBeaconOriginsForCors
-     * @secure
      */
     putAllowedBeaconOriginsConfig: (data: AllowedBeaconOrigins, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/allowedBeaconOriginsForCors`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14590,14 +14364,12 @@ export class Api extends APIBase {
      * @name ValidateAllowedBeaconOriginsConfig
      * @summary Validates the payload for the `PUT /allowedBeaconOriginsForCors` request
      * @request POST:/allowedBeaconOriginsForCors/validator
-     * @secure
      */
     validateAllowedBeaconOriginsConfig: (data: AllowedBeaconOrigins, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/allowedBeaconOriginsForCors/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -14609,13 +14381,11 @@ export class Api extends APIBase {
      * @name GetNamingRule
      * @summary Lists the parameters of the specified naming rule
      * @request GET:/conditionalNaming/{type}/{id}
-     * @secure
      */
     getNamingRule: (type: "processGroup" | "host" | "service", id: string, params: RequestParams = {}) =>
       this.request<ConditionalNamingRule, any>({
         path: `/conditionalNaming/${type}/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14626,7 +14396,6 @@ export class Api extends APIBase {
      * @name UpdateNamingRule
      * @summary Updates the specified naming rule
      * @request PUT:/conditionalNaming/{type}/{id}
-     * @secure
      */
     updateNamingRule: (
       type: "processGroup" | "host" | "service",
@@ -14638,7 +14407,6 @@ export class Api extends APIBase {
         path: `/conditionalNaming/${type}/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14649,13 +14417,11 @@ export class Api extends APIBase {
      * @name DeleteNamingRule
      * @summary Deletes the specified naming rule
      * @request DELETE:/conditionalNaming/{type}/{id}
-     * @secure
      */
     deleteNamingRule: (type: "processGroup" | "host" | "service", id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/conditionalNaming/${type}/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -14666,7 +14432,6 @@ export class Api extends APIBase {
      * @name ValidateCreateNamingRule
      * @summary Validates the payload for the `POST /conditionalNaming/{type}` request
      * @request POST:/conditionalNaming/{type}/validator
-     * @secure
      */
     validateCreateNamingRule: (
       type: "processGroup" | "host" | "service",
@@ -14677,7 +14442,6 @@ export class Api extends APIBase {
         path: `/conditionalNaming/${type}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14688,7 +14452,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateNamingRule
      * @summary Validates the payload for the `PUT /conditionalNaming/{type}/{id}` request
      * @request POST:/conditionalNaming/{type}/{id}/validator
-     * @secure
      */
     validateUpdateNamingRule: (
       type: "processGroup" | "host" | "service",
@@ -14700,7 +14463,6 @@ export class Api extends APIBase {
         path: `/conditionalNaming/${type}/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14711,13 +14473,11 @@ export class Api extends APIBase {
      * @name ListNamingRules
      * @summary Lists all configured naming rules of the specified type
      * @request GET:/conditionalNaming/{type}
-     * @secure
      */
     listNamingRules: (type: "processGroup" | "host" | "service", params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/conditionalNaming/${type}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14728,7 +14488,6 @@ export class Api extends APIBase {
      * @name CreateNamingRule
      * @summary Creates a new naming rule
      * @request POST:/conditionalNaming/{type}
-     * @secure
      */
     createNamingRule: (
       type: "processGroup" | "host" | "service",
@@ -14739,7 +14498,6 @@ export class Api extends APIBase {
         path: `/conditionalNaming/${type}`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -14751,13 +14509,11 @@ export class Api extends APIBase {
      * @name GetContentConfig
      * @summary Gets the configuration of content resources
      * @request GET:/contentResources
-     * @secure
      */
     getContentConfig: (params: RequestParams = {}) =>
       this.request<ContentResources, any>({
         path: `/contentResources`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14768,14 +14524,12 @@ export class Api extends APIBase {
      * @name PutContentResourceConfig
      * @summary Updates the configuration of content resources
      * @request PUT:/contentResources
-     * @secure
      */
     putContentResourceConfig: (data: ContentResources, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/contentResources`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14786,14 +14540,12 @@ export class Api extends APIBase {
      * @name ValidateContentResourceConfig
      * @summary Validates the payload for the `PUT /contentResources` request
      * @request POST:/contentResources/validator
-     * @secure
      */
     validateContentResourceConfig: (data: ContentResources, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/contentResources/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -14805,14 +14557,12 @@ export class Api extends APIBase {
      * @name ListCredentials
      * @summary Lists all sets of credentials for synthetic monitors stored in your environment
      * @request GET:/credentials
-     * @secure
      */
     listCredentials: (query?: { type?: "CERTIFICATE" | "USERNAME_PASSWORD" | "TOKEN" }, params: RequestParams = {}) =>
       this.request<CredentialsList, any>({
         path: `/credentials`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -14823,14 +14573,12 @@ export class Api extends APIBase {
      * @name CreateCredentials
      * @summary Creates a new credentials set
      * @request POST:/credentials
-     * @secure
      */
     createCredentials: (data: Credentials, params: RequestParams = {}) =>
       this.request<CredentialsResponseElement, ErrorEnvelope>({
         path: `/credentials`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14841,13 +14589,11 @@ export class Api extends APIBase {
      * @name GetCredentials
      * @summary Gets the metadata of the specified credentials set
      * @request GET:/credentials/{id}
-     * @secure
      */
     getCredentials: (id: string, params: RequestParams = {}) =>
       this.request<CredentialsResponseElement, any>({
         path: `/credentials/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14858,14 +14604,12 @@ export class Api extends APIBase {
      * @name UpdateCredentials
      * @summary Updates the specified credentials set
      * @request PUT:/credentials/{id}
-     * @secure
      */
     updateCredentials: (id: string, data: Credentials, params: RequestParams = {}) =>
       this.request<CredentialsResponseElement, ErrorEnvelope>({
         path: `/credentials/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14876,13 +14620,11 @@ export class Api extends APIBase {
      * @name RemoveCredentials
      * @summary Deletes the specified credentials set
      * @request DELETE:/credentials/{id}
-     * @secure
      */
     removeCredentials: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/credentials/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
   };
@@ -14894,13 +14636,11 @@ export class Api extends APIBase {
      * @name ListCustomServices
      * @summary Lists all custom services of the specified technology
      * @request GET:/service/customServices/{technology}
-     * @secure
      */
     listCustomServices: (technology: "dotNet" | "go" | "java" | "nodeJS" | "php", params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/customServices/${technology}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -14911,7 +14651,6 @@ export class Api extends APIBase {
      * @name CreateCustomService
      * @summary Creates a custom service
      * @request POST:/service/customServices/{technology}
-     * @secure
      */
     createCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14924,7 +14663,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14935,7 +14673,6 @@ export class Api extends APIBase {
      * @name GetCustomService
      * @summary Gets the definition of the specified custom service
      * @request GET:/service/customServices/{technology}/{id}
-     * @secure
      */
     getCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14947,7 +14684,6 @@ export class Api extends APIBase {
         path: `/service/customServices/${technology}/${id}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -14958,7 +14694,6 @@ export class Api extends APIBase {
      * @name UpdateCustomService
      * @summary Updates the specified custom service or create a new one.
      * @request PUT:/service/customServices/{technology}/{id}
-     * @secure
      */
     updateCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14970,7 +14705,6 @@ export class Api extends APIBase {
         path: `/service/customServices/${technology}/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -14981,7 +14715,6 @@ export class Api extends APIBase {
      * @name DeleteCustomService
      * @summary Deletes the specified custom service
      * @request DELETE:/service/customServices/{technology}/{id}
-     * @secure
      */
     deleteCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14991,7 +14724,6 @@ export class Api extends APIBase {
       this.request<void, any>({
         path: `/service/customServices/${technology}/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15002,7 +14734,6 @@ export class Api extends APIBase {
      * @name OrderCustomServices
      * @summary Reorders the custom services of the specified technology
      * @request PUT:/service/customServices/{technology}/order
-     * @secure
      */
     orderCustomServices: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -15013,7 +14744,6 @@ export class Api extends APIBase {
         path: `/service/customServices/${technology}/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15024,7 +14754,6 @@ export class Api extends APIBase {
      * @name ValidateCreateCustomService
      * @summary Validate the new custom service for the `POST /customServices/{technology}` request
      * @request POST:/service/customServices/{technology}/validator
-     * @secure
      */
     validateCreateCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -15035,7 +14764,6 @@ export class Api extends APIBase {
         path: `/service/customServices/${technology}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15046,7 +14774,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateCustomService
      * @summary Validate the new custom service for the `PUT /customServices/{technology}/{id}` request
      * @request POST:/service/customServices/{technology}/{id}/validator
-     * @secure
      */
     validateUpdateCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -15058,7 +14785,6 @@ export class Api extends APIBase {
         path: `/service/customServices/${technology}/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15069,13 +14795,11 @@ export class Api extends APIBase {
      * @name GetFdp
      * @summary Gets the specified failure detection parameter set | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/parameterSets/{id}
-     * @secure
      */
     getFdp: (id: string, params: RequestParams = {}) =>
       this.request<FailureDetectionParameterSet, void>({
         path: `/service/failureDetection/parameterSelection/parameterSets/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15086,14 +14810,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateFdp
      * @summary Updates the specified failure detection parameter set | maturity=EARLY_ADOPTER
      * @request PUT:/service/failureDetection/parameterSelection/parameterSets/{id}
-     * @secure
      */
     createOrUpdateFdp: (id: string, data: FailureDetectionParameterSet, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/parameterSets/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15104,13 +14826,11 @@ export class Api extends APIBase {
      * @name DeleteFdp
      * @summary Deletes the specified failure detection parameter set | maturity=EARLY_ADOPTER
      * @request DELETE:/service/failureDetection/parameterSelection/parameterSets/{id}
-     * @secure
      */
     deleteFdp: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/service/failureDetection/parameterSelection/parameterSets/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15121,13 +14841,11 @@ export class Api extends APIBase {
      * @name GetAllFdps
      * @summary Lists all available failure detection parameter sets | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/parameterSets
-     * @secure
      */
     getAllFdps: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/failureDetection/parameterSelection/parameterSets`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15138,14 +14856,12 @@ export class Api extends APIBase {
      * @name CreateFdp
      * @summary Creates a new failure detection parameter set | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets
-     * @secure
      */
     createFdp: (data: FailureDetectionParameterSet, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/parameterSets`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15156,14 +14872,12 @@ export class Api extends APIBase {
      * @name ValidateCreateFdp
      * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/parameterSets` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets/validator
-     * @secure
      */
     validateCreateFdp: (data: FailureDetectionParameterSet, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/parameterSets/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15174,14 +14888,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateFdp
      * @summary Validates the payload for the `PUT /service/failureDetection/parameterSelection/parameterSets/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets/{id}/validator
-     * @secure
      */
     validateUpdateFdp: (id: string, data: FailureDetectionParameterSet, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/parameterSets/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15192,14 +14904,12 @@ export class Api extends APIBase {
      * @name ChangeFdpId
      * @summary Changes the ID of the specified failure detection parameter set | maturity=EARLY_ADOPTER
      * @request PUT:/service/failureDetection/parameterSelection/parameterSets/{id}/changeId
-     * @secure
      */
     changeFdpId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/parameterSets/${id}/changeId`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15210,13 +14920,11 @@ export class Api extends APIBase {
      * @name GetAllRules
      * @summary Lists all available failure detection rules | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/rules
-     * @secure
      */
     getAllRules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/failureDetection/parameterSelection/rules`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15227,14 +14935,12 @@ export class Api extends APIBase {
      * @name CreateRule
      * @summary Creates a new failure detection rule | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/rules
-     * @secure
      */
     createRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/rules`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15245,13 +14951,11 @@ export class Api extends APIBase {
      * @name GetRule
      * @summary Gets the properties of the specified rule | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/rules/{id}
-     * @secure
      */
     getRule: (id: string, params: RequestParams = {}) =>
       this.request<FailureDetectionRule, void>({
         path: `/service/failureDetection/parameterSelection/rules/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15262,14 +14966,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateRule
      * @summary Updates the specified failure detection rule rule | maturity=EARLY_ADOPTER
      * @request PUT:/service/failureDetection/parameterSelection/rules/{id}
-     * @secure
      */
     createOrUpdateRule: (id: string, data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/rules/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15280,13 +14982,11 @@ export class Api extends APIBase {
      * @name DeleteRule
      * @summary Deletes the specified failure detection rule | maturity=EARLY_ADOPTER
      * @request DELETE:/service/failureDetection/parameterSelection/rules/{id}
-     * @secure
      */
     deleteRule: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/service/failureDetection/parameterSelection/rules/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15297,14 +14997,12 @@ export class Api extends APIBase {
      * @name ValidateCreateRule
      * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/rules` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/rules/validator
-     * @secure
      */
     validateCreateRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/rules/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15315,14 +15013,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateRule
      * @summary Validates the payload for the `PUT /service/failureDetection/parameterSelection/rules/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/rules/{id}/validator
-     * @secure
      */
     validateUpdateRule: (id: string, data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/rules/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15333,14 +15029,12 @@ export class Api extends APIBase {
      * @name ReorderRules
      * @summary Reorders failure detection rules | maturity=EARLY_ADOPTER
      * @request PUT:/service/failureDetection/parameterSelection/rules/reorderRules
-     * @secure
      */
     reorderRules: (data: FdpSelectionRuleOrder, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/rules/reorderRules`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15351,14 +15045,12 @@ export class Api extends APIBase {
      * @name ChangeRuleId
      * @summary Changes the ID of the specified rule | maturity=EARLY_ADOPTER
      * @request PUT:/service/failureDetection/parameterSelection/rules/{id}/changeId
-     * @secure
      */
     changeRuleId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/failureDetection/parameterSelection/rules/${id}/changeId`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15369,13 +15061,11 @@ export class Api extends APIBase {
      * @name GetQueueManager
      * @summary Gets the parameters of the specified queue manager
      * @request GET:/service/ibmMQTracing/queueManager/{name}
-     * @secure
      */
     getQueueManager: (name: string, params: RequestParams = {}) =>
       this.request<QueueManager, any>({
         path: `/service/ibmMQTracing/queueManager/${name}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15386,14 +15076,12 @@ export class Api extends APIBase {
      * @name PutQueueManager
      * @summary Updates the specified queue manager or creates a new one
      * @request PUT:/service/ibmMQTracing/queueManager/{name}
-     * @secure
      */
     putQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/ibmMQTracing/queueManager/${name}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15404,13 +15092,11 @@ export class Api extends APIBase {
      * @name DeleteQueueManager
      * @summary Deletes the specified queue manager
      * @request DELETE:/service/ibmMQTracing/queueManager/{name}
-     * @secure
      */
     deleteQueueManager: (name: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/service/ibmMQTracing/queueManager/${name}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15421,14 +15107,12 @@ export class Api extends APIBase {
      * @name ValidateQueueManager
      * @summary Validates the queue manager update for the `PUT /service/ibmMQTracing/queueManager/{name}` request
      * @request POST:/service/ibmMQTracing/queueManager/{name}/validator
-     * @secure
      */
     validateQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/ibmMQTracing/queueManager/${name}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15439,13 +15123,11 @@ export class Api extends APIBase {
      * @name GetQueueManagers
      * @summary Lists all available queue managers
      * @request GET:/service/ibmMQTracing/queueManager
-     * @secure
      */
     getQueueManagers: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/ibmMQTracing/queueManager`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15456,13 +15138,11 @@ export class Api extends APIBase {
      * @name GetAllImsEntryQueues
      * @summary Lists all IBM IMS entry queues
      * @request GET:/service/ibmMQTracing/imsEntryQueue
-     * @secure
      */
     getAllImsEntryQueues: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/ibmMQTracing/imsEntryQueue`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15473,14 +15153,12 @@ export class Api extends APIBase {
      * @name CreateImsEntryQueue
      * @summary Creates an IBM IMS entry queue
      * @request POST:/service/ibmMQTracing/imsEntryQueue
-     * @secure
      */
     createImsEntryQueue: (data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/ibmMQTracing/imsEntryQueue`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15491,13 +15169,11 @@ export class Api extends APIBase {
      * @name GetImsEntryQueue
      * @summary Gets the properties of the specified IBM IMS entry queue
      * @request GET:/service/ibmMQTracing/imsEntryQueue/{id}
-     * @secure
      */
     getImsEntryQueue: (id: string, params: RequestParams = {}) =>
       this.request<IbmMQImsEntryQueue, any>({
         path: `/service/ibmMQTracing/imsEntryQueue/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15508,14 +15184,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateImsEntryQueue
      * @summary Updates an existing IBM IMS entry queue or creates a new one
      * @request PUT:/service/ibmMQTracing/imsEntryQueue/{id}
-     * @secure
      */
     createOrUpdateImsEntryQueue: (id: string, data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/ibmMQTracing/imsEntryQueue/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15526,13 +15200,11 @@ export class Api extends APIBase {
      * @name DeleteImsEntryQueue
      * @summary Deletes the specified IBM IMS entry queue
      * @request DELETE:/service/ibmMQTracing/imsEntryQueue/{id}
-     * @secure
      */
     deleteImsEntryQueue: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/service/ibmMQTracing/imsEntryQueue/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15543,14 +15215,12 @@ export class Api extends APIBase {
      * @name ValidateImsEntryQueueForPost
      * @summary Validates new IBM IMS entry queues for the `POST /service/ibmMQTracing/imsEntryQueue` request
      * @request POST:/service/ibmMQTracing/imsEntryQueue/validator
-     * @secure
      */
     validateImsEntryQueueForPost: (data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/ibmMQTracing/imsEntryQueue/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15561,14 +15231,12 @@ export class Api extends APIBase {
      * @name ValidateImsEntryQueueForPut
      * @summary Validates update of existing IBM IMS entry queues for the `PUT /service/ibmMQTracing/imsEntryQueue/{id}` request
      * @request POST:/service/ibmMQTracing/imsEntryQueue/{id}/validator
-     * @secure
      */
     validateImsEntryQueueForPut: (id: string, data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/ibmMQTracing/imsEntryQueue/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15579,13 +15247,11 @@ export class Api extends APIBase {
      * @name ListRequestAttributesConfigs
      * @summary Lists all available request attributes
      * @request GET:/service/requestAttributes
-     * @secure
      */
     listRequestAttributesConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/requestAttributes`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15596,14 +15262,12 @@ export class Api extends APIBase {
      * @name CreateRequestAttributesConfig
      * @summary Creates a new request attribute
      * @request POST:/service/requestAttributes
-     * @secure
      */
     createRequestAttributesConfig: (data: RequestAttribute, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/requestAttributes`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15614,7 +15278,6 @@ export class Api extends APIBase {
      * @name GetRequestAttributesConfig
      * @summary Shows the properties of the specified request attribute
      * @request GET:/service/requestAttributes/{id}
-     * @secure
      */
     getRequestAttributesConfig: (
       id: string,
@@ -15625,7 +15288,6 @@ export class Api extends APIBase {
         path: `/service/requestAttributes/${id}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -15636,14 +15298,12 @@ export class Api extends APIBase {
      * @name UpdateRequestAttributesConfig
      * @summary Updates an existing request attribute or creates a new one
      * @request PUT:/service/requestAttributes/{id}
-     * @secure
      */
     updateRequestAttributesConfig: (id: string, data: RequestAttribute, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/requestAttributes/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15654,13 +15314,11 @@ export class Api extends APIBase {
      * @name DeleteRequestAttributesConfig
      * @summary Deletes the specified request attribute
      * @request DELETE:/service/requestAttributes/{id}
-     * @secure
      */
     deleteRequestAttributesConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/service/requestAttributes/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15671,14 +15329,12 @@ export class Api extends APIBase {
      * @name ValidateCreateRequestAttributesConfig
      * @summary Validates new request attributes for the `POST /requestAttributes` request
      * @request POST:/service/requestAttributes/validator
-     * @secure
      */
     validateCreateRequestAttributesConfig: (data: RequestAttribute, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/requestAttributes/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15689,14 +15345,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateRequestAttributesConfig
      * @summary Validate updates of existing request attribute for the `PUT /requestAttributes/{id}` request
      * @request POST:/service/requestAttributes/{id}/validator
-     * @secure
      */
     validateUpdateRequestAttributesConfig: (id: string, data: RequestAttribute, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/requestAttributes/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15707,13 +15361,11 @@ export class Api extends APIBase {
      * @name GetRequestNaming
      * @summary Gets the parameters of the specified request naming rule
      * @request GET:/service/requestNaming/{id}
-     * @secure
      */
     getRequestNaming: (id: string, params: RequestParams = {}) =>
       this.request<RequestNaming, any>({
         path: `/service/requestNaming/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15724,14 +15376,12 @@ export class Api extends APIBase {
      * @name UpdateRequestNaming
      * @summary Updates the specified request naming rule
      * @request PUT:/service/requestNaming/{id}
-     * @secure
      */
     updateRequestNaming: (id: string, data: RequestNaming, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/requestNaming/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15742,13 +15392,11 @@ export class Api extends APIBase {
      * @name DeleteRequestNaming
      * @summary Deletes the specified request naming rule
      * @request DELETE:/service/requestNaming/{id}
-     * @secure
      */
     deleteRequestNaming: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/service/requestNaming/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15759,13 +15407,11 @@ export class Api extends APIBase {
      * @name ListRequestNaming
      * @summary Lists all request naming rules along with their parameters
      * @request GET:/service/requestNaming
-     * @secure
      */
     listRequestNaming: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/requestNaming`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15776,7 +15422,6 @@ export class Api extends APIBase {
      * @name CreateRequestNaming
      * @summary Creates a new request naming rule
      * @request POST:/service/requestNaming
-     * @secure
      */
     createRequestNaming: (
       data: RequestNaming,
@@ -15788,7 +15433,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15799,14 +15443,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateRequestNaming
      * @summary Validates the new request naming for the `PUT /requestNaming/{id}` request
      * @request POST:/service/requestNaming/{id}/validator
-     * @secure
      */
     validateUpdateRequestNaming: (id: string, data: RequestNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/requestNaming/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15817,14 +15459,12 @@ export class Api extends APIBase {
      * @name ValidateCreateRequestNaming
      * @summary Validates the new request naming rule for the `POST /requestNaming` request
      * @request POST:/service/requestNaming/validator
-     * @secure
      */
     validateCreateRequestNaming: (data: RequestNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/requestNaming/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15835,14 +15475,12 @@ export class Api extends APIBase {
      * @name OrderRequestNaming
      * @summary Reorders the request namings
      * @request PUT:/service/requestNaming/order
-     * @secure
      */
     orderRequestNaming: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/requestNaming/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15853,13 +15491,11 @@ export class Api extends APIBase {
      * @name Get
      * @summary Lists the global service resource requests.
      * @request GET:/service/resourceNaming
-     * @secure
      */
     get: (params: RequestParams = {}) =>
       this.request<ResourceNaming, any>({
         path: `/service/resourceNaming`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15870,14 +15506,12 @@ export class Api extends APIBase {
      * @name Put
      * @summary Updates the global service resource requests.
      * @request PUT:/service/resourceNaming
-     * @secure
      */
     put: (data: ResourceNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/resourceNaming`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15888,14 +15522,12 @@ export class Api extends APIBase {
      * @name Validate
      * @summary Validates new resource requests settings for the `PUT /service/resourceRequest` request.
      * @request POST:/service/resourceNaming/validator
-     * @secure
      */
     validate: (data: ResourceNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/resourceNaming/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15906,13 +15538,11 @@ export class Api extends APIBase {
      * @name GetRequestDetectionRule
      * @summary Gets the properties of the specified service detection rule
      * @request GET:/service/detectionRules/FULL_WEB_REQUEST/{id}
-     * @secure
      */
     getRequestDetectionRule: (id: string, params: RequestParams = {}) =>
       this.request<FullWebRequestRule, void>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15923,14 +15553,12 @@ export class Api extends APIBase {
      * @name UpdateRequestDetectionRule
      * @summary Updates an existing service detection rule
      * @request PUT:/service/detectionRules/FULL_WEB_REQUEST/{id}
-     * @secure
      */
     updateRequestDetectionRule: (id: string, data: FullWebRequestRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15941,13 +15569,11 @@ export class Api extends APIBase {
      * @name DeleteRequestDetectionRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/FULL_WEB_REQUEST/{id}
-     * @secure
      */
     deleteRequestDetectionRule: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -15958,13 +15584,11 @@ export class Api extends APIBase {
      * @name ListRequestDetectionRules
      * @summary Lists all full web request service detection rules
      * @request GET:/service/detectionRules/FULL_WEB_REQUEST
-     * @secure
      */
     listRequestDetectionRules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/detectionRules/FULL_WEB_REQUEST`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -15975,7 +15599,6 @@ export class Api extends APIBase {
      * @name CreateRequestDetectionRule
      * @summary Creates a new service detection rule
      * @request POST:/service/detectionRules/FULL_WEB_REQUEST
-     * @secure
      */
     createRequestDetectionRule: (
       data: FullWebRequestRule,
@@ -15987,7 +15610,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -15998,14 +15620,12 @@ export class Api extends APIBase {
      * @name OrderRequestDetectionRules
      * @summary Reorders the service detection rules of the specified type
      * @request PUT:/service/detectionRules/FULL_WEB_REQUEST/order
-     * @secure
      */
     orderRequestDetectionRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16016,14 +15636,12 @@ export class Api extends APIBase {
      * @name ValidateCreateRequestDetectionRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/FULL_WEB_REQUEST` request
      * @request POST:/service/detectionRules/FULL_WEB_REQUEST/validator
-     * @secure
      */
     validateCreateRequestDetectionRule: (data: FullWebRequestRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16034,14 +15652,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateRequestDetectionRule
      * @summary Validates the payload for the `PUT /service/detectionRules/FULL_WEB_REQUEST/{id}` request
      * @request POST:/service/detectionRules/FULL_WEB_REQUEST/{id}/validator
-     * @secure
      */
     validateUpdateRequestDetectionRule: (id: string, data: FullWebRequestRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16052,13 +15668,11 @@ export class Api extends APIBase {
      * @name GetServiceDetectionRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/FULL_WEB_SERVICE/{id}
-     * @secure
      */
     getServiceDetectionRule: (id: string, params: RequestParams = {}) =>
       this.request<FullWebServiceRule, void>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16069,14 +15683,12 @@ export class Api extends APIBase {
      * @name UpdateServiceDetectionRule
      * @summary Updates an existing service detection rule
      * @request PUT:/service/detectionRules/FULL_WEB_SERVICE/{id}
-     * @secure
      */
     updateServiceDetectionRule: (id: string, data: FullWebServiceRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16087,13 +15699,11 @@ export class Api extends APIBase {
      * @name DeleteServiceDetectionRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/FULL_WEB_SERVICE/{id}
-     * @secure
      */
     deleteServiceDetectionRule: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -16104,13 +15714,11 @@ export class Api extends APIBase {
      * @name ListServiceDetectionRules
      * @summary Lists all full web service detection rules
      * @request GET:/service/detectionRules/FULL_WEB_SERVICE
-     * @secure
      */
     listServiceDetectionRules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/detectionRules/FULL_WEB_SERVICE`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16121,7 +15729,6 @@ export class Api extends APIBase {
      * @name CreateServiceDetectionRule
      * @summary Creates a new service detection rule
      * @request POST:/service/detectionRules/FULL_WEB_SERVICE
-     * @secure
      */
     createServiceDetectionRule: (
       data: FullWebServiceRule,
@@ -16133,7 +15740,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16144,14 +15750,12 @@ export class Api extends APIBase {
      * @name OrderServiceDetectionRules
      * @summary Reorders the service detection rules of the specified type
      * @request PUT:/service/detectionRules/FULL_WEB_SERVICE/order
-     * @secure
      */
     orderServiceDetectionRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16162,14 +15766,12 @@ export class Api extends APIBase {
      * @name ValidateCreateServiceDetectionRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/FULL_WEB_SERVICE` request
      * @request POST:/service/detectionRules/FULL_WEB_SERVICE/validator
-     * @secure
      */
     validateCreateServiceDetectionRule: (data: FullWebServiceRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16180,14 +15782,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateServiceDetectionRule
      * @summary Validate the payload for the `PUT /ruleBasedServiceDetection/FULL_WEB_SERVICE/{id}` request
      * @request POST:/service/detectionRules/FULL_WEB_SERVICE/{id}/validator
-     * @secure
      */
     validateUpdateServiceDetectionRule: (id: string, data: FullWebServiceRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16198,7 +15798,6 @@ export class Api extends APIBase {
      * @name ValidateCreateOpaqueAndExternalWebRequestDetectionRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator
-     * @secure
      */
     validateCreateOpaqueAndExternalWebRequestDetectionRule: (
       data: OpaqueAndExternalWebRequestRule,
@@ -16208,7 +15807,6 @@ export class Api extends APIBase {
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16219,13 +15817,11 @@ export class Api extends APIBase {
      * @name GetOpaqueAndExternalWebRequestDetectionRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}
-     * @secure
      */
     getOpaqueAndExternalWebRequestDetectionRule: (id: string, params: RequestParams = {}) =>
       this.request<OpaqueAndExternalWebRequestRule, void>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16236,7 +15832,6 @@ export class Api extends APIBase {
      * @name UpdateOpaqueAndExternalWebRequestDetectionRule
      * @summary Updates an existing service detection rule
      * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}
-     * @secure
      */
     updateOpaqueAndExternalWebRequestDetectionRule: (
       id: string,
@@ -16247,7 +15842,6 @@ export class Api extends APIBase {
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16258,13 +15852,11 @@ export class Api extends APIBase {
      * @name DeleteOpaqueAndExternalWebRequestDetectionRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}
-     * @secure
      */
     deleteOpaqueAndExternalWebRequestDetectionRule: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -16275,13 +15867,11 @@ export class Api extends APIBase {
      * @name ListOpaqueAndExternalWebRequestDetectionRules
      * @summary Lists all opaque and external web request service detection rules
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
-     * @secure
      */
     listOpaqueAndExternalWebRequestDetectionRules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16292,7 +15882,6 @@ export class Api extends APIBase {
      * @name CreateOpaqueAndExternalWebRequestDetectionRule
      * @summary Creates a new service detection rule
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
-     * @secure
      */
     createOpaqueAndExternalWebRequestDetectionRule: (
       data: OpaqueAndExternalWebRequestRule,
@@ -16304,7 +15893,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16315,14 +15903,12 @@ export class Api extends APIBase {
      * @name OrderOpaqueAndExternalWebRequestDetectionRules
      * @summary Reorders the service detection rules of the specified type
      * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order
-     * @secure
      */
     orderOpaqueAndExternalWebRequestDetectionRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16333,7 +15919,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateOpaqueAndExternalWebRequestDetectionRule
      * @summary Validate the payload for the `PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}/validator
-     * @secure
      */
     validateUpdateOpaqueAndExternalWebRequestDetectionRule: (
       id: string,
@@ -16344,7 +15929,6 @@ export class Api extends APIBase {
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16355,13 +15939,11 @@ export class Api extends APIBase {
      * @name GetOpaqueAndExternalWebServiceRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}
-     * @secure
      */
     getOpaqueAndExternalWebServiceRule: (id: string, params: RequestParams = {}) =>
       this.request<OpaqueAndExternalWebServiceRule, void>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16372,7 +15954,6 @@ export class Api extends APIBase {
      * @name UpdateOpaqueAndExternalWebServiceRule
      * @summary Updates an existing service detection rule
      * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}
-     * @secure
      */
     updateOpaqueAndExternalWebServiceRule: (
       id: string,
@@ -16383,7 +15964,6 @@ export class Api extends APIBase {
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16394,13 +15974,11 @@ export class Api extends APIBase {
      * @name DeleteOpaqueAndExternalWebServiceRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}
-     * @secure
      */
     deleteOpaqueAndExternalWebServiceRule: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -16411,13 +15989,11 @@ export class Api extends APIBase {
      * @name ListOpaqueAndExternalWebServiceRules
      * @summary Lists all opaque and external web service detection rules
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
-     * @secure
      */
     listOpaqueAndExternalWebServiceRules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16428,7 +16004,6 @@ export class Api extends APIBase {
      * @name CreateOpaqueAndExternalWebServiceRule
      * @summary Creates a new service detection rule
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
-     * @secure
      */
     createOpaqueAndExternalWebServiceRule: (
       data: OpaqueAndExternalWebServiceRule,
@@ -16440,7 +16015,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16451,14 +16025,12 @@ export class Api extends APIBase {
      * @name OrderOpaqueAndExternalWebServiceRules
      * @summary Reorders the service detection rules of the specified type
      * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/order
-     * @secure
      */
     orderOpaqueAndExternalWebServiceRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/order`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16469,7 +16041,6 @@ export class Api extends APIBase {
      * @name ValidateCreateOpaqueAndExternalWebServiceRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_SERVICE` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/validator
-     * @secure
      */
     validateCreateOpaqueAndExternalWebServiceRule: (
       data: OpaqueAndExternalWebServiceRule,
@@ -16479,7 +16050,6 @@ export class Api extends APIBase {
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16490,7 +16060,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateOpaqueAndExternalWebServiceRule
      * @summary Validate the payload for the `PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}/validator
-     * @secure
      */
     validateUpdateOpaqueAndExternalWebServiceRule: (
       id: string,
@@ -16501,7 +16070,6 @@ export class Api extends APIBase {
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -16513,14 +16081,12 @@ export class Api extends APIBase {
      * @name GetDashboardStubsList
      * @summary Lists all dashboards of the environment
      * @request GET:/dashboards
-     * @secure
      */
     getDashboardStubsList: (query?: { owner?: string; tags?: string[] }, params: RequestParams = {}) =>
       this.request<DashboardList, any>({
         path: `/dashboards`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -16531,14 +16097,12 @@ export class Api extends APIBase {
      * @name CreateDashboard
      * @summary Creates a dashboard
      * @request POST:/dashboards
-     * @secure
      */
     createDashboard: (data: Dashboard, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/dashboards`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16549,13 +16113,11 @@ export class Api extends APIBase {
      * @name GetDashboard
      * @summary Gets the properties of the specified dashboard
      * @request GET:/dashboards/{id}
-     * @secure
      */
     getDashboard: (id: string, params: RequestParams = {}) =>
       this.request<Dashboard, any>({
         path: `/dashboards/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16566,14 +16128,12 @@ export class Api extends APIBase {
      * @name UpdateDashboard
      * @summary Updates the specified dashboard
      * @request PUT:/dashboards/{id}
-     * @secure
      */
     updateDashboard: (id: string, data: Dashboard, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/dashboards/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16584,13 +16144,11 @@ export class Api extends APIBase {
      * @name DeleteDashboard
      * @summary Deletes the specified dashboard
      * @request DELETE:/dashboards/{id}
-     * @secure
      */
     deleteDashboard: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/dashboards/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -16601,14 +16159,12 @@ export class Api extends APIBase {
      * @name ValidateDashboardCreation
      * @summary Validates the payload for the 'POST /dashboards' request
      * @request POST:/dashboards/validator
-     * @secure
      */
     validateDashboardCreation: (data: Dashboard, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/dashboards/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16619,14 +16175,12 @@ export class Api extends APIBase {
      * @name ValidateDashboardUpdate
      * @summary Validates the payload for the 'PUT /dashboards/{id}' request
      * @request POST:/dashboards/{id}/validator
-     * @secure
      */
     validateDashboardUpdate: (id: string, data: Dashboard, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/dashboards/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16637,13 +16191,11 @@ export class Api extends APIBase {
      * @name GetDashboardSharingSettings
      * @summary Gets the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
      * @request GET:/dashboards/{id}/shareSettings
-     * @secure
      */
     getDashboardSharingSettings: (id: string, params: RequestParams = {}) =>
       this.request<DashboardSharing, any>({
         path: `/dashboards/${id}/shareSettings`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16654,14 +16206,12 @@ export class Api extends APIBase {
      * @name UpdateShareSettings
      * @summary Updates the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
      * @request PUT:/dashboards/{id}/shareSettings
-     * @secure
      */
     updateShareSettings: (id: string, data: DashboardSharing, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/dashboards/${id}/shareSettings`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16672,14 +16222,12 @@ export class Api extends APIBase {
      * @name ValidateShareSettingsUpdate
      * @summary Validates the payload for the 'PUT /dashboards/{id}/shareSettings' request | maturity=EARLY_ADOPTER
      * @request POST:/dashboards/{id}/shareSettings/validator
-     * @secure
      */
     validateShareSettingsUpdate: (id: string, data: DashboardSharing, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/dashboards/${id}/shareSettings/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -16691,13 +16239,11 @@ export class Api extends APIBase {
      * @name GetDataPrivacySettings1
      * @summary Lists the global data privacy and security settings
      * @request GET:/dataPrivacy
-     * @secure
      */
     getDataPrivacySettings1: (params: RequestParams = {}) =>
       this.request<DataPrivacyAndSecurity, any>({
         path: `/dataPrivacy`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16708,14 +16254,12 @@ export class Api extends APIBase {
      * @name UpdateDataPrivacySettings1
      * @summary Updates the global data privacy and security settings
      * @request PUT:/dataPrivacy
-     * @secure
      */
     updateDataPrivacySettings1: (data: DataPrivacyAndSecurity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/dataPrivacy`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16726,14 +16270,12 @@ export class Api extends APIBase {
      * @name ValidateDataPrivacySettings1
      * @summary Validates the payload for the `PUT /dataPrivacy` request
      * @request POST:/dataPrivacy/validator
-     * @secure
      */
     validateDataPrivacySettings1: (data: DataPrivacyAndSecurity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/dataPrivacy/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -16745,13 +16287,11 @@ export class Api extends APIBase {
      * @name GetExtension
      * @summary Lists the properties of the specified extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}
-     * @secure
      */
     getExtension: (id: string, params: RequestParams = {}) =>
       this.request<Extension, any>({
         path: `/extensions/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16762,13 +16302,11 @@ export class Api extends APIBase {
      * @name DeleteExtension
      * @summary Deletes the ZIP file of the specified extension | maturity=EARLY_ADOPTER
      * @request DELETE:/extensions/{id}
-     * @secure
      */
     deleteExtension: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/extensions/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -16779,13 +16317,11 @@ export class Api extends APIBase {
      * @name GetLocalExtensionConfiguration
      * @summary Returns instance of local configuration for given extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/instances/{configurationId}
-     * @secure
      */
     getLocalExtensionConfiguration: (id: string, configurationId: string, params: RequestParams = {}) =>
       this.request<ExtensionConfigurationDto, any>({
         path: `/extensions/${id}/instances/${configurationId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16796,7 +16332,6 @@ export class Api extends APIBase {
      * @name UpdateLocalExtensionConfiguration
      * @summary Updates instance of local configuration for given extension | maturity=EARLY_ADOPTER
      * @request PUT:/extensions/{id}/instances/{configurationId}
-     * @secure
      */
     updateLocalExtensionConfiguration: (
       id: string,
@@ -16808,7 +16343,6 @@ export class Api extends APIBase {
         path: `/extensions/${id}/instances/${configurationId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -16819,13 +16353,11 @@ export class Api extends APIBase {
      * @name DeleteLocalExtensionConfiguration
      * @summary Deletes an existing configuration of the extension | maturity=EARLY_ADOPTER
      * @request DELETE:/extensions/{id}/instances/{configurationId}
-     * @secure
      */
     deleteLocalExtensionConfiguration: (id: string, configurationId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/extensions/${id}/instances/${configurationId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -16836,13 +16368,11 @@ export class Api extends APIBase {
      * @name GetRemoteExtensionModules
      * @summary List available ActiveGate extension modules | maturity=EARLY_ADOPTER
      * @request GET:/extensions/activeGateExtensionModules
-     * @secure
      */
     getRemoteExtensionModules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/extensions/activeGateExtensionModules`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -16853,7 +16383,6 @@ export class Api extends APIBase {
      * @name GetHostsForTechnology
      * @summary Lists all available hosts that have specified technology running | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{technology}/availableHosts
-     * @secure
      */
     getHostsForTechnology: (
       technology:
@@ -17049,7 +16578,6 @@ export class Api extends APIBase {
         path: `/extensions/${technology}/availableHosts`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -17060,7 +16588,6 @@ export class Api extends APIBase {
      * @name ValidateExtension
      * @summary Validates a ZIP extension file for `POST/extensions` request | maturity=EARLY_ADOPTER
      * @request POST:/extensions/validator
-     * @secure
      */
     validateExtension: (data: { file: File }, query?: { jsonOnly?: boolean }, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -17068,7 +16595,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         type: ContentType.FormData,
         ...params,
       }),
@@ -17080,13 +16606,11 @@ export class Api extends APIBase {
      * @name GetExtensionGlobalConfiguration
      * @summary Get the global configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/global
-     * @secure
      */
     getExtensionGlobalConfiguration: (id: string, params: RequestParams = {}) =>
       this.request<GlobalExtensionConfiguration, any>({
         path: `/extensions/${id}/global`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17097,14 +16621,12 @@ export class Api extends APIBase {
      * @name UpdateGlobalExtensionConfiguration
      * @summary Updates the configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
      * @request PUT:/extensions/{id}/global
-     * @secure
      */
     updateGlobalExtensionConfiguration: (id: string, data: GlobalExtensionConfiguration, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/extensions/${id}/global`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17115,13 +16637,11 @@ export class Api extends APIBase {
      * @name GetExtensionBinary
      * @summary Downloads the ZIP file of the specified extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/binary
-     * @secure
      */
     getExtensionBinary: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/extensions/${id}/binary`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17132,7 +16652,6 @@ export class Api extends APIBase {
      * @name GetExtensionStates
      * @summary Lists the states of the specified extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/states
-     * @secure
      */
     getExtensionStates: (
       id: string,
@@ -17161,7 +16680,6 @@ export class Api extends APIBase {
         path: `/extensions/${id}/states`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -17172,7 +16690,6 @@ export class Api extends APIBase {
      * @name GetExtensionConfigurations
      * @summary Returns list of all local configuration instances for given extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/instances
-     * @secure
      */
     getExtensionConfigurations: (
       id: string,
@@ -17183,7 +16700,6 @@ export class Api extends APIBase {
         path: `/extensions/${id}/instances`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -17194,14 +16710,12 @@ export class Api extends APIBase {
      * @name CreateLocalExtensionConfiguration
      * @summary Creates instance of local configuration for given extension | maturity=EARLY_ADOPTER
      * @request POST:/extensions/{id}/instances
-     * @secure
      */
     createLocalExtensionConfiguration: (id: string, data: ExtensionConfigurationDto, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/extensions/${id}/instances`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17212,14 +16726,12 @@ export class Api extends APIBase {
      * @name ValidateLocalExtensionConfiguration
      * @summary Validates the payload for the `POST /extensions/{id}/instances` request | maturity=EARLY_ADOPTER
      * @request POST:/extensions/{id}/instances/validator
-     * @secure
      */
     validateLocalExtensionConfiguration: (id: string, data: ExtensionConfigurationDto, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/extensions/${id}/instances/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17230,14 +16742,12 @@ export class Api extends APIBase {
      * @name GetExtensions
      * @summary Lists all uploaded extensions | maturity=EARLY_ADOPTER
      * @request GET:/extensions
-     * @secure
      */
     getExtensions: (query?: { pageSize?: number; nextPageKey?: string }, params: RequestParams = {}) =>
       this.request<ExtensionListDto, any>({
         path: `/extensions`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -17248,7 +16758,6 @@ export class Api extends APIBase {
      * @name UploadExtension
      * @summary Uploads a ZIP extension file | maturity=EARLY_ADOPTER
      * @request POST:/extensions
-     * @secure
      */
     uploadExtension: (data: { file: File }, query?: { overrideAlerts?: boolean }, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -17256,7 +16765,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         type: ContentType.FormData,
         ...params,
       }),
@@ -17269,13 +16777,11 @@ export class Api extends APIBase {
      * @name GetFrequentIssueDetectionConfig
      * @summary Gets the configuration of frequent issue detection
      * @request GET:/frequentIssueDetection
-     * @secure
      */
     getFrequentIssueDetectionConfig: (params: RequestParams = {}) =>
       this.request<FrequentIssueDetectionConfig, any>({
         path: `/frequentIssueDetection`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17286,14 +16792,12 @@ export class Api extends APIBase {
      * @name UpdateFrequentIssueDetectionConfig
      * @summary Updates the configuration of frequent issue detection
      * @request PUT:/frequentIssueDetection
-     * @secure
      */
     updateFrequentIssueDetectionConfig: (data: FrequentIssueDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/frequentIssueDetection`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17304,14 +16808,12 @@ export class Api extends APIBase {
      * @name ValidateFrequentIssueDetectionConfig
      * @summary Validates the payload for the `PUT /frequentIssueDetection` request
      * @request POST:/frequentIssueDetection/validator
-     * @secure
      */
     validateFrequentIssueDetectionConfig: (data: FrequentIssueDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/frequentIssueDetection/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -17323,13 +16825,11 @@ export class Api extends APIBase {
      * @name GetGeolocationRegionsIpAddress
      * @summary Gets the configuration of mapping between IP address and geographic regions
      * @request GET:/geographicRegions/ipAddressMappings
-     * @secure
      */
     getGeolocationRegionsIpAddress: (params: RequestParams = {}) =>
       this.request<IpAddressMappings, any>({
         path: `/geographicRegions/ipAddressMappings`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17340,14 +16840,12 @@ export class Api extends APIBase {
      * @name PutGeolocationRegionsIpAddress
      * @summary Updates the configuration of mapping between IP address and geographic regions
      * @request PUT:/geographicRegions/ipAddressMappings
-     * @secure
      */
     putGeolocationRegionsIpAddress: (data: IpAddressMappings, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/geographicRegions/ipAddressMappings`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17358,14 +16856,12 @@ export class Api extends APIBase {
      * @name ValidateGeolocationRegionsIpAddress
      * @summary Validates the payload for the `PUT /geographicRegions/ipAddressMappings` request
      * @request POST:/geographicRegions/ipAddressMappings/validator
-     * @secure
      */
     validateGeolocationRegionsIpAddress: (data: IpAddressMappings, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/geographicRegions/ipAddressMappings/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17376,13 +16872,11 @@ export class Api extends APIBase {
      * @name GetGeolocationRegionsIpHeaders
      * @summary Gets the configuration of custom client IP headers
      * @request GET:/geographicRegions/ipDetectionHeaders
-     * @secure
      */
     getGeolocationRegionsIpHeaders: (params: RequestParams = {}) =>
       this.request<IpDetectionHeaders, any>({
         path: `/geographicRegions/ipDetectionHeaders`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17393,14 +16887,12 @@ export class Api extends APIBase {
      * @name PutGeolocationRegionsIpHeaders
      * @summary Updates the configuration of custom client IP headers
      * @request PUT:/geographicRegions/ipDetectionHeaders
-     * @secure
      */
     putGeolocationRegionsIpHeaders: (data: IpDetectionHeaders, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/geographicRegions/ipDetectionHeaders`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17411,14 +16903,12 @@ export class Api extends APIBase {
      * @name ValidateGeolocationRegionsIpHeaders
      * @summary Validates the payload for the `PUT /geographicRegions/ipDetectionHeaders` request
      * @request POST:/geographicRegions/ipDetectionHeaders/validator
-     * @secure
      */
     validateGeolocationRegionsIpHeaders: (data: IpDetectionHeaders, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/geographicRegions/ipDetectionHeaders/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -17430,13 +16920,11 @@ export class Api extends APIBase {
      * @name GetAutoUpdateConfig2
      * @summary Gets the configuration of OneAgent auto-update in the specified host group
      * @request GET:/hostgroups/{id}/autoupdate
-     * @secure
      */
     getAutoUpdateConfig2: (id: string, params: RequestParams = {}) =>
       this.request<HostGroupAutoUpdateConfig, any>({
         path: `/hostgroups/${id}/autoupdate`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17447,14 +16935,12 @@ export class Api extends APIBase {
      * @name UpdateAutoUpdateConfig1
      * @summary Updates the configuration of OneAgent auto-update in the specified host group
      * @request PUT:/hostgroups/{id}/autoupdate
-     * @secure
      */
     updateAutoUpdateConfig1: (id: string, data: HostGroupAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hostgroups/${id}/autoupdate`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17465,14 +16951,12 @@ export class Api extends APIBase {
      * @name ValidateAutoUpdateConfig2
      * @summary Validates the payload for the `PUT /hostgroups/{id}/autoupdate` request
      * @request POST:/hostgroups/{id}/autoupdate/validator
-     * @secure
      */
     validateAutoUpdateConfig2: (id: string, data: HostGroupAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/hostgroups/${id}/autoupdate/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17483,13 +16967,11 @@ export class Api extends APIBase {
      * @name GetHostGroupConfig
      * @summary Gets the OneAgent configuration in the specified host group
      * @request GET:/hostgroups/{id}
-     * @secure
      */
     getHostGroupConfig: (id: string, params: RequestParams = {}) =>
       this.request<OneAgentHostGroupConfig, any>({
         path: `/hostgroups/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -17501,13 +16983,11 @@ export class Api extends APIBase {
      * @name ListManagementZones
      * @summary Lists all configured management zones
      * @request GET:/managementZones
-     * @secure
      */
     listManagementZones: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/managementZones`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17518,14 +16998,12 @@ export class Api extends APIBase {
      * @name CreateManagementZone
      * @summary Creates a new management zone
      * @request POST:/managementZones
-     * @secure
      */
     createManagementZone: (data: ManagementZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/managementZones`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17536,14 +17014,12 @@ export class Api extends APIBase {
      * @name GetManagementZone
      * @summary Lists the parameters of the specified management zone
      * @request GET:/managementZones/{id}
-     * @secure
      */
     getManagementZone: (id: string, query?: { includeProcessGroupReferences?: boolean }, params: RequestParams = {}) =>
       this.request<ManagementZone, any>({
         path: `/managementZones/${id}`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -17554,14 +17030,12 @@ export class Api extends APIBase {
      * @name UpdateManagementZone
      * @summary Updates the specified management zone
      * @request PUT:/managementZones/{id}
-     * @secure
      */
     updateManagementZone: (id: string, data: ManagementZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/managementZones/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17572,13 +17046,11 @@ export class Api extends APIBase {
      * @name DeleteManagementZone
      * @summary Deletes the specified management zone
      * @request DELETE:/managementZones/{id}
-     * @secure
      */
     deleteManagementZone: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/managementZones/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -17589,14 +17061,12 @@ export class Api extends APIBase {
      * @name ValidateCreateManagementZone
      * @summary Validates a new management zone for the `POST /managementZones` request
      * @request POST:/managementZones/validator
-     * @secure
      */
     validateCreateManagementZone: (data: ManagementZone, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/managementZones/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17607,14 +17077,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateManagementZone
      * @summary Validate updates of existing management zone for the `PUT /managementZones/{id}` request
      * @request POST:/managementZones/{id}/validator
-     * @secure
      */
     validateUpdateManagementZone: (id: string, data: ManagementZone, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/managementZones/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -17626,13 +17094,11 @@ export class Api extends APIBase {
      * @name GetLogMetricConfig
      * @summary Gets the definition of the specified custom log metric | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/log/{metricKey}
-     * @secure
      */
     getLogMetricConfig: (metricKey: string, params: RequestParams = {}) =>
       this.request<LogMetricConfig, ErrorEnvelope>({
         path: `/calculatedMetrics/log/${metricKey}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17643,14 +17109,12 @@ export class Api extends APIBase {
      * @name UpdateOrCreateLogMetricConfig
      * @summary Creates a new custom log metric | maturity=EARLY_ADOPTER
      * @request PUT:/calculatedMetrics/log/{metricKey}
-     * @secure
      */
     updateOrCreateLogMetricConfig: (metricKey: string, data: LogMetricConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/calculatedMetrics/log/${metricKey}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17661,13 +17125,11 @@ export class Api extends APIBase {
      * @name DeleteLogMetricConfig
      * @summary Deletes the specified custom log metric definition | maturity=EARLY_ADOPTER
      * @request DELETE:/calculatedMetrics/log/{metricKey}
-     * @secure
      */
     deleteLogMetricConfig: (metricKey: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/log/${metricKey}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -17678,13 +17140,11 @@ export class Api extends APIBase {
      * @name ListLogMetricConfigs
      * @summary Lists all custom log metrics configured in your environment | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/log
-     * @secure
      */
     listLogMetricConfigs: (params: RequestParams = {}) =>
       this.request<StubList, ErrorEnvelope>({
         path: `/calculatedMetrics/log`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17695,14 +17155,12 @@ export class Api extends APIBase {
      * @name ValidateMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/log/{metricKey}` request. | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/log/{metricKey}/validator
-     * @secure
      */
     validateMetric: (metricKey: string, data: LogMetricConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/log/${metricKey}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17713,13 +17171,11 @@ export class Api extends APIBase {
      * @name GetMobileMetric
      * @summary Gets the descriptor of the specified calculated metric for mobile or custom app
      * @request GET:/calculatedMetrics/mobile/{metricKey}
-     * @secure
      */
     getMobileMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<CalculatedMobileMetric, any>({
         path: `/calculatedMetrics/mobile/${metricKey}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17730,14 +17186,12 @@ export class Api extends APIBase {
      * @name UpdateMobileMetric
      * @summary Updates the specified calculated metric for a mobile or custom app
      * @request PUT:/calculatedMetrics/mobile/{metricKey}
-     * @secure
      */
     updateMobileMetric: (metricKey: string, data: CalculatedMobileMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/mobile/${metricKey}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17748,13 +17202,11 @@ export class Api extends APIBase {
      * @name DeleteMobileMetric
      * @summary Deletes the specified calculated metric for mobile or custom app
      * @request DELETE:/calculatedMetrics/mobile/{metricKey}
-     * @secure
      */
     deleteMobileMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/calculatedMetrics/mobile/${metricKey}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -17765,13 +17217,11 @@ export class Api extends APIBase {
      * @name ListMobileMetrics
      * @summary Lists all calculated metrics for mobile and custom apps configured in your environment
      * @request GET:/calculatedMetrics/mobile
-     * @secure
      */
     listMobileMetrics: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/calculatedMetrics/mobile`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17782,14 +17232,12 @@ export class Api extends APIBase {
      * @name CreateMobileMetric
      * @summary Creates a new calculated metric for a mobile or custom app
      * @request POST:/calculatedMetrics/mobile
-     * @secure
      */
     createMobileMetric: (data: CalculatedMobileMetric, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/calculatedMetrics/mobile`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17800,14 +17248,12 @@ export class Api extends APIBase {
      * @name ValidateCreateMobileMetric
      * @summary Validates the payload for the `POST /calculatedMetrics/mobile` request
      * @request POST:/calculatedMetrics/mobile/validator
-     * @secure
      */
     validateCreateMobileMetric: (data: CalculatedMobileMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/mobile/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17818,14 +17264,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateMobileMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/mobile/{metricKey}` request
      * @request POST:/calculatedMetrics/mobile/{metricKey}/validator
-     * @secure
      */
     validateUpdateMobileMetric: (metricKey: string, data: CalculatedMobileMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/mobile/${metricKey}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17836,13 +17280,11 @@ export class Api extends APIBase {
      * @name GetRumMetric
      * @summary Gets the descriptor of the specified calculated web application metric
      * @request GET:/calculatedMetrics/rum/{metricKey}
-     * @secure
      */
     getRumMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<WebApplicationMetric, any>({
         path: `/calculatedMetrics/rum/${metricKey}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17853,14 +17295,12 @@ export class Api extends APIBase {
      * @name UpdateRumMetric
      * @summary Updates the specified calculated web application metric
      * @request PUT:/calculatedMetrics/rum/{metricKey}
-     * @secure
      */
     updateRumMetric: (metricKey: string, data: WebApplicationMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/rum/${metricKey}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17871,13 +17311,11 @@ export class Api extends APIBase {
      * @name DeleteRumMetric
      * @summary Deletes the specified calculated web application metric
      * @request DELETE:/calculatedMetrics/rum/{metricKey}
-     * @secure
      */
     deleteRumMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/calculatedMetrics/rum/${metricKey}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -17888,13 +17326,11 @@ export class Api extends APIBase {
      * @name ListRumMetrics
      * @summary Lists all calculated web application metrics
      * @request GET:/calculatedMetrics/rum
-     * @secure
      */
     listRumMetrics: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/calculatedMetrics/rum`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17905,14 +17341,12 @@ export class Api extends APIBase {
      * @name CreateRumMetric
      * @summary Creates a new calculated web application metric
      * @request POST:/calculatedMetrics/rum
-     * @secure
      */
     createRumMetric: (data: WebApplicationMetric, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/calculatedMetrics/rum`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17923,14 +17357,12 @@ export class Api extends APIBase {
      * @name ValidateCreateRumMetric
      * @summary Validates the payload for the `POST /calculatedMetrics/rum` request
      * @request POST:/calculatedMetrics/rum/validator
-     * @secure
      */
     validateCreateRumMetric: (data: WebApplicationMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/rum/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17941,14 +17373,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateRumMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/rum/{metricKey}` request
      * @request POST:/calculatedMetrics/rum/{metricKey}/validator
-     * @secure
      */
     validateUpdateRumMetric: (metricKey: string, data: WebApplicationMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/rum/${metricKey}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17959,13 +17389,11 @@ export class Api extends APIBase {
      * @name ListServiceMetrics
      * @summary Lists all calculated service metrics configured in your environment
      * @request GET:/calculatedMetrics/service
-     * @secure
      */
     listServiceMetrics: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/calculatedMetrics/service`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -17976,14 +17404,12 @@ export class Api extends APIBase {
      * @name CreateServiceMetric
      * @summary Creates a new calculated service metric
      * @request POST:/calculatedMetrics/service
-     * @secure
      */
     createServiceMetric: (data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/calculatedMetrics/service`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -17994,13 +17420,11 @@ export class Api extends APIBase {
      * @name GetServiceMetric
      * @summary Gets the descriptor of the specified calculated service metric
      * @request GET:/calculatedMetrics/service/{metricKey}
-     * @secure
      */
     getServiceMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<CalculatedServiceMetric, any>({
         path: `/calculatedMetrics/service/${metricKey}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18011,14 +17435,12 @@ export class Api extends APIBase {
      * @name UpdateServiceMetric
      * @summary Updates the specified calculated service metric
      * @request PUT:/calculatedMetrics/service/{metricKey}
-     * @secure
      */
     updateServiceMetric: (metricKey: string, data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/calculatedMetrics/service/${metricKey}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18029,13 +17451,11 @@ export class Api extends APIBase {
      * @name DeleteServiceMetric
      * @summary Deletes the specified calculated service metric
      * @request DELETE:/calculatedMetrics/service/{metricKey}
-     * @secure
      */
     deleteServiceMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/calculatedMetrics/service/${metricKey}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18046,14 +17466,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateServiceMetric
      * @summary Validates the payload for the `PUT /calculatedMetric/service/{id}` request
      * @request POST:/calculatedMetrics/service/{metricKey}/validator
-     * @secure
      */
     validateUpdateServiceMetric: (metricKey: string, data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/service/${metricKey}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18064,14 +17482,12 @@ export class Api extends APIBase {
      * @name ValidateCreateServiceMetric
      * @summary Validates the payload for the `POST /calculatedMetric/service` request
      * @request POST:/calculatedMetrics/service/validator
-     * @secure
      */
     validateCreateServiceMetric: (data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/service/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18082,13 +17498,11 @@ export class Api extends APIBase {
      * @name ListSyntheticMetrics
      * @summary Lists all calculated synthetic metrics available in your environment | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/synthetic
-     * @secure
      */
     listSyntheticMetrics: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/calculatedMetrics/synthetic`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18099,14 +17513,12 @@ export class Api extends APIBase {
      * @name CreateSyntheticMetric
      * @summary Creates a new calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/synthetic
-     * @secure
      */
     createSyntheticMetric: (data: CalculatedSyntheticMetric, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/calculatedMetrics/synthetic`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18117,13 +17529,11 @@ export class Api extends APIBase {
      * @name GetSyntheticMetric
      * @summary Gets the descriptor of the specified calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/synthetic/{metricKey}
-     * @secure
      */
     getSyntheticMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<CalculatedSyntheticMetric, any>({
         path: `/calculatedMetrics/synthetic/${metricKey}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18134,14 +17544,12 @@ export class Api extends APIBase {
      * @name UpdateSyntheticMetric
      * @summary Updates the specified calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request PUT:/calculatedMetrics/synthetic/{metricKey}
-     * @secure
      */
     updateSyntheticMetric: (metricKey: string, data: SyntheticMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/synthetic/${metricKey}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18152,13 +17560,11 @@ export class Api extends APIBase {
      * @name DeleteSyntheticMetric
      * @summary Deletes the specified calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request DELETE:/calculatedMetrics/synthetic/{metricKey}
-     * @secure
      */
     deleteSyntheticMetric: (metricKey: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/calculatedMetrics/synthetic/${metricKey}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18169,14 +17575,12 @@ export class Api extends APIBase {
      * @name ValidateCreateSyntheticMetric
      * @summary Validates the payload for the `POST /calculatedMetrics/synthetic` request | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/synthetic/validator
-     * @secure
      */
     validateCreateSyntheticMetric: (data: CalculatedSyntheticMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/synthetic/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18187,14 +17591,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateSyntheticMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/synthetic/{metricKey}` request | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/synthetic/{metricKey}/validator
-     * @secure
      */
     validateUpdateSyntheticMetric: (metricKey: string, data: SyntheticMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/synthetic/${metricKey}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -18206,13 +17608,11 @@ export class Api extends APIBase {
      * @name ListNotificationConfigs
      * @summary Lists all notification configurations available in your environment
      * @request GET:/notifications
-     * @secure
      */
     listNotificationConfigs: (params: RequestParams = {}) =>
       this.request<NotificationConfigStubListDto, any>({
         path: `/notifications`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18223,14 +17623,12 @@ export class Api extends APIBase {
      * @name CreateNotificationConfig
      * @summary Creates a new notification configuration
      * @request POST:/notifications
-     * @secure
      */
     createNotificationConfig: (data: NotificationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/notifications`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18241,13 +17639,11 @@ export class Api extends APIBase {
      * @name GetNotificationConfig
      * @summary Gets the properties of the specified notification configuration
      * @request GET:/notifications/{id}
-     * @secure
      */
     getNotificationConfig: (id: string, params: RequestParams = {}) =>
       this.request<NotificationConfig, any>({
         path: `/notifications/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18258,14 +17654,12 @@ export class Api extends APIBase {
      * @name UpdateNotificationConfig
      * @summary Updates an existing notification configuration or creates a new one
      * @request PUT:/notifications/{id}
-     * @secure
      */
     updateNotificationConfig: (id: string, data: NotificationConfig, params: RequestParams = {}) =>
       this.request<NotificationConfigStub, ErrorEnvelope>({
         path: `/notifications/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18276,13 +17670,11 @@ export class Api extends APIBase {
      * @name DeleteNotificationConfig
      * @summary Deletes the specified notification configuration
      * @request DELETE:/notifications/{id}
-     * @secure
      */
     deleteNotificationConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/notifications/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18293,14 +17685,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateNotificationConfig
      * @summary Validates the payload the `PUT /notifications/{id}` request
      * @request POST:/notifications/{id}/validator
-     * @secure
      */
     validateUpdateNotificationConfig: (id: string, data: NotificationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/notifications/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18311,14 +17701,12 @@ export class Api extends APIBase {
      * @name ValidateCreateNotificationConfig
      * @summary Validates the payload for the `POST /notifications` request
      * @request POST:/notifications/validator
-     * @secure
      */
     validateCreateNotificationConfig: (data: NotificationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/notifications/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -18330,13 +17718,11 @@ export class Api extends APIBase {
      * @name GetPlugins
      * @summary Lists all uploaded plugins
      * @request GET:/plugins
-     * @secure
      */
     getPlugins: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/plugins`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18347,7 +17733,6 @@ export class Api extends APIBase {
      * @name UploadPlugin
      * @summary Uploads a ZIP plugin file
      * @request POST:/plugins
-     * @secure
      */
     uploadPlugin: (data: { file: File }, query?: { overrideAlerts?: boolean }, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18355,7 +17740,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         type: ContentType.FormData,
         ...params,
       }),
@@ -18367,7 +17751,6 @@ export class Api extends APIBase {
      * @name ValidatePlugin
      * @summary Validates a ZIP plugin file for `POST/plugins` request
      * @request POST:/plugins/validator
-     * @secure
      */
     validatePlugin: (data: { file: File }, query?: { jsonOnly?: boolean }, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -18375,7 +17758,6 @@ export class Api extends APIBase {
         method: "POST",
         query: query,
         body: data,
-        secure: true,
         type: ContentType.FormData,
         ...params,
       }),
@@ -18387,13 +17769,11 @@ export class Api extends APIBase {
      * @name GetPluginBinary
      * @summary Downloads the ZIP file of the specified plugin
      * @request GET:/plugins/{id}/binary
-     * @secure
      */
     getPluginBinary: (id: string, params: RequestParams = {}) =>
       this.request<object, any>({
         path: `/plugins/${id}/binary`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18404,13 +17784,11 @@ export class Api extends APIBase {
      * @name DeletePlugin
      * @summary Deletes the ZIP file of the specified plugin
      * @request DELETE:/plugins/{id}/binary
-     * @secure
      */
     deletePlugin: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/plugins/${id}/binary`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18421,13 +17799,11 @@ export class Api extends APIBase {
      * @name GetPluginStates
      * @summary Lists the states of the specified plugin
      * @request GET:/plugins/{id}/states
-     * @secure
      */
     getPluginStates: (id: string, params: RequestParams = {}) =>
       this.request<PluginStateList, any>({
         path: `/plugins/${id}/states`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18438,13 +17814,11 @@ export class Api extends APIBase {
      * @name GetRemotePluginEndpoints
      * @summary Lists endpoints of the specified ActiveGate plugin
      * @request GET:/plugins/{id}/endpoints
-     * @secure
      */
     getRemotePluginEndpoints: (id: string, params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/plugins/${id}/endpoints`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18455,14 +17829,12 @@ export class Api extends APIBase {
      * @name CreateRemotePluginEndpoint
      * @summary Creates a new endpoint for the specified ActiveGate plugin
      * @request POST:/plugins/{id}/endpoints
-     * @secure
      */
     createRemotePluginEndpoint: (id: string, data: RemotePluginEndpoint, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/plugins/${id}/endpoints`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18473,14 +17845,12 @@ export class Api extends APIBase {
      * @name ValidateRemotePluginEndpoint
      * @summary Validates the payload for the `POST /plugins/{id}/endpoints` request
      * @request POST:/plugins/{id}/endpoints/validator
-     * @secure
      */
     validateRemotePluginEndpoint: (id: string, data: RemotePluginEndpoint, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/plugins/${id}/endpoints/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18491,13 +17861,11 @@ export class Api extends APIBase {
      * @name GetRemotePluginEndpoint
      * @summary Gets parameters of the specified endpoint of the ActiveGate plugin
      * @request GET:/plugins/{id}/endpoints/{endpointId}
-     * @secure
      */
     getRemotePluginEndpoint: (id: string, endpointId: string, params: RequestParams = {}) =>
       this.request<RemotePluginEndpoint, any>({
         path: `/plugins/${id}/endpoints/${endpointId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18508,7 +17876,6 @@ export class Api extends APIBase {
      * @name UpdateRemotePluginEndpoint
      * @summary Updates an existing endpoint of the ActiveGate plugin
      * @request PUT:/plugins/{id}/endpoints/{endpointId}
-     * @secure
      */
     updateRemotePluginEndpoint: (
       id: string,
@@ -18520,7 +17887,6 @@ export class Api extends APIBase {
         path: `/plugins/${id}/endpoints/${endpointId}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18531,13 +17897,11 @@ export class Api extends APIBase {
      * @name DeleteRemotePluginEndpoint
      * @summary Deletes an existing endpoint of the ActiveGate plugin
      * @request DELETE:/plugins/{id}/endpoints/{endpointId}
-     * @secure
      */
     deleteRemotePluginEndpoint: (id: string, endpointId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/plugins/${id}/endpoints/${endpointId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18548,13 +17912,11 @@ export class Api extends APIBase {
      * @name GetRemotePluginModules
      * @summary List available ActiveGate plugin modules
      * @request GET:/plugins/activeGatePluginModules
-     * @secure
      */
     getRemotePluginModules: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/plugins/activeGatePluginModules`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18565,13 +17927,11 @@ export class Api extends APIBase {
      * @name GetPlugin
      * @summary Lists the properties of the specified plugin
      * @request GET:/plugins/{id}
-     * @secure
      */
     getPlugin: (id: string, params: RequestParams = {}) =>
       this.request<Plugin, any>({
         path: `/plugins/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -18583,13 +17943,11 @@ export class Api extends APIBase {
      * @name ListRemoteEnvironmentConfigs
      * @summary Lists all remote environment configurations | maturity=EARLY_ADOPTER
      * @request GET:/remoteEnvironments
-     * @secure
      */
     listRemoteEnvironmentConfigs: (params: RequestParams = {}) =>
       this.request<RemoteEnvironmentConfigListDto, any>({
         path: `/remoteEnvironments`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18600,14 +17958,12 @@ export class Api extends APIBase {
      * @name CreateRemoteEnvironmentConfig
      * @summary Creates a new remote environment configuration | maturity=EARLY_ADOPTER
      * @request POST:/remoteEnvironments
-     * @secure
      */
     createRemoteEnvironmentConfig: (data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<RemoteEnvironmentConfigStub, ErrorEnvelope>({
         path: `/remoteEnvironments`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18618,13 +17974,11 @@ export class Api extends APIBase {
      * @name GetRemoteEnvironmentConfig
      * @summary Gets the properties of the specified remote environment configuration | maturity=EARLY_ADOPTER
      * @request GET:/remoteEnvironments/{id}
-     * @secure
      */
     getRemoteEnvironmentConfig: (id: string, params: RequestParams = {}) =>
       this.request<RemoteEnvironmentConfigDto, any>({
         path: `/remoteEnvironments/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18635,14 +17989,12 @@ export class Api extends APIBase {
      * @name UpdateRemoteEnvironmentConfig
      * @summary Updates an existing remote environment configuration or creates a new one | maturity=EARLY_ADOPTER
      * @request PUT:/remoteEnvironments/{id}
-     * @secure
      */
     updateRemoteEnvironmentConfig: (id: string, data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<RemoteEnvironmentConfigStub, ErrorEnvelope>({
         path: `/remoteEnvironments/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18653,13 +18005,11 @@ export class Api extends APIBase {
      * @name DeleteRemoteEnvironmentConfig
      * @summary Deletes the specified remote environment configuration | maturity=EARLY_ADOPTER
      * @request DELETE:/remoteEnvironments/{id}
-     * @secure
      */
     deleteRemoteEnvironmentConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/remoteEnvironments/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18670,14 +18020,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateRemoteEnvironmentConfig
      * @summary Validates the payload for the `PUT /remoteEnvironments/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/remoteEnvironments/{id}/validator
-     * @secure
      */
     validateUpdateRemoteEnvironmentConfig: (id: string, data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/remoteEnvironments/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18688,14 +18036,12 @@ export class Api extends APIBase {
      * @name ValidateCreateRemoteEnvironmentConfig
      * @summary Validates the payload for the `POST /remoteEnvironments` request | maturity=EARLY_ADOPTER
      * @request POST:/remoteEnvironments/validator
-     * @secure
      */
     validateCreateRemoteEnvironmentConfig: (data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/remoteEnvironments/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -18707,13 +18053,11 @@ export class Api extends APIBase {
      * @name GetReport
      * @summary Gets the properties of the specified report | maturity=EARLY_ADOPTER
      * @request GET:/reports/{id}
-     * @secure
      */
     getReport: (id: string, params: RequestParams = {}) =>
       this.request<DashboardReport, any>({
         path: `/reports/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18724,14 +18068,12 @@ export class Api extends APIBase {
      * @name CreateOrUpdateReport
      * @summary Updates an existing report | maturity=EARLY_ADOPTER
      * @request PUT:/reports/{id}
-     * @secure
      */
     createOrUpdateReport: (id: string, data: DashboardReport, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/reports/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18742,13 +18084,11 @@ export class Api extends APIBase {
      * @name DeleteReport
      * @summary Deletes the specified report | maturity=EARLY_ADOPTER
      * @request DELETE:/reports/{id}
-     * @secure
      */
     deleteReport: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/reports/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18759,14 +18099,12 @@ export class Api extends APIBase {
      * @name SubscribeReport
      * @summary Subscribes to the specified report | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/subscribe
-     * @secure
      */
     subscribeReport: (id: string, data: ReportSubscriptions, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/reports/${id}/subscribe`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18777,14 +18115,12 @@ export class Api extends APIBase {
      * @name UnsubscribeReport
      * @summary Unsubscribes from the specified report | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/unsubscribe
-     * @secure
      */
     unsubscribeReport: (id: string, data: ReportSubscriptions, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/reports/${id}/unsubscribe`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18795,14 +18131,12 @@ export class Api extends APIBase {
      * @name ValidateCreateReport
      * @summary Validates the payload for the `POST /reports` request | maturity=EARLY_ADOPTER
      * @request POST:/reports/validator
-     * @secure
      */
     validateCreateReport: (data: DashboardReport, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/reports/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18813,14 +18147,12 @@ export class Api extends APIBase {
      * @name ValidateCreateOrUpdateReport
      * @summary Validates the payload for the `PUT /reports/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/validator
-     * @secure
      */
     validateCreateOrUpdateReport: (id: string, data: DashboardReport, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/reports/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18831,14 +18163,12 @@ export class Api extends APIBase {
      * @name ListReports
      * @summary Lists all reports available in your environment | maturity=EARLY_ADOPTER
      * @request GET:/reports
-     * @secure
      */
     listReports: (query?: { type?: "DASHBOARD"; sourceId?: string }, params: RequestParams = {}) =>
       this.request<ReportStubList, any>({
         path: `/reports`,
         method: "GET",
         query: query,
-        secure: true,
         ...params,
       }),
 
@@ -18849,14 +18179,12 @@ export class Api extends APIBase {
      * @name CreateReport
      * @summary Creates a report | maturity=EARLY_ADOPTER
      * @request POST:/reports
-     * @secure
      */
     createReport: (data: DashboardReport, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/reports`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -18868,7 +18196,6 @@ export class Api extends APIBase {
      * @name GetSingle
      * @summary Gets the metadata of the symbolication file belonging to the specified app version. There always can exist only one file per os and version
      * @request GET:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}
-     * @secure
      */
     getSingle: (
       applicationId: string,
@@ -18881,7 +18208,6 @@ export class Api extends APIBase {
       this.request<SymbolFile, any>({
         path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18892,7 +18218,6 @@ export class Api extends APIBase {
      * @name CreateOrUpdate
      * @summary Upload a symbolication file. Either a ProGuard file for Android or a zip file containing all the iOS dSYM files.
      * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}
-     * @secure
      */
     createOrUpdate: (
       applicationId: string,
@@ -18907,7 +18232,6 @@ export class Api extends APIBase {
         path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -18918,7 +18242,6 @@ export class Api extends APIBase {
      * @name DeleteSingleFile
      * @summary Delete the symbolication file belonging to the given application, os and version
      * @request DELETE:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}
-     * @secure
      */
     deleteSingleFile: (
       applicationId: string,
@@ -18931,7 +18254,6 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18942,13 +18264,11 @@ export class Api extends APIBase {
      * @name GetAllPerApplication
      * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) for one single mobile application from the Symbol File Store of this tenant.
      * @request GET:/symfiles/{applicationId}
-     * @secure
      */
     getAllPerApplication: (applicationId: string, params: RequestParams = {}) =>
       this.request<SymbolFileList, any>({
         path: `/symfiles/${applicationId}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -18959,13 +18279,11 @@ export class Api extends APIBase {
      * @name DeleteApp
      * @summary Deletes all symbolication file belonging to the Dynatrace App specified
      * @request DELETE:/symfiles/{applicationId}
-     * @secure
      */
     deleteApp: (applicationId: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/symfiles/${applicationId}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -18976,7 +18294,6 @@ export class Api extends APIBase {
      * @name CreateOrUpdatePinning
      * @summary Pin or unpin all symbolication files of a app version. A pinned file will not be deleted automtically, when running out of space.
      * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning
-     * @secure
      */
     createOrUpdatePinning: (
       applicationId: string,
@@ -18991,7 +18308,6 @@ export class Api extends APIBase {
         path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}/pinning`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19002,13 +18318,11 @@ export class Api extends APIBase {
      * @name GetSupportedVersion
      * @summary Returns the supported file format version for iOS symbol files.
      * @request GET:/symfiles/ios/supportedversion
-     * @secure
      */
     getSupportedVersion: (params: RequestParams = {}) =>
       this.request<SupportedVersion, any>({
         path: `/symfiles/ios/supportedversion`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19019,7 +18333,6 @@ export class Api extends APIBase {
      * @name ValidatePinning
      * @summary Validate updates of existing request attribute for the `PUT /{applicationId}/{packageName}/{os}/{versionName}/pinning` request.
      * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning/validator
-     * @secure
      */
     validatePinning: (
       applicationId: string,
@@ -19034,7 +18347,6 @@ export class Api extends APIBase {
         path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}/pinning/validator`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19045,13 +18357,11 @@ export class Api extends APIBase {
      * @name GetDssClientUrl
      * @summary Gets a download link for the latest version of the DTXDssClient.
      * @request GET:/symfiles/dtxdss-download
-     * @secure
      */
     getDssClientUrl: (params: RequestParams = {}) =>
       this.request<SymbolFileClientLinkDto, any>({
         path: `/symfiles/dtxdss-download`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19062,13 +18372,11 @@ export class Api extends APIBase {
      * @name GetInfo
      * @summary Retrieves information about used/empty diskspace, number of stored files,....
      * @request GET:/symfiles/info
-     * @secure
      */
     getInfo: (params: RequestParams = {}) =>
       this.request<SymbolFileStorageInfo, any>({
         path: `/symfiles/info`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19079,13 +18387,11 @@ export class Api extends APIBase {
      * @name GetAll
      * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) from the Symbol File Store.
      * @request GET:/symfiles
-     * @secure
      */
     getAll: (params: RequestParams = {}) =>
       this.request<SymbolFileList, any>({
         path: `/symfiles`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -19097,13 +18403,11 @@ export class Api extends APIBase {
      * @name GetTechGlobalConfigs
      * @summary Gets the global monitoring configuration of technologies.
      * @request GET:/technologies
-     * @secure
      */
     getTechGlobalConfigs: (params: RequestParams = {}) =>
       this.request<TechMonitoringList, any>({
         path: `/technologies`,
         method: "GET",
-        secure: true,
         ...params,
       }),
   };
@@ -19115,13 +18419,11 @@ export class Api extends APIBase {
      * @name ReadIamExternalIdToken
      * @summary Gets the external ID token for setting an IAM role
      * @request GET:/aws/iamExternalId
-     * @secure
      */
     readIamExternalIdToken: (params: RequestParams = {}) =>
       this.request<AwsIamToken, any>({
         path: `/aws/iamExternalId`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19132,13 +18434,11 @@ export class Api extends APIBase {
      * @name GetAwsCredentialsConfig
      * @summary Gets the configuration of the specified AWS credentials
      * @request GET:/aws/credentials/{id}
-     * @secure
      */
     getAwsCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<AwsCredentialsConfig, any>({
         path: `/aws/credentials/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19149,14 +18449,12 @@ export class Api extends APIBase {
      * @name UpdateAwsCredentialsConfig
      * @summary Updates an existing AWS credentials configuration
      * @request PUT:/aws/credentials/{id}
-     * @secure
      */
     updateAwsCredentialsConfig: (id: string, data: AwsCredentialsConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/aws/credentials/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19167,13 +18465,11 @@ export class Api extends APIBase {
      * @name DeleteAwsCredentialsConfig
      * @summary Deletes the specified AWS credentials configuration
      * @request DELETE:/aws/credentials/{id}
-     * @secure
      */
     deleteAwsCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/aws/credentials/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -19184,14 +18480,12 @@ export class Api extends APIBase {
      * @name ValidateCreateAwsCredentialsConfig
      * @summary Validates the payload for the `POST /aws/credentials` request
      * @request POST:/aws/credentials/validator
-     * @secure
      */
     validateCreateAwsCredentialsConfig: (data: AwsCredentialsConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/aws/credentials/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19202,14 +18496,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateAwsCredentialsConfig
      * @summary Validates the payload for the `PUT /aws/credentials/{id}` request
      * @request POST:/aws/credentials/{id}/validator
-     * @secure
      */
     validateUpdateAwsCredentialsConfig: (id: string, data: AwsCredentialsConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/aws/credentials/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19220,13 +18512,11 @@ export class Api extends APIBase {
      * @name ListAwsCredentialConfigs
      * @summary Lists all available AWS credentials configurations
      * @request GET:/aws/credentials
-     * @secure
      */
     listAwsCredentialConfigs: (params: RequestParams = {}) =>
       this.request<EntityShortRepresentation[], any>({
         path: `/aws/credentials`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19237,14 +18527,12 @@ export class Api extends APIBase {
      * @name CreateAwsCredentialsConfig
      * @summary Creates a new AWS credentials configuration
      * @request POST:/aws/credentials
-     * @secure
      */
     createAwsCredentialsConfig: (data: AwsCredentialsConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/aws/credentials`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19255,13 +18543,11 @@ export class Api extends APIBase {
      * @name GetAllAllowlistedAccounts
      * @summary Gets the information about all allowlisted accounts in AWS PrivateLink
      * @request GET:/aws/privateLink/allowlistedAccounts
-     * @secure
      */
     getAllAllowlistedAccounts: (params: RequestParams = {}) =>
       this.request<AllowlistedAwsAccountList, any>({
         path: `/aws/privateLink/allowlistedAccounts`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19272,14 +18558,12 @@ export class Api extends APIBase {
      * @name PutAllowlistedAccount
      * @summary Updates the given AWS account id in the allowlist in AWS PrivateLink
      * @request PUT:/aws/privateLink/allowlistedAccounts/{id}
-     * @secure
      */
     putAllowlistedAccount: (id: string, data: AllowlistedAwsAccount, params: RequestParams = {}) =>
       this.request<AllowlistedAwsAccount, ErrorEnvelope>({
         path: `/aws/privateLink/allowlistedAccounts/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19290,13 +18574,11 @@ export class Api extends APIBase {
      * @name RemoveAllowlistedAccount
      * @summary Removes one AWS account from the allowlist in AWS PrivateLink
      * @request DELETE:/aws/privateLink/allowlistedAccounts/{id}
-     * @secure
      */
     removeAllowlistedAccount: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/aws/privateLink/allowlistedAccounts/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -19307,13 +18589,11 @@ export class Api extends APIBase {
      * @name GetPrivateLinkConfig
      * @summary Gets the configuration information about AWS PrivateLink
      * @request GET:/aws/privateLink
-     * @secure
      */
     getPrivateLinkConfig: (params: RequestParams = {}) =>
       this.request<AwsPrivateLinkConfig, any>({
         path: `/aws/privateLink`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19324,14 +18604,12 @@ export class Api extends APIBase {
      * @name PutPrivateLinkConfig
      * @summary Updates the configuration information about AWS PrivateLink
      * @request PUT:/aws/privateLink
-     * @secure
      */
     putPrivateLinkConfig: (data: AwsPrivateLinkConfig, params: RequestParams = {}) =>
       this.request<AwsPrivateLinkConfig, any>({
         path: `/aws/privateLink`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -19343,13 +18621,11 @@ export class Api extends APIBase {
      * @name ListAzureCredentialsConfigs
      * @summary Lists all available Azure credentials configurations
      * @request GET:/azure/credentials
-     * @secure
      */
     listAzureCredentialsConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/azure/credentials`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19360,14 +18636,12 @@ export class Api extends APIBase {
      * @name CreateAzureCredentialsConfig
      * @summary Creates a new Azure credentials configuration
      * @request POST:/azure/credentials
-     * @secure
      */
     createAzureCredentialsConfig: (data: AzureCredentialsCreation, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/azure/credentials`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19378,13 +18652,11 @@ export class Api extends APIBase {
      * @name GetAzureCredentialsConfig
      * @summary Gets the configuration of the specified Azure credentials
      * @request GET:/azure/credentials/{id}
-     * @secure
      */
     getAzureCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<AzureCredentials, any>({
         path: `/azure/credentials/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19395,14 +18667,12 @@ export class Api extends APIBase {
      * @name UpdateAzureCredentialsConfig
      * @summary Updates an existing Azure credentials configuration
      * @request PUT:/azure/credentials/{id}
-     * @secure
      */
     updateAzureCredentialsConfig: (id: string, data: AzureCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/azure/credentials/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19413,13 +18683,11 @@ export class Api extends APIBase {
      * @name DeleteAzureCredentialsConfig
      * @summary Deletes the specified Azure credentials configuration
      * @request DELETE:/azure/credentials/{id}
-     * @secure
      */
     deleteAzureCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/azure/credentials/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -19430,14 +18698,12 @@ export class Api extends APIBase {
      * @name ValidateConfigurationUpdate
      * @summary Validates the payload for the `PUT /azure/credentials/{id}` request
      * @request POST:/azure/credentials/{id}/validator
-     * @secure
      */
     validateConfigurationUpdate: (id: string, data: AzureCredentials, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/azure/credentials/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19448,14 +18714,12 @@ export class Api extends APIBase {
      * @name ValidateAzureCredentialsConfig
      * @summary Validates the payload for the `POST /azure/credentials` request
      * @request POST:/azure/credentials/validator
-     * @secure
      */
     validateAzureCredentialsConfig: (data: AzureCredentials, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/azure/credentials/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -19467,14 +18731,12 @@ export class Api extends APIBase {
      * @name ValidateCreateCloudFoundryCredentialsConfig
      * @summary Validate that creating credentials would be successful. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials/validator
-     * @secure
      */
     validateCreateCloudFoundryCredentialsConfig: (data: CloudFoundryCredentials, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/cloudFoundry/credentials/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19485,13 +18747,11 @@ export class Api extends APIBase {
      * @name GetCloudFoundryCredentialsConfig
      * @summary Show the properties for the specified Cloud Foundry foundation credentials. | maturity=EARLY_ADOPTER
      * @request GET:/cloudFoundry/credentials/{id}
-     * @secure
      */
     getCloudFoundryCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<CloudFoundryCredentials, any>({
         path: `/cloudFoundry/credentials/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19502,14 +18762,12 @@ export class Api extends APIBase {
      * @name UpdateCloudFoundryCredentialsConfig
      * @summary Create or update credentials for a single Cloud Foundry foundation. | maturity=EARLY_ADOPTER
      * @request PUT:/cloudFoundry/credentials/{id}
-     * @secure
      */
     updateCloudFoundryCredentialsConfig: (id: string, data: CloudFoundryCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/cloudFoundry/credentials/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19520,13 +18778,11 @@ export class Api extends APIBase {
      * @name DeleteCloudFoundryCredentialsConfig
      * @summary Delete the specified Cloud Foundry foundation credentials. | maturity=EARLY_ADOPTER
      * @request DELETE:/cloudFoundry/credentials/{id}
-     * @secure
      */
     deleteCloudFoundryCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/cloudFoundry/credentials/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -19537,7 +18793,6 @@ export class Api extends APIBase {
      * @name ValidateUpdateCloudFoundryCredentialsConfig
      * @summary Validate that updating or creating credentials would be successful. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials/{id}/validator
-     * @secure
      */
     validateUpdateCloudFoundryCredentialsConfig: (
       id: string,
@@ -19548,7 +18803,6 @@ export class Api extends APIBase {
         path: `/cloudFoundry/credentials/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19559,13 +18813,11 @@ export class Api extends APIBase {
      * @name ListCloudFoundryCredentialsConfigs
      * @summary List all the Cloud Foundry foundations credentials. | maturity=EARLY_ADOPTER
      * @request GET:/cloudFoundry/credentials
-     * @secure
      */
     listCloudFoundryCredentialsConfigs: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/cloudFoundry/credentials`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19576,14 +18828,12 @@ export class Api extends APIBase {
      * @name CreateCloudFoundryCredentialsConfig
      * @summary Create new credentials for a single foundation. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials
-     * @secure
      */
     createCloudFoundryCredentialsConfig: (data: CloudFoundryCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/cloudFoundry/credentials`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -19595,13 +18845,11 @@ export class Api extends APIBase {
      * @name ListKubernetesCredentialsConfigs
      * @summary Lists all available Kubernetes credentials configurations | maturity=EARLY_ADOPTER
      * @request GET:/kubernetes/credentials
-     * @secure
      */
     listKubernetesCredentialsConfigs: (params: RequestParams = {}) =>
       this.request<KubernetesConfigStubListDto, any>({
         path: `/kubernetes/credentials`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19612,14 +18860,12 @@ export class Api extends APIBase {
      * @name CreateKubernetesCredentialsConfig
      * @summary Creates a new Kubernetes credentials configuration | maturity=EARLY_ADOPTER
      * @request POST:/kubernetes/credentials
-     * @secure
      */
     createKubernetesCredentialsConfig: (data: KubernetesCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/kubernetes/credentials`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19630,13 +18876,11 @@ export class Api extends APIBase {
      * @name GetKubernetesCredentialsConfig
      * @summary Gets the configuration of the specified Kubernetes credentials | maturity=EARLY_ADOPTER
      * @request GET:/kubernetes/credentials/{id}
-     * @secure
      */
     getKubernetesCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<KubernetesCredentials, any>({
         path: `/kubernetes/credentials/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19647,14 +18891,12 @@ export class Api extends APIBase {
      * @name UpdateKubernetesCredentialsConfig
      * @summary Updates an existing Kubernetes credentials configuration | maturity=EARLY_ADOPTER
      * @request PUT:/kubernetes/credentials/{id}
-     * @secure
      */
     updateKubernetesCredentialsConfig: (id: string, data: KubernetesCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/kubernetes/credentials/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19665,13 +18907,11 @@ export class Api extends APIBase {
      * @name DeleteKubernetesCredentialsConfig
      * @summary Deletes the specified Kubernetes credentials configuration | maturity=EARLY_ADOPTER
      * @request DELETE:/kubernetes/credentials/{id}
-     * @secure
      */
     deleteKubernetesCredentialsConfig: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/kubernetes/credentials/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -19682,14 +18922,12 @@ export class Api extends APIBase {
      * @name ValidateCreateKubernetesCredentialsConfig
      * @summary Validates the payload for the `POST /kubernetes/credentials` request | maturity=EARLY_ADOPTER
      * @request POST:/kubernetes/credentials/validator
-     * @secure
      */
     validateCreateKubernetesCredentialsConfig: (data: KubernetesCredentials, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/kubernetes/credentials/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19700,14 +18938,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateKubernetesCredentialsConfig
      * @summary Validates the payload for the `PUT /kubernetes/credentials/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/kubernetes/credentials/{id}/validator
-     * @secure
      */
     validateUpdateKubernetesCredentialsConfig: (id: string, data: KubernetesCredentials, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/kubernetes/credentials/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
@@ -19719,13 +18955,11 @@ export class Api extends APIBase {
      * @name ListMaintenanceWindows
      * @summary Lists all available maintenance windows
      * @request GET:/maintenanceWindows
-     * @secure
      */
     listMaintenanceWindows: (params: RequestParams = {}) =>
       this.request<StubList, any>({
         path: `/maintenanceWindows`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19736,14 +18970,12 @@ export class Api extends APIBase {
      * @name CreateMaintenanceWindow
      * @summary Creates a new maintenance window
      * @request POST:/maintenanceWindows
-     * @secure
      */
     createMaintenanceWindow: (data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/maintenanceWindows`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19754,13 +18986,11 @@ export class Api extends APIBase {
      * @name GetMaintenanceWindow
      * @summary Gets the properties of the specified maintenance window
      * @request GET:/maintenanceWindows/{id}
-     * @secure
      */
     getMaintenanceWindow: (id: string, params: RequestParams = {}) =>
       this.request<MaintenanceWindow, any>({
         path: `/maintenanceWindows/${id}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 
@@ -19771,14 +19001,12 @@ export class Api extends APIBase {
      * @name UpdateMaintenanceWindow
      * @summary Updates an existing maintenance window
      * @request PUT:/maintenanceWindows/{id}
-     * @secure
      */
     updateMaintenanceWindow: (id: string, data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
         path: `/maintenanceWindows/${id}`,
         method: "PUT",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19789,13 +19017,11 @@ export class Api extends APIBase {
      * @name DeleteMaintenanceWindow
      * @summary Deletes the specified maintenance window
      * @request DELETE:/maintenanceWindows/{id}
-     * @secure
      */
     deleteMaintenanceWindow: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/maintenanceWindows/${id}`,
         method: "DELETE",
-        secure: true,
         ...params,
       }),
 
@@ -19806,14 +19032,12 @@ export class Api extends APIBase {
      * @name ValidateUpdateMaintenanceWindow
      * @summary Validates the payload for the `PUT /maintenancewindow/{id}` request
      * @request POST:/maintenanceWindows/{id}/validator
-     * @secure
      */
     validateUpdateMaintenanceWindow: (id: string, data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/maintenanceWindows/${id}/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
 
@@ -19824,14 +19048,12 @@ export class Api extends APIBase {
      * @name ValidateCreateMaintenanceWindow
      * @summary Validates the payload for the `POST /maintenancewindow` request
      * @request POST:/maintenanceWindows/validator
-     * @secure
      */
     validateCreateMaintenanceWindow: (data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/maintenanceWindows/validator`,
         method: "POST",
         body: data,
-        secure: true,
         ...params,
       }),
   };
