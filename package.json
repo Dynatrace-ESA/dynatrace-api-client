@@ -42,6 +42,7 @@
   },
   "homepage": "https://github.com/dynatrace-esa/dynatrace-api-client#readme",
   "dependencies": {
+    "@dt-esa/dynatrace-api-balancer": "^1.0.3",
     "@dt-esa/platform-constants": "^1.0.0",
     "axios": "^0.24.0",
     "tslib": "^2.3.1"

@@ -1,4 +1,3 @@
-import Axios, { AxiosResponse, AxiosStatic, Method } from 'axios';
 import { dynatraceTokenRegex, dynatraceUrlRegex } from "@dt-esa/platform-constants";
 
 // Environment API
@@ -23,12 +22,11 @@ export type DynatraceConnection = {
     tenantId?: string
 }
 
-
 /**
  * 
  * @param environment 
  */
-const checkEnvironment = (environment: DynatraceConnection, mode) => {
+const checkEnvironment = async (environment: DynatraceConnection, mode) => {
     if (!environment.token) 
         throw "Connection Token is not present.";
 
@@ -64,7 +62,6 @@ const checkEnvironment = (environment: DynatraceConnection, mode) => {
         throw 'You must provide a valid SaaS URL or Managed URL in the format "https://abc12345.live.dynatrace.com/" or "https://my.managed-dynatrace.local/e/12345678-1234-1234-1234-123456789abc/"';
     if (!dynatraceTokenRegex.test(environment.token)) 
         throw "Connection Token is not valid.";
-
 }
 
 /**
@@ -72,15 +69,21 @@ const checkEnvironment = (environment: DynatraceConnection, mode) => {
  * @param handler 
  * @param mode 
  */
-const checkConnection = (handler, mode?) => {
+// TODO: Also test token permissions
+const checkConnection = async (handler, mode?) => {
     const sTime = new Date().getTime();
     console.log("Connecting to your Dynatrace instance...");
 
     // Check if we can hit the Dynatrace API endpoint provided.
-    handler.request({
-        path: '/time',
+    let time = await handler.request({
+        fullPath: '/time',
         method: "get" 
+    });
+
+    let permissions = await handler.request({
+        
     })
+
         .then( res => console.log(  'Connected to your Dynatrace instance in', (new Date().getTime() - sTime), 'ms'))
         .catch(err => console.error("Failed to connect to the Dynatrace API endpoint.", err))
 }
@@ -164,44 +167,10 @@ export class DynatraceEnvironmentAPIV2 extends EnvironmentV2{
     constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
         super(environment, "api/v2", customAxios);
         
-        if(testConnection) {
+        if (testConnection) {
             checkEnvironment(environment, 'env');
             checkConnection(this);
         }
-    }
-
-    /**
-     * Contrary to `getEntities`, this method will automatically page
-     * through results for you.
-     * @param param0 
-     */
-    getAllEntities = async ({...args}): Promise<Array<Entity>> => {
-        let nextPageKey: string;
-        let entities = [];
-
-        do {
-            let result = await this.entities.getEntities(
-                nextPageKey ? { nextPageKey } : args
-            );
-
-            entities = entities.concat(entities, result.entities);
-            nextPageKey = result.nextPageKey;
-
-        } while (nextPageKey != null)
-
-        return entities;
-    }
-
-    entities = {
-        getAllEntities: this.getAllEntities,
-        /**
-         * Get entities that match an entity selector.
-         * If you want automatic paging, use `getAllEntities` with the same signature.
-         * @param args 
-         * @returns 
-         */
-        getEntities: (...args) => super.entities.getEntities,
-        ...super.entities,
     }
 }
 
