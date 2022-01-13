@@ -1,5 +1,5 @@
 import { dynatraceTokenRegex } from "@dt-esa/platform-constants";
-import axios, { Axios, AxiosStatic } from "axios";
+import axios, { AxiosStatic } from "axios";
 import { DynatraceConnection } from ".";
 
 const sleep = (sleepTimeMs) => {
@@ -14,8 +14,7 @@ export class APIBase {
         private customAxios?: AxiosStatic
         ) { }
 
-
-    private resolveUrl(){
+    private resolveUrl() {
         if(this.environment.baseUrl || this.environment.tenantId){
             if(!this.environment.baseUrl) throw "Base url does not exist.";
             if(!this.environment.tenantId) throw "";
@@ -48,11 +47,11 @@ export class APIBase {
     }
 
 
-    protected request = async <T = any, E = any>({ body = null, method = "GET", path, query = {}, headers = {}, ...params }): Promise<T> => {
+    protected request = async <T = any, E = any>({ body = null, method = "GET", path, fullPath, query = {}, headers = {}, maxTries = 10, throttleDelay = 1000, ...params }): Promise<T> => {
 
-        const token = this.environment.token;
-        const apiPath = this.apiRoute + path;
-        const tenantUrl = this.resolveUrl();
+        const token:       string      = this.environment.token;
+        const apiPath:     string      = fullPath || this.apiRoute + path;
+        const tenantUrl:   string      = this.resolveUrl();
         const axiosClient: AxiosStatic = this.customAxios || axios;
 
         // Validation of assignments.
@@ -128,15 +127,14 @@ export class APIBase {
                 result = Array.isArray(response) ? (result as Array<any>).concat(response) : response;
 
                 // If no API threads are available, wait 1 second and try again
-                const throttleDelay = 1000;
                 if (res.status == 429) { sleep(throttleDelay); tries++; }
 
 
                 // Loop if we have a next page key OR if we had to wait.
-            } while (res.status == 429 && tries < 10)
+            } while (res.status == 429 && tries < maxTries)
 
-            if (tries >= 10) {
-                console.error('API Threads Locked', 'Failed to acquire an available API thread after 10 tries.');
+            if (tries >= maxTries) {
+                console.error('API Threads Locked', `Failed to acquire an available API thread after ${maxTries} tries.`);
                 throw Error("Failed to acquire API Thread");
             }
         }
@@ -150,13 +148,13 @@ export class APIBase {
             */
             if (ex.status == 0) {
                 console.error('Developer Note: If you are seeing this and your AdBlocker is disabled and check the selected environment URL.');
-                console.error('CORS Error', 'Please try disabling your AdBlocker or contact the developer.');
+                console.error('CORS/CSP Error', 'Please try disabling your AdBlocker or contact the developer.');
             }
 
             // Token is missing or doesn't have permissions for the selected API.
             const errorMessage = ex.error?.error?.message || ex.message;
             if(errorMessage){
-                console.error('Authentication Error', errorMessage);
+                console.error('Error', errorMessage);
             }
 
             throw ex;
