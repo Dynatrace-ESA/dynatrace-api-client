@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { APIBase } from "../apibase";
 /* tslint:disable */
 /*

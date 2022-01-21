@@ -1,5 +1,7 @@
 import { DynatraceClusterManagementAPIV1 } from "..";
 import test from 'ava';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // const api = new DynatraceClusterManagementAPIV1({
 //     // @ts-ignore
@@ -23,3 +25,7 @@ import test from 'ava';
 //     t.assert(typeof time == 'number');
 //     t.assert(time > 0);
 // });
+
+test('true', async t => {
+    t.assert(true);
+});

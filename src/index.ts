@@ -76,7 +76,7 @@ const checkConnection = async (handler, mode?) => {
 
     // Check if we can hit the Dynatrace API endpoint provided.
     let time = await handler.request({
-        fullPath: '/time',
+        fullPath: 'time',
         method: "get" 
     });
 

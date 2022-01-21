@@ -16,7 +16,7 @@ const stringReplacementPatches = [
     {
         // Insert "include" at the start of the generated script.
         rx: /^\/\* eslint-disable \*\//,
-        value: "import { APIBase } from \"../apibase\";"
+        value: "// @ts-nocheck\nimport { APIBase } from \"../apibase\";"
     }, 
     {
         // Make the API class extend our custom base.

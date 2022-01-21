@@ -1,5 +1,7 @@
 import { DynatraceTenantAPI } from "..";
 import test from 'ava';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // @ts-ignore
 console.log("Running unit tests against tenant ", process.env['TENANT_URL']);
