@@ -16,8 +16,11 @@ const stringReplacementPatches = [
     {
         // Insert "include" at the start of the generated script.
         rx: /^\/\* eslint-disable \*\//,
-        value: "// @ts-nocheck\nimport { APIBase } from \"../apibase\";"
-    }, 
+        value: [
+            "import { APIBase } from \"../../apibase\";",
+            "import { RequestOptions as RequestParams } from \"@dt-esa/dynatrace-api-balancer\";"
+        ].join('\n')
+    },
     {
         // Make the API class extend our custom base.
         rx: /export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType>/,
@@ -39,6 +42,39 @@ const stringReplacementPatches = [
         value: ""
     },
 
+
+    // 
+    {
+        rx: /export type RequestParams = Omit<FullRequestParams, "body" \| "method" \| "query" \| "path">;/,
+        value: ""
+    },
+    {
+        rx: /export interface FullRequestParams extends Omit<RequestInit, "body"> {(.|[\r\n])+?\n}/,
+        value: ""
+    },
+    {
+        rx: /export type ResponseFormat = keyof Omit<Body, "body" \| "bodyUsed">;/,
+        value: ""
+    },
+    {
+        rx: /export type QueryParamsType = Record<string \| number, any>;/,
+        value: ""
+    },
+    {
+        rx: /type CancelToken = Symbol \| string \| number;/,
+        value: ""
+    },
+
+    {
+        // Remove extraneous HttpResponse object.
+        rx: /DtaqlResultAsTree/g,
+        value: "UsqlResultsAsTree"
+    },
+    {
+        // Remove extraneous HttpResponse object.
+        rx: /DtaqlResultAsTable/g,
+        value: "UsqlResults"
+    },
     // We implicitly decide on security contexts, so here we override the annotation and objects
     // that are passed between the contexts.
     {
@@ -53,7 +89,7 @@ const stringReplacementPatches = [
     }
 ]
 
-const targetDir = __dirname + "/src/api/";
+const targetDir = __dirname + "/src/api/generated/";
 
 getFiles(targetDir).forEach(file => {
     let fileText = fs.readFileSync(targetDir + file, {encoding: 'utf8'});
