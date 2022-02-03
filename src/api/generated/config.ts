@@ -2165,6 +2165,72 @@ export interface MobileCustomApdex {
 }
 
 /**
+ * Configuration of a mobile or custom application to be created.
+ */
+export interface NewMobileCustomAppConfig {
+  /** The name of the application. */
+  name: string;
+
+  /** The type of the application. */
+  applicationType: "CUSTOM_APPLICATION" | "MOBILE_APPLICATION";
+
+  /**
+   * The UUID of the application.
+   *
+   * It is used only by OneAgent to send data to Dynatrace.
+   */
+  applicationId?: string;
+
+  /**
+   * Custom application icon.
+   *
+   * Mobile apps always use the mobile device icon, so this icon can only be set for custom apps.
+   */
+  iconType?: "AMAZON_ECHO" | "DESKTOP" | "EMBEDDED" | "IOT" | "MICROSOFT_HOLOLENS" | "UFO" | "USERS";
+
+  /**
+   * The percentage of user sessions to be analyzed.
+   * @format int32
+   * @min 1
+   * @max 100
+   */
+  costControlUserSessionPercentage?: number;
+
+  /**
+   * Apdex configuration of a mobile or custom application.
+   *
+   * A duration less than the **tolerable** threshold is considered satisfied.
+   */
+  apdexSettings?: MobileCustomApdex;
+
+  /**
+   * The opt-in mode is enabled (`true`) or disabled (`false`).
+   *
+   * This value is only applicable to mobile and not to custom apps.
+   */
+  optInModeEnabled?: boolean;
+
+  /**
+   * The session replay is enabled (`true`) or disabled (`false`).
+   * This value is only applicable to mobile and not to custom apps.
+   */
+  sessionReplayEnabled?: boolean;
+
+  /** **Deprecated**. Please use `sessionReplayEnabled` to enable or disable session replay for mobile apps. */
+  sessionReplayOnCrashEnabled?: boolean;
+
+  /** The type of the beacon endpoint. */
+  beaconEndpointType?: "CLUSTER_ACTIVE_GATE" | "ENVIRONMENT_ACTIVE_GATE" | "INSTRUMENTED_WEB_SERVER";
+
+  /**
+   * The URL of the beacon endpoint.
+   *
+   * Only applicable when the **beaconEndpointType** is set to `ENVIRONMENT_ACTIVE_GATE` or `INSTRUMENTED_WEB_SERVER`.
+   */
+  beaconEndpointUrl?: string;
+}
+
+/**
  * Configuration of an existing mobile or custom application.
  */
 export interface MobileCustomAppConfig {
@@ -2234,83 +2300,6 @@ export interface MobileCustomAppConfig {
 }
 
 /**
- * Configuration of a mobile or custom application to be created.
- */
-export interface NewMobileCustomAppConfig {
-  /** The name of the application. */
-  name: string;
-
-  /** The type of the application. */
-  applicationType: "CUSTOM_APPLICATION" | "MOBILE_APPLICATION";
-
-  /**
-   * The UUID of the application.
-   *
-   * It is used only by OneAgent to send data to Dynatrace.
-   */
-  applicationId?: string;
-
-  /**
-   * Custom application icon.
-   *
-   * Mobile apps always use the mobile device icon, so this icon can only be set for custom apps.
-   */
-  iconType?: "AMAZON_ECHO" | "DESKTOP" | "EMBEDDED" | "IOT" | "MICROSOFT_HOLOLENS" | "UFO" | "USERS";
-
-  /**
-   * The percentage of user sessions to be analyzed.
-   * @format int32
-   * @min 1
-   * @max 100
-   */
-  costControlUserSessionPercentage?: number;
-
-  /**
-   * Apdex configuration of a mobile or custom application.
-   *
-   * A duration less than the **tolerable** threshold is considered satisfied.
-   */
-  apdexSettings?: MobileCustomApdex;
-
-  /**
-   * The opt-in mode is enabled (`true`) or disabled (`false`).
-   *
-   * This value is only applicable to mobile and not to custom apps.
-   */
-  optInModeEnabled?: boolean;
-
-  /**
-   * The session replay is enabled (`true`) or disabled (`false`).
-   * This value is only applicable to mobile and not to custom apps.
-   */
-  sessionReplayEnabled?: boolean;
-
-  /** **Deprecated**. Please use `sessionReplayEnabled` to enable or disable session replay for mobile apps. */
-  sessionReplayOnCrashEnabled?: boolean;
-
-  /** The type of the beacon endpoint. */
-  beaconEndpointType?: "CLUSTER_ACTIVE_GATE" | "ENVIRONMENT_ACTIVE_GATE" | "INSTRUMENTED_WEB_SERVER";
-
-  /**
-   * The URL of the beacon endpoint.
-   *
-   * Only applicable when the **beaconEndpointType** is set to `ENVIRONMENT_ACTIVE_GATE` or `INSTRUMENTED_WEB_SERVER`.
-   */
-  beaconEndpointUrl?: string;
-}
-
-/**
- * Contains lists of short representations of mobile session properties and mobile user action properties.
- */
-export interface MobileSessionUserActionPropertyList {
-  /** A list of short representations of mobile session properties. */
-  sessionProperties?: MobileSessionUserActionPropertyShort[];
-
-  /** A list of short representations of mobile user action properties. */
-  userActionProperties?: MobileSessionUserActionPropertyShort[];
-}
-
-/**
  * A short representation of mobile session or user action property.
  */
 export interface MobileSessionUserActionPropertyShort {
@@ -2370,6 +2359,17 @@ export interface MobileSessionUserActionProperty {
    * Only applicable when the **origin** is set to `API`.
    */
   name?: string;
+}
+
+/**
+ * Contains lists of short representations of mobile session properties and mobile user action properties.
+ */
+export interface MobileSessionUserActionPropertyList {
+  /** A list of short representations of mobile session properties. */
+  sessionProperties?: MobileSessionUserActionPropertyShort[];
+
+  /** A list of short representations of mobile user action properties. */
+  userActionProperties?: MobileSessionUserActionPropertyShort[];
 }
 
 /**
@@ -2437,121 +2437,6 @@ export interface KeyUserActionMobileList {
 }
 
 /**
- * Data privacy settings of the application.
- */
-export interface ApplicationDataPrivacy {
-  /** Metadata useful for debugging */
-  metadata?: ConfigurationMetadata;
-
-  /** Dynatrace entity ID of the web application. */
-  identifier?: string;
-
-  /** Set to `true` to disable data capture and cookies until JavaScriptAPI `dtrum.enable()` is called. */
-  dataCaptureOptInEnabled: boolean;
-
-  /** Set to `true` to set persistent cookie in order to recognize returning devices. */
-  persistentCookieForUserTracking: boolean;
-
-  /**
-   * How to handle the "Do Not Track" header:
-   *
-   * * `IGNORE_DO_NOT_TRACK`: ignore the header and capture the data.
-   * * `CAPTURE_ANONYMIZED`: capture the data but do not tie it to the user.
-   * * `DO_NOT_CAPTURE`: respect the header and do not capture.
-   */
-  doNotTrackBehaviour: "CAPTURE_ANONYMIZED" | "DO_NOT_CAPTURE" | "IGNORE_DO_NOT_TRACK";
-
-  /** Data privacy settings for Session Replay. */
-  sessionReplayDataPrivacy?: SessionReplayDataPrivacySettings;
-}
-
-export interface ApplicationDataPrivacyList {
-  /** Metadata useful for debugging */
-  metadata?: ConfigurationMetadata;
-  values?: ApplicationDataPrivacy[];
-}
-
-/**
- * The masking rule defining how data is hidden.
- */
-export interface MaskingRule {
-  /** The type of the masking rule. */
-  maskingRuleType: "ATTRIBUTE" | "ELEMENT";
-
-  /**
-   * The selector for the element or the attribute to be masked.
-   *
-   * Specify a CSS expression for an element or a [regular expression](https://dt-url.net/k9e0iaq) for an attribute.
-   */
-  selector: string;
-
-  /**
-   * Interactions with the element are (`true`) or are not (`false) masked.
-   * @example false
-   */
-  userInteractionHidden: boolean;
-}
-
-/**
-* Content masking settings for Session Replay. 
-
-For more details, see [Configure Session Replay](https://dt-url.net/0m03slq) in Dynatrace Documentation.
-*/
-export interface SessionReplayContentMaskingSettings {
-  /**
-   * The version of the content masking.
-   *
-   * You can use this API only with the version 2.
-   * If you're using version 1, set this field to `2` in the PUT request to switch to version 2.
-   * @format int32
-   * @example 2
-   */
-  recordingMaskingSettingsVersion: number;
-
-  /** Configuration of the Session Replay masking. */
-  recordingMaskingSettings?: SessionReplayMaskingSetting;
-
-  /** Configuration of the Session Replay masking. */
-  playbackMaskingSettings?: SessionReplayMaskingSetting;
-}
-
-/**
- * Data privacy settings for Session Replay.
- */
-export interface SessionReplayDataPrivacySettings {
-  /** If `true`, session recording is disabled until JavaScriptAPI `dtrum.enableSessionReplay()` is called. */
-  optInModeEnabled?: boolean;
-
-  /** A list of URLs to be excluded from recording. */
-  urlExclusionRules?: string[];
-
-  /**
-   * Content masking settings for Session Replay.
-   *
-   * For more details, see [Configure Session Replay](https://dt-url.net/0m03slq) in Dynatrace Documentation.
-   */
-  contentMaskingSettings?: SessionReplayContentMaskingSettings;
-}
-
-/**
- * Configuration of the Session Replay masking.
- */
-export interface SessionReplayMaskingSetting {
-  /**
-   * The type of the masking:
-   *
-   * * `MASK_ALL`: Mask all texts, user input, and images.
-   * * `MASK_USER_INPUT`: Mask all data that is provided through user input
-   * * `ALLOW_LIST`: Only elements, specified in **maskingRules** are shown, everything else is masked.
-   * * `BLOCK_LIST`: Elements, specified in **maskingRules** are masked, everything else is shown.
-   */
-  maskingPreset: "ALLOW_LIST" | "BLOCK_LIST" | "MASK_ALL" | "MASK_USER_INPUT";
-
-  /** A list of masking rules. */
-  maskingRules?: MaskingRule[];
-}
-
-/**
  * Configuration of the key user action.
  * @example {"name":"Loading of page /example","actionType":"Load","domain":"test.com"}
  */
@@ -2567,105 +2452,6 @@ export interface KeyUserAction {
 
   /** The Dynatrace entity ID of the action. */
   meIdentifier?: string;
-}
-
-/**
- * The list of key user actions in the web application
- * @example {"keyUserActionList":[{"name":"Loading of page /example","actionType":"Load","domain":"test.com","meIdentifier":"APPLICATION_METHOD-1234"}]}
- */
-export interface KeyUserActionList {
-  keyUserActionList?: KeyUserAction[];
-}
-
-/**
- * Configuration of error rules in the web application.
- */
-export interface ApplicationErrorRules {
-  /** Exclude (`true`) or include (`false`) JavaScript errors in Apdex calculation. */
-  ignoreJavaScriptErrorsInApdexCalculation: boolean;
-
-  /** Exclude (`true`) or include (`false`) HTTP errors listed in **httpErrorRules** in Apdex calculation. */
-  ignoreHttpErrorsInApdexCalculation: boolean;
-
-  /** Exclude (`true`) or include (`false`) custom errors listed in **customErrorRules** in Apdex calculation. */
-  ignoreCustomErrorsInApdexCalculation: boolean;
-
-  /**
-   * An ordered list of HTTP errors.
-   *
-   *  Rules are evaluated from top to bottom; the first matching rule applies.
-   */
-  httpErrorRules: HttpErrorRule[];
-
-  /**
-   * An ordered list of custom errors.
-   *
-   *  Rules are evaluated from top to bottom; the first matching rule applies.
-   */
-  customErrorRules: CustomErrorRule[];
-}
-
-/**
- * Configuration of the custom error in the web application.
- */
-export interface CustomErrorRule {
-  /** The key of the error to look for. */
-  keyPattern?: string;
-
-  /** The matching operation for the **keyPattern**. */
-  keyMatcher?: "BEGINS_WITH" | "CONTAINS" | "ENDS_WITH" | "EQUALS";
-
-  /** The value of the error to look for. */
-  valuePattern?: string;
-
-  /** The matching operation for the **valuePattern**. */
-  valueMatcher?: "BEGINS_WITH" | "CONTAINS" | "ENDS_WITH" | "EQUALS";
-
-  /** Capture (`true`) or ignore (`false`) the error. */
-  capture: boolean;
-
-  /** Include (`true`) or exclude (`false`) the error in Apdex calculation. */
-  impactApdex: boolean;
-
-  /** Include (`true`) or exclude (`false`) the error in Davis AI [problem detection and analysis](https://dt-url.net/a963kd2). */
-  customAlerting: boolean;
-}
-
-/**
- * Configuration of the HTTP error in the web application.
- */
-export interface HttpErrorRule {
-  /** If `true`, match by errors that have unknown HTTP status code. */
-  considerUnknownErrorCode: boolean;
-
-  /** If `true`, match by errors that have CSP Rule violations. */
-  considerBlockedRequests?: boolean;
-
-  /**
-   * The HTTP status code or status code range to match by.
-   *
-   * This field is required if **considerUnknownErrorCode** AND **considerBlockedRequests** are both set to `false`.
-   * @example 400
-   */
-  errorCodes?: string;
-
-  /** If `true`, filter errors by URL. */
-  filterByUrl: boolean;
-
-  /** The matching rule for the URL. */
-  filter?: "BEGINS_WITH" | "CONTAINS" | "ENDS_WITH" | "EQUALS";
-
-  /** The URL to look for. */
-  url?: string;
-
-  /** Capture (`true`) or ignore (`false`) the error. */
-  capture: boolean;
-
-  /** Include (`true`) or exclude (`false`) the error in Apdex calculation. */
-  impactApdex: boolean;
-
-  /** Include (`true`) or exclude (`false`) the error in Davis AI [problem detection and analysis](https://dt-url.net/a963kd2). */
-  considerForAi: boolean;
 }
 
 /**
@@ -2748,8 +2534,6 @@ export interface AdvancedJavaScriptTagSettings {
  * Defines the Apdex settings of an application.
  */
 export interface Apdex {
-  threshold?: number;
-
   /**
    * Maximal value of apdex, which is considered as satisfied user experience.
    * @min 0
@@ -3709,6 +3493,220 @@ export interface WebApplicationConfigIpAddressRestrictionSettings {
   /** The mode of the list of ip address restrictions. */
   mode: "EXCLUDE" | "INCLUDE";
   ipAddressRestrictions?: IpAddressRange[];
+}
+
+/**
+ * Configuration of error rules in the web application.
+ */
+export interface ApplicationErrorRules {
+  /** Exclude (`true`) or include (`false`) JavaScript errors in Apdex calculation. */
+  ignoreJavaScriptErrorsInApdexCalculation: boolean;
+
+  /** Exclude (`true`) or include (`false`) HTTP errors listed in **httpErrorRules** in Apdex calculation. */
+  ignoreHttpErrorsInApdexCalculation: boolean;
+
+  /** Exclude (`true`) or include (`false`) custom errors listed in **customErrorRules** in Apdex calculation. */
+  ignoreCustomErrorsInApdexCalculation: boolean;
+
+  /**
+   * An ordered list of HTTP errors.
+   *
+   *  Rules are evaluated from top to bottom; the first matching rule applies.
+   */
+  httpErrorRules: HttpErrorRule[];
+
+  /**
+   * An ordered list of custom errors.
+   *
+   *  Rules are evaluated from top to bottom; the first matching rule applies.
+   */
+  customErrorRules: CustomErrorRule[];
+}
+
+/**
+ * Configuration of the custom error in the web application.
+ */
+export interface CustomErrorRule {
+  /** The key of the error to look for. */
+  keyPattern?: string;
+
+  /** The matching operation for the **keyPattern**. */
+  keyMatcher?: "BEGINS_WITH" | "CONTAINS" | "ENDS_WITH" | "EQUALS";
+
+  /** The value of the error to look for. */
+  valuePattern?: string;
+
+  /** The matching operation for the **valuePattern**. */
+  valueMatcher?: "BEGINS_WITH" | "CONTAINS" | "ENDS_WITH" | "EQUALS";
+
+  /** Capture (`true`) or ignore (`false`) the error. */
+  capture: boolean;
+
+  /** Include (`true`) or exclude (`false`) the error in Apdex calculation. */
+  impactApdex: boolean;
+
+  /** Include (`true`) or exclude (`false`) the error in Davis AI [problem detection and analysis](https://dt-url.net/a963kd2). */
+  customAlerting: boolean;
+}
+
+/**
+ * Configuration of the HTTP error in the web application.
+ */
+export interface HttpErrorRule {
+  /** If `true`, match by errors that have unknown HTTP status code. */
+  considerUnknownErrorCode: boolean;
+
+  /** If `true`, match by errors that have CSP Rule violations. */
+  considerBlockedRequests?: boolean;
+
+  /**
+   * The HTTP status code or status code range to match by.
+   *
+   * This field is required if **considerUnknownErrorCode** AND **considerBlockedRequests** are both set to `false`.
+   * @example 400
+   */
+  errorCodes?: string;
+
+  /** If `true`, filter errors by URL. */
+  filterByUrl: boolean;
+
+  /** The matching rule for the URL. */
+  filter?: "BEGINS_WITH" | "CONTAINS" | "ENDS_WITH" | "EQUALS";
+
+  /** The URL to look for. */
+  url?: string;
+
+  /** Capture (`true`) or ignore (`false`) the error. */
+  capture: boolean;
+
+  /** Include (`true`) or exclude (`false`) the error in Apdex calculation. */
+  impactApdex: boolean;
+
+  /** Include (`true`) or exclude (`false`) the error in Davis AI [problem detection and analysis](https://dt-url.net/a963kd2). */
+  considerForAi: boolean;
+}
+
+/**
+ * Data privacy settings of the application.
+ */
+export interface ApplicationDataPrivacy {
+  /** Metadata useful for debugging */
+  metadata?: ConfigurationMetadata;
+
+  /** Dynatrace entity ID of the web application. */
+  identifier?: string;
+
+  /** Set to `true` to disable data capture and cookies until JavaScriptAPI `dtrum.enable()` is called. */
+  dataCaptureOptInEnabled: boolean;
+
+  /** Set to `true` to set persistent cookie in order to recognize returning devices. */
+  persistentCookieForUserTracking: boolean;
+
+  /**
+   * How to handle the "Do Not Track" header:
+   *
+   * * `IGNORE_DO_NOT_TRACK`: ignore the header and capture the data.
+   * * `CAPTURE_ANONYMIZED`: capture the data but do not tie it to the user.
+   * * `DO_NOT_CAPTURE`: respect the header and do not capture.
+   */
+  doNotTrackBehaviour: "CAPTURE_ANONYMIZED" | "DO_NOT_CAPTURE" | "IGNORE_DO_NOT_TRACK";
+
+  /** Data privacy settings for Session Replay. */
+  sessionReplayDataPrivacy?: SessionReplayDataPrivacySettings;
+}
+
+/**
+ * The masking rule defining how data is hidden.
+ */
+export interface MaskingRule {
+  /** The type of the masking rule. */
+  maskingRuleType: "ATTRIBUTE" | "ELEMENT";
+
+  /**
+   * The selector for the element or the attribute to be masked.
+   *
+   * Specify a CSS expression for an element or a [regular expression](https://dt-url.net/k9e0iaq) for an attribute.
+   */
+  selector: string;
+
+  /**
+   * Interactions with the element are (`true`) or are not (`false) masked.
+   * @example false
+   */
+  userInteractionHidden: boolean;
+}
+
+/**
+* Content masking settings for Session Replay. 
+
+For more details, see [Configure Session Replay](https://dt-url.net/0m03slq) in Dynatrace Documentation.
+*/
+export interface SessionReplayContentMaskingSettings {
+  /**
+   * The version of the content masking.
+   *
+   * You can use this API only with the version 2.
+   * If you're using version 1, set this field to `2` in the PUT request to switch to version 2.
+   * @format int32
+   * @example 2
+   */
+  recordingMaskingSettingsVersion: number;
+
+  /** Configuration of the Session Replay masking. */
+  recordingMaskingSettings?: SessionReplayMaskingSetting;
+
+  /** Configuration of the Session Replay masking. */
+  playbackMaskingSettings?: SessionReplayMaskingSetting;
+}
+
+/**
+ * Data privacy settings for Session Replay.
+ */
+export interface SessionReplayDataPrivacySettings {
+  /** If `true`, session recording is disabled until JavaScriptAPI `dtrum.enableSessionReplay()` is called. */
+  optInModeEnabled?: boolean;
+
+  /** A list of URLs to be excluded from recording. */
+  urlExclusionRules?: string[];
+
+  /**
+   * Content masking settings for Session Replay.
+   *
+   * For more details, see [Configure Session Replay](https://dt-url.net/0m03slq) in Dynatrace Documentation.
+   */
+  contentMaskingSettings?: SessionReplayContentMaskingSettings;
+}
+
+/**
+ * Configuration of the Session Replay masking.
+ */
+export interface SessionReplayMaskingSetting {
+  /**
+   * The type of the masking:
+   *
+   * * `MASK_ALL`: Mask all texts, user input, and images.
+   * * `MASK_USER_INPUT`: Mask all data that is provided through user input
+   * * `ALLOW_LIST`: Only elements, specified in **maskingRules** are shown, everything else is masked.
+   * * `BLOCK_LIST`: Elements, specified in **maskingRules** are masked, everything else is shown.
+   */
+  maskingPreset: "ALLOW_LIST" | "BLOCK_LIST" | "MASK_ALL" | "MASK_USER_INPUT";
+
+  /** A list of masking rules. */
+  maskingRules?: MaskingRule[];
+}
+
+export interface ApplicationDataPrivacyList {
+  /** Metadata useful for debugging */
+  metadata?: ConfigurationMetadata;
+  values?: ApplicationDataPrivacy[];
+}
+
+/**
+ * The list of key user actions in the web application
+ * @example {"keyUserActionList":[{"name":"Loading of page /example","actionType":"Load","domain":"test.com","meIdentifier":"APPLICATION_METHOD-1234"}]}
+ */
+export interface KeyUserActionList {
+  keyUserActionList?: KeyUserAction[];
 }
 
 /**
@@ -4935,6 +4933,7 @@ export interface SimpleTech {
     | "LIBC"
     | "LIBVIRT"
     | "LINKERD"
+    | "LINUX_SYSTEM"
     | "MARIADB"
     | "MEMCACHED"
     | "MICROSOFT_SQL_SERVER"
@@ -4999,6 +4998,7 @@ export interface SimpleTech {
     | "VIRTUAL_MACHINE_QEMU"
     | "WILDFLY"
     | "WINDOWS_CONTAINERS"
+    | "WINDOWS_SYSTEM"
     | "WINK"
     | "ZERO_MQ"
     | "ZOS_CONNECT";
@@ -5497,15 +5497,6 @@ export interface CredentialUsageHandler {
 }
 
 /**
- * A list of credentials sets for Synthetic monitors.
- * @example {"credentials":[{"name":"Sample username-password credentials","id":"CREDENTIALS_VAULT-E80203F993472E6D","type":"USERNAME_PASSWORD","description":"Sample credentials for demo purposes","owner":"admin","ownerAccessOnly":"true","scope":"SYNTHETIC","credentialUsageSummary":[{"HTTP_MONITOR":4}]},{"name":"Sample certificate credentials","id":"CREDENTIALS_VAULT-842DEF439999E15B","type":"CERTIFICATE","description":"Sample credentials for demo purposes","owner":"John.Doe@domain.com","ownerAccessOnly":"true","scope":"EXTENSION","credentialUsageSummary":[]},{"name":"Sample token credentials","id":"CREDENTIALS_VAULT-854345639999E15B","type":"TOKEN","description":"Sample token for demo purposes","owner":"John.Doe@domain.com","ownerAccessOnly":"true","scope":"SYNTHETIC","credentialUsageSummary":[{"HTTP_MONITOR":4,"BROWSER_MONITOR":11}]}]}
- */
-export interface CredentialsList {
-  /** A list of credentials sets for Synthetic monitors. */
-  credentials: CredentialsResponseElement[];
-}
-
-/**
  * Metadata of the credentials set.
  * @example {"name":"Sample username-password credentials","id":"CREDENTIALS_VAULT-C43F2C2E6395AD23","type":"USERNAME_PASSWORD","description":"Sample credentials for demo purposes.","owner":"user@domain.com","ownerAccessOnly":"true","scope":"SYNTHETIC","externalVault":{"sourceAuthMethod":"HASHICORP_VAULT_APPROLE","vaultUrl":"https://vault-cluster.vault.fb17d2fc-be92-4230-afa2-91dbfda3cbad.aws.hashicorp.cloud:8200","usernameSecretName":"username","passwordSecretName":"password","pathToCredentials":"kv/credentials","roleId":"00e4858c-ec33-bc99-4e7e-34de6967de6c","secretId":"CREDENTIALS_VAULT-XXXXXXXXXXXXXXXX","vaultNamespace":"admin"},"credentialUsageSummary":[{"HTTP_MONITOR":3,"BROWSER_MONITOR":2}]}
  */
@@ -5666,6 +5657,15 @@ export type TokenCredentials = Credentials & { token?: string };
 export type UserPasswordCredentials = Credentials & { user?: string; password?: string; externalVault?: ExternalVault };
 
 /**
+ * A list of credentials sets for Synthetic monitors.
+ * @example {"credentials":[{"name":"Sample username-password credentials","id":"CREDENTIALS_VAULT-E80203F993472E6D","type":"USERNAME_PASSWORD","description":"Sample credentials for demo purposes","owner":"admin","ownerAccessOnly":"true","scope":"SYNTHETIC","credentialUsageSummary":[{"HTTP_MONITOR":4}]},{"name":"Sample certificate credentials","id":"CREDENTIALS_VAULT-842DEF439999E15B","type":"CERTIFICATE","description":"Sample credentials for demo purposes","owner":"John.Doe@domain.com","ownerAccessOnly":"true","scope":"EXTENSION","credentialUsageSummary":[]},{"name":"Sample token credentials","id":"CREDENTIALS_VAULT-854345639999E15B","type":"TOKEN","description":"Sample token for demo purposes","owner":"John.Doe@domain.com","ownerAccessOnly":"true","scope":"SYNTHETIC","credentialUsageSummary":[{"HTTP_MONITOR":4,"BROWSER_MONITOR":11}]}]}
+ */
+export interface CredentialsList {
+  /** A list of credentials sets for Synthetic monitors. */
+  credentials: CredentialsResponseElement[];
+}
+
+/**
  * @example {"name":"CustomService","enabled":true,"rules":[{"enabled":true,"className":"com.your.company.ClassName","methodRules":[{"methodName":"AMethod","argumentTypes":["java.lang.String"],"returnType":"void"}]}],"queueEntryPoint":false}
  */
 export interface CustomService {
@@ -5767,29 +5767,6 @@ export interface MethodRule {
 
   /** Fully qualified type the method returns. */
   returnType: string;
-}
-
-/**
- * A list of short representations of dashboards.
- * @example {"dashboards":[{"id":"d6740373-ff26-4681-b95f-fd5b858c97f7","name":"Home dashboard","owner":"admin"},{"id":"54b34dbb-2ae7-4c27-9dbc-90a4f4c68b10","name":"Databases","owner":"viewer"},{"id":"8525b0bf-e33c-4a92-a534-9dedc1391e10","name":"Business value","owner":"rocks"}]}
- */
-export interface DashboardList {
-  /** A list of short representations of dashboards. */
-  dashboards: DashboardStub[];
-}
-
-/**
- * A short representation of a dashboard.
- */
-export interface DashboardStub {
-  /** The ID of the dashboard. */
-  id: string;
-
-  /** The name of the dashboard. */
-  name?: string;
-
-  /** The owner of the dashboard. */
-  owner?: string;
 }
 
 /**
@@ -6202,6 +6179,11 @@ An example is the Service health tile, which may use a custom timeframe.
 export type FilterableEntityTile = Tile & { filterConfig?: CustomFilterConfig; chartVisible?: boolean };
 
 /**
+ * Configuration of the Image tile.
+ */
+export type ImageTile = Tile & { image?: string };
+
+/**
  * Configuration of the Markdown tile.
  */
 export type MarkdownTile = Tile & { markdown?: string };
@@ -6235,6 +6217,7 @@ export type ScalableListTile = Tile & {
     | "HEADER"
     | "HOST"
     | "HOSTS"
+    | "IMAGE"
     | "LOG_ANALYTICS"
     | "LOG_QUERY"
     | "MARKDOWN"
@@ -6285,6 +6268,7 @@ export interface Tile {
    * * `CUSTOM_CHARTING` -> CustomChartingTile
    * * `DTAQL` -> UserSessionQueryTile
    * * `MARKDOWN` -> MarkdownTile
+   * * `IMAGE` -> ImageTile
    * * `HOSTS` -> FilterableEntityTile
    * * `APPLICATIONS` -> FilterableEntityTile
    * * `SERVICES` -> FilterableEntityTile
@@ -6351,6 +6335,7 @@ export interface Tile {
     | "HEADER"
     | "HOST"
     | "HOSTS"
+    | "IMAGE"
     | "LOG_ANALYTICS"
     | "MARKDOWN"
     | "MOBILE_APPLICATION"
@@ -6443,7 +6428,7 @@ export interface TileFilter {
 export type UserSessionQueryTile = Tile & {
   customName?: string;
   query?: string;
-  type?: "COLUMN_CHART" | "FUNNEL" | "LINE_CHART" | "PIE_CHART" | "SINGLE_VALUE" | "TABLE";
+  type?: "COLUMN_CHART" | "FUNNEL" | "LINE_CHART" | "NOT_CONFIGURED" | "PIE_CHART" | "SINGLE_VALUE" | "TABLE";
   timeFrameShift?: string;
   visualizationConfig?: UserSessionQueryTileConfiguration;
   limit?: number;
@@ -6513,11 +6498,11 @@ export interface DashboardSharePermissions {
  * @example {"id":"a5fca32f-d3ba-4749-b201-5d3cd70b9d22","enabled":"true","preset":"true","permissions":[{"type":"ALL","permission":"VIEW"},{"id":"userid","type":"USER","permission":"VIEW"},{"id":"userid","type":"USER","permission":"EDIT"},{"id":"groupid","type":"GROUP","permission":"VIEW"},{"id":"groupid","type":"GROUP","permission":"EDIT"}],"publicAccess":{"managementZoneIds":["default","2899273953172250973"],"urls":{"default":"https://mytenantid.live.dynatrace.com/e/1/dashboards/a5fca32f-d3ba-4749-b201-5d3cd70b9d22?auth=9yPpSI-M-3434Irz8yc8U","2899273953172250973":"https://mytenantid.live.dynatrace.com/e/1/dashboards/a5fca32f-d3ba-4749-b201-5d3cd70b9d22?auth=SL5wTvCbaM2lwpew23234"}}}
  */
 export interface DashboardSharing {
-  /** Configuration of the [anonymous access](https://dt-url.net/ov03sf1) to the dashboard. */
-  publicAccess: DashboardAnonymousAccess;
-
   /** If `true` the dashboard will be marked as preset. */
   preset?: boolean;
+
+  /** Configuration of the [anonymous access](https://dt-url.net/ov03sf1) to the dashboard. */
+  publicAccess: DashboardAnonymousAccess;
 
   /** A list of permissions to access the dashboard. */
   permissions: DashboardSharePermissions[];
@@ -6527,6 +6512,29 @@ export interface DashboardSharing {
 
   /** The dashboard is shared (`true`) or private (`false`). */
   enabled?: boolean;
+}
+
+/**
+ * A list of short representations of dashboards.
+ * @example {"dashboards":[{"id":"d6740373-ff26-4681-b95f-fd5b858c97f7","name":"Home dashboard","owner":"admin"},{"id":"54b34dbb-2ae7-4c27-9dbc-90a4f4c68b10","name":"Databases","owner":"viewer"},{"id":"8525b0bf-e33c-4a92-a534-9dedc1391e10","name":"Business value","owner":"rocks"}]}
+ */
+export interface DashboardList {
+  /** A list of short representations of dashboards. */
+  dashboards: DashboardStub[];
+}
+
+/**
+ * A short representation of a dashboard.
+ */
+export interface DashboardStub {
+  /** The ID of the dashboard. */
+  id: string;
+
+  /** The name of the dashboard. */
+  name?: string;
+
+  /** The owner of the dashboard. */
+  owner?: string;
 }
 
 /**
@@ -6723,51 +6731,105 @@ export interface Technology {
 }
 
 /**
- * Host details. Contains ID, name, host group, and tags.
- * @example {"name":"example host","id":"HOST-0000000000000000","hostGroup":{"meId":"HOST_GROUP-CF1DA380B3A53F17","name":"example host group"},"tags":["tagA","tagB"],"managementZones":[{"id":"000000000000000000","name":"example zone"}]}
+ * @example {"id":"custom.remote.python.demo","enabled":true,"useGlobal":false,"hostId":"HOST-01A7DEFA5340A86D","properties":{"serverIp":"127.0.0.1","username":"dynatrace","password":"","dropdownProperty":"three"},"activeGate":{"id":"7835970235169136995","name":"ActiveGate Host Name"}}
  */
-export interface Host {
-  /** The name of the host */
-  name?: string;
+export interface ExtensionConfigurationDto {
+  /** The ID of the extension. */
+  extensionId?: string;
 
-  /** The ID of the host */
+  /** The extension is enabled (`true`) or disabled (`false`). */
+  enabled: boolean;
+
+  /** Allows to skip current configuration and use global one. */
+  useGlobal: boolean;
+
+  /**
+   * The list of extension parameters.
+   *
+   *  Each parameter is a key-value pair.
+   */
+  properties?: Record<string, string>;
+
+  /** The ID of the host on which the extension runs. */
+  hostId?: string;
+
+  /** The short representation of a Dynatrace entity. */
+  activeGate?: EntityShortRepresentation;
+
+  /** The ID of the endpoint. */
+  endpointId?: string;
+
+  /** The name of the endpoint, displayed in Dynatrace. */
+  endpointName?: string;
+}
+
+/**
+ * General configuration of an extension.
+ * @example {"id":"custom.remote.python.demo","name":"ActiveGate demo extension","version":"1.01","type":"ActiveGate","metricGroup":"custom.demo_metrics","metadata":{"configurationVersions":[7],"clusterVersion":"1.186.0.20200109-094111"},"properties":[{"key":"serverIp","type":"STRING","defaultValue":"127.0.0.1"},{"key":"password","type":"PASSWORD","defaultValue":""},{"key":"username","type":"STRING","defaultValue":"dynatrace"},{"key":"dropdownProperty","type":"DROPDOWN","defaultValue":"one","dropdownValues":["one","two","three"]}]}
+ */
+export interface Extension {
+  /** The ID of the extension, for example `custom.remote.python.demo`. */
   id?: string;
 
-  /** Host group to which the host belongs. */
-  hostGroup?: HostGroup;
-
-  /** A list of tags of the host. */
-  tags?: TagInfo[];
-
-  /** A list of management zones to which the host belongs. */
-  managementZones?: EntityShortRepresentation[];
-}
-
-/**
- * Host group to which the host belongs.
- */
-export interface HostGroup {
-  /** The Dynatrace entity ID of the host group. */
-  meId?: string;
-
-  /** The name of the Dynatrace entity, displayed in the UI. */
+  /** The name of the extension, displayed in Dynatrace. */
   name?: string;
+
+  /** The version of the extension, displayed in Dynatrace. */
+  version?: string;
+
+  /** The type of the extension. It indicates the runtime environment of the extension (for example, ACTIVEGATE). */
+  type?: "ACTIVEGATE" | "CODEMODULE" | "JMX" | "ONEAGENT" | "PMI" | "UNKNOWN";
+
+  /** The metricGroup of the extension used for grouping custom metrics into a hierarchical namespace. */
+  metricGroup?: string;
+
+  /** Metadata useful for debugging */
+  metadata?: ConfigurationMetadata;
+
+  /** A list of extension properties. */
+  properties?: ExtensionProperty[];
 }
 
 /**
- * The list of hosts supported by extension.
+ * A property of an extension.
  */
-export interface HostList {
+export interface ExtensionProperty {
+  /** The key of the property. */
+  key?: string;
+
+  /** The type of the property. */
+  type?: string;
+
+  /** The default value of the property. */
+  defaultValue?: string;
+
   /**
-   * Total number of results
+   * The list of possible values of the property.
+   *
+   *  If such a list is defined, only values from this list can be assigned to the property.
+   */
+  dropdownValues?: string[];
+}
+
+/**
+ * A list of configurations.
+ * @example {"configurationsList":[{"id":"HOST-E1550E0AED6A572F"}],"totalResults":9,"nextPageToken":"LlUdYmu5S2MfX/ppfCInR9M="}
+ */
+export interface ExtensionConfigurationList {
+  /** List of configurations. */
+  configurationsList?: EntityShortRepresentation[];
+
+  /**
+   * The total number of entries in the result.
    * @format int32
    */
   totalResults?: number;
 
-  /** The list of hosts */
-  hosts?: Host[];
-
-  /** Next page key used for paging */
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   */
   nextPageKey?: string;
 }
 
@@ -6861,109 +6923,6 @@ export interface ExtensionStateList {
 }
 
 /**
- * A list of configurations.
- * @example {"configurationsList":[{"id":"HOST-E1550E0AED6A572F"}],"totalResults":9,"nextPageToken":"LlUdYmu5S2MfX/ppfCInR9M="}
- */
-export interface ExtensionConfigurationList {
-  /** List of configurations. */
-  configurationsList?: EntityShortRepresentation[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int32
-   */
-  totalResults?: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   */
-  nextPageKey?: string;
-}
-
-/**
- * @example {"id":"custom.remote.python.demo","enabled":true,"useGlobal":false,"hostId":"HOST-01A7DEFA5340A86D","properties":{"serverIp":"127.0.0.1","username":"dynatrace","password":"","dropdownProperty":"three"},"activeGate":{"id":"7835970235169136995","name":"ActiveGate Host Name"}}
- */
-export interface ExtensionConfigurationDto {
-  /** The ID of the extension. */
-  extensionId?: string;
-
-  /** The extension is enabled (`true`) or disabled (`false`). */
-  enabled: boolean;
-
-  /** Allows to skip current configuration and use global one. */
-  useGlobal: boolean;
-
-  /**
-   * The list of extension parameters.
-   *
-   *  Each parameter is a key-value pair.
-   */
-  properties?: Record<string, string>;
-
-  /** The ID of the host on which the extension runs. */
-  hostId?: string;
-
-  /** The short representation of a Dynatrace entity. */
-  activeGate?: EntityShortRepresentation;
-
-  /** The ID of the endpoint. */
-  endpointId?: string;
-
-  /** The name of the endpoint, displayed in Dynatrace. */
-  endpointName?: string;
-}
-
-/**
- * General configuration of an extension.
- * @example {"id":"custom.remote.python.demo","name":"ActiveGate demo extension","version":"1.01","type":"ActiveGate","metricGroup":"custom.demo_metrics","metadata":{"configurationVersions":[7],"clusterVersion":"1.186.0.20200109-094111"},"properties":[{"key":"serverIp","type":"STRING","defaultValue":"127.0.0.1"},{"key":"password","type":"PASSWORD","defaultValue":""},{"key":"username","type":"STRING","defaultValue":"dynatrace"},{"key":"dropdownProperty","type":"DROPDOWN","defaultValue":"one","dropdownValues":["one","two","three"]}]}
- */
-export interface Extension {
-  /** The ID of the extension, for example `custom.remote.python.demo`. */
-  id?: string;
-
-  /** The name of the extension, displayed in Dynatrace. */
-  name?: string;
-
-  /** The version of the extension, displayed in Dynatrace. */
-  version?: string;
-
-  /** The type of the extension. It indicates the runtime environment of the extension (for example, ACTIVEGATE). */
-  type?: "ACTIVEGATE" | "CODEMODULE" | "JMX" | "ONEAGENT" | "PMI" | "UNKNOWN";
-
-  /** The metricGroup of the extension used for grouping custom metrics into a hierarchical namespace. */
-  metricGroup?: string;
-
-  /** Metadata useful for debugging */
-  metadata?: ConfigurationMetadata;
-
-  /** A list of extension properties. */
-  properties?: ExtensionProperty[];
-}
-
-/**
- * A property of an extension.
- */
-export interface ExtensionProperty {
-  /** The key of the property. */
-  key?: string;
-
-  /** The type of the property. */
-  type?: string;
-
-  /** The default value of the property. */
-  defaultValue?: string;
-
-  /**
-   * The list of possible values of the property.
-   *
-   *  If such a list is defined, only values from this list can be assigned to the property.
-   */
-  dropdownValues?: string[];
-}
-
-/**
  * @example {"id":"custom.python.connectionpool","name":"Connection Pool","type":"ONEAGENT"}
  */
 export interface ExtensionDto {
@@ -6990,6 +6949,55 @@ export interface ExtensionListDto {
    *
    * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
    */
+  nextPageKey?: string;
+}
+
+/**
+ * Host details. Contains ID, name, host group, and tags.
+ * @example {"name":"example host","id":"HOST-0000000000000000","hostGroup":{"meId":"HOST_GROUP-CF1DA380B3A53F17","name":"example host group"},"tags":["tagA","tagB"],"managementZones":[{"id":"000000000000000000","name":"example zone"}]}
+ */
+export interface Host {
+  /** The name of the host */
+  name?: string;
+
+  /** The ID of the host */
+  id?: string;
+
+  /** Host group to which the host belongs. */
+  hostGroup?: HostGroup;
+
+  /** A list of tags of the host. */
+  tags?: TagInfo[];
+
+  /** A list of management zones to which the host belongs. */
+  managementZones?: EntityShortRepresentation[];
+}
+
+/**
+ * Host group to which the host belongs.
+ */
+export interface HostGroup {
+  /** The Dynatrace entity ID of the host group. */
+  meId?: string;
+
+  /** The name of the Dynatrace entity, displayed in the UI. */
+  name?: string;
+}
+
+/**
+ * The list of hosts supported by extension.
+ */
+export interface HostList {
+  /**
+   * Total number of results
+   * @format int32
+   */
+  totalResults?: number;
+
+  /** The list of hosts */
+  hosts?: Host[];
+
+  /** Next page key used for paging */
   nextPageKey?: string;
 }
 
@@ -7618,6 +7626,25 @@ export interface OneAgentHostGroupConfig {
 }
 
 /**
+ * Ibm MQ queue which is an entrypoint to IMS.
+ * @example {"queueManagerName":"MyQueueManagerName","queueName":"MyQueueName"}
+ */
+export interface IbmMQImsEntryQueue {
+  /**
+   * The ID of the IMS entry queue.
+   * @format uuid
+   * @example 12345678-abcd-1234-abcd-1234567890ab
+   */
+  id?: string;
+
+  /** The name of the queue manager. */
+  queueManagerName: string;
+
+  /** The name of the queue. */
+  queueName: string;
+}
+
+/**
  * Define an alias for a so called base queue. This can either be a local queue owned by this queue manager, a local definition of a remote queue or a cluster queue visible but owned by another queue manager. The alias can be made visible in one or more clusters.
  */
 export interface AliasQueue {
@@ -7678,25 +7705,6 @@ export interface RemoteQueue {
 
   /** The local definition of the remote queue is visible in these [clusters](https://dt-url.net/dic3kgg). The queue manager must be part of these clusters. */
   clusterVisibility: string[];
-}
-
-/**
- * Ibm MQ queue which is an entrypoint to IMS.
- * @example {"queueManagerName":"MyQueueManagerName","queueName":"MyQueueName"}
- */
-export interface IbmMQImsEntryQueue {
-  /**
-   * The ID of the IMS entry queue.
-   * @format uuid
-   * @example 12345678-abcd-1234-abcd-1234567890ab
-   */
-  id?: string;
-
-  /** The name of the queue manager. */
-  queueManagerName: string;
-
-  /** The name of the queue. */
-  queueName: string;
 }
 
 /**
@@ -8984,6 +8992,7 @@ export interface Condition {
     | "DATABASE_CHILD_CALL_TIME"
     | "DATABASE_HOST"
     | "DATABASE_NAME"
+    | "DATABASE_STATEMENT"
     | "DATABASE_TYPE"
     | "DATABASE_URL"
     | "DISK_IO_TIME"
@@ -9165,7 +9174,7 @@ export type FlawStateComparisonInfo = ComparisonInfo & {
  */
 export type HttpMethodComparisonInfo = ComparisonInfo & {
   comparison?: "EQUALS" | "EQUALS_ANY_OF" | "EXISTS";
-  value?: "CONNECT" | "DELETE" | "GET" | "HEAD" | "OPTIONS" | "PATCH" | "POST" | "PUT" | "TRACE";
+  value?: "CONNECT" | "DELETE" | "GET" | "HEAD" | "OPTIONS" | "PATCH" | "POST" | "PUT" | "TRACE" | "UNKNOWN";
   values?: { empty?: boolean };
 };
 
@@ -9285,6 +9294,7 @@ export interface Placeholder {
     | "DATABASE_CHILD_CALL_TIME"
     | "DATABASE_HOST"
     | "DATABASE_NAME"
+    | "DATABASE_STATEMENT"
     | "DATABASE_TYPE"
     | "DATABASE_URL"
     | "DISK_IO_TIME"
@@ -9691,39 +9701,6 @@ export interface SyntheticMetricUpdate {
 }
 
 /**
- * The short representation of a notification.
- */
-export interface NotificationConfigStub {
-  /** The ID of the Dynatrace entity. */
-  id: string;
-
-  /** The name of the Dynatrace entity. */
-  name?: string;
-
-  /** A short description of the Dynatrace entity. */
-  description?: string;
-
-  /** The type of the notification. */
-  type?:
-    | "ANSIBLETOWER"
-    | "EMAIL"
-    | "HIPCHAT"
-    | "JIRA"
-    | "OPS_GENIE"
-    | "PAGER_DUTY"
-    | "SERVICE_NOW"
-    | "SLACK"
-    | "TRELLO"
-    | "VICTOROPS"
-    | "WEBHOOK"
-    | "XMATTERS";
-}
-
-export interface NotificationConfigStubListDto {
-  values?: NotificationConfigStub[];
-}
-
-/**
  * Configuration of the Ansible Tower notification.
  */
 export type AnsibleTowerNotificationConfig = NotificationConfig & {
@@ -9912,58 +9889,36 @@ export type XMattersNotificationConfig = NotificationConfig & {
 };
 
 /**
- * The state of the plugin.
+ * The short representation of a notification.
  */
-export interface PluginState {
-  /** The ID of the plugin. */
-  pluginId?: string;
+export interface NotificationConfigStub {
+  /** The ID of the Dynatrace entity. */
+  id: string;
 
-  /** The version of the plugin (for example `1.0.0`). */
-  version?: string;
+  /** The name of the Dynatrace entity. */
+  name?: string;
 
-  /** The ID of the endpoint where the state is detected - Active Gate only. */
-  endpointId?: string;
+  /** A short description of the Dynatrace entity. */
+  description?: string;
 
-  /** The state of the plugin. */
-  state?:
-    | "DISABLED"
-    | "ERROR_AUTH"
-    | "ERROR_COMMUNICATION_FAILURE"
-    | "ERROR_CONFIG"
-    | "ERROR_TIMEOUT"
-    | "ERROR_UNKNOWN"
-    | "INCOMPATIBLE"
-    | "LIMIT_REACHED"
-    | "NOTHING_TO_REPORT"
-    | "OK"
-    | "STATE_TYPE_UNKNOWN"
-    | "UNINITIALIZED"
-    | "UNSUPPORTED"
-    | "WAITING_FOR_STATE";
-
-  /** A short description of the state. */
-  stateDescription?: string;
-
-  /**
-   * The timestamp when the state was detected, in UTC milliseconds.
-   * @format int64
-   */
-  timestamp?: number;
-
-  /** The ID of the host on which the plugin runs. */
-  hostId?: string;
-
-  /** The ID of the entity on which the plugin is active. */
-  processId?: string;
+  /** The type of the notification. */
+  type?:
+    | "ANSIBLETOWER"
+    | "EMAIL"
+    | "HIPCHAT"
+    | "JIRA"
+    | "OPS_GENIE"
+    | "PAGER_DUTY"
+    | "SERVICE_NOW"
+    | "SLACK"
+    | "TRELLO"
+    | "VICTOROPS"
+    | "WEBHOOK"
+    | "XMATTERS";
 }
 
-/**
- * A list of plugin states.
- * @example {"pluginId":"custom.remote.python.demo","version":"1.0.0","endpointId":"-8213819843595439277","state":"ERROR_AUTH","stateDescription":"Could not authorize","timestamp":1556199097994}
- */
-export interface PluginStateList {
-  /** A list of plugin states. */
-  states?: PluginState[];
+export interface NotificationConfigStubListDto {
+  values?: NotificationConfigStub[];
 }
 
 /**
@@ -10040,6 +9995,61 @@ export interface PluginProperty {
    *  If such a list is defined, only values from this list can be assigned to the property.
    */
   dropdownValues?: string[];
+}
+
+/**
+ * The state of the plugin.
+ */
+export interface PluginState {
+  /** The ID of the plugin. */
+  pluginId?: string;
+
+  /** The version of the plugin (for example `1.0.0`). */
+  version?: string;
+
+  /** The ID of the endpoint where the state is detected - Active Gate only. */
+  endpointId?: string;
+
+  /** The state of the plugin. */
+  state?:
+    | "DISABLED"
+    | "ERROR_AUTH"
+    | "ERROR_COMMUNICATION_FAILURE"
+    | "ERROR_CONFIG"
+    | "ERROR_TIMEOUT"
+    | "ERROR_UNKNOWN"
+    | "INCOMPATIBLE"
+    | "LIMIT_REACHED"
+    | "NOTHING_TO_REPORT"
+    | "OK"
+    | "STATE_TYPE_UNKNOWN"
+    | "UNINITIALIZED"
+    | "UNSUPPORTED"
+    | "WAITING_FOR_STATE";
+
+  /** A short description of the state. */
+  stateDescription?: string;
+
+  /**
+   * The timestamp when the state was detected, in UTC milliseconds.
+   * @format int64
+   */
+  timestamp?: number;
+
+  /** The ID of the host on which the plugin runs. */
+  hostId?: string;
+
+  /** The ID of the entity on which the plugin is active. */
+  processId?: string;
+}
+
+/**
+ * A list of plugin states.
+ * @example {"pluginId":"custom.remote.python.demo","version":"1.0.0","endpointId":"-8213819843595439277","state":"ERROR_AUTH","stateDescription":"Could not authorize","timestamp":1556199097994}
+ */
+export interface PluginStateList {
+  /** A list of plugin states. */
+  states?: PluginState[];
 }
 
 /**
@@ -10141,27 +10151,6 @@ export interface DashboardReportSubscription {
 }
 
 /**
- * Configuration of a report subscription.
- * @example {"schedule":"WEEK","recipients":["demo@email.com","demo2@email.com"]}
- */
-export interface ReportSubscriptions {
-  /**
-   * The schedule of the subscription.
-   *
-   *  * Weekly subscribers receive the report every Monday at midnight.
-   *  * Monthly subscribers receive the report on the first Monday of the month at midnight.
-   */
-  schedule: "MONTH" | "WEEK";
-
-  /**
-   * A list of the recipients.
-   *
-   * You can specify email addresses or Dynatrace user IDs here.
-   */
-  recipients: string[];
-}
-
-/**
  * A short representations of the report.
  */
 export interface DashboardReportStub {
@@ -10182,6 +10171,27 @@ export interface DashboardReportStub {
 export interface ReportStubList {
   /** A list of reports. */
   values: DashboardReportStub[];
+}
+
+/**
+ * Configuration of a report subscription.
+ * @example {"schedule":"WEEK","recipients":["demo@email.com","demo2@email.com"]}
+ */
+export interface ReportSubscriptions {
+  /**
+   * The schedule of the subscription.
+   *
+   *  * Weekly subscribers receive the report every Monday at midnight.
+   *  * Monthly subscribers receive the report on the first Monday of the month at midnight.
+   */
+  schedule: "MONTH" | "WEEK";
+
+  /**
+   * A list of the recipients.
+   *
+   * You can specify email addresses or Dynatrace user IDs here.
+   */
+  recipients: string[];
 }
 
 export interface CapturedMethod {
@@ -10223,6 +10233,8 @@ export interface DataSource {
     | "CICS_TRANSACTION_CALL_TYPE"
     | "CLIENT_IP"
     | "CUSTOM_ATTRIBUTE"
+    | "DLI_DB_OR_LTERM_NAME"
+    | "DLI_SEGMENT_NAME"
     | "IIB_LABEL"
     | "IIB_NODE"
     | "IMS_TRANSACTION_CALL_TYPE"
@@ -10651,6 +10663,7 @@ export interface ScopeConditions {
     | "LIBC"
     | "LIBVIRT"
     | "LINKERD"
+    | "LINUX_SYSTEM"
     | "MARIADB"
     | "MEMCACHED"
     | "MICROSOFT_SQL_SERVER"
@@ -10715,6 +10728,7 @@ export interface ScopeConditions {
     | "VIRTUAL_MACHINE_QEMU"
     | "WILDFLY"
     | "WINDOWS_CONTAINERS"
+    | "WINDOWS_SYSTEM"
     | "WINK"
     | "ZERO_MQ"
     | "ZOS_CONNECT";
@@ -11631,6 +11645,11 @@ export interface UrlPath {
   valueOverride?: string;
 }
 
+export interface SymbolFilePinning {
+  /** New setting for file pinning. True to pin the file, false to unpin the file */
+  pinned: boolean;
+}
+
 /**
  * The appId, the app version and the bundle id which uniquely identify the app
  */
@@ -11679,16 +11698,6 @@ export interface SymbolFileList {
   symbolFiles?: SymbolFile[];
 }
 
-export interface SymbolFilePinning {
-  /** New setting for file pinning. True to pin the file, false to unpin the file */
-  pinned: boolean;
-}
-
-export interface SupportedVersion {
-  /** The supported iOS file format version. */
-  version?: string;
-}
-
 export interface SymbolFileClientLinkDto {
   /** A download link for the latest compatible version of the DTXDssClient. */
   dssClientUrl: string;
@@ -11715,6 +11724,11 @@ export interface SymbolFileStorageInfo {
 
   /** @format int64 */
   fileCount?: number;
+}
+
+export interface SupportedVersion {
+  /** The supported iOS file format version. */
+  version?: string;
 }
 
 /**
@@ -11870,112 +11884,6 @@ export interface AwsPrivateLinkConfig {
 /**
  * Configuration of Azure app-level credentials.
  */
-export interface AzureCredentials {
-  /** Metadata useful for debugging */
-  metadata?: ConfigurationMetadata;
-
-  /** The Dynatrace entity ID of the Azure credentials configuration. */
-  id?: string;
-
-  /**
-   * The unique name of the Azure credentials configuration.
-   *
-   * Allowed characters are letters, numbers, and spaces. Also the special characters `.+-_` are allowed.
-   * @pattern ^([a-zA-Z0-9_ +-.]*)$
-   */
-  label: string;
-
-  /**
-   * The application ID (also referred to as client ID).
-   *
-   *  The field is **required** when creating a new credentials configuration.
-   *  The field is ignored during an update, the old value remains unaffected.
-   */
-  appId?: string;
-
-  /**
-   * The directory ID (also referred to as tenant ID).
-   *
-   *  The field is **required** when creating a new credentials configuration.
-   *  The field is ignored during an update, the old value remains unaffected.
-   */
-  directoryId?: string;
-
-  /**
-   * The secret key associated with the application ID.
-   *
-   * For security reasons, GET requests return this field as `null`.
-   *  Submit your key on creation or update of the configuration.
-   *  The field is **required** when creating a new credentials configuration. If the field is omitted during an update, the old value remains unaffected.
-   */
-  key?: string;
-
-  /**
-   * The monitoring is enabled (`true`) or disabled (`false`).
-   *
-   * If not set on creation, the `true` value is used.
-   * If the field is omitted during an update, the old value remains unaffected.
-   */
-  active?: boolean;
-
-  /** The automatic capture of Azure tags is on (`true`) or off (`false`). */
-  autoTagging: boolean;
-
-  /** Monitor only resources that have specified Azure tags (`true`) or all resources (`false`). */
-  monitorOnlyTaggedEntities: boolean;
-
-  /**
-   * A list of Azure tags to be monitored.
-   *
-   * You can specify up to 10 tags. A resource tagged with *any* of the specified tags is monitored.
-   * Only applicable when the **monitorOnlyTaggedEntities** parameter is set to `true`.
-   */
-  monitorOnlyTagPairs: CloudTag[];
-
-  /** A list of Azure supporting services to be monitored. For each service there's a sublist of its metrics and the metrics' dimensions that should be monitored. All of these elements (services, metrics, dimensions) must have corresponding static definitions on the server. */
-  supportingServices?: AzureSupportingService[];
-}
-
-/**
- * A metric of supporting service to be monitored.
- */
-export interface AzureMonitoredMetric {
-  /** The name of the metric of the supporting service. */
-  name: string;
-
-  /** A list of metric's dimensions names. It must include all the recommended dimensions. */
-  dimensions?: string[];
-}
-
-/**
- * A supporting service to be monitored.
- */
-export interface AzureSupportingService {
-  /** The name of the supporting service. */
-  name: string;
-
-  /** A list of metrics to be monitored for this service. It must include all the recommended metrics. If the list is null then recommended list of metrics for this service will be monitored. */
-  monitoredMetrics?: AzureMonitoredMetric[];
-}
-
-/**
- * A cloud tag.
- */
-export interface CloudTag {
-  /** The name of the tag. */
-  name?: string;
-
-  /**
-   * The value of the tag.
-   *
-   *  If set to `null`, then resources with any value of the tag are monitored.
-   */
-  value?: string;
-}
-
-/**
- * Configuration of Azure app-level credentials.
- */
 export interface AzureCredentialsCreation {
   /** Metadata useful for debugging */
   metadata?: ConfigurationMetadata;
@@ -12033,10 +11941,132 @@ export interface AzureCredentialsCreation {
   /**
    * A list of Azure tags to be monitored.
    *
-   * You can specify up to 10 tags. A resource tagged with *any* of the specified tags is monitored.
+   * You can specify up to 20 tags. A resource tagged with *any* of the specified tags is monitored.
    * Only applicable when the **monitorOnlyTaggedEntities** parameter is set to `true`.
    */
   monitorOnlyTagPairs: CloudTag[];
+
+  /**
+   * A list of Azure tags to be excluded from monitoring.
+   *
+   * You can specify up to 20 tags. A resource tagged with *any* of the specified tags will not be monitored.
+   * Only applicable when the **monitorOnlyTaggedEntities** parameter is set to `true`.
+   */
+  monitorOnlyExcludingTagPairs?: CloudTag[];
+
+  /** A list of Azure supporting services to be monitored. For each service there's a sublist of its metrics and the metrics' dimensions that should be monitored. All of these elements (services, metrics, dimensions) must have corresponding static definitions on the server. */
+  supportingServices?: AzureSupportingService[];
+}
+
+/**
+ * A metric of supporting service to be monitored.
+ */
+export interface AzureMonitoredMetric {
+  /** The name of the metric of the supporting service. */
+  name: string;
+
+  /** A list of metric's dimensions names. It must include all the recommended dimensions. */
+  dimensions: string[];
+}
+
+/**
+ * A supporting service to be monitored.
+ */
+export interface AzureSupportingService {
+  /** The name of the supporting service. */
+  name: string;
+
+  /** A list of metrics to be monitored for this service. It must include all the recommended metrics. If the list is null then recommended list of metrics for this service will be monitored. */
+  monitoredMetrics?: AzureMonitoredMetric[];
+}
+
+/**
+ * A cloud tag.
+ */
+export interface CloudTag {
+  /** The name of the tag. */
+  name?: string;
+
+  /**
+   * The value of the tag.
+   *
+   *  If set to `null`, then resources with any value of the tag are monitored.
+   */
+  value?: string;
+}
+
+/**
+ * Configuration of Azure app-level credentials.
+ */
+export interface AzureCredentials {
+  /** Metadata useful for debugging */
+  metadata?: ConfigurationMetadata;
+
+  /** The Dynatrace entity ID of the Azure credentials configuration. */
+  id?: string;
+
+  /**
+   * The unique name of the Azure credentials configuration.
+   *
+   * Allowed characters are letters, numbers, and spaces. Also the special characters `.+-_` are allowed.
+   * @pattern ^([a-zA-Z0-9_ +-.]*)$
+   */
+  label: string;
+
+  /**
+   * The application ID (also referred to as client ID).
+   *
+   *  The field is **required** when creating a new credentials configuration.
+   *  The field is ignored during an update, the old value remains unaffected.
+   */
+  appId?: string;
+
+  /**
+   * The directory ID (also referred to as tenant ID).
+   *
+   *  The field is **required** when creating a new credentials configuration.
+   *  The field is ignored during an update, the old value remains unaffected.
+   */
+  directoryId?: string;
+
+  /**
+   * The secret key associated with the application ID.
+   *
+   * For security reasons, GET requests return this field as `null`.
+   *  Submit your key on creation or update of the configuration.
+   *  The field is **required** when creating a new credentials configuration. If the field is omitted during an update, the old value remains unaffected.
+   */
+  key?: string;
+
+  /**
+   * The monitoring is enabled (`true`) or disabled (`false`).
+   *
+   * If not set on creation, the `true` value is used.
+   * If the field is omitted during an update, the old value remains unaffected.
+   */
+  active?: boolean;
+
+  /** The automatic capture of Azure tags is on (`true`) or off (`false`). */
+  autoTagging: boolean;
+
+  /** Monitor only resources that have specified Azure tags (`true`) or all resources (`false`). */
+  monitorOnlyTaggedEntities: boolean;
+
+  /**
+   * A list of Azure tags to be monitored.
+   *
+   * You can specify up to 20 tags. A resource tagged with *any* of the specified tags is monitored.
+   * Only applicable when the **monitorOnlyTaggedEntities** parameter is set to `true`.
+   */
+  monitorOnlyTagPairs: CloudTag[];
+
+  /**
+   * A list of Azure tags to be excluded from monitoring.
+   *
+   * You can specify up to 20 tags. A resource tagged with *any* of the specified tags will not be monitored.
+   * Only applicable when the **monitorOnlyTaggedEntities** parameter is set to `true`.
+   */
+  monitorOnlyExcludingTagPairs?: CloudTag[];
 
   /** A list of Azure supporting services to be monitored. For each service there's a sublist of its metrics and the metrics' dimensions that should be monitored. All of these elements (services, metrics, dimensions) must have corresponding static definitions on the server. */
   supportingServices?: AzureSupportingService[];
@@ -12121,32 +12151,6 @@ export interface CloudFoundryCredentials {
 
   /** The password of the Cloud Foundry foundation credentials. */
   password?: string;
-}
-
-/**
- * The short representation of a kubernetes configuration.
- */
-export interface KubernetesConfigShortRepresentation {
-  /** The ID of the Dynatrace entity. */
-  id: string;
-
-  /** The name of the Dynatrace entity. */
-  name?: string;
-
-  /** A short description of the Dynatrace entity. */
-  description?: string;
-
-  /**
-   * The URL of the Kubernetes API server.
-   *
-   * It must be unique within a Dynatrace environment.
-   * The URL must valid according to RFC 2396. Leading or trailing whitespaces are not allowed.
-   */
-  endpointUrl: string;
-}
-
-export interface KubernetesConfigStubListDto {
-  values?: KubernetesConfigShortRepresentation[];
 }
 
 /**
@@ -12273,6 +12277,32 @@ export interface KubernetesEventPattern {
 
   /** Whether subscription to this events field selector is enabled (value set to `true`). If disabled (value set to `false`), Dynatrace will stop fetching events from the Kubernetes API for this events field selector */
   active: boolean;
+}
+
+/**
+ * The short representation of a kubernetes configuration.
+ */
+export interface KubernetesConfigShortRepresentation {
+  /** The ID of the Dynatrace entity. */
+  id: string;
+
+  /** The name of the Dynatrace entity. */
+  name?: string;
+
+  /** A short description of the Dynatrace entity. */
+  description?: string;
+
+  /**
+   * The URL of the Kubernetes API server.
+   *
+   * It must be unique within a Dynatrace environment.
+   * The URL must valid according to RFC 2396. Leading or trailing whitespaces are not allowed.
+   */
+  endpointUrl: string;
+}
+
+export interface KubernetesConfigStubListDto {
+  values?: KubernetesConfigShortRepresentation[];
 }
 
 /**
@@ -12542,6 +12572,7 @@ export enum ContentType {
 /**
  * @title Dynatrace Configuration API
  * @version 1.0
+ * @baseUrl https://kkr05643.sprint.dynatracelabs.com/api/config/v1
  *
  * Documentation of the Dynatrace Configuration API. To read about use-cases and examples, see [Dynatrace Documentation](https://dt-url.net/4u43kxw).
  *
@@ -12551,6 +12582,37 @@ export enum ContentType {
  */
 export class Api extends APIBase {
   alertingProfiles = {
+    /**
+     * No description
+     *
+     * @tags Alerting Profiles
+     * @name GetAlertingProfiles
+     * @summary Lists all alerting profiles available in your environment | maturity=EARLY_ADOPTER
+     * @request GET:/alertingProfiles
+     */
+    getAlertingProfiles: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/alertingProfiles`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
+     *
+     * @tags Alerting Profiles
+     * @name CreateAlertingProfile
+     * @summary Creates a new alerting profile | maturity=EARLY_ADOPTER
+     * @request POST:/alertingProfiles
+     */
+    createAlertingProfile: (data: AlertingProfile, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/alertingProfiles`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
     /**
      * No description
      *
@@ -12601,37 +12663,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Alerting Profiles
-     * @name GetAlertingProfiles
-     * @summary Lists all alerting profiles available in your environment | maturity=EARLY_ADOPTER
-     * @request GET:/alertingProfiles
-     */
-    getAlertingProfiles: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/alertingProfiles`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Alerting Profiles
-     * @name CreateAlertingProfile
-     * @summary Creates a new alerting profile | maturity=EARLY_ADOPTER
-     * @request POST:/alertingProfiles
-     */
-    createAlertingProfile: (data: AlertingProfile, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/alertingProfiles`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Alerting Profiles
      * @name ValidateCreateAlertingProfile
      * @summary Validates the payload the `POST /alertingProfiles` request | maturity=EARLY_ADOPTER
      * @request POST:/alertingProfiles/validator
@@ -12661,22 +12692,6 @@ export class Api extends APIBase {
       }),
   };
   anomalyDetection = {
-    /**
-     * No description
-     *
-     * @tags Anomaly detection - Applications
-     * @name ValidateApplicationAnomalyDetectionConfig
-     * @summary Validates the configuration of anomaly detection for applications for the `PUT /anomalyDetection/applications` request
-     * @request POST:/anomalyDetection/applications/validator
-     */
-    validateApplicationAnomalyDetectionConfig: (data: ApplicationAnomalyDetectionConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/anomalyDetection/applications/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
     /**
      * No description
      *
@@ -12711,14 +12726,14 @@ export class Api extends APIBase {
     /**
      * No description
      *
-     * @tags Anomaly detection - AWS
-     * @name ValidateAwsAnomalyDetectionConfig
-     * @summary Validates the configuration of anomaly detection for AWS for the `PUT /anomalyDetection/aws` request
-     * @request POST:/anomalyDetection/aws/validator
+     * @tags Anomaly detection - Applications
+     * @name ValidateApplicationAnomalyDetectionConfig
+     * @summary Validates the configuration of anomaly detection for applications for the `PUT /anomalyDetection/applications` request
+     * @request POST:/anomalyDetection/applications/validator
      */
-    validateAwsAnomalyDetectionConfig: (data: AwsAnomalyDetectionConfig, params: RequestParams = {}) =>
+    validateApplicationAnomalyDetectionConfig: (data: ApplicationAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/anomalyDetection/aws/validator`,
+        path: `/anomalyDetection/applications/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -12751,6 +12766,22 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/aws`,
         method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Anomaly detection - AWS
+     * @name ValidateAwsAnomalyDetectionConfig
+     * @summary Validates the configuration of anomaly detection for AWS for the `PUT /anomalyDetection/aws` request
+     * @request POST:/anomalyDetection/aws/validator
+     */
+    validateAwsAnomalyDetectionConfig: (data: AwsAnomalyDetectionConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/anomalyDetection/aws/validator`,
+        method: "POST",
         body: data,
         ...params,
       }),
@@ -12806,29 +12837,28 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name ValidateCreateDiskEventConfig
-     * @summary Validates the payload for the `POST /anomalyDetection/diskEvents` request | maturity=EARLY_ADOPTER
-     * @request POST:/anomalyDetection/diskEvents/validator
+     * @name ListDiskEventConfigs
+     * @summary Lists all existing disk event rules | maturity=EARLY_ADOPTER
+     * @request GET:/anomalyDetection/diskEvents
      */
-    validateCreateDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/anomalyDetection/diskEvents/validator`,
-        method: "POST",
-        body: data,
+    listDiskEventConfigs: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/anomalyDetection/diskEvents`,
+        method: "GET",
         ...params,
       }),
 
     /**
-     * No description
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      *
      * @tags Anomaly detection - Disk events
-     * @name ValidateUpdateDiskEventConfig
-     * @summary Validates the payload for the `PUT /anomalyDetection/diskEvents/{id}` request | maturity=EARLY_ADOPTER
-     * @request POST:/anomalyDetection/diskEvents/{id}/validator
+     * @name CreateDiskEventConfig
+     * @summary Creates a new disk event rule | maturity=EARLY_ADOPTER
+     * @request POST:/anomalyDetection/diskEvents
      */
-    validateUpdateDiskEventConfig: (id: string, data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope | void>({
-        path: `/anomalyDetection/diskEvents/${id}/validator`,
+    createDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/anomalyDetection/diskEvents`,
         method: "POST",
         body: data,
         ...params,
@@ -12884,28 +12914,29 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name ListDiskEventConfigs
-     * @summary Lists all existing disk event rules | maturity=EARLY_ADOPTER
-     * @request GET:/anomalyDetection/diskEvents
+     * @name ValidateCreateDiskEventConfig
+     * @summary Validates the payload for the `POST /anomalyDetection/diskEvents` request | maturity=EARLY_ADOPTER
+     * @request POST:/anomalyDetection/diskEvents/validator
      */
-    listDiskEventConfigs: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/anomalyDetection/diskEvents`,
-        method: "GET",
+    validateCreateDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/anomalyDetection/diskEvents/validator`,
+        method: "POST",
+        body: data,
         ...params,
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
+     * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name CreateDiskEventConfig
-     * @summary Creates a new disk event rule | maturity=EARLY_ADOPTER
-     * @request POST:/anomalyDetection/diskEvents
+     * @name ValidateUpdateDiskEventConfig
+     * @summary Validates the payload for the `PUT /anomalyDetection/diskEvents/{id}` request | maturity=EARLY_ADOPTER
+     * @request POST:/anomalyDetection/diskEvents/{id}/validator
      */
-    createDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/anomalyDetection/diskEvents`,
+    validateUpdateDiskEventConfig: (id: string, data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope | void>({
+        path: `/anomalyDetection/diskEvents/${id}/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -13134,22 +13165,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Services
-     * @name ValidateServiceAnomalyDetectionConfig
-     * @summary Validates the payload for the `PUT /anomalyDetection/services` request
-     * @request POST:/anomalyDetection/services/validator
-     */
-    validateServiceAnomalyDetectionConfig: (data: ServiceAnomalyDetectionConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/anomalyDetection/services/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Anomaly detection - Services
      * @name GetServiceAnomalyDetectionConfig
      * @summary Gets the service anomaly detection configuration
      * @request GET:/anomalyDetection/services
@@ -13173,6 +13188,22 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/anomalyDetection/services`,
         method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Anomaly detection - Services
+     * @name ValidateServiceAnomalyDetectionConfig
+     * @summary Validates the payload for the `PUT /anomalyDetection/services` request
+     * @request POST:/anomalyDetection/services/validator
+     */
+    validateServiceAnomalyDetectionConfig: (data: ServiceAnomalyDetectionConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/anomalyDetection/services/validator`,
+        method: "POST",
         body: data,
         ...params,
       }),
@@ -13272,7 +13303,7 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description You can't change applicationId and applicationType with this request.
+     * @description You can't change applicationId and applicationType with this request. All other values must be included in the body, depending on the applicationType.
      *
      * @tags RUM - Mobile and custom application configuration
      * @name UpdateMobileApplicationConfig
@@ -13506,14 +13537,184 @@ export class Api extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ListDataPrivacySettings
-     * @summary Lists data privacy settings of all web applications
-     * @request GET:/applications/web/dataPrivacy
+     * @name ListKeyUserActions
+     * @summary Gets the list of key user actions in the specified web application
+     * @request GET:/applications/web/{id}/keyUserActions
      */
-    listDataPrivacySettings: (params: RequestParams = {}) =>
-      this.request<ApplicationDataPrivacyList, any>({
-        path: `/applications/web/dataPrivacy`,
+    listKeyUserActions: (id: string, params: RequestParams = {}) =>
+      this.request<KeyUserActionList, any>({
+        path: `/applications/web/${id}/keyUserActions`,
         method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name CreateKeyUserAction
+     * @summary Marks the user action as a key user action in the specified web application
+     * @request POST:/applications/web/{id}/keyUserActions
+     */
+    createKeyUserAction: (id: string, data: KeyUserAction, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/applications/web/${id}/keyUserActions`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
+     *
+     * @tags RUM - Web application configuration
+     * @name GetDefaultApplication
+     * @summary Gets the configuration of the default web application
+     * @request GET:/applications/web/default
+     */
+    getDefaultApplication: (params: RequestParams = {}) =>
+      this.request<WebApplicationConfig, any>({
+        path: `/applications/web/default`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
+     *
+     * @tags RUM - Web application configuration
+     * @name CreateOrUpdateDefaultConfiguration
+     * @summary Updates the configuration of the default web application
+     * @request PUT:/applications/web/default
+     */
+    createOrUpdateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/applications/web/default`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name ListWebApplicationConfigs
+     * @summary Lists all existing web applications
+     * @request GET:/applications/web
+     */
+    listWebApplicationConfigs: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/applications/web`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID as that will be automatically assigned by Dynatrace server.
+     *
+     * @tags RUM - Web application configuration
+     * @name CreateWebApplicationConfig
+     * @summary Creates a new web application
+     * @request POST:/applications/web
+     */
+    createWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/applications/web`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name DeleteKeyUserAction
+     * @summary Removes the specified user action from the list of key user actions in the specified web application
+     * @request DELETE:/applications/web/{id}/keyUserActions/{keyUserActionId}
+     */
+    deleteKeyUserAction: (id: string, keyUserActionId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/applications/web/${id}/keyUserActions/${keyUserActionId}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name GetWebApplicationConfig
+     * @summary Gets the configuration of the specified web application
+     * @request GET:/applications/web/{id}
+     */
+    getWebApplicationConfig: (id: string, params: RequestParams = {}) =>
+      this.request<WebApplicationConfig, any>({
+        path: `/applications/web/${id}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description If the application with the specified ID does not exist, a new application will be created.
+     *
+     * @tags RUM - Web application configuration
+     * @name UpdateWebApplicationConfig
+     * @summary Updates the configuration of the specified web application or creates a new one
+     * @request PUT:/applications/web/{id}
+     */
+    updateWebApplicationConfig: (id: string, data: WebApplicationConfig, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/applications/web/${id}`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name DeleteWebApplicationConfig
+     * @summary Deletes the specified web application
+     * @request DELETE:/applications/web/{id}
+     */
+    deleteWebApplicationConfig: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/applications/web/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name GetApplicationErrorConfig
+     * @summary Gets the configuration of error rules in the specified application
+     * @request GET:/applications/web/{id}/errorRules
+     */
+    getApplicationErrorConfig: (id: string, params: RequestParams = {}) =>
+      this.request<ApplicationErrorRules, any>({
+        path: `/applications/web/${id}/errorRules`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name UpdateApplicationErrorConfig
+     * @summary Updates the configuration of error rules in the specified application
+     * @request PUT:/applications/web/{id}/errorRules
+     */
+    updateApplicationErrorConfig: (id: string, data: ApplicationErrorRules, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/applications/web/${id}/errorRules`,
+        method: "PUT",
+        body: data,
         ...params,
       }),
 
@@ -13583,6 +13784,37 @@ export class Api extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
+     * @name ListDataPrivacySettings
+     * @summary Lists data privacy settings of all web applications
+     * @request GET:/applications/web/dataPrivacy
+     */
+    listDataPrivacySettings: (params: RequestParams = {}) =>
+      this.request<ApplicationDataPrivacyList, any>({
+        path: `/applications/web/dataPrivacy`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
+     * @name ValidateCreateWebApplicationConfig
+     * @summary Validates the configuration of the web application for the `POST /applications/web` request
+     * @request POST:/applications/web/validator
+     */
+    validateCreateWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/applications/web/validator`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RUM - Web application configuration
      * @name ValidateDataPrivacySettings
      * @summary Validates data privacy settings for the `PUT /applications/web/{id}/dataPrivacy` request
      * @request POST:/applications/web/{id}/dataPrivacy/validator
@@ -13615,167 +13847,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ListKeyUserActions
-     * @summary Gets the list of key user actions in the specified web application
-     * @request GET:/applications/web/{id}/keyUserActions
+     * @name ValidateDefaultConfiguration
+     * @summary Validates the configuration of the default web application for the `PUT /applications/web/default` request
+     * @request POST:/applications/web/default/validator
      */
-    listKeyUserActions: (id: string, params: RequestParams = {}) =>
-      this.request<KeyUserActionList, any>({
-        path: `/applications/web/${id}/keyUserActions`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name CreateKeyUserAction
-     * @summary Marks the user action as a key user action in the specified web application
-     * @request POST:/applications/web/{id}/keyUserActions
-     */
-    createKeyUserAction: (id: string, data: KeyUserAction, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/applications/web/${id}/keyUserActions`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name DeleteKeyUserAction
-     * @summary Removes the specified user action from the list of key user actions in the specified web application
-     * @request DELETE:/applications/web/{id}/keyUserActions/{keyUserActionId}
-     */
-    deleteKeyUserAction: (id: string, keyUserActionId: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/applications/web/${id}/keyUserActions/${keyUserActionId}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name GetApplicationErrorConfig
-     * @summary Gets the configuration of error rules in the specified application
-     * @request GET:/applications/web/{id}/errorRules
-     */
-    getApplicationErrorConfig: (id: string, params: RequestParams = {}) =>
-      this.request<ApplicationErrorRules, any>({
-        path: `/applications/web/${id}/errorRules`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name UpdateApplicationErrorConfig
-     * @summary Updates the configuration of error rules in the specified application
-     * @request PUT:/applications/web/{id}/errorRules
-     */
-    updateApplicationErrorConfig: (id: string, data: ApplicationErrorRules, params: RequestParams = {}) =>
+    validateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/applications/web/${id}/errorRules`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name ListWebApplicationConfigs
-     * @summary Lists all existing web applications
-     * @request GET:/applications/web
-     */
-    listWebApplicationConfigs: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/applications/web`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID as that will be automatically assigned by Dynatrace server.
-     *
-     * @tags RUM - Web application configuration
-     * @name CreateWebApplicationConfig
-     * @summary Creates a new web application
-     * @request POST:/applications/web
-     */
-    createWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/applications/web`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name GetWebApplicationConfig
-     * @summary Gets the configuration of the specified web application
-     * @request GET:/applications/web/{id}
-     */
-    getWebApplicationConfig: (id: string, params: RequestParams = {}) =>
-      this.request<WebApplicationConfig, any>({
-        path: `/applications/web/${id}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description If the application with the specified ID does not exist, a new application will be created.
-     *
-     * @tags RUM - Web application configuration
-     * @name UpdateWebApplicationConfig
-     * @summary Updates the configuration of the specified web application or creates a new one
-     * @request PUT:/applications/web/{id}
-     */
-    updateWebApplicationConfig: (id: string, data: WebApplicationConfig, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/applications/web/${id}`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name DeleteWebApplicationConfig
-     * @summary Deletes the specified web application
-     * @request DELETE:/applications/web/{id}
-     */
-    deleteWebApplicationConfig: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/applications/web/${id}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name ValidateCreateWebApplicationConfig
-     * @summary Validates the configuration of the web application for the `POST /applications/web` request
-     * @request POST:/applications/web/validator
-     */
-    validateCreateWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/applications/web/validator`,
+        path: `/applications/web/default/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -13796,67 +13874,40 @@ export class Api extends APIBase {
         body: data,
         ...params,
       }),
-
+  };
+  applicationDetectionRules = {
     /**
-     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
+     * No description
      *
-     * @tags RUM - Web application configuration
-     * @name GetDefaultApplication
-     * @summary Gets the configuration of the default web application
-     * @request GET:/applications/web/default
+     * @tags RUM - Application detection rules
+     * @name ListApplicationDetectionConfigs
+     * @summary Lists all available application detection rules
+     * @request GET:/applicationDetectionRules
      */
-    getDefaultApplication: (params: RequestParams = {}) =>
-      this.request<WebApplicationConfig, any>({
-        path: `/applications/web/default`,
+    listApplicationDetectionConfigs: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/applicationDetectionRules`,
         method: "GET",
         ...params,
       }),
 
     /**
-     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
-     *
-     * @tags RUM - Web application configuration
-     * @name CreateOrUpdateDefaultConfiguration
-     * @summary Updates the configuration of the default web application
-     * @request PUT:/applications/web/default
-     */
-    createOrUpdateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/applications/web/default`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags RUM - Web application configuration
-     * @name ValidateDefaultConfiguration
-     * @summary Validates the configuration of the default web application for the `PUT /applications/web/default` request
-     * @request POST:/applications/web/default/validator
-     */
-    validateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/applications/web/default/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-  };
-  applicationDetectionRules = {
-    /**
-     * @description This request reorders the application detection rules according to the submitted list of IDs. Application detection rules not present in the body of the request will retain their relative ordering but are placed *after* all those present in the request.
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server. You can only create detection rules for an existing application. If you need to create a rule for an application that doesn't exist yet, [create an application first](https://dt-url.net/vt03khh) and then configure detection rules for it.
      *
      * @tags RUM - Application detection rules
-     * @name OrderApplicationDetectionConfigs
-     * @summary Reorders the application detection rules
-     * @request PUT:/applicationDetectionRules/order
+     * @name CreateApplicationDetectionConfig
+     * @summary Creates a new application detection rule
+     * @request POST:/applicationDetectionRules
      */
-    orderApplicationDetectionConfigs: (data: StubList, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/applicationDetectionRules/order`,
-        method: "PUT",
+    createApplicationDetectionConfig: (
+      data: ApplicationDetectionRuleConfig,
+      query?: { position?: "APPEND" | "PREPEND" },
+      params: RequestParams = {},
+    ) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/applicationDetectionRules`,
+        method: "POST",
+        query: query,
         body: data,
         ...params,
       }),
@@ -13908,37 +13959,17 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
+     * @description This request reorders the application detection rules according to the submitted list of IDs. Application detection rules not present in the body of the request will retain their relative ordering but are placed *after* all those present in the request.
      *
      * @tags RUM - Application detection rules
-     * @name ListApplicationDetectionConfigs
-     * @summary Lists all available application detection rules
-     * @request GET:/applicationDetectionRules
+     * @name OrderApplicationDetectionConfigs
+     * @summary Reorders the application detection rules
+     * @request PUT:/applicationDetectionRules/order
      */
-    listApplicationDetectionConfigs: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/applicationDetectionRules`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server. You can only create detection rules for an existing application. If you need to create a rule for an application that doesn't exist yet, [create an application first](https://dt-url.net/vt03khh) and then configure detection rules for it.
-     *
-     * @tags RUM - Application detection rules
-     * @name CreateApplicationDetectionConfig
-     * @summary Creates a new application detection rule
-     * @request POST:/applicationDetectionRules
-     */
-    createApplicationDetectionConfig: (
-      data: ApplicationDetectionRuleConfig,
-      query?: { position?: "APPEND" | "PREPEND" },
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/applicationDetectionRules`,
-        method: "POST",
-        query: query,
+    orderApplicationDetectionConfigs: (data: StubList, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/applicationDetectionRules/order`,
+        method: "PUT",
         body: data,
         ...params,
       }),
@@ -14362,6 +14393,41 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Conditional naming
+     * @name ListNamingRules
+     * @summary Lists all configured naming rules of the specified type
+     * @request GET:/conditionalNaming/{type}
+     */
+    listNamingRules: (type: "processGroup" | "host" | "service", params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/conditionalNaming/${type}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
+     *
+     * @tags Conditional naming
+     * @name CreateNamingRule
+     * @summary Creates a new naming rule
+     * @request POST:/conditionalNaming/{type}
+     */
+    createNamingRule: (
+      type: "processGroup" | "host" | "service",
+      data: ConditionalNamingRule,
+      params: RequestParams = {},
+    ) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/conditionalNaming/${type}`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Conditional naming
      * @name GetNamingRule
      * @summary Lists the parameters of the specified naming rule
      * @request GET:/conditionalNaming/{type}/{id}
@@ -14445,41 +14511,6 @@ export class Api extends APIBase {
     ) =>
       this.request<void, ErrorEnvelope>({
         path: `/conditionalNaming/${type}/${id}/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Conditional naming
-     * @name ListNamingRules
-     * @summary Lists all configured naming rules of the specified type
-     * @request GET:/conditionalNaming/{type}
-     */
-    listNamingRules: (type: "processGroup" | "host" | "service", params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/conditionalNaming/${type}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Conditional naming
-     * @name CreateNamingRule
-     * @summary Creates a new naming rule
-     * @request POST:/conditionalNaming/{type}
-     */
-    createNamingRule: (
-      type: "processGroup" | "host" | "service",
-      data: ConditionalNamingRule,
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/conditionalNaming/${type}`,
         method: "POST",
         body: data,
         ...params,
@@ -14773,6 +14804,53 @@ export class Api extends APIBase {
       }),
 
     /**
+     * @description Rules that use the set will be automatically adapted to the new ID.
+     *
+     * @tags Service - Failure detection parameter sets
+     * @name ChangeFdpId
+     * @summary Changes the ID of the specified failure detection parameter set | maturity=EARLY_ADOPTER
+     * @request PUT:/service/failureDetection/parameterSelection/parameterSets/{id}/changeId
+     */
+    changeFdpId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/service/failureDetection/parameterSelection/parameterSets/${id}/changeId`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Failure detection parameter sets
+     * @name GetAllFdps
+     * @summary Lists all available failure detection parameter sets | maturity=EARLY_ADOPTER
+     * @request GET:/service/failureDetection/parameterSelection/parameterSets
+     */
+    getAllFdps: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/failureDetection/parameterSelection/parameterSets`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Failure detection parameter sets
+     * @name CreateFdp
+     * @summary Creates a new failure detection parameter set | maturity=EARLY_ADOPTER
+     * @request POST:/service/failureDetection/parameterSelection/parameterSets
+     */
+    createFdp: (data: FailureDetectionParameterSet, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/failureDetection/parameterSelection/parameterSets`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
      * No description
      *
      * @tags Service - Failure detection parameter sets
@@ -14822,37 +14900,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Failure detection parameter sets
-     * @name GetAllFdps
-     * @summary Lists all available failure detection parameter sets | maturity=EARLY_ADOPTER
-     * @request GET:/service/failureDetection/parameterSelection/parameterSets
-     */
-    getAllFdps: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/failureDetection/parameterSelection/parameterSets`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - Failure detection parameter sets
-     * @name CreateFdp
-     * @summary Creates a new failure detection parameter set | maturity=EARLY_ADOPTER
-     * @request POST:/service/failureDetection/parameterSelection/parameterSets
-     */
-    createFdp: (data: FailureDetectionParameterSet, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/failureDetection/parameterSelection/parameterSets`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - Failure detection parameter sets
      * @name ValidateCreateFdp
      * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/parameterSets` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets/validator
@@ -14882,48 +14929,17 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description Rules that use the set will be automatically adapted to the new ID.
-     *
-     * @tags Service - Failure detection parameter sets
-     * @name ChangeFdpId
-     * @summary Changes the ID of the specified failure detection parameter set | maturity=EARLY_ADOPTER
-     * @request PUT:/service/failureDetection/parameterSelection/parameterSets/{id}/changeId
-     */
-    changeFdpId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/service/failureDetection/parameterSelection/parameterSets/${id}/changeId`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name GetAllRules
-     * @summary Lists all available failure detection rules | maturity=EARLY_ADOPTER
-     * @request GET:/service/failureDetection/parameterSelection/rules
+     * @name ChangeRuleId
+     * @summary Changes the ID of the specified rule | maturity=EARLY_ADOPTER
+     * @request PUT:/service/failureDetection/parameterSelection/rules/{id}/changeId
      */
-    getAllRules: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/failureDetection/parameterSelection/rules`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The new rule is appended to the end of the rule list. Rules are evaluated from top to bottom, the first matching rule applies.To enforce a particular order use the reorder request. The failure detection parameter set used by the rule must exist at the time of rule creation.
-     *
-     * @tags Service - Failure detection rules
-     * @name CreateRule
-     * @summary Creates a new failure detection rule | maturity=EARLY_ADOPTER
-     * @request POST:/service/failureDetection/parameterSelection/rules
-     */
-    createRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/failureDetection/parameterSelection/rules`,
-        method: "POST",
+    changeRuleId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/service/failureDetection/parameterSelection/rules/${id}/changeId`,
+        method: "PUT",
         body: data,
         ...params,
       }),
@@ -14978,29 +14994,28 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name ValidateCreateRule
-     * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/rules` request | maturity=EARLY_ADOPTER
-     * @request POST:/service/failureDetection/parameterSelection/rules/validator
+     * @name GetAllRules
+     * @summary Lists all available failure detection rules | maturity=EARLY_ADOPTER
+     * @request GET:/service/failureDetection/parameterSelection/rules
      */
-    validateCreateRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/service/failureDetection/parameterSelection/rules/validator`,
-        method: "POST",
-        body: data,
+    getAllRules: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/failureDetection/parameterSelection/rules`,
+        method: "GET",
         ...params,
       }),
 
     /**
-     * No description
+     * @description The new rule is appended to the end of the rule list. Rules are evaluated from top to bottom, the first matching rule applies.To enforce a particular order use the reorder request. The failure detection parameter set used by the rule must exist at the time of rule creation.
      *
      * @tags Service - Failure detection rules
-     * @name ValidateUpdateRule
-     * @summary Validates the payload for the `PUT /service/failureDetection/parameterSelection/rules/{id}` request | maturity=EARLY_ADOPTER
-     * @request POST:/service/failureDetection/parameterSelection/rules/{id}/validator
+     * @name CreateRule
+     * @summary Creates a new failure detection rule | maturity=EARLY_ADOPTER
+     * @request POST:/service/failureDetection/parameterSelection/rules
      */
-    validateUpdateRule: (id: string, data: FailureDetectionRule, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/service/failureDetection/parameterSelection/rules/${id}/validator`,
+    createRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/failureDetection/parameterSelection/rules`,
         method: "POST",
         body: data,
         ...params,
@@ -15026,92 +15041,31 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name ChangeRuleId
-     * @summary Changes the ID of the specified rule | maturity=EARLY_ADOPTER
-     * @request PUT:/service/failureDetection/parameterSelection/rules/{id}/changeId
+     * @name ValidateCreateRule
+     * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/rules` request | maturity=EARLY_ADOPTER
+     * @request POST:/service/failureDetection/parameterSelection/rules/validator
      */
-    changeRuleId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
+    validateCreateRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/service/failureDetection/parameterSelection/rules/${id}/changeId`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - IBM MQ tracing
-     * @name GetQueueManager
-     * @summary Gets the parameters of the specified queue manager
-     * @request GET:/service/ibmMQTracing/queueManager/{name}
-     */
-    getQueueManager: (name: string, params: RequestParams = {}) =>
-      this.request<QueueManager, any>({
-        path: `/service/ibmMQTracing/queueManager/${name}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description If the queue manager with the specified ID doesn’t exist, a new queue manager will be created.
-     *
-     * @tags Service - IBM MQ tracing
-     * @name PutQueueManager
-     * @summary Updates the specified queue manager or creates a new one
-     * @request PUT:/service/ibmMQTracing/queueManager/{name}
-     */
-    putQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/ibmMQTracing/queueManager/${name}`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - IBM MQ tracing
-     * @name DeleteQueueManager
-     * @summary Deletes the specified queue manager
-     * @request DELETE:/service/ibmMQTracing/queueManager/{name}
-     */
-    deleteQueueManager: (name: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/service/ibmMQTracing/queueManager/${name}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - IBM MQ tracing
-     * @name ValidateQueueManager
-     * @summary Validates the queue manager update for the `PUT /service/ibmMQTracing/queueManager/{name}` request
-     * @request POST:/service/ibmMQTracing/queueManager/{name}/validator
-     */
-    validateQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/service/ibmMQTracing/queueManager/${name}/validator`,
+        path: `/service/failureDetection/parameterSelection/rules/validator`,
         method: "POST",
         body: data,
         ...params,
       }),
 
     /**
-     * @description This endpoint is used to provide Dynatrace with your IBM MQ setup regarding alias, remote and cluster queues. This is required to facilitate end to end tracing for messages send via IBM MQ where sender and receiver use different queue names. Without this information Dynatrace would still trace all requests, but would not be able to stitch service calls that use these IBM MQ features.
+     * No description
      *
-     * @tags Service - IBM MQ tracing
-     * @name GetQueueManagers
-     * @summary Lists all available queue managers
-     * @request GET:/service/ibmMQTracing/queueManager
+     * @tags Service - Failure detection rules
+     * @name ValidateUpdateRule
+     * @summary Validates the payload for the `PUT /service/failureDetection/parameterSelection/rules/{id}` request | maturity=EARLY_ADOPTER
+     * @request POST:/service/failureDetection/parameterSelection/rules/{id}/validator
      */
-    getQueueManagers: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/ibmMQTracing/queueManager`,
-        method: "GET",
+    validateUpdateRule: (id: string, data: FailureDetectionRule, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/service/failureDetection/parameterSelection/rules/${id}/validator`,
+        method: "POST",
+        body: data,
         ...params,
       }),
 
@@ -15196,6 +15150,67 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
+     * @name GetQueueManager
+     * @summary Gets the parameters of the specified queue manager
+     * @request GET:/service/ibmMQTracing/queueManager/{name}
+     */
+    getQueueManager: (name: string, params: RequestParams = {}) =>
+      this.request<QueueManager, any>({
+        path: `/service/ibmMQTracing/queueManager/${name}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description If the queue manager with the specified ID doesn’t exist, a new queue manager will be created.
+     *
+     * @tags Service - IBM MQ tracing
+     * @name PutQueueManager
+     * @summary Updates the specified queue manager or creates a new one
+     * @request PUT:/service/ibmMQTracing/queueManager/{name}
+     */
+    putQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/ibmMQTracing/queueManager/${name}`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - IBM MQ tracing
+     * @name DeleteQueueManager
+     * @summary Deletes the specified queue manager
+     * @request DELETE:/service/ibmMQTracing/queueManager/{name}
+     */
+    deleteQueueManager: (name: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/service/ibmMQTracing/queueManager/${name}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description This endpoint is used to provide Dynatrace with your IBM MQ setup regarding alias, remote and cluster queues. This is required to facilitate end to end tracing for messages send via IBM MQ where sender and receiver use different queue names. Without this information Dynatrace would still trace all requests, but would not be able to stitch service calls that use these IBM MQ features.
+     *
+     * @tags Service - IBM MQ tracing
+     * @name GetQueueManagers
+     * @summary Lists all available queue managers
+     * @request GET:/service/ibmMQTracing/queueManager
+     */
+    getQueueManagers: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/ibmMQTracing/queueManager`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - IBM MQ tracing
      * @name ValidateImsEntryQueueForPost
      * @summary Validates new IBM IMS entry queues for the `POST /service/ibmMQTracing/imsEntryQueue` request
      * @request POST:/service/ibmMQTracing/imsEntryQueue/validator
@@ -15219,6 +15234,22 @@ export class Api extends APIBase {
     validateImsEntryQueueForPut: (id: string, data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/service/ibmMQTracing/imsEntryQueue/${id}/validator`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - IBM MQ tracing
+     * @name ValidateQueueManager
+     * @summary Validates the queue manager update for the `PUT /service/ibmMQTracing/queueManager/{name}` request
+     * @request POST:/service/ibmMQTracing/queueManager/{name}/validator
+     */
+    validateQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/service/ibmMQTracing/queueManager/${name}/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -15342,6 +15373,42 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Request naming
+     * @name ListRequestNaming
+     * @summary Lists all request naming rules along with their parameters
+     * @request GET:/service/requestNaming
+     */
+    listRequestNaming: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/requestNaming`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The new rule goes to the end of the rules list and will be the last to evaluate. Existing rules remain unaffected.
+     *
+     * @tags Service - Request naming
+     * @name CreateRequestNaming
+     * @summary Creates a new request naming rule
+     * @request POST:/service/requestNaming
+     */
+    createRequestNaming: (
+      data: RequestNaming,
+      query?: { position?: "APPEND" | "PREPEND" },
+      params: RequestParams = {},
+    ) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/requestNaming`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Request naming
      * @name GetRequestNaming
      * @summary Gets the parameters of the specified request naming rule
      * @request GET:/service/requestNaming/{id}
@@ -15385,53 +15452,17 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
+     * @description This request reorders the request namings according to the given list of IDs. Request namings not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
      *
      * @tags Service - Request naming
-     * @name ListRequestNaming
-     * @summary Lists all request naming rules along with their parameters
-     * @request GET:/service/requestNaming
+     * @name OrderRequestNaming
+     * @summary Reorders the request namings
+     * @request PUT:/service/requestNaming/order
      */
-    listRequestNaming: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/requestNaming`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The new rule goes to the end of the rules list and will be the last to evaluate. Existing rules remain unaffected.
-     *
-     * @tags Service - Request naming
-     * @name CreateRequestNaming
-     * @summary Creates a new request naming rule
-     * @request POST:/service/requestNaming
-     */
-    createRequestNaming: (
-      data: RequestNaming,
-      query?: { position?: "APPEND" | "PREPEND" },
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/requestNaming`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
-     *
-     * @tags Service - Request naming
-     * @name ValidateUpdateRequestNaming
-     * @summary Validates the new request naming for the `PUT /requestNaming/{id}` request
-     * @request POST:/service/requestNaming/{id}/validator
-     */
-    validateUpdateRequestNaming: (id: string, data: RequestNaming, params: RequestParams = {}) =>
+    orderRequestNaming: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/service/requestNaming/${id}/validator`,
-        method: "POST",
+        path: `/service/requestNaming/order`,
+        method: "PUT",
         body: data,
         ...params,
       }),
@@ -15453,17 +15484,17 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description This request reorders the request namings according to the given list of IDs. Request namings not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
+     * @description If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
      *
      * @tags Service - Request naming
-     * @name OrderRequestNaming
-     * @summary Reorders the request namings
-     * @request PUT:/service/requestNaming/order
+     * @name ValidateUpdateRequestNaming
+     * @summary Validates the new request naming for the `PUT /requestNaming/{id}` request
+     * @request POST:/service/requestNaming/{id}/validator
      */
-    orderRequestNaming: (data: StubList, params: RequestParams = {}) =>
+    validateUpdateRequestNaming: (id: string, data: RequestNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/service/requestNaming/order`,
-        method: "PUT",
+        path: `/service/requestNaming/${id}/validator`,
+        method: "POST",
         body: data,
         ...params,
       }),
@@ -15519,6 +15550,42 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Detection full web request
+     * @name ListRequestDetectionRules
+     * @summary Lists all full web request service detection rules
+     * @request GET:/service/detectionRules/FULL_WEB_REQUEST
+     */
+    listRequestDetectionRules: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/detectionRules/FULL_WEB_REQUEST`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
+     *
+     * @tags Service - Detection full web request
+     * @name CreateRequestDetectionRule
+     * @summary Creates a new service detection rule
+     * @request POST:/service/detectionRules/FULL_WEB_REQUEST
+     */
+    createRequestDetectionRule: (
+      data: FullWebRequestRule,
+      query?: { position?: "APPEND" | "PREPEND" },
+      params: RequestParams = {},
+    ) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/detectionRules/FULL_WEB_REQUEST`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Detection full web request
      * @name GetRequestDetectionRule
      * @summary Gets the properties of the specified service detection rule
      * @request GET:/service/detectionRules/FULL_WEB_REQUEST/{id}
@@ -15558,42 +15625,6 @@ export class Api extends APIBase {
       this.request<void, void>({
         path: `/service/detectionRules/FULL_WEB_REQUEST/${id}`,
         method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - Detection full web request
-     * @name ListRequestDetectionRules
-     * @summary Lists all full web request service detection rules
-     * @request GET:/service/detectionRules/FULL_WEB_REQUEST
-     */
-    listRequestDetectionRules: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/detectionRules/FULL_WEB_REQUEST`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Service - Detection full web request
-     * @name CreateRequestDetectionRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/FULL_WEB_REQUEST
-     */
-    createRequestDetectionRule: (
-      data: FullWebRequestRule,
-      query?: { position?: "APPEND" | "PREPEND" },
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/detectionRules/FULL_WEB_REQUEST`,
-        method: "POST",
-        query: query,
-        body: data,
         ...params,
       }),
 
@@ -15649,6 +15680,42 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Detection full web service
+     * @name ListServiceDetectionRules
+     * @summary Lists all full web service detection rules
+     * @request GET:/service/detectionRules/FULL_WEB_SERVICE
+     */
+    listServiceDetectionRules: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/detectionRules/FULL_WEB_SERVICE`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID as it will be automatically assigned.
+     *
+     * @tags Service - Detection full web service
+     * @name CreateServiceDetectionRule
+     * @summary Creates a new service detection rule
+     * @request POST:/service/detectionRules/FULL_WEB_SERVICE
+     */
+    createServiceDetectionRule: (
+      data: FullWebServiceRule,
+      query?: { position?: "APPEND" | "PREPEND" },
+      params: RequestParams = {},
+    ) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/detectionRules/FULL_WEB_SERVICE`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Detection full web service
      * @name GetServiceDetectionRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/FULL_WEB_SERVICE/{id}
@@ -15688,42 +15755,6 @@ export class Api extends APIBase {
       this.request<void, void>({
         path: `/service/detectionRules/FULL_WEB_SERVICE/${id}`,
         method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - Detection full web service
-     * @name ListServiceDetectionRules
-     * @summary Lists all full web service detection rules
-     * @request GET:/service/detectionRules/FULL_WEB_SERVICE
-     */
-    listServiceDetectionRules: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/detectionRules/FULL_WEB_SERVICE`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID as it will be automatically assigned.
-     *
-     * @tags Service - Detection full web service
-     * @name CreateServiceDetectionRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/FULL_WEB_SERVICE
-     */
-    createServiceDetectionRule: (
-      data: FullWebServiceRule,
-      query?: { position?: "APPEND" | "PREPEND" },
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/detectionRules/FULL_WEB_SERVICE`,
-        method: "POST",
-        query: query,
-        body: data,
         ...params,
       }),
 
@@ -15779,17 +15810,34 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web request
-     * @name ValidateCreateOpaqueAndExternalWebRequestDetectionRule
-     * @summary Validates the payload for the `POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST` request
-     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator
+     * @name ListOpaqueAndExternalWebRequestDetectionRules
+     * @summary Lists all opaque and external web request service detection rules
+     * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
      */
-    validateCreateOpaqueAndExternalWebRequestDetectionRule: (
+    listOpaqueAndExternalWebRequestDetectionRules: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID as it will be automatically assigned.
+     *
+     * @tags Service - Detection opaque and external web request
+     * @name CreateOpaqueAndExternalWebRequestDetectionRule
+     * @summary Creates a new service detection rule
+     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
+     */
+    createOpaqueAndExternalWebRequestDetectionRule: (
       data: OpaqueAndExternalWebRequestRule,
+      query?: { position?: "APPEND" | "PREPEND" },
       params: RequestParams = {},
     ) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator`,
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST`,
         method: "POST",
+        query: query,
         body: data,
         ...params,
       }),
@@ -15845,42 +15893,6 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
-     *
-     * @tags Service - Detection opaque and external web request
-     * @name ListOpaqueAndExternalWebRequestDetectionRules
-     * @summary Lists all opaque and external web request service detection rules
-     * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
-     */
-    listOpaqueAndExternalWebRequestDetectionRules: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID as it will be automatically assigned.
-     *
-     * @tags Service - Detection opaque and external web request
-     * @name CreateOpaqueAndExternalWebRequestDetectionRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
-     */
-    createOpaqueAndExternalWebRequestDetectionRule: (
-      data: OpaqueAndExternalWebRequestRule,
-      query?: { position?: "APPEND" | "PREPEND" },
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
      * @description The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
      *
      * @tags Service - Detection opaque and external web request
@@ -15892,6 +15904,25 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order`,
         method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Detection opaque and external web request
+     * @name ValidateCreateOpaqueAndExternalWebRequestDetectionRule
+     * @summary Validates the payload for the `POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST` request
+     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator
+     */
+    validateCreateOpaqueAndExternalWebRequestDetectionRule: (
+      data: OpaqueAndExternalWebRequestRule,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator`,
+        method: "POST",
         body: data,
         ...params,
       }),
@@ -15912,6 +15943,42 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/${id}/validator`,
         method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Service - Detection opaque and external web service
+     * @name ListOpaqueAndExternalWebServiceRules
+     * @summary Lists all opaque and external web service detection rules
+     * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
+     */
+    listOpaqueAndExternalWebServiceRules: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID as it will be automatically assigned.
+     *
+     * @tags Service - Detection opaque and external web service
+     * @name CreateOpaqueAndExternalWebServiceRule
+     * @summary Creates a new service detection rule
+     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
+     */
+    createOpaqueAndExternalWebServiceRule: (
+      data: OpaqueAndExternalWebServiceRule,
+      query?: { position?: "APPEND" | "PREPEND" },
+      params: RequestParams = {},
+    ) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE`,
+        method: "POST",
+        query: query,
         body: data,
         ...params,
       }),
@@ -15963,42 +16030,6 @@ export class Api extends APIBase {
       this.request<void, void>({
         path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/${id}`,
         method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Service - Detection opaque and external web service
-     * @name ListOpaqueAndExternalWebServiceRules
-     * @summary Lists all opaque and external web service detection rules
-     * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
-     */
-    listOpaqueAndExternalWebServiceRules: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID as it will be automatically assigned.
-     *
-     * @tags Service - Detection opaque and external web service
-     * @name CreateOpaqueAndExternalWebServiceRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
-     */
-    createOpaqueAndExternalWebServiceRule: (
-      data: OpaqueAndExternalWebServiceRule,
-      query?: { position?: "APPEND" | "PREPEND" },
-      params: RequestParams = {},
-    ) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE`,
-        method: "POST",
-        query: query,
-        body: data,
         ...params,
       }),
 
@@ -16137,6 +16168,37 @@ export class Api extends APIBase {
       }),
 
     /**
+     * No description
+     *
+     * @tags Dashboards
+     * @name GetDashboardSharingSettings
+     * @summary Gets the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
+     * @request GET:/dashboards/{id}/shareSettings
+     */
+    getDashboardSharingSettings: (id: string, params: RequestParams = {}) =>
+      this.request<DashboardSharing, any>({
+        path: `/dashboards/${id}/shareSettings`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Dashboards
+     * @name UpdateShareSettings
+     * @summary Updates the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
+     * @request PUT:/dashboards/{id}/shareSettings
+     */
+    updateShareSettings: (id: string, data: DashboardSharing, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/dashboards/${id}/shareSettings`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
      * @description The body must not provide an ID.
      *
      * @tags Dashboards
@@ -16164,37 +16226,6 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/dashboards/${id}/validator`,
         method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Dashboards
-     * @name GetDashboardSharingSettings
-     * @summary Gets the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
-     * @request GET:/dashboards/{id}/shareSettings
-     */
-    getDashboardSharingSettings: (id: string, params: RequestParams = {}) =>
-      this.request<DashboardSharing, any>({
-        path: `/dashboards/${id}/shareSettings`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Dashboards
-     * @name UpdateShareSettings
-     * @summary Updates the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
-     * @request PUT:/dashboards/{id}/shareSettings
-     */
-    updateShareSettings: (id: string, data: DashboardSharing, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/dashboards/${id}/shareSettings`,
-        method: "PUT",
         body: data,
         ...params,
       }),
@@ -16264,6 +16295,42 @@ export class Api extends APIBase {
       }),
   };
   extensions = {
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name GetExtensionConfigurations
+     * @summary Returns list of all local configuration instances for given extension | maturity=EARLY_ADOPTER
+     * @request GET:/extensions/{id}/instances
+     */
+    getExtensionConfigurations: (
+      id: string,
+      query?: { pageSize?: number; nextPageKey?: string },
+      params: RequestParams = {},
+    ) =>
+      this.request<ExtensionConfigurationList, any>({
+        path: `/extensions/${id}/instances`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name CreateLocalExtensionConfiguration
+     * @summary Creates instance of local configuration for given extension | maturity=EARLY_ADOPTER
+     * @request POST:/extensions/{id}/instances
+     */
+    createLocalExtensionConfiguration: (id: string, data: ExtensionConfigurationDto, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/extensions/${id}/instances`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
     /**
      * No description
      *
@@ -16349,14 +16416,117 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetRemoteExtensionModules
-     * @summary List available ActiveGate extension modules | maturity=EARLY_ADOPTER
-     * @request GET:/extensions/activeGateExtensionModules
+     * @name GetExtensionBinary
+     * @summary Downloads the ZIP file of the specified extension | maturity=EARLY_ADOPTER
+     * @request GET:/extensions/{id}/binary
      */
-    getRemoteExtensionModules: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/extensions/activeGateExtensionModules`,
+    getExtensionBinary: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/extensions/${id}/binary`,
         method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name GetExtensionGlobalConfiguration
+     * @summary Get the global configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
+     * @request GET:/extensions/{id}/global
+     */
+    getExtensionGlobalConfiguration: (id: string, params: RequestParams = {}) =>
+      this.request<GlobalExtensionConfiguration, any>({
+        path: `/extensions/${id}/global`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name UpdateGlobalExtensionConfiguration
+     * @summary Updates the configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
+     * @request PUT:/extensions/{id}/global
+     */
+    updateGlobalExtensionConfiguration: (id: string, data: GlobalExtensionConfiguration, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/extensions/${id}/global`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name GetExtensionStates
+     * @summary Lists the states of the specified extension | maturity=EARLY_ADOPTER
+     * @request GET:/extensions/{id}/states
+     */
+    getExtensionStates: (
+      id: string,
+      query?: {
+        pageSize?: number;
+        nextPageKey?: string;
+        state?:
+          | "DISABLED"
+          | "ERROR_AUTH"
+          | "ERROR_COMMUNICATION_FAILURE"
+          | "ERROR_CONFIG"
+          | "ERROR_TIMEOUT"
+          | "ERROR_UNKNOWN"
+          | "INCOMPATIBLE"
+          | "LIMIT_REACHED"
+          | "NOTHING_TO_REPORT"
+          | "OK"
+          | "STATE_TYPE_UNKNOWN"
+          | "UNINITIALIZED"
+          | "UNSUPPORTED"
+          | "WAITING_FOR_STATE";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ExtensionStateList, any>({
+        path: `/extensions/${id}/states`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name GetExtensions
+     * @summary Lists all uploaded extensions | maturity=EARLY_ADOPTER
+     * @request GET:/extensions
+     */
+    getExtensions: (query?: { pageSize?: number; nextPageKey?: string }, params: RequestParams = {}) =>
+      this.request<ExtensionListDto, any>({
+        path: `/extensions`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name UploadExtension
+     * @summary Uploads a ZIP extension file | maturity=EARLY_ADOPTER
+     * @request POST:/extensions
+     */
+    uploadExtension: (data: { file: File }, query?: { overrideAlerts?: boolean }, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/extensions`,
+        method: "POST",
+        query: query,
+        body: data,
+        type: ContentType.FormData,
         ...params,
       }),
 
@@ -16481,6 +16651,7 @@ export class Api extends APIBase {
         | "LIBC"
         | "LIBVIRT"
         | "LINKERD"
+        | "LINUX_SYSTEM"
         | "MARIADB"
         | "MEMCACHED"
         | "MICROSOFT_SQL_SERVER"
@@ -16545,6 +16716,7 @@ export class Api extends APIBase {
         | "VIRTUAL_MACHINE_QEMU"
         | "WILDFLY"
         | "WINDOWS_CONTAINERS"
+        | "WINDOWS_SYSTEM"
         | "WINK"
         | "ZERO_MQ"
         | "ZOS_CONNECT",
@@ -16562,6 +16734,21 @@ export class Api extends APIBase {
         path: `/extensions/${technology}/availableHosts`,
         method: "GET",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions
+     * @name GetRemoteExtensionModules
+     * @summary List available ActiveGate extension modules | maturity=EARLY_ADOPTER
+     * @request GET:/extensions/activeGateExtensionModules
+     */
+    getRemoteExtensionModules: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/extensions/activeGateExtensionModules`,
+        method: "GET",
         ...params,
       }),
 
@@ -16587,126 +16774,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtensionGlobalConfiguration
-     * @summary Get the global configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
-     * @request GET:/extensions/{id}/global
-     */
-    getExtensionGlobalConfiguration: (id: string, params: RequestParams = {}) =>
-      this.request<GlobalExtensionConfiguration, any>({
-        path: `/extensions/${id}/global`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name UpdateGlobalExtensionConfiguration
-     * @summary Updates the configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
-     * @request PUT:/extensions/{id}/global
-     */
-    updateGlobalExtensionConfiguration: (id: string, data: GlobalExtensionConfiguration, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/extensions/${id}/global`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name GetExtensionBinary
-     * @summary Downloads the ZIP file of the specified extension | maturity=EARLY_ADOPTER
-     * @request GET:/extensions/{id}/binary
-     */
-    getExtensionBinary: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/extensions/${id}/binary`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name GetExtensionStates
-     * @summary Lists the states of the specified extension | maturity=EARLY_ADOPTER
-     * @request GET:/extensions/{id}/states
-     */
-    getExtensionStates: (
-      id: string,
-      query?: {
-        pageSize?: number;
-        nextPageKey?: string;
-        state?:
-          | "DISABLED"
-          | "ERROR_AUTH"
-          | "ERROR_COMMUNICATION_FAILURE"
-          | "ERROR_CONFIG"
-          | "ERROR_TIMEOUT"
-          | "ERROR_UNKNOWN"
-          | "INCOMPATIBLE"
-          | "LIMIT_REACHED"
-          | "NOTHING_TO_REPORT"
-          | "OK"
-          | "STATE_TYPE_UNKNOWN"
-          | "UNINITIALIZED"
-          | "UNSUPPORTED"
-          | "WAITING_FOR_STATE";
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<ExtensionStateList, any>({
-        path: `/extensions/${id}/states`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name GetExtensionConfigurations
-     * @summary Returns list of all local configuration instances for given extension | maturity=EARLY_ADOPTER
-     * @request GET:/extensions/{id}/instances
-     */
-    getExtensionConfigurations: (
-      id: string,
-      query?: { pageSize?: number; nextPageKey?: string },
-      params: RequestParams = {},
-    ) =>
-      this.request<ExtensionConfigurationList, any>({
-        path: `/extensions/${id}/instances`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name CreateLocalExtensionConfiguration
-     * @summary Creates instance of local configuration for given extension | maturity=EARLY_ADOPTER
-     * @request POST:/extensions/{id}/instances
-     */
-    createLocalExtensionConfiguration: (id: string, data: ExtensionConfigurationDto, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/extensions/${id}/instances`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
      * @name ValidateLocalExtensionConfiguration
      * @summary Validates the payload for the `POST /extensions/{id}/instances` request | maturity=EARLY_ADOPTER
      * @request POST:/extensions/{id}/instances/validator
@@ -16716,40 +16783,6 @@ export class Api extends APIBase {
         path: `/extensions/${id}/instances/validator`,
         method: "POST",
         body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name GetExtensions
-     * @summary Lists all uploaded extensions | maturity=EARLY_ADOPTER
-     * @request GET:/extensions
-     */
-    getExtensions: (query?: { pageSize?: number; nextPageKey?: string }, params: RequestParams = {}) =>
-      this.request<ExtensionListDto, any>({
-        path: `/extensions`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions
-     * @name UploadExtension
-     * @summary Uploads a ZIP extension file | maturity=EARLY_ADOPTER
-     * @request POST:/extensions
-     */
-    uploadExtension: (data: { file: File }, query?: { overrideAlerts?: boolean }, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/extensions`,
-        method: "POST",
-        query: query,
-        body: data,
-        type: ContentType.FormData,
         ...params,
       }),
   };
@@ -17152,6 +17185,37 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
+     * @name ListMobileMetrics
+     * @summary Lists all calculated metrics for mobile and custom apps configured in your environment
+     * @request GET:/calculatedMetrics/mobile
+     */
+    listMobileMetrics: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/calculatedMetrics/mobile`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Calculated metrics - Mobile & custom applications
+     * @name CreateMobileMetric
+     * @summary Creates a new calculated metric for a mobile or custom app
+     * @request POST:/calculatedMetrics/mobile
+     */
+    createMobileMetric: (data: CalculatedMobileMetric, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/calculatedMetrics/mobile`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Calculated metrics - Mobile & custom applications
      * @name GetMobileMetric
      * @summary Gets the descriptor of the specified calculated metric for mobile or custom app
      * @request GET:/calculatedMetrics/mobile/{metricKey}
@@ -17198,37 +17262,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name ListMobileMetrics
-     * @summary Lists all calculated metrics for mobile and custom apps configured in your environment
-     * @request GET:/calculatedMetrics/mobile
-     */
-    listMobileMetrics: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/calculatedMetrics/mobile`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Calculated metrics - Mobile & custom applications
-     * @name CreateMobileMetric
-     * @summary Creates a new calculated metric for a mobile or custom app
-     * @request POST:/calculatedMetrics/mobile
-     */
-    createMobileMetric: (data: CalculatedMobileMetric, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/calculatedMetrics/mobile`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Calculated metrics - Mobile & custom applications
      * @name ValidateCreateMobileMetric
      * @summary Validates the payload for the `POST /calculatedMetrics/mobile` request
      * @request POST:/calculatedMetrics/mobile/validator
@@ -17252,6 +17285,37 @@ export class Api extends APIBase {
     validateUpdateMobileMetric: (metricKey: string, data: CalculatedMobileMetricUpdate, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/calculatedMetrics/mobile/${metricKey}/validator`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Calculated metrics - Web applications
+     * @name ListRumMetrics
+     * @summary Lists all calculated web application metrics
+     * @request GET:/calculatedMetrics/rum
+     */
+    listRumMetrics: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/calculatedMetrics/rum`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Calculated metrics - Web applications
+     * @name CreateRumMetric
+     * @summary Creates a new calculated web application metric
+     * @request POST:/calculatedMetrics/rum
+     */
+    createRumMetric: (data: WebApplicationMetric, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/calculatedMetrics/rum`,
         method: "POST",
         body: data,
         ...params,
@@ -17300,37 +17364,6 @@ export class Api extends APIBase {
       this.request<void, any>({
         path: `/calculatedMetrics/rum/${metricKey}`,
         method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Calculated metrics - Web applications
-     * @name ListRumMetrics
-     * @summary Lists all calculated web application metrics
-     * @request GET:/calculatedMetrics/rum
-     */
-    listRumMetrics: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/calculatedMetrics/rum`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Calculated metrics - Web applications
-     * @name CreateRumMetric
-     * @summary Creates a new calculated web application metric
-     * @request POST:/calculatedMetrics/rum
-     */
-    createRumMetric: (data: WebApplicationMetric, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/calculatedMetrics/rum`,
-        method: "POST",
-        body: data,
         ...params,
       }),
 
@@ -17447,13 +17480,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name ValidateUpdateServiceMetric
-     * @summary Validates the payload for the `PUT /calculatedMetric/service/{id}` request
-     * @request POST:/calculatedMetrics/service/{metricKey}/validator
+     * @name ValidateCreateServiceMetric
+     * @summary Validates the payload for the `POST /calculatedMetric/service` request
+     * @request POST:/calculatedMetrics/service/validator
      */
-    validateUpdateServiceMetric: (metricKey: string, data: CalculatedServiceMetric, params: RequestParams = {}) =>
+    validateCreateServiceMetric: (data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/calculatedMetrics/service/${metricKey}/validator`,
+        path: `/calculatedMetrics/service/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -17463,13 +17496,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name ValidateCreateServiceMetric
-     * @summary Validates the payload for the `POST /calculatedMetric/service` request
-     * @request POST:/calculatedMetrics/service/validator
+     * @name ValidateUpdateServiceMetric
+     * @summary Validates the payload for the `PUT /calculatedMetric/service/{id}` request
+     * @request POST:/calculatedMetrics/service/{metricKey}/validator
      */
-    validateCreateServiceMetric: (data: CalculatedServiceMetric, params: RequestParams = {}) =>
+    validateUpdateServiceMetric: (metricKey: string, data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/calculatedMetrics/service/validator`,
+        path: `/calculatedMetrics/service/${metricKey}/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -17666,22 +17699,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name ValidateUpdateNotificationConfig
-     * @summary Validates the payload the `PUT /notifications/{id}` request
-     * @request POST:/notifications/{id}/validator
-     */
-    validateUpdateNotificationConfig: (id: string, data: NotificationConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/notifications/${id}/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Notifications
      * @name ValidateCreateNotificationConfig
      * @summary Validates the payload for the `POST /notifications` request
      * @request POST:/notifications/validator
@@ -17693,104 +17710,24 @@ export class Api extends APIBase {
         body: data,
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Notifications
+     * @name ValidateUpdateNotificationConfig
+     * @summary Validates the payload the `PUT /notifications/{id}` request
+     * @request POST:/notifications/{id}/validator
+     */
+    validateUpdateNotificationConfig: (id: string, data: NotificationConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/notifications/${id}/validator`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
   };
   plugins = {
-    /**
-     * No description
-     *
-     * @tags Plugins
-     * @name GetPlugins
-     * @summary Lists all uploaded plugins
-     * @request GET:/plugins
-     */
-    getPlugins: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/plugins`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Plugins
-     * @name UploadPlugin
-     * @summary Uploads a ZIP plugin file
-     * @request POST:/plugins
-     */
-    uploadPlugin: (data: { file: File }, query?: { overrideAlerts?: boolean }, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/plugins`,
-        method: "POST",
-        query: query,
-        body: data,
-        type: ContentType.FormData,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Plugins
-     * @name ValidatePlugin
-     * @summary Validates a ZIP plugin file for `POST/plugins` request
-     * @request POST:/plugins/validator
-     */
-    validatePlugin: (data: { file: File }, query?: { jsonOnly?: boolean }, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/plugins/validator`,
-        method: "POST",
-        query: query,
-        body: data,
-        type: ContentType.FormData,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Plugins
-     * @name GetPluginBinary
-     * @summary Downloads the ZIP file of the specified plugin
-     * @request GET:/plugins/{id}/binary
-     */
-    getPluginBinary: (id: string, params: RequestParams = {}) =>
-      this.request<object, any>({
-        path: `/plugins/${id}/binary`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Deletion of the plugin file uninstalls the plugin, making it unavailable for use.
-     *
-     * @tags Plugins
-     * @name DeletePlugin
-     * @summary Deletes the ZIP file of the specified plugin
-     * @request DELETE:/plugins/{id}/binary
-     */
-    deletePlugin: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/plugins/${id}/binary`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Plugins
-     * @name GetPluginStates
-     * @summary Lists the states of the specified plugin
-     * @request GET:/plugins/{id}/states
-     */
-    getPluginStates: (id: string, params: RequestParams = {}) =>
-      this.request<PluginStateList, any>({
-        path: `/plugins/${id}/states`,
-        method: "GET",
-        ...params,
-      }),
-
     /**
      * No description
      *
@@ -17826,15 +17763,29 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name ValidateRemotePluginEndpoint
-     * @summary Validates the payload for the `POST /plugins/{id}/endpoints` request
-     * @request POST:/plugins/{id}/endpoints/validator
+     * @name GetPluginBinary
+     * @summary Downloads the ZIP file of the specified plugin
+     * @request GET:/plugins/{id}/binary
      */
-    validateRemotePluginEndpoint: (id: string, data: RemotePluginEndpoint, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/plugins/${id}/endpoints/validator`,
-        method: "POST",
-        body: data,
+    getPluginBinary: (id: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/plugins/${id}/binary`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Deletion of the plugin file uninstalls the plugin, making it unavailable for use.
+     *
+     * @tags Plugins
+     * @name DeletePlugin
+     * @summary Deletes the ZIP file of the specified plugin
+     * @request DELETE:/plugins/{id}/binary
+     */
+    deletePlugin: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/plugins/${id}/binary`,
+        method: "DELETE",
         ...params,
       }),
 
@@ -17893,6 +17844,69 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Plugins
+     * @name GetPlugin
+     * @summary Lists the properties of the specified plugin
+     * @request GET:/plugins/{id}
+     */
+    getPlugin: (id: string, params: RequestParams = {}) =>
+      this.request<Plugin, any>({
+        path: `/plugins/${id}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plugins
+     * @name GetPluginStates
+     * @summary Lists the states of the specified plugin
+     * @request GET:/plugins/{id}/states
+     */
+    getPluginStates: (id: string, params: RequestParams = {}) =>
+      this.request<PluginStateList, any>({
+        path: `/plugins/${id}/states`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plugins
+     * @name GetPlugins
+     * @summary Lists all uploaded plugins
+     * @request GET:/plugins
+     */
+    getPlugins: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/plugins`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plugins
+     * @name UploadPlugin
+     * @summary Uploads a ZIP plugin file
+     * @request POST:/plugins
+     */
+    uploadPlugin: (data: { file: File }, query?: { overrideAlerts?: boolean }, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/plugins`,
+        method: "POST",
+        query: query,
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plugins
      * @name GetRemotePluginModules
      * @summary List available ActiveGate plugin modules
      * @request GET:/plugins/activeGatePluginModules
@@ -17908,14 +17922,33 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetPlugin
-     * @summary Lists the properties of the specified plugin
-     * @request GET:/plugins/{id}
+     * @name ValidatePlugin
+     * @summary Validates a ZIP plugin file for `POST/plugins` request
+     * @request POST:/plugins/validator
      */
-    getPlugin: (id: string, params: RequestParams = {}) =>
-      this.request<Plugin, any>({
-        path: `/plugins/${id}`,
-        method: "GET",
+    validatePlugin: (data: { file: File }, query?: { jsonOnly?: boolean }, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/plugins/validator`,
+        method: "POST",
+        query: query,
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plugins
+     * @name ValidateRemotePluginEndpoint
+     * @summary Validates the payload for the `POST /plugins/{id}/endpoints` request
+     * @request POST:/plugins/{id}/endpoints/validator
+     */
+    validateRemotePluginEndpoint: (id: string, data: RemotePluginEndpoint, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/plugins/${id}/endpoints/validator`,
+        method: "POST",
+        body: data,
         ...params,
       }),
   };
@@ -18001,13 +18034,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name ValidateUpdateRemoteEnvironmentConfig
-     * @summary Validates the payload for the `PUT /remoteEnvironments/{id}` request | maturity=EARLY_ADOPTER
-     * @request POST:/remoteEnvironments/{id}/validator
+     * @name ValidateCreateRemoteEnvironmentConfig
+     * @summary Validates the payload for the `POST /remoteEnvironments` request | maturity=EARLY_ADOPTER
+     * @request POST:/remoteEnvironments/validator
      */
-    validateUpdateRemoteEnvironmentConfig: (id: string, data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
+    validateCreateRemoteEnvironmentConfig: (data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/remoteEnvironments/${id}/validator`,
+        path: `/remoteEnvironments/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -18017,13 +18050,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name ValidateCreateRemoteEnvironmentConfig
-     * @summary Validates the payload for the `POST /remoteEnvironments` request | maturity=EARLY_ADOPTER
-     * @request POST:/remoteEnvironments/validator
+     * @name ValidateUpdateRemoteEnvironmentConfig
+     * @summary Validates the payload for the `PUT /remoteEnvironments/{id}` request | maturity=EARLY_ADOPTER
+     * @request POST:/remoteEnvironments/{id}/validator
      */
-    validateCreateRemoteEnvironmentConfig: (data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
+    validateUpdateRemoteEnvironmentConfig: (id: string, data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/remoteEnvironments/validator`,
+        path: `/remoteEnvironments/${id}/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -18080,6 +18113,38 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Reports
+     * @name ListReports
+     * @summary Lists all reports available in your environment | maturity=EARLY_ADOPTER
+     * @request GET:/reports
+     */
+    listReports: (query?: { type?: "DASHBOARD"; sourceId?: string }, params: RequestParams = {}) =>
+      this.request<ReportStubList, any>({
+        path: `/reports`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
+     *
+     * @tags Reports
+     * @name CreateReport
+     * @summary Creates a report | maturity=EARLY_ADOPTER
+     * @request POST:/reports
+     */
+    createReport: (data: DashboardReport, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/reports`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Reports
      * @name SubscribeReport
      * @summary Subscribes to the specified report | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/subscribe
@@ -18109,22 +18174,6 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID.
-     *
-     * @tags Reports
-     * @name ValidateCreateReport
-     * @summary Validates the payload for the `POST /reports` request | maturity=EARLY_ADOPTER
-     * @request POST:/reports/validator
-     */
-    validateCreateReport: (data: DashboardReport, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/reports/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
      * No description
      *
      * @tags Reports
@@ -18141,32 +18190,16 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
+     * @description The body must not provide an ID.
      *
      * @tags Reports
-     * @name ListReports
-     * @summary Lists all reports available in your environment | maturity=EARLY_ADOPTER
-     * @request GET:/reports
+     * @name ValidateCreateReport
+     * @summary Validates the payload for the `POST /reports` request | maturity=EARLY_ADOPTER
+     * @request POST:/reports/validator
      */
-    listReports: (query?: { type?: "DASHBOARD"; sourceId?: string }, params: RequestParams = {}) =>
-      this.request<ReportStubList, any>({
-        path: `/reports`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Reports
-     * @name CreateReport
-     * @summary Creates a report | maturity=EARLY_ADOPTER
-     * @request POST:/reports
-     */
-    createReport: (data: DashboardReport, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/reports`,
+    validateCreateReport: (data: DashboardReport, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/reports/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -18245,6 +18278,30 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
+     * @name CreateOrUpdatePinning
+     * @summary Pin or unpin all symbolication files of a app version. A pinned file will not be deleted automtically, when running out of space.
+     * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning
+     */
+    createOrUpdatePinning: (
+      applicationId: string,
+      packageName: string,
+      os: "ANDROID" | "IOS" | "TVOS",
+      versionCode: string,
+      versionName: string,
+      data: SymbolFilePinning,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}/pinning`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Mobile Deobfuscation and Symbolication
      * @name GetAllPerApplication
      * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) for one single mobile application from the Symbol File Store of this tenant.
      * @request GET:/symfiles/{applicationId}
@@ -18275,23 +18332,44 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name CreateOrUpdatePinning
-     * @summary Pin or unpin all symbolication files of a app version. A pinned file will not be deleted automtically, when running out of space.
-     * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning
+     * @name GetAll
+     * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) from the Symbol File Store.
+     * @request GET:/symfiles
      */
-    createOrUpdatePinning: (
-      applicationId: string,
-      packageName: string,
-      os: "ANDROID" | "IOS" | "TVOS",
-      versionCode: string,
-      versionName: string,
-      data: SymbolFilePinning,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/symfiles/${applicationId}/${packageName}/${os}/${versionCode}/${versionName}/pinning`,
-        method: "PUT",
-        body: data,
+    getAll: (params: RequestParams = {}) =>
+      this.request<SymbolFileList, any>({
+        path: `/symfiles`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Mobile Deobfuscation and Symbolication
+     * @name GetDssClientUrl
+     * @summary Gets a download link for the latest version of the DTXDssClient.
+     * @request GET:/symfiles/dtxdss-download
+     */
+    getDssClientUrl: (params: RequestParams = {}) =>
+      this.request<SymbolFileClientLinkDto, any>({
+        path: `/symfiles/dtxdss-download`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Mobile Deobfuscation and Symbolication
+     * @name GetInfo
+     * @summary Retrieves information about used/empty diskspace, number of stored files,....
+     * @request GET:/symfiles/info
+     */
+    getInfo: (params: RequestParams = {}) =>
+      this.request<SymbolFileStorageInfo, any>({
+        path: `/symfiles/info`,
+        method: "GET",
         ...params,
       }),
 
@@ -18333,51 +18411,6 @@ export class Api extends APIBase {
         body: data,
         ...params,
       }),
-
-    /**
-     * No description
-     *
-     * @tags Mobile Deobfuscation and Symbolication
-     * @name GetDssClientUrl
-     * @summary Gets a download link for the latest version of the DTXDssClient.
-     * @request GET:/symfiles/dtxdss-download
-     */
-    getDssClientUrl: (params: RequestParams = {}) =>
-      this.request<SymbolFileClientLinkDto, any>({
-        path: `/symfiles/dtxdss-download`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Mobile Deobfuscation and Symbolication
-     * @name GetInfo
-     * @summary Retrieves information about used/empty diskspace, number of stored files,....
-     * @request GET:/symfiles/info
-     */
-    getInfo: (params: RequestParams = {}) =>
-      this.request<SymbolFileStorageInfo, any>({
-        path: `/symfiles/info`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Mobile Deobfuscation and Symbolication
-     * @name GetAll
-     * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) from the Symbol File Store.
-     * @request GET:/symfiles
-     */
-    getAll: (params: RequestParams = {}) =>
-      this.request<SymbolFileList, any>({
-        path: `/symfiles`,
-        method: "GET",
-        ...params,
-      }),
   };
   technologies = {
     /**
@@ -18408,6 +18441,37 @@ export class Api extends APIBase {
       this.request<AwsIamToken, any>({
         path: `/aws/iamExternalId`,
         method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags AWS credentials configuration
+     * @name ListAwsCredentialConfigs
+     * @summary Lists all available AWS credentials configurations
+     * @request GET:/aws/credentials
+     */
+    listAwsCredentialConfigs: (params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation[], any>({
+        path: `/aws/credentials`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
+     *
+     * @tags AWS credentials configuration
+     * @name CreateAwsCredentialsConfig
+     * @summary Creates a new AWS credentials configuration
+     * @request POST:/aws/credentials
+     */
+    createAwsCredentialsConfig: (data: AwsCredentialsConfig, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/aws/credentials`,
+        method: "POST",
+        body: data,
         ...params,
       }),
 
@@ -18490,37 +18554,6 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
-     *
-     * @tags AWS credentials configuration
-     * @name ListAwsCredentialConfigs
-     * @summary Lists all available AWS credentials configurations
-     * @request GET:/aws/credentials
-     */
-    listAwsCredentialConfigs: (params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation[], any>({
-        path: `/aws/credentials`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags AWS credentials configuration
-     * @name CreateAwsCredentialsConfig
-     * @summary Creates a new AWS credentials configuration
-     * @request POST:/aws/credentials
-     */
-    createAwsCredentialsConfig: (data: AwsCredentialsConfig, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/aws/credentials`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
      * @description Lists the account ids of all allowlisted accounts in AWS PrivateLink for this tenant
      *
      * @tags AWS PrivateLink
@@ -18532,37 +18565,6 @@ export class Api extends APIBase {
       this.request<AllowlistedAwsAccountList, any>({
         path: `/aws/privateLink/allowlistedAccounts`,
         method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Updates the given AWS account id in the allowlisted accounts in AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name PutAllowlistedAccount
-     * @summary Updates the given AWS account id in the allowlist in AWS PrivateLink
-     * @request PUT:/aws/privateLink/allowlistedAccounts/{id}
-     */
-    putAllowlistedAccount: (id: string, data: AllowlistedAwsAccount, params: RequestParams = {}) =>
-      this.request<AllowlistedAwsAccount, ErrorEnvelope>({
-        path: `/aws/privateLink/allowlistedAccounts/${id}`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * @description Removes the given AWS account id from the allowlisted accounts in AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name RemoveAllowlistedAccount
-     * @summary Removes one AWS account from the allowlist in AWS PrivateLink
-     * @request DELETE:/aws/privateLink/allowlistedAccounts/{id}
-     */
-    removeAllowlistedAccount: (id: string, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/aws/privateLink/allowlistedAccounts/${id}`,
-        method: "DELETE",
         ...params,
       }),
 
@@ -18594,6 +18596,37 @@ export class Api extends APIBase {
         path: `/aws/privateLink`,
         method: "PUT",
         body: data,
+        ...params,
+      }),
+
+    /**
+     * @description Updates the given AWS account id in the allowlisted accounts in AWS PrivateLink for this tenant
+     *
+     * @tags AWS PrivateLink
+     * @name PutAllowlistedAccount
+     * @summary Updates the given AWS account id in the allowlist in AWS PrivateLink
+     * @request PUT:/aws/privateLink/allowlistedAccounts/{id}
+     */
+    putAllowlistedAccount: (id: string, data: AllowlistedAwsAccount, params: RequestParams = {}) =>
+      this.request<AllowlistedAwsAccount, ErrorEnvelope>({
+        path: `/aws/privateLink/allowlistedAccounts/${id}`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description Removes the given AWS account id from the allowlisted accounts in AWS PrivateLink for this tenant
+     *
+     * @tags AWS PrivateLink
+     * @name RemoveAllowlistedAccount
+     * @summary Removes one AWS account from the allowlist in AWS PrivateLink
+     * @request DELETE:/aws/privateLink/allowlistedAccounts/{id}
+     */
+    removeAllowlistedAccount: (id: string, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/aws/privateLink/allowlistedAccounts/${id}`,
+        method: "DELETE",
         ...params,
       }),
   };
@@ -18679,22 +18712,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Azure credentials configuration
-     * @name ValidateConfigurationUpdate
-     * @summary Validates the payload for the `PUT /azure/credentials/{id}` request
-     * @request POST:/azure/credentials/{id}/validator
-     */
-    validateConfigurationUpdate: (id: string, data: AzureCredentials, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/azure/credentials/${id}/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Azure credentials configuration
      * @name ValidateAzureCredentialsConfig
      * @summary Validates the payload for the `POST /azure/credentials` request
      * @request POST:/azure/credentials/validator
@@ -18706,19 +18723,50 @@ export class Api extends APIBase {
         body: data,
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Azure credentials configuration
+     * @name ValidateConfigurationUpdate
+     * @summary Validates the payload for the `PUT /azure/credentials/{id}` request
+     * @request POST:/azure/credentials/{id}/validator
+     */
+    validateConfigurationUpdate: (id: string, data: AzureCredentials, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/azure/credentials/${id}/validator`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
   };
   cloudFoundry = {
     /**
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name ValidateCreateCloudFoundryCredentialsConfig
-     * @summary Validate that creating credentials would be successful. | maturity=EARLY_ADOPTER
-     * @request POST:/cloudFoundry/credentials/validator
+     * @name ListCloudFoundryCredentialsConfigs
+     * @summary List all the Cloud Foundry foundations credentials. | maturity=EARLY_ADOPTER
+     * @request GET:/cloudFoundry/credentials
      */
-    validateCreateCloudFoundryCredentialsConfig: (data: CloudFoundryCredentials, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/cloudFoundry/credentials/validator`,
+    listCloudFoundryCredentialsConfigs: (params: RequestParams = {}) =>
+      this.request<StubList, any>({
+        path: `/cloudFoundry/credentials`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Cloud Foundry credentials configuration
+     * @name CreateCloudFoundryCredentialsConfig
+     * @summary Create new credentials for a single foundation. | maturity=EARLY_ADOPTER
+     * @request POST:/cloudFoundry/credentials
+     */
+    createCloudFoundryCredentialsConfig: (data: CloudFoundryCredentials, params: RequestParams = {}) =>
+      this.request<EntityShortRepresentation, ErrorEnvelope>({
+        path: `/cloudFoundry/credentials`,
         method: "POST",
         body: data,
         ...params,
@@ -18774,6 +18822,22 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
+     * @name ValidateCreateCloudFoundryCredentialsConfig
+     * @summary Validate that creating credentials would be successful. | maturity=EARLY_ADOPTER
+     * @request POST:/cloudFoundry/credentials/validator
+     */
+    validateCreateCloudFoundryCredentialsConfig: (data: CloudFoundryCredentials, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/cloudFoundry/credentials/validator`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Cloud Foundry credentials configuration
      * @name ValidateUpdateCloudFoundryCredentialsConfig
      * @summary Validate that updating or creating credentials would be successful. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials/{id}/validator
@@ -18785,37 +18849,6 @@ export class Api extends APIBase {
     ) =>
       this.request<void, ErrorEnvelope>({
         path: `/cloudFoundry/credentials/${id}/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Cloud Foundry credentials configuration
-     * @name ListCloudFoundryCredentialsConfigs
-     * @summary List all the Cloud Foundry foundations credentials. | maturity=EARLY_ADOPTER
-     * @request GET:/cloudFoundry/credentials
-     */
-    listCloudFoundryCredentialsConfigs: (params: RequestParams = {}) =>
-      this.request<StubList, any>({
-        path: `/cloudFoundry/credentials`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Cloud Foundry credentials configuration
-     * @name CreateCloudFoundryCredentialsConfig
-     * @summary Create new credentials for a single foundation. | maturity=EARLY_ADOPTER
-     * @request POST:/cloudFoundry/credentials
-     */
-    createCloudFoundryCredentialsConfig: (data: CloudFoundryCredentials, params: RequestParams = {}) =>
-      this.request<EntityShortRepresentation, ErrorEnvelope>({
-        path: `/cloudFoundry/credentials`,
         method: "POST",
         body: data,
         ...params,
@@ -19013,13 +19046,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name ValidateUpdateMaintenanceWindow
-     * @summary Validates the payload for the `PUT /maintenancewindow/{id}` request
-     * @request POST:/maintenanceWindows/{id}/validator
+     * @name ValidateCreateMaintenanceWindow
+     * @summary Validates the payload for the `POST /maintenancewindow` request
+     * @request POST:/maintenanceWindows/validator
      */
-    validateUpdateMaintenanceWindow: (id: string, data: MaintenanceWindow, params: RequestParams = {}) =>
+    validateCreateMaintenanceWindow: (data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/maintenanceWindows/${id}/validator`,
+        path: `/maintenanceWindows/validator`,
         method: "POST",
         body: data,
         ...params,
@@ -19029,13 +19062,13 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name ValidateCreateMaintenanceWindow
-     * @summary Validates the payload for the `POST /maintenancewindow` request
-     * @request POST:/maintenanceWindows/validator
+     * @name ValidateUpdateMaintenanceWindow
+     * @summary Validates the payload for the `PUT /maintenancewindow/{id}` request
+     * @request POST:/maintenanceWindows/{id}/validator
      */
-    validateCreateMaintenanceWindow: (data: MaintenanceWindow, params: RequestParams = {}) =>
+    validateUpdateMaintenanceWindow: (id: string, data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
-        path: `/maintenanceWindows/validator`,
+        path: `/maintenanceWindows/${id}/validator`,
         method: "POST",
         body: data,
         ...params,

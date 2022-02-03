@@ -1,6 +1,7 @@
 import { DynatraceConnection } from "../types/dynatrace-connection";
-import { Api as EnvironmentV1, UsqlResults } from "./generated/env-v1";
+import { Api as EnvironmentV1 } from "./generated/env-v1";
 import { checkEnvironment, checkConnection } from "./shared";
+import { UserSession } from '../types/usersession';
 
 /**
  * Dynatrace Tenant Environmnent API v1
@@ -17,7 +18,8 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
     }
 
     userSessionQueryLanguage = {
-        ...this.userSessionQueryLanguage,
+        getUsqlResults: super.userSessionQueryLanguage.getUsqlResults,
+        getUsqlResultsAsTree: super.userSessionQueryLanguage.getUsqlResultsAsTree,
 
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
@@ -55,7 +57,6 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
                     endTimestamp: query.endTimestamp,
                     query: encodeURIComponent(sizeQuery),
                     pageSize: 1,
-                    timeout: 50000
                 }, requestArgs);
 
                 // Screwy type-safety override.
@@ -144,82 +145,71 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             console.log("Originally found " + allSessions.length + " sessions.");
             console.log("Deduplicated to " + out.length + " sessions.");
 
-            // Type the response as well as we can.
             return out.map(session => {
-                return {
-                    appVersion: session[0] as string,
-                    applicationType: session[1] as "CUSTOM_APPLICATION" | "AMP_APPLICATION" | "MOBILE_APPLICATION" | "WEB_APPLICATION",
-                    bounce: session[2] as boolean,
-                    browserFamily: session[3] as string,
-                    browserMajorVersion: session[4] as string,
-                    browserMonitorId: session[5] as string,
-                    browserMonitorName: session[6] as string,
-                    browserType: session[7] as string,
-                    carrier: session[8] as string,
-                    city: session[9] as string,
-                    clientTimeOffset: session[10] as string,
-                    connectionType: session[11] as string,
-                    continent: session[12] as string,
-                    country: session[13] as string,
-                    crashGroupId: session[14] as string,
-                    dateProperties: session[15] as Array<unknown>,
-                    device: session[16] as string,
-                    displayResolution: session[17] as string,
-                    doubleProperties: session[18] as Array<{
-                        key: string,
-                        applicationId: string,
-                        internalApplicationId: string,
-                        value: number
-                    }>,
-                    duration: session[19] as number, //ms
-                    endReason: session[20] as "END_EVENT" | "TIMEOUT" | "USER_ACTION_LIMIT",
-                    endTime: session[21] as number, // unix timestamp
-                    hasCrash: session[22] as boolean,
-                    hasError: session[23] as boolean,
-                    hasSessionReplay: session[24] as boolean,
-                    internalUserId: session[25] as string,
-                    ip: session[26] as string,
-                    isp: session[27] as string,
-                    longProperties: session[28] as Array<{
-                        key: string,
-                        applicationId: string,
-                        internalApplicationId: string,
-                        value: number
-                    }>,
-                    manufacturer: session[29] as string,
-                    matchingConversionGoals: session[30] as Array<string>,
-                    matchingConversionGoalsCount: session[31] as number,
-                    networkTechnology: session[32] as string,
-                    newUser: session[33] as boolean,
-                    numberOfRageClicks: session[34] as number,
-                    numberOfRageTaps: session[35] as number,
-                    osFamily: session[36] as "macOS" | "iOS" | "OS X" | "tvOS" | "BSD" | "Windows" | "Android" | "Linux" | "Other",
-                    osVersion: session[37] as string,
-                    reasonForNoSessionReplay: session[38] as string,
-                    reasonForNoSessionReplayMobile: session[39] as string,
-                    region: session[40] as string,
-                    replayEnd: session[41] as number,
-                    replayStart: session[42] as number,
-                    rootedOrJailbroken: session[43] as boolean,
-                    screenHeight: session[44] as number,
-                    screenOrientation: session[45] as "LANDSCAPE" | "PORTRAIT",
-                    screenWidth: session[46] as number,
-                    startTime: session[47] as number,
-                    stringProperties: session[48] as Array<{
-                        key: string,
-                        applicationId: string,
-                        internalApplicationId: string,
-                        value: string
-                    }>,
-                    totalErrorCount: session[49] as number,
-                    totalLicenseCreditcount: session[50] as number,
-                    userActionCount: session[51] as number,
-                    userExperienceScore: session[52] as "SATISFIED" | "TOLERATED" | "FRUSTRATED" | "UNKNOWN",
-                    userId: session[53] as string,
-                    userSessionId: session[54] as string,
-                    userType: session[55] as "REAL_USER" | "ROBOT" | "SYNTHETIC"
-                };
+                return parseSession(session);
             });
         }
     }
+}
+
+
+const parseSession = (session: Array<any>): UserSession => {
+    return {
+        applicationType:                session[1],
+        appVersion:                     session[0],
+        bounce:                         session[2],
+        browserFamily:                  session[3],
+        browserMajorVersion:            session[4],
+        browserMonitorId:               session[5],
+        browserMonitorName:             session[6],
+        browserType:                    session[7],
+        carrier:                        session[8],
+        city:                           session[9],
+        clientTimeOffset:               session[10],
+        connectionType:                 session[11],
+        continent:                      session[12],
+        country:                        session[13],
+        crashGroupId:                   session[14],
+        dateProperties:                 session[15],
+        device:                         session[16],
+        displayResolution:              session[17],
+        doubleProperties:               session[18],
+        duration:                       session[19], //ms
+        endReason:                      session[20],
+        endTime:                        session[21], // unix timestamp
+        hasCrash:                       session[22],
+        hasError:                       session[23],
+        hasSessionReplay:               session[24],
+        internalUserId:                 session[25],
+        ip:                             session[26],
+        isp:                            session[27],
+        longProperties:                 session[28],
+        manufacturer:                   session[29],
+        matchingConversionGoals:        session[30],
+        matchingConversionGoalsCount:   session[31],
+        networkTechnology:              session[32],
+        newUser:                        session[33],
+        numberOfRageClicks:             session[34],
+        numberOfRageTaps:               session[35],
+        osFamily:                       session[36],
+        osVersion:                      session[37],
+        reasonForNoSessionReplay:       session[38],
+        reasonForNoSessionReplayMobile: session[39],
+        region:                         session[40],
+        replayEnd:                      session[41],
+        replayStart:                    session[42],
+        rootedOrJailbroken:             session[43],
+        screenHeight:                   session[44],
+        screenOrientation:              session[45],
+        screenWidth:                    session[46],
+        startTime:                      session[47],
+        stringProperties:               session[48],
+        totalErrorCount:                session[49],
+        totalLicenseCreditcount:        session[50],
+        userActionCount:                session[51],
+        userExperienceScore:            session[52],
+        userId:                         session[53],
+        userSessionId:                  session[54],
+        userType:                       session[55]
+    };
 }

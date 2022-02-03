@@ -11,6 +11,27 @@ import { RequestOptions as RequestParams } from "@dt-esa/dynatrace-api-balancer"
  */
 
 /**
+ * Configuration of the ActiveGate auto-updates.
+ */
+export interface ActiveGateAutoUpdateConfig {
+  /**
+   * The state of the ActiveGate auto-update: enabled, disabled, or inherited.
+   *
+   * If set to `INHERITED`, the setting is inherited from the global configuration set on the environment or Managed cluster level.
+   * @example INHERITED
+   */
+  setting: "DISABLED" | "ENABLED" | "INHERITED";
+
+  /**
+   * The actual state of the ActiveGate auto-update.
+   *
+   * Applicable only if the **setting** parameter is set to `INHERITED`. In that case, the value is taken from the parent setting. Otherwise, it's just a duplicate of the **setting** value.
+   * @example ENABLED
+   */
+  effectiveSetting?: "ENABLED" | "DISABLED";
+}
+
+/**
  * A list of constraint violations
  */
 export interface ConstraintViolation {
@@ -36,27 +57,6 @@ export interface Error {
 
 export interface ErrorEnvelope {
   error?: Error;
-}
-
-/**
- * Configuration of the ActiveGate auto-updates.
- */
-export interface ActiveGateAutoUpdateConfig {
-  /**
-   * The state of the ActiveGate auto-update: enabled, disabled, or inherited.
-   *
-   * If set to `INHERITED`, the setting is inherited from the global configuration set on the environment or Managed cluster level.
-   * @example INHERITED
-   */
-  setting: "DISABLED" | "ENABLED" | "INHERITED";
-
-  /**
-   * The actual state of the ActiveGate auto-update.
-   *
-   * Applicable only if the **setting** parameter is set to `INHERITED`. In that case, the value is taken from the parent setting. Otherwise, it's just a duplicate of the **setting** value.
-   * @example ENABLED
-   */
-  effectiveSetting?: "ENABLED" | "DISABLED";
 }
 
 /**
@@ -102,6 +102,18 @@ export interface ConfigurationMetadata {
  */
 export interface UpdateJob {
   /**
+   * The status of the update job.
+   * @example SUCCEED
+   */
+  jobState?: "FAILED" | "IN_PROGRESS" | "PENDING" | "ROLLBACK" | "SCHEDULED" | "SKIPPED" | "SUCCEED";
+
+  /**
+   * The method of updating the ActiveGate or its component.
+   * @example AUTOMATIC
+   */
+  updateMethod?: "AUTOMATIC" | "MANUAL_INSTALLATION" | "ON_DEMAND";
+
+  /**
    * The component to be updated.
    * @example ACTIVE_GATE
    */
@@ -119,9 +131,6 @@ export interface UpdateJob {
    */
   startVersion?: string;
 
-  /** A list of environments (specified by IDs) the ActiveGate can connect to. */
-  environments?: string[];
-
   /**
    * The job can (`true`) or can't (`false`) be cancelled at the moment.
    * @example false
@@ -134,17 +143,8 @@ export interface UpdateJob {
    */
   jobId?: string;
 
-  /**
-   * The status of the update job.
-   * @example SUCCEED
-   */
-  jobState?: "FAILED" | "IN_PROGRESS" | "PENDING" | "ROLLBACK" | "SCHEDULED" | "SKIPPED" | "SUCCEED";
-
-  /**
-   * The method of updating the ActiveGate or its component.
-   * @example AUTOMATIC
-   */
-  updateMethod?: "AUTOMATIC" | "MANUAL_INSTALLATION" | "ON_DEMAND";
+  /** A list of environments (specified by IDs) the ActiveGate can connect to. */
+  environments?: string[];
 
   /**
    * The timestamp of the update job completion.
@@ -162,6 +162,9 @@ export interface UpdateJob {
    */
   duration?: number;
 
+  /** The information about update error. */
+  error?: string;
+
   /**
    * The target version of the update.
    *
@@ -170,9 +173,6 @@ export interface UpdateJob {
    * @example 1.190.0.20200301-130000
    */
   targetVersion: string;
-
-  /** The information about update error. */
-  error?: string;
 }
 
 /**
@@ -356,6 +356,251 @@ export interface ActiveGateModule {
 }
 
 /**
+ * A list of monitored entities along with their properties.
+ */
+export interface EntitiesList {
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+
+  /** A list of monitored entities. */
+  entities?: Entity[];
+}
+
+/**
+ * The properties of a monitored entity.
+ * @example {"entityId":"HOST-06F288EE2A930951","displayName":"my host","icon":{"primaryIconType":"linux","secondaryIconType":"microsoft-azure-signet","customIconPath":"host"},"firstSeenTms":1574697667547,"lastSeenTms":1588242361417,"properties":{"bitness":64,"monitoringMode":"FULL_STACK","osType":"LINUX","osArchitecture":"X86","networkZoneId":"aws.us.east01","cpuCores":8},"tags":[{"context":"CONTEXTLESS","key":"architecture","value":"x86","stringRepresentation":"architecture:x86"},{"context":"ENVIRONMENT","key":"Infrastructure","value":"Linux","stringRepresentation":"[ENVIRONMENT]Infrastructure:Linux"}],"managementZones":[{"id":"6239538939987181652","name":"main app"}],"fromRelationships":{"isInstanceOf":[{"id":"HOST_GROUP-0E489369D663A4BF","type":"HOST_GROUP"}]},"toRelationships":{"isDiskOf":[{"id":"DISK-0393340DCA3853B0","type":"DISK"}]}}
+ */
+export interface Entity {
+  /**
+   * The timestamp at which the entity was last seen, in UTC milliseconds.
+   * @format int64
+   */
+  lastSeenTms?: number;
+
+  /**
+   * The timestamp at which the entity was first seen, in UTC milliseconds.
+   * @format int64
+   */
+  firstSeenTms?: number;
+
+  /** A list of relationships where the entity occupies the FROM position. */
+  fromRelationships?: Record<string, EntityId[]>;
+
+  /** A list of relationships where the entity occupies the TO position. */
+  toRelationships?: Record<string, EntityId[]>;
+
+  /** The ID of the entity. */
+  entityId?: string;
+
+  /** A set of management zones to which the entity belongs. */
+  managementZones?: ManagementZone[];
+
+  /** The icon of a monitored entity. */
+  icon?: EntityIcon;
+
+  /** A list of additional properties of the entity. */
+  properties?: Record<string, object>;
+
+  /** The name of the entity, displayed in the UI. */
+  displayName?: string;
+
+  /** A set of tags assigned to the entity. */
+  tags?: METag[];
+}
+
+/**
+ * The icon of a monitored entity.
+ */
+export interface EntityIcon {
+  /**
+   * The primary icon of the entity.
+   *
+   * Specified by the [barista](https://dt-url.net/u403suy) ID of the icon.
+   */
+  primaryIconType?: string;
+
+  /**
+   * The secondary icon of the entity.
+   *
+   * Specified by the [barista](https://dt-url.net/u403suy) ID of the icon.
+   */
+  secondaryIconType?: string;
+
+  /**
+   * The user-defined icon of the entity.
+   *
+   * Specify the [barista](https://dt-url.net/u403suy) ID of the icon or a URL of your own icon.
+   */
+  customIconPath?: string;
+}
+
+/**
+ * A short representation of a monitored entity.
+ */
+export interface EntityId {
+  /** The ID of the entity. */
+  id?: string;
+
+  /** The type of the entity. */
+  type?: string;
+}
+
+/**
+ * The tag of a monitored entity.
+ */
+export interface METag {
+  /** The string representation of the tag. */
+  stringRepresentation?: string;
+
+  /** The value of the tag. */
+  value?: string;
+
+  /** The key of the tag. */
+  key?: string;
+
+  /**
+   * The origin of the tag, such as AWS or Cloud Foundry.
+   *
+   *  Custom tags use the `CONTEXTLESS` value.
+   */
+  context?: string;
+}
+
+/**
+ * A short representation of a management zone.
+ */
+export interface ManagementZone {
+  /** The name of the management zone. */
+  name?: string;
+
+  /** The ID of the management zone. */
+  id?: string;
+}
+
+/**
+ * A list of properties of the monitored entity type.
+ * @example {"type":"HOST","entityLimitExceeded":"false","properties":[{"id":"BITNESS","type":"Enum"},{"id":"CPU_CORES","type":"Number"}],"tags":"placeholder for tags","managementZones":"placeholder for management zones","fromRelationships":[{"id":"RUNS_ON_RESOURCE","toTypes":["CUSTOM_DEVICE"]},{"id":"IS_NETWORK_CLIENT_OF_HOST","toTypes":["HOST","CUSTOM_DEVICE"]}],"toRelationships":[{"id":"IS_DISK_OF","fromTypes":["DISK"]},{"id":"IS_SITE_OF","fromTypes":["VMWARE_DATACENTER","GEOLOC_SITE"]}]}
+ */
+export interface EntityType {
+  /** Whether the entity creation limit for the given type has been exceeded */
+  entityLimitExceeded?: boolean;
+
+  /** A list of possible relationships where the monitored entity type occupies the FROM position */
+  fromRelationships?: ToPosition[];
+
+  /** A list of possible relationships where the monitored entity type occupies the TO position. */
+  toRelationships?: FromPosition[];
+
+  /** The dimension key used within metrics for this monitored entity. */
+  dimensionKey?: string;
+
+  /** The placeholder for the list of management zones of an actual entity. */
+  managementZones?: string;
+
+  /** A list of additional properties of the monitored entity type. */
+  properties?: EntityTypePropertyDto[];
+
+  /** The type of the monitored entity. */
+  type?: string;
+
+  /** The display name of the monitored entity. */
+  displayName?: string;
+
+  /** The placeholder for the list of tags of an actual entity. */
+  tags?: string;
+}
+
+/**
+ * The property of a monitored entity.
+ */
+export interface EntityTypePropertyDto {
+  /**
+   * The ID of the property.
+   * @example cpuCores
+   */
+  id?: string;
+
+  /**
+   * The type of the property.
+   * @example Number
+   */
+  type?: string;
+
+  /**
+   * The display-name of the property.
+   * @example cpu cores
+   */
+  displayName?: string;
+}
+
+/**
+ * The FROM position of a relationship.
+ */
+export interface FromPosition {
+  /** A list of monitored entity types that can occupy the FROM position. */
+  fromTypes?: string[];
+
+  /** The ID of the relationship. */
+  id?: string;
+}
+
+/**
+ * The TO position of a relationship.
+ */
+export interface ToPosition {
+  /** A list of monitored entity types that can occupy the TO position. */
+  toTypes?: string[];
+
+  /** The ID of the relationship. */
+  id?: string;
+}
+
+/**
+ * A list of properties of all available entity types.
+ */
+export interface EntityTypeList {
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+
+  /** The list of meta information for all available entity-types */
+  types?: EntityType[];
+}
+
+/**
  * The short representation of a newly created custom device.
  */
 export interface CustomDeviceCreationResult {
@@ -444,363 +689,6 @@ export interface CustomDeviceCreation {
     | "MULTI_TYPE"
     | "SINGLE"
     | "SINGLE_TYPE";
-}
-
-/**
- * A list of properties of the monitored entity type.
- * @example {"type":"HOST","entityLimitExceeded":"false","properties":[{"id":"BITNESS","type":"Enum"},{"id":"CPU_CORES","type":"Number"}],"tags":"placeholder for tags","managementZones":"placeholder for management zones","fromRelationships":[{"id":"RUNS_ON_RESOURCE","toTypes":["CUSTOM_DEVICE"]},{"id":"IS_NETWORK_CLIENT_OF_HOST","toTypes":["HOST","CUSTOM_DEVICE"]}],"toRelationships":[{"id":"IS_DISK_OF","fromTypes":["DISK"]},{"id":"IS_SITE_OF","fromTypes":["VMWARE_DATACENTER","GEOLOC_SITE"]}]}
- */
-export interface EntityType {
-  /** Whether the entity creation limit for the given type has been exceeded */
-  entityLimitExceeded?: boolean;
-
-  /** A list of possible relationships where the monitored entity type occupies the FROM position */
-  fromRelationships?: ToPosition[];
-
-  /** A list of possible relationships where the monitored entity type occupies the TO position. */
-  toRelationships?: FromPosition[];
-
-  /** The dimension key used within metrics for this monitored entity. */
-  dimensionKey?: string;
-
-  /** The placeholder for the list of management zones of an actual entity. */
-  managementZones?: string;
-
-  /** A list of additional properties of the monitored entity type. */
-  properties?: EntityTypePropertyDto[];
-
-  /** The type of the monitored entity. */
-  type?: string;
-
-  /** The display name of the monitored entity. */
-  displayName?: string;
-
-  /** The placeholder for the list of tags of an actual entity. */
-  tags?: string;
-}
-
-/**
- * A list of properties of all available entity types.
- */
-export interface EntityTypeList {
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /** The list of meta information for all available entity-types */
-  types?: EntityType[];
-}
-
-/**
- * The property of a monitored entity.
- */
-export interface EntityTypePropertyDto {
-  /**
-   * The ID of the property.
-   * @example cpuCores
-   */
-  id?: string;
-
-  /**
-   * The type of the property.
-   * @example Number
-   */
-  type?: string;
-
-  /**
-   * The display-name of the property.
-   * @example cpu cores
-   */
-  displayName?: string;
-}
-
-/**
- * The FROM position of a relationship.
- */
-export interface FromPosition {
-  /** A list of monitored entity types that can occupy the FROM position. */
-  fromTypes?: string[];
-
-  /** The ID of the relationship. */
-  id?: string;
-}
-
-/**
- * The TO position of a relationship.
- */
-export interface ToPosition {
-  /** A list of monitored entity types that can occupy the TO position. */
-  toTypes?: string[];
-
-  /** The ID of the relationship. */
-  id?: string;
-}
-
-/**
- * A list of monitored entities along with their properties.
- */
-export interface EntitiesList {
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /** A list of monitored entities. */
-  entities?: Entity[];
-}
-
-/**
- * The properties of a monitored entity.
- * @example {"entityId":"HOST-06F288EE2A930951","displayName":"my host","icon":{"primaryIconType":"linux","secondaryIconType":"microsoft-azure-signet","customIconPath":"host"},"firstSeenTms":1574697667547,"lastSeenTms":1588242361417,"properties":{"bitness":64,"monitoringMode":"FULL_STACK","osType":"LINUX","osArchitecture":"X86","networkZoneId":"aws.us.east01","cpuCores":8},"tags":[{"context":"CONTEXTLESS","key":"architecture","value":"x86","stringRepresentation":"architecture:x86"},{"context":"ENVIRONMENT","key":"Infrastructure","value":"Linux","stringRepresentation":"[ENVIRONMENT]Infrastructure:Linux"}],"managementZones":[{"id":"6239538939987181652","name":"main app"}],"fromRelationships":{"isInstanceOf":[{"id":"HOST_GROUP-0E489369D663A4BF","type":"HOST_GROUP"}]},"toRelationships":{"isDiskOf":[{"id":"DISK-0393340DCA3853B0","type":"DISK"}]}}
- */
-export interface Entity {
-  /**
-   * The timestamp at which the entity was last seen, in UTC milliseconds.
-   * @format int64
-   */
-  lastSeenTms?: number;
-
-  /**
-   * The timestamp at which the entity was first seen, in UTC milliseconds.
-   * @format int64
-   */
-  firstSeenTms?: number;
-
-  /** A list of relationships where the entity occupies the FROM position. */
-  fromRelationships?: Record<string, EntityId[]>;
-
-  /** A list of relationships where the entity occupies the TO position. */
-  toRelationships?: Record<string, EntityId[]>;
-
-  /** A set of management zones to which the entity belongs. */
-  managementZones?: ManagementZone[];
-
-  /** The ID of the entity. */
-  entityId?: string;
-
-  /** The icon of a monitored entity. */
-  icon?: EntityIcon;
-
-  /** A list of additional properties of the entity. */
-  properties?: Record<string, object>;
-
-  /** The name of the entity, displayed in the UI. */
-  displayName?: string;
-
-  /** A set of tags assigned to the entity. */
-  tags?: METag[];
-}
-
-/**
- * The icon of a monitored entity.
- */
-export interface EntityIcon {
-  /**
-   * The primary icon of the entity.
-   *
-   * Specified by the [barista](https://dt-url.net/u403suy) ID of the icon.
-   */
-  primaryIconType?: string;
-
-  /**
-   * The secondary icon of the entity.
-   *
-   * Specified by the [barista](https://dt-url.net/u403suy) ID of the icon.
-   */
-  secondaryIconType?: string;
-
-  /**
-   * The user-defined icon of the entity.
-   *
-   * Specify the [barista](https://dt-url.net/u403suy) ID of the icon or a URL of your own icon.
-   */
-  customIconPath?: string;
-}
-
-/**
- * A short representation of a monitored entity.
- */
-export interface EntityId {
-  /** The ID of the entity. */
-  id?: string;
-
-  /** The type of the entity. */
-  type?: string;
-}
-
-/**
- * The tag of a monitored entity.
- */
-export interface METag {
-  /** The string representation of the tag. */
-  stringRepresentation?: string;
-
-  /** The value of the tag. */
-  value?: string;
-
-  /** The key of the tag. */
-  key?: string;
-
-  /**
-   * The origin of the tag, such as AWS or Cloud Foundry.
-   *
-   *  Custom tags use the `CONTEXTLESS` value.
-   */
-  context?: string;
-}
-
-/**
- * A short representation of a management zone.
- */
-export interface ManagementZone {
-  /** The name of the management zone. */
-  name?: string;
-
-  /** The ID of the management zone. */
-  id?: string;
-}
-
-/**
- * Configuration of an event property.
- */
-export interface EventPropertyDetail {
-  /**
-   * The event property key.
-   * @example dt.event.description
-   */
-  key?: string;
-
-  /**
-   * The display name of the event property.
-   * @example Custom description
-   */
-  displayName?: string;
-
-  /** A short description of the event property. */
-  description?: string;
-
-  /** Indicates whether the property may be set during event ingestion. */
-  writable?: boolean;
-}
-
-/**
- * A list of event properties.
- */
-export interface EventPropertyDetails {
-  /** A list of event properties. */
-  eventProperties?: EventPropertyDetail[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-}
-
-/**
- * Configuration of an event type.
- */
-export interface EventType {
-  /**
-   * The severity level associated with the event type.
-   * @example PERFORMANCE
-   */
-  severityLevel?:
-    | "AVAILABILITY"
-    | "CUSTOM_ALERT"
-    | "ERROR"
-    | "INFO"
-    | "MONITORING_UNAVAILABLE"
-    | "PERFORMANCE"
-    | "RESOURCE_CONTENTION";
-
-  /**
-   * The event type.
-   * @example OSI_HIGH_CPU
-   */
-  type?: string;
-
-  /**
-   * The display name of the event type.
-   * @example High CPU
-   */
-  displayName?: string;
-
-  /** A short description of the event type. */
-  description?: string;
-}
-
-/**
- * A list of event types.
- */
-export interface EventTypeList {
-  /** A list of event types. */
-  eventTypeInfos?: EventType[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
 }
 
 /**
@@ -909,6 +797,17 @@ export interface EntityStub {
  * Configuration of an event.
  */
 export interface Event {
+  /** If `true`, the event happened while the monitored system was under maintenance. */
+  underMaintenance?: boolean;
+
+  /**
+   * The problem detection status during a [maintenance](https://dt-url.net/b2123rg0):
+   *
+   *  * `false`: Problem detection works as usual.
+   * * `true`: Problem detection is disabled.
+   */
+  suppressProblem?: boolean;
+
   /**
    * If `true`, the event happens [frequently](https://dt-url.net/4da3kdg).
    *
@@ -924,28 +823,17 @@ export interface Event {
    */
   suppressAlert?: boolean;
 
-  /** If `true`, the event happened while the monitored system was under maintenance. */
-  underMaintenance?: boolean;
-
-  /**
-   * The problem detection status during a [maintenance](https://dt-url.net/b2123rg0):
-   *
-   *  * `false`: Problem detection works as usual.
-   * * `true`: Problem detection is disabled.
-   */
-  suppressProblem?: boolean;
-
-  /** A list of all management zones that the event belongs to. */
-  managementZones?: ManagementZone[];
-
-  /** A short representation of a monitored entity. */
-  entityId?: EntityStub;
-
   /**
    * The ID of the event.
    * @example 4293884258445543163_1564039524182
    */
   eventId?: string;
+
+  /** A short representation of a monitored entity. */
+  entityId?: EntityStub;
+
+  /** A list of all management zones that the event belongs to. */
+  managementZones?: ManagementZone[];
 
   /** A list of tags of the related entity. */
   entityTags?: METag[];
@@ -1006,14 +894,40 @@ export interface EventProperty {
 }
 
 /**
- * A list of events.
+ * Configuration of an event property.
  */
-export interface EventList {
-  /** A list of warnings. */
-  warnings?: string[];
+export interface EventPropertyDetail {
+  /**
+   * The event property key.
+   * @example dt.event.description
+   */
+  key?: string;
 
-  /** A list of events. */
-  events?: Event[];
+  /**
+   * The display name of the event property.
+   * @example Custom description
+   */
+  displayName?: string;
+
+  /** A short description of the event property. */
+  description?: string;
+
+  /** Indicates whether the property may be set during event ingestion. */
+  writable?: boolean;
+}
+
+/**
+ * A list of event properties.
+ */
+export interface EventPropertyDetails {
+  /** A list of event properties. */
+  eventProperties?: EventPropertyDetail[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
 
   /**
    * The total number of entries in the result.
@@ -1028,12 +942,98 @@ export interface EventList {
    * @example AQAAABQBAAAABQ==
    */
   nextPageKey?: string;
+}
+
+/**
+ * Configuration of an event type.
+ */
+export interface EventType {
+  /**
+   * The severity level associated with the event type.
+   * @example PERFORMANCE
+   */
+  severityLevel?:
+    | "AVAILABILITY"
+    | "CUSTOM_ALERT"
+    | "ERROR"
+    | "INFO"
+    | "MONITORING_UNAVAILABLE"
+    | "PERFORMANCE"
+    | "RESOURCE_CONTENTION";
+
+  /**
+   * The event type.
+   * @example OSI_HIGH_CPU
+   */
+  type?: string;
+
+  /**
+   * The display name of the event type.
+   * @example High CPU
+   */
+  displayName?: string;
+
+  /** A short description of the event type. */
+  description?: string;
+}
+
+/**
+ * A list of event types.
+ */
+export interface EventTypeList {
+  /** A list of event types. */
+  eventTypeInfos?: EventType[];
 
   /**
    * The number of entries per page.
    * @format int32
    */
   pageSize?: number;
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+}
+
+/**
+ * A list of events.
+ */
+export interface EventList {
+  /** A list of warnings. */
+  warnings?: string[];
+
+  /** A list of events. */
+  events?: Event[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
 }
 
 /**
@@ -1058,14 +1058,6 @@ export interface MetricDefaultAggregation {
  */
 export interface MetricDescriptor {
   /**
-   * The maximum allowed value of the metric.
-   *
-   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
-   * @format double
-   */
-  maximumValue?: number;
-
-  /**
    * The timestamp when the metric was last written.
    *
    * Has the value of `null` for metric expressions or if the data has never been written.
@@ -1080,36 +1072,8 @@ export interface MetricDescriptor {
    */
   dduBillable?: boolean;
 
-  /**
-   * The latency of the metric, in minutes.
-   *
-   *  The latency is the expected reporting delay (for example, caused by constraints of cloud vendors or other third-party data sources) between the observation of a metric data point and its availability in Dynatrace.
-   * The allowed value range is from 1 to 60 minutes.
-   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
-   * @format int64
-   */
-  latency?: number;
-
-  /**
-   * The minimum allowed value of the metric.
-   *
-   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
-   * @format double
-   */
-  minimumValue?: number;
-
-  /** If 'true', resolution=Inf can be applied to the metric query. */
-  resolutionInfSupported?: boolean;
-
-  /** The default aggregation of a metric. */
-  defaultAggregation?: MetricDefaultAggregation;
-
-  /**
-   * The fine metric division (for example, process group and process ID for some process-related metric).
-   *
-   * For [ingested metrics](https://dt-url.net/5d63ic1), dimensions that doesn't have have any data within the last 15 days are omitted.
-   */
-  dimensionDefinitions?: MetricDimensionDefinition[];
+  /** The value type for the metric. */
+  metricValueType?: MetricValueType;
 
   /**
    * The metric is (`true`) or is not (`false`) root cause relevant.
@@ -1127,8 +1091,60 @@ export interface MetricDescriptor {
    */
   impactRelevant?: boolean;
 
-  /** List of admissible primary entity types for this metric. Can be used for the `type` predicate in the `entitySelector`. */
-  entityType?: string[];
+  /**
+   * The minimum allowed value of the metric.
+   *
+   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
+   * @format double
+   */
+  minimumValue?: number;
+
+  /**
+   * The maximum allowed value of the metric.
+   *
+   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
+   * @format double
+   */
+  maximumValue?: number;
+
+  /**
+   * The latency of the metric, in minutes.
+   *
+   *  The latency is the expected reporting delay (for example, caused by constraints of cloud vendors or other third-party data sources) between the observation of a metric data point and its availability in Dynatrace.
+   * The allowed value range is from 1 to 60 minutes.
+   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
+   * @format int64
+   */
+  latency?: number;
+
+  /**
+   * Indicates whether the metric expression resolves to a scalar (`true`) or to a series (`false`).
+   * A scalar result always contains one data point. The amount of data points in a series result depends on the resolution you're using.
+   */
+  scalar?: boolean;
+
+  /** If 'true', resolution=Inf can be applied to the metric query. */
+  resolutionInfSupported?: boolean;
+
+  /**
+   * The raw value is stored in bits or bytes. The user interface can display it in these numeral systems:
+   *
+   * Binary: 1 MiB = 1024 KiB = 1,048,576 bytes
+   * Decimal: 1 MB = 1000 kB = 1,000,000 bytes
+   * If not set, the decimal system is used.
+   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
+   */
+  unitDisplayFormat?: "binary" | "decimal";
+
+  /** The default aggregation of a metric. */
+  defaultAggregation?: MetricDefaultAggregation;
+
+  /**
+   * The fine metric division (for example, process group and process ID for some process-related metric).
+   *
+   * For [ingested metrics](https://dt-url.net/5d63ic1), dimensions that doesn't have have any data within the last 15 days are omitted.
+   */
+  dimensionDefinitions?: MetricDimensionDefinition[];
 
   /**
    * The fully qualified key of the metric.
@@ -1137,20 +1153,14 @@ export interface MetricDescriptor {
    */
   metricId: string;
 
+  /** List of admissible primary entity types for this metric. Can be used for the `type` predicate in the `entitySelector`. */
+  entityType?: string[];
+
   /** The metric selector that is used when querying a func: metric. */
   metricSelector?: string;
 
-  /**
-   * Indicates whether the metric expression resolves to a scalar (`true`) or to a series (`false`).
-   * A scalar result always contains one data point. The amount of data points in a series result depends on the resolution you're using.
-   */
-  scalar?: boolean;
-
   /** The list of allowed aggregations for this metric. */
   aggregationTypes?: ("auto" | "avg" | "count" | "max" | "median" | "min" | "percentile" | "sum" | "value")[];
-
-  /** The value type for the metric. */
-  metricValueType?: MetricValueType;
 
   /**
    * The timestamp of metric creation.
@@ -1160,20 +1170,25 @@ export interface MetricDescriptor {
    */
   created?: number;
 
-  /** A list of potential warnings that affect this ID. For example deprecated feature usage etc. */
-  warnings?: string[];
-
   /** The name of the metric in the user interface. */
   displayName?: string;
 
   /** A short description of the metric. */
   description?: string;
 
+  /**
+   * The tags applied to the metric.
+   *
+   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
+   */
+  tags?: string[];
+
   /** Transform operators that could be appended to the current transformation list. */
   transformations?: (
     | "asGauge"
     | "default"
     | "delta"
+    | "evaluateModel"
     | "filter"
     | "fold"
     | "last"
@@ -1185,6 +1200,7 @@ export interface MetricDescriptor {
     | "partition"
     | "rate"
     | "rollup"
+    | "setUnit"
     | "smooth"
     | "sort"
     | "splitBy"
@@ -1193,95 +1209,10 @@ export interface MetricDescriptor {
   )[];
 
   /** The unit of the metric. */
-  unit?:
-    | "Bit"
-    | "BitPerHour"
-    | "BitPerMinute"
-    | "BitPerSecond"
-    | "Byte"
-    | "BytePerHour"
-    | "BytePerMinute"
-    | "BytePerSecond"
-    | "Cores"
-    | "Count"
-    | "Day"
-    | "DecibelMilliWatt"
-    | "GibiByte"
-    | "Giga"
-    | "GigaByte"
-    | "Hour"
-    | "KibiByte"
-    | "KibiBytePerHour"
-    | "KibiBytePerMinute"
-    | "KibiBytePerSecond"
-    | "Kilo"
-    | "KiloByte"
-    | "KiloBytePerHour"
-    | "KiloBytePerMinute"
-    | "KiloBytePerSecond"
-    | "MSU"
-    | "MebiByte"
-    | "MebiBytePerHour"
-    | "MebiBytePerMinute"
-    | "MebiBytePerSecond"
-    | "Mega"
-    | "MegaByte"
-    | "MegaBytePerHour"
-    | "MegaBytePerMinute"
-    | "MegaBytePerSecond"
-    | "MicroSecond"
-    | "MilliCores"
-    | "MilliSecond"
-    | "MilliSecondPerMinute"
-    | "Minute"
-    | "Month"
-    | "NanoSecond"
-    | "NanoSecondPerMinute"
-    | "NotApplicable"
-    | "PerHour"
-    | "PerMinute"
-    | "PerSecond"
-    | "Percent"
-    | "Pixel"
-    | "Promille"
-    | "Ratio"
-    | "Second"
-    | "State"
-    | "Unspecified"
-    | "Week"
-    | "Year";
+  unit?: string;
 
-  /**
-   * The tags applied to the metric.
-   *
-   *  [Metric expressions](https://dt-url.net/metricExpression) don't return this field.
-   */
-  tags?: string[];
-}
-
-/**
- * A list of metrics along with their descriptors.
- * @example {"totalCount":3,"nextPageKey":"ABCDEFABCDEFABCDEF_","metrics":[{"metricId":"builtin:host.cpu.user:splitBy(\"dt.entity.host\"):max:fold","displayName":"CPU user","description":"Percentage of user-space CPU time currently utilized, per host.","unit":"Percent","dduBillable":false,"created":1597400123451,"lastWritten":1597400717783,"entityType":["HOST"],"aggregationTypes":["auto","value"],"transformations":["filter","fold","limit","merge","names","parents","timeshift","rate","sort","last","splitBy"],"defaultAggregation":{"type":"value"},"dimensionDefinitions":[{"key":"dt.entity.host","name":"Host","displayName":"Host","index":0,"type":"ENTITY"}],"tags":[],"metricValueType":{"type":"unknown"}},{"metricId":"builtin:host.cpu.user:splitBy()","displayName":"CPU user","description":"Percentage of user-space CPU time currently utilized, per host.","unit":"Percent","dduBillable":false,"created":1597400123451,"lastWritten":1597400717783,"entityType":["HOST"],"aggregationTypes":["auto","value"],"transformations":["filter","fold","limit","merge","names","parents","timeshift","rate","sort","last","splitBy"],"defaultAggregation":{"type":"value"},"dimensionDefinitions":[{"key":"dt.entity.host","name":"Host","displayName":"Host","index":0,"type":"ENTITY"}],"tags":[],"metricValueType":{"type":"unknown"}}]}
- */
-export interface MetricDescriptorCollection {
-  /**
-   * The estimated number of metrics in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   */
-  nextPageKey: string;
-
-  /** A list of potential warnings about the query. For example deprecated feature usage etc. */
+  /** A list of potential warnings that affect this ID. For example deprecated feature usage etc. */
   warnings?: string[];
-
-  /** A list of metric along with their descriptors */
-  metrics?: MetricDescriptor[];
 }
 
 /**
@@ -1322,6 +1253,122 @@ export interface MetricValueType {
 }
 
 /**
+ * A list of metrics along with their descriptors.
+ * @example {"totalCount":3,"nextPageKey":"ABCDEFABCDEFABCDEF_","metrics":[{"metricId":"builtin:host.cpu.user:splitBy(\"dt.entity.host\"):max:fold","displayName":"CPU user","description":"Percentage of user-space CPU time currently utilized, per host.","unit":"Percent","dduBillable":false,"created":1597400123451,"lastWritten":1597400717783,"entityType":["HOST"],"aggregationTypes":["auto","value"],"transformations":["filter","fold","limit","merge","names","parents","timeshift","rate","sort","last","splitBy"],"defaultAggregation":{"type":"value"},"dimensionDefinitions":[{"key":"dt.entity.host","name":"Host","displayName":"Host","index":0,"type":"ENTITY"}],"tags":[],"metricValueType":{"type":"unknown"}},{"metricId":"builtin:host.cpu.user:splitBy()","displayName":"CPU user","description":"Percentage of user-space CPU time currently utilized, per host.","unit":"Percent","dduBillable":false,"created":1597400123451,"lastWritten":1597400717783,"entityType":["HOST"],"aggregationTypes":["auto","value"],"transformations":["filter","fold","limit","merge","names","parents","timeshift","rate","sort","last","splitBy"],"defaultAggregation":{"type":"value"},"dimensionDefinitions":[{"key":"dt.entity.host","name":"Host","displayName":"Host","index":0,"type":"ENTITY"}],"tags":[],"metricValueType":{"type":"unknown"}}]}
+ */
+export interface MetricDescriptorCollection {
+  /**
+   * The estimated number of metrics in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   */
+  nextPageKey: string;
+
+  /** A list of metric along with their descriptors */
+  metrics: MetricDescriptor[];
+
+  /** A list of potential warnings about the query. For example deprecated feature usage etc. */
+  warnings?: string[];
+}
+
+/**
+ * Optional filters that took effect.
+ */
+export interface AppliedFilter {
+  /**
+   * The keys of all metrics that this filter has been applied to.
+   *
+   * Can contain multiple metrics for complex expressions and always at least one key.
+   */
+  appliedTo: string[];
+
+  /** A dimensional or series filter on a metric. */
+  filter?: Filter;
+}
+
+/**
+ * A dimensional or series filter on a metric.
+ */
+export interface Filter {
+  /** A way of viewing a series as a single value for the purpose of sorting or series-based filters. */
+  rollup?: Rollup;
+
+  /** Invocation of a function, e.g. the `entitySelector` function. */
+  referenceInvocation?: Invocation;
+
+  /** If the type applies to a dimension, then holds the target dimension. */
+  targetDimension?: string;
+
+  /** For the operands of `series` filters that match against a number, holds the number to compare against. */
+  referenceValue?: number;
+
+  /** For filters that match a dimension against a valkue, such as `eq` or `ne`, holds the value to compare the dimension against. */
+  referenceString?: string;
+
+  /** If the type applies to n dimensions, then holds the target dimensions. Currently only used for the `remainder` filter. */
+  targetDimensions?: string[];
+
+  /**
+   * Type of this filter, determines which other fields are present.Can be any of:
+   * * `eq`,
+   * * `ne`,
+   * * `prefix`,
+   * * `in`,
+   * * `remainder`,
+   * * `suffix`,
+   * * `contains`,
+   * * `existsKey`,
+   * * `series`,
+   * * `or`,
+   * * `and`,
+   * * `not`,
+   * * `ge`,
+   * * `gt`,
+   * * `le`,
+   * * `lt`,
+   * * `otherwise`.
+   */
+  type?:
+    | "and"
+    | "contains"
+    | "eq"
+    | "existsKey"
+    | "ge"
+    | "gt"
+    | "in"
+    | "le"
+    | "lt"
+    | "ne"
+    | "not"
+    | "or"
+    | "otherwise"
+    | "prefix"
+    | "remainder"
+    | "series"
+    | "suffix";
+
+  /** If the type is `not`, `and` or `or`, then holds the contained filters. */
+  operands?: Filter[];
+}
+
+/**
+ * Invocation of a function, e.g. the `entitySelector` function.
+ */
+export interface Invocation {
+  /** Function that is invoked, e.g. `entitySelector`. */
+  function?: string;
+
+  /** Arguments to pass to the function, e.g. entity selector source code. */
+  args?: string[];
+}
+
+/**
  * A list of metrics and their data points.
  * @example {"totalCount":3,"nextPageKey":"null","resolution":"1h","warnings":["The contains filter transformation is deprecated and will be removed in a future release."],"result":[{"metricId":"builtin:host.disk.avail","data":[{"dimensions":["HOST-F1266E1D0AAC2C3C","DISK-F1266E1D0AAC2C3F"],"timestamps":[3151435100000,3151438700000,3151442300000],"values":[11.1,22.2,33.3]},{"dimensions":["HOST-F1266E1D0AAC2C3C","DISK-F1266E1D0AAC2C3D"],"timestamps":[3151435100000,3151438700000,3151442300000],"values":[111.1,222.2,333.3]}]},{"metricId":"builtin:host.cpu.idle","data":[{"dimensions":["HOST-F1266E1D0AAC2C3C"],"timestamps":[3151435100000,3151438700000,3151442300000],"values":[1.1,2.2,3.3]}]}]}
  */
@@ -1334,17 +1381,17 @@ export interface MetricData {
    */
   totalCount: number;
 
-  /** Deprecated. This field is returned for compatibility reasons. It always has the value of `null`. */
-  nextPageKey?: string;
-
   /** The timeslot resolution in the result. */
   resolution: string;
 
-  /** A list of warnings */
-  warnings?: string[];
+  /** Deprecated. This field is returned for compatibility reasons. It always has the value of `null`. */
+  nextPageKey?: string;
 
   /** A list of metrics and their data points. */
-  result?: MetricSeriesCollection[];
+  result: MetricSeriesCollection[];
+
+  /** A list of warnings */
+  warnings?: string[];
 }
 
 /**
@@ -1354,27 +1401,28 @@ The data is represented by two arrays of the same length: **timestamps** and **v
 * @example {"dimensions":["HOST-F1266E1D0AAC2C3C"],"timestamps":[3151435100000,3151438700000,3151442300000],"values":[1.1,2.2,3.3]}
 */
 export interface MetricSeries {
+  dimensionMap: Record<string, string>;
+
   /**
    * A list of timestamps of data points.
    *
    * The value of data point for each time from this array is located in **values** array at the same index.
    */
-  timestamps?: number[];
-  dimensionMap: Record<string, string>;
+  timestamps: number[];
 
   /**
    * The ordered list of dimensions to which the data point list belongs.
    *
    *  Each metric can have a certain number of dimensions. Dimensions exceeding this number are aggregated into one, which is shown as `null` here.
    */
-  dimensions?: string[];
+  dimensions: string[];
 
   /**
    * A list of values of data points.
    *
    * The timestamp of data point for each value from this array is located in **timestamps** array at the same index.
    */
-  values?: number[];
+  values: number[];
 }
 
 /**
@@ -1382,6 +1430,9 @@ export interface MetricSeries {
  * @example {"metricId":"builtin:host.disk.avail","data":[{"dimensions":["HOST-F1266E1D0AAC2C3C","DISK-F1266E1D0AAC2C3F"],"timestamps":[3151435100000,3151438700000,3151442300000],"values":[11.1,22.2,33.3]},{"dimensions":["HOST-F1266E1D0AAC2C3C","DISK-F1266E1D0AAC2C3D"],"timestamps":[3151435100000,3151438700000,3151442300000],"values":[111.1,222.2,333.3]}]}
  */
 export interface MetricSeriesCollection {
+  /** A list of filtered metric keys along with filters that have been applied to these keys, from the `optionalFilter` parameter. */
+  appliedOptionalFilters?: AppliedFilter[];
+
   /**
    * The key of the metric.
    *
@@ -1389,11 +1440,36 @@ export interface MetricSeriesCollection {
    */
   metricId: string;
 
+  /** Data points of the metric. */
+  data: MetricSeries[];
+
   /** A list of potential warnings that affect this ID. For example deprecated feature usage etc. */
   warnings?: string[];
+}
 
-  /** Data points of the metric. */
-  data?: MetricSeries[];
+/**
+ * A way of viewing a series as a single value for the purpose of sorting or series-based filters.
+ */
+export interface Rollup {
+  type?: "AUTO" | "AVG" | "MAX" | "MEDIAN" | "MIN" | "PERCENTILE" | "SUM";
+
+  /** @format double */
+  parameter?: number;
+}
+
+/**
+ * The short representation of a Dynatrace entity.
+ * @example {"id":"6a98d7bc-abb9-44f8-ae6a-73e68e71812a","name":"Dynatrace entity","description":"Dynatrace entity for the REST API example"}
+ */
+export interface EntityShortRepresentation {
+  /** The ID of the Dynatrace entity. */
+  id: string;
+
+  /** The name of the Dynatrace entity. */
+  name?: string;
+
+  /** A short description of the Dynatrace entity. */
+  description?: string;
 }
 
 /**
@@ -1410,6 +1486,12 @@ export interface NetworkZone {
   numOfOneAgentsUsing?: number;
 
   /**
+   * The number of OneAgents that are configured to use the network zone as primary.
+   * @format int32
+   */
+  numOfConfiguredOneAgents?: number;
+
+  /**
    * The number of OneAgents from other network zones that are using ActiveGates in the network zone.
    *
    *  This is a fraction of **numOfOneAgentsUsing**.
@@ -1423,12 +1505,6 @@ export interface NetworkZone {
    * @format int32
    */
   numOfConfiguredActiveGates?: number;
-
-  /**
-   * The number of OneAgents that are configured to use the network zone as primary.
-   * @format int32
-   */
-  numOfConfiguredOneAgents?: number;
 
   /** The ID of the network zone */
   id?: string;
@@ -1446,18 +1522,20 @@ export interface NetworkZoneList {
 }
 
 /**
- * The short representation of a Dynatrace entity.
- * @example {"id":"6a98d7bc-abb9-44f8-ae6a-73e68e71812a","name":"Dynatrace entity","description":"Dynatrace entity for the REST API example"}
+ * Runtime information about host connections.
  */
-export interface EntityShortRepresentation {
-  /** The ID of the Dynatrace entity. */
-  id: string;
+export interface NetworkZoneConnectionStatistics {
+  /** Hosts that use the network zone as an alternative. */
+  hostsConnectedAsAlternative?: string[];
 
-  /** The name of the Dynatrace entity. */
-  name?: string;
+  /** Hosts from other zones that use the zone (not configured as an alternative) and **no** ActiveGates of higher priority are available. */
+  hostsConnectedAsFailoverWithoutActiveGates?: string[];
 
-  /** A short description of the Dynatrace entity. */
-  description?: string;
+  /** Hosts from other zones that use the zone (not configured as an alternative) even though ActiveGates of higher priority are available. */
+  hostsConnectedAsFailover?: string[];
+
+  /** Hosts from the network zone that use other zones. */
+  hostsConfiguredButNotConnected?: string[];
 }
 
 /**
@@ -1478,6 +1556,21 @@ export interface DeletedEntityTags {
    * @format int64
    */
   matchedEntitiesCount?: number;
+}
+
+/**
+ * A list of custom tags.
+ * @example {"totalCount":2,"tags":[{"context":"CONTEXTLESS","key":"mainApp","stringRepresentation":"mainApp"},{"context":"CONTEXTLESS","key":"bookings","stringRepresentation":"bookings"}]}
+ */
+export interface CustomEntityTags {
+  /**
+   * The total number of tags in the response.
+   * @format int64
+   */
+  totalCount?: number;
+
+  /** A list of custom tags. */
+  tags: { empty?: boolean };
 }
 
 /**
@@ -1516,18 +1609,68 @@ export interface AddEntityTags {
 }
 
 /**
- * A list of custom tags.
- * @example {"totalCount":2,"tags":[{"context":"CONTEXTLESS","key":"mainApp","stringRepresentation":"mainApp"},{"context":"CONTEXTLESS","key":"bookings","stringRepresentation":"bookings"}]}
+ * The newly created ActiveGate token.
  */
-export interface CustomEntityTags {
+export interface ActiveGateTokenCreated {
   /**
-   * The total number of tags in the response.
-   * @format int64
+   * The ID of the token, consisting of prefix and public part of the token.
+   * @example dt0g02.4KWZO5EF
    */
-  totalCount?: number;
+  id?: string;
 
-  /** A list of custom tags. */
-  tags: { empty?: boolean };
+  /**
+   * The secret of the token.
+   * @example dt0g02.4KWZO5EF.XT47R5DRADJIZUFOX4UDNOKTSUSABGLN7XSMJG7UXHRXKNY4WLORH4OF4T75MG7E
+   */
+  token?: string;
+
+  /**
+   * The token expiration date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`).
+   * @example 2020-11-24T08:15:30.144Z
+   */
+  expirationDate?: string;
+}
+
+/**
+ * Parameters of a new ActiveGate token.
+ */
+export interface ActiveGateTokenCreate {
+  /**
+   * The name of the token.
+   * @example myToken
+   */
+  name: string;
+
+  /**
+   * The expiration date of the token.
+   *
+   * You can use one of the following formats:
+   * * Timestamp in UTC milliseconds.
+   * * Human-readable format of `2021-01-25T05:57:01.123+01:00`. If no time zone is specified, UTC is used. You can use a space character instead of the `T`. Seconds and fractions of a second are optional.
+   * * Relative timeframe, back from now. The format is `now-NU/A`, where `N` is the amount of time, `U` is the unit of time, and `A` is an alignment. The alignment rounds all the smaller values to the nearest zero in the past. For example, `now-1y/w` is one year back, aligned by a week.
+   * You can also specify relative timeframe without an alignment: `now-NU`.
+   * Supported time units for the relative timeframe are:
+   *    * `m`: minutes
+   *    * `h`: hours
+   *    * `d`: days
+   *    * `w`: weeks
+   *    * `M`: months
+   *    * `y`: years
+   * If not set, the token never expires.
+   * @example now+14d
+   */
+  expirationDate?: string;
+
+  /**
+   * The token is a seed token (`true`) or an individual token (`false`).
+   *
+   *  We recommend the individual token option (false).
+   * @example false
+   */
+  seedToken?: boolean;
+
+  /** The type of the ActiveGate for which the token is valid. */
+  activeGateType: "ENVIRONMENT" | "CLUSTER";
 }
 
 /**
@@ -1612,71 +1755,6 @@ export interface ActiveGateTokenList {
 }
 
 /**
- * The newly created ActiveGate token.
- */
-export interface ActiveGateTokenCreated {
-  /**
-   * The ID of the token, consisting of prefix and public part of the token.
-   * @example dt0g02.4KWZO5EF
-   */
-  id?: string;
-
-  /**
-   * The secret of the token.
-   * @example dt0g02.4KWZO5EF.XT47R5DRADJIZUFOX4UDNOKTSUSABGLN7XSMJG7UXHRXKNY4WLORH4OF4T75MG7E
-   */
-  token?: string;
-
-  /**
-   * The token expiration date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`).
-   * @example 2020-11-24T08:15:30.144Z
-   */
-  expirationDate?: string;
-}
-
-/**
- * Parameters of a new ActiveGate token.
- */
-export interface ActiveGateTokenCreate {
-  /**
-   * The name of the token.
-   * @example myToken
-   */
-  name: string;
-
-  /**
-   * The expiration date of the token.
-   *
-   * You can use one of the following formats:
-   * * Timestamp in UTC milliseconds.
-   * * Human-readable format of `2021-01-25T05:57:01.123+01:00`. If no time zone is specified, UTC is used. You can use a space character instead of the `T`. Seconds and fractions of a second are optional.
-   * * Relative timeframe, back from now. The format is `now-NU/A`, where `N` is the amount of time, `U` is the unit of time, and `A` is an alignment. The alignment rounds all the smaller values to the nearest zero in the past. For example, `now-1y/w` is one year back, aligned by a week.
-   * You can also specify relative timeframe without an alignment: `now-NU`.
-   * Supported time units for the relative timeframe are:
-   *    * `m`: minutes
-   *    * `h`: hours
-   *    * `d`: days
-   *    * `w`: weeks
-   *    * `M`: months
-   *    * `y`: years
-   * If not set, the token never expires.
-   * @example now+14d
-   */
-  expirationDate?: string;
-
-  /**
-   * The token is a seed token (`true`) or an individual token (`false`).
-   *
-   *  We recommend the individual token option (false).
-   * @example false
-   */
-  seedToken?: boolean;
-
-  /** The type of the ActiveGate for which the token is valid. */
-  activeGateType: "ENVIRONMENT" | "CLUSTER";
-}
-
-/**
  * The newly created token.
  */
 export interface ApiTokenCreated {
@@ -1704,14 +1782,6 @@ export interface ApiTokenCreated {
  */
 export interface ApiTokenCreate {
   /**
-   * The token is a personal access token (`true`) or an API token (`false`).
-   *
-   *  Personal access tokens are tied to the permissions of their owner.
-   * @example false
-   */
-  personalAccessToken?: boolean;
-
-  /**
    * The expiration date of the token.
    *
    * You can use one of the following formats:
@@ -1730,6 +1800,14 @@ export interface ApiTokenCreate {
    * @example now+14d
    */
   expirationDate?: string;
+
+  /**
+   * The token is a personal access token (`true`) or an API token (`false`).
+   *
+   *  Personal access tokens are tied to the permissions of their owner.
+   * @example false
+   */
+  personalAccessToken?: boolean;
 
   /**
    * The name of the token.
@@ -1884,6 +1962,12 @@ export interface ApiToken {
   lastUsedIpAddress?: string;
 
   /**
+   * Token last used date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`)
+   * @example 2020-11-12T08:15:30.144Z
+   */
+  lastUsedDate?: string;
+
+  /**
    * Token expiration date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`).
    *
    *  If not set, the token never expires.
@@ -1896,18 +1980,6 @@ export interface ApiToken {
    * @example true
    */
   personalAccessToken?: boolean;
-
-  /**
-   * Token last used date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`)
-   * @example 2020-11-12T08:15:30.144Z
-   */
-  lastUsedDate?: string;
-
-  /**
-   * Token creation date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`)
-   * @example 2020-11-05T08:15:30.144Z
-   */
-  creationDate?: string;
 
   /**
    * The name of the token.
@@ -1932,6 +2004,12 @@ export interface ApiToken {
    * @example true
    */
   enabled?: boolean;
+
+  /**
+   * Token creation date in ISO 8601 format (`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`)
+   * @example 2020-11-05T08:15:30.144Z
+   */
+  creationDate?: string;
 
   /** A list of scopes assigned to the token. */
   scopes?: (
@@ -2009,6 +2087,43 @@ export interface ApiToken {
 }
 
 /**
+ * A list of API tokens.
+ * @example {"pageSize":"1","totalCount":"1","apiTokens":{"id":"dt0c01.ST2EY72KQINMH574WMNVI7YN","name":"tokenName","revoked":"false","personalAccessToken":"true","owner":"john.smith","creationDate":"2020-11-05T08:15:30.144Z","expirationDate":"2020-11-12T08:15:30.144Z","lastUsedDate":"2020-11-12T08:15:30.144Z","lastUsedIpAddress":"34.197.2.44","scopes":["metrics.read"]}}
+ */
+export interface ApiTokenList {
+  /** A list of API tokens. */
+  apiTokens?: ApiToken[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+}
+
+export interface ApiTokenSecret {
+  /**
+   * The API token.
+   * @example dt0c01.ST2EY72KQINMH574WMNVI7YN.G3DFPBEJYMODIDAEX454M7YWBUVEFOWKPRVMWFASS64NFH52PX6BNDVFFM572RZM
+   */
+  token: string;
+}
+
+/**
  * The update of the API token.
  */
 export interface ApiTokenUpdate {
@@ -2023,72 +2138,6 @@ export interface ApiTokenUpdate {
    * @example true
    */
   enabled?: boolean;
-}
-
-export interface ApiTokenSecret {
-  /**
-   * The API token.
-   * @example dt0c01.ST2EY72KQINMH574WMNVI7YN.G3DFPBEJYMODIDAEX454M7YWBUVEFOWKPRVMWFASS64NFH52PX6BNDVFFM572RZM
-   */
-  token: string;
-}
-
-/**
- * A list of API tokens.
- * @example {"pageSize":"1","totalCount":"1","apiTokens":{"id":"dt0c01.ST2EY72KQINMH574WMNVI7YN","name":"tokenName","revoked":"false","personalAccessToken":"true","owner":"john.smith","creationDate":"2020-11-05T08:15:30.144Z","expirationDate":"2020-11-12T08:15:30.144Z","lastUsedDate":"2020-11-12T08:15:30.144Z","lastUsedIpAddress":"34.197.2.44","scopes":["metrics.read"]}}
- */
-export interface ApiTokenList {
-  /** A list of API tokens. */
-  apiTokens?: ApiToken[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-}
-
-/**
- * The audit log of your environment.
- * @example {"totalCount":10,"pageSize":5,"nextPageKey":"___a7acX3q0AAAAAACJidWlsdGluOnNlcnZpY2lUVEJCUzBaNVIxVjJOSGt6Y3oyLTcwMUZWRkxlclH__9rtpxferQ","auditLogs":[{"logId":"197425568800060000","eventType":"UPDATE","category":"CONFIG","entityId":"MOBILE_RUM: MOBILE_APPLICATION-752C223D59734CD2","environmentId":"prod-env-13","user":"test.user@company.com","userType":"USER_NAME","userOrigin":"webui (192.168.0.2)","timestamp":1974255688445,"success":true,"patch":[{"op":"replace","path":"/refreshTimeIntervalMillis","value":30000,"oldValue":20000}]}]}
- */
-export interface AuditLog {
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /** A list of audit log entries ordered by the creation timestamp. */
-  auditLogs?: AuditLogEntry[];
 }
 
 /**
@@ -2157,6 +2206,35 @@ export interface AuditLogEntry {
    * The format is an enhanced RFC 6902. The patch also carries the previous value in the **oldValue** field.
    */
   patch?: object;
+}
+
+/**
+ * The audit log of your environment.
+ * @example {"totalCount":10,"pageSize":5,"nextPageKey":"___a7acX3q0AAAAAACJidWlsdGluOnNlcnZpY2lUVEJCUzBaNVIxVjJOSGt6Y3oyLTcwMUZWRkxlclH__9rtpxferQ","auditLogs":[{"logId":"197425568800060000","eventType":"UPDATE","category":"CONFIG","entityId":"MOBILE_RUM: MOBILE_APPLICATION-752C223D59734CD2","environmentId":"prod-env-13","user":"test.user@company.com","userType":"USER_NAME","userOrigin":"webui (192.168.0.2)","timestamp":1974255688445,"success":true,"patch":[{"op":"replace","path":"/refreshTimeIntervalMillis","value":30000,"oldValue":20000}]}]}
+ */
+export interface AuditLog {
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+
+  /** A list of audit log entries ordered by the creation timestamp. */
+  auditLogs?: AuditLogEntry[];
 }
 
 /**
@@ -2274,75 +2352,72 @@ export interface DavisSecurityAdviceList {
 }
 
 /**
- * Risk assessment of a security problem.
+ * information on the muted state of a security problem in relation to an event.
  */
-export interface RiskAssessment {
-  /**
-   * The Davis risk level.
-   *
-   *  It is calculated by Dynatrace on the basis of CVSS score.
-   */
-  riskLevel?: "CRITICAL" | "HIGH" | "LOW" | "MEDIUM" | "NONE";
+export interface MuteState {
+  /** The user who has muted or unmuted the problem. */
+  user?: string;
 
-  /**
-   * The Davis risk score (1-10).
-   *
-   *  It is calculated by Dynatrace on the basis of CVSS score.
-   * @format float
-   */
-  riskScore?: number;
+  /** The reason for the mute state change. */
+  reason?:
+    | "AFFECTED"
+    | "CONFIGURATION_NOT_AFFECTED"
+    | "FALSE_POSITIVE"
+    | "IGNORE"
+    | "INITIAL_STATE"
+    | "OTHER"
+    | "VULNERABLE_CODE_NOT_IN_USE";
 
-  /** The attack vector calculated by DT based on the CVSS attack vector. */
-  riskVector?: string;
-
-  /** The risk level from the CVSS score. */
-  baseRiskLevel?: "CRITICAL" | "HIGH" | "LOW" | "MEDIUM" | "NONE";
-
-  /**
-   * The risk score (1-10) from the CVSS score.
-   * @format float
-   */
-  baseRiskScore?: number;
-
-  /** The original attack vector of the CVSS assessment. */
-  baseRiskVector?: string;
-
-  /** The level of exposure of affected entities. */
-  exposure?: "NOT_AVAILABLE" | "NOT_DETECTED" | "PUBLIC_NETWORK";
-
-  /** The reachability of related data assets by affected entities. */
-  dataAssets?: "NOT_AVAILABLE" | "NOT_DETECTED" | "REACHABLE";
-
-  /** The availability status of public exploits. */
-  publicExploit?: "AVAILABLE" | "NOT_AVAILABLE";
+  /** A comment by the user. */
+  comment?: string;
 }
 
 /**
- * A list of security problems.
+ * A snapshot of the risk assessment of a security problem.
  */
-export interface SecurityProblemList {
+export interface RiskAssessmentSnapshot {
   /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The number of entries per page.
+   * The number of currently affected entities.
    * @format int32
    */
-  pageSize?: number;
+  numberOfAffectedEntities?: number;
 
   /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
+   * The number of currently reachable data assets by affected entities.
+   * @format int32
    */
-  nextPageKey?: string;
+  numberOfReachableDataAssets?: number;
 
-  /** A list of security problems. */
-  securityProblems?: SecurityProblem[];
+  /** The availability status of public exploits. */
+  publicExploit?: "AVAILABLE" | "NOT_AVAILABLE";
+
+  /** The level of exposure of affected entities. */
+  exposure?: "NOT_AVAILABLE" | "NOT_DETECTED" | "PUBLIC_NETWORK";
+}
+
+/**
+ * The event of a security problem.
+ */
+export interface SecurityProblemEvent {
+  /**
+   * The timestamp when the event occurred.
+   * @format int64
+   */
+  timestamp?: number;
+
+  /** The reason of the event creation. */
+  reason?:
+    | "SECURITY_PROBLEM_CREATED"
+    | "SECURITY_PROBLEM_MUTED"
+    | "SECURITY_PROBLEM_REOPENED"
+    | "SECURITY_PROBLEM_RESOLVED"
+    | "SECURITY_PROBLEM_UNMUTED";
+
+  /** A snapshot of the risk assessment of a security problem. */
+  riskAssessmentSnapshot?: RiskAssessmentSnapshot;
+
+  /** information on the muted state of a security problem in relation to an event. */
+  muteState?: MuteState;
 }
 
 /**
@@ -2477,27 +2552,6 @@ export interface VulnerableComponent {
 }
 
 /**
- * information on the muted state of a security problem in relation to an event.
- */
-export interface MuteState {
-  /** The user who has muted or unmuted the problem. */
-  user?: string;
-
-  /** The reason for the mute state change. */
-  reason?:
-    | "AFFECTED"
-    | "CONFIGURATION_NOT_AFFECTED"
-    | "FALSE_POSITIVE"
-    | "IGNORE"
-    | "INITIAL_STATE"
-    | "OTHER"
-    | "VULNERABLE_CODE_NOT_IN_USE";
-
-  /** A comment by the user. */
-  comment?: string;
-}
-
-/**
  * Related container image of a security problem.
  */
 export interface RelatedContainerImage {
@@ -2582,26 +2636,47 @@ export interface RelatedService {
 }
 
 /**
- * A snapshot of the risk assessment of a security problem.
+ * Risk assessment of a security problem.
  */
-export interface RiskAssessmentSnapshot {
+export interface RiskAssessment {
   /**
-   * The number of currently affected entities.
-   * @format int32
+   * The Davis risk level.
+   *
+   *  It is calculated by Dynatrace on the basis of CVSS score.
    */
-  numberOfAffectedEntities?: number;
+  riskLevel?: "CRITICAL" | "HIGH" | "LOW" | "MEDIUM" | "NONE";
 
   /**
-   * The number of currently reachable data assets by affected entities.
-   * @format int32
+   * The Davis risk score (1-10).
+   *
+   *  It is calculated by Dynatrace on the basis of CVSS score.
+   * @format float
    */
-  numberOfReachableDataAssets?: number;
+  riskScore?: number;
 
-  /** The availability status of public exploits. */
-  publicExploit?: "AVAILABLE" | "NOT_AVAILABLE";
+  /** The attack vector calculated by DT based on the CVSS attack vector. */
+  riskVector?: string;
+
+  /** The risk level from the CVSS score. */
+  baseRiskLevel?: "CRITICAL" | "HIGH" | "LOW" | "MEDIUM" | "NONE";
+
+  /**
+   * The risk score (1-10) from the CVSS score.
+   * @format float
+   */
+  baseRiskScore?: number;
+
+  /** The original attack vector of the CVSS assessment. */
+  baseRiskVector?: string;
 
   /** The level of exposure of affected entities. */
   exposure?: "NOT_AVAILABLE" | "NOT_DETECTED" | "PUBLIC_NETWORK";
+
+  /** The reachability of related data assets by affected entities. */
+  dataAssets?: "NOT_AVAILABLE" | "NOT_DETECTED" | "REACHABLE";
+
+  /** The availability status of public exploits. */
+  publicExploit?: "AVAILABLE" | "NOT_AVAILABLE";
 }
 
 /**
@@ -2713,38 +2788,41 @@ export interface SecurityProblemDetails {
 }
 
 /**
- * The event of a security problem.
+ * A list of security problems.
  */
-export interface SecurityProblemEvent {
+export interface SecurityProblemList {
   /**
-   * The timestamp when the event occurred.
+   * The total number of entries in the result.
    * @format int64
    */
-  timestamp?: number;
+  totalCount: number;
 
-  /** The reason of the event creation. */
-  reason?:
-    | "SECURITY_PROBLEM_CREATED"
-    | "SECURITY_PROBLEM_MUTED"
-    | "SECURITY_PROBLEM_REOPENED"
-    | "SECURITY_PROBLEM_RESOLVED"
-    | "SECURITY_PROBLEM_UNMUTED";
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
 
-  /** A snapshot of the risk assessment of a security problem. */
-  riskAssessmentSnapshot?: RiskAssessmentSnapshot;
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
 
-  /** information on the muted state of a security problem in relation to an event. */
-  muteState?: MuteState;
+  /** A list of security problems. */
+  securityProblems?: SecurityProblem[];
 }
 
 /**
- * Information on un-muting a security problem.
+ * Information on muting a security problem.
  */
-export interface Unmute {
-  /** The reason for un-muting a security problem. */
-  reason: "AFFECTED" | "INITIAL_STATE";
+export interface Mute {
+  /** The reason for muting a security problem. */
+  reason: "CONFIGURATION_NOT_AFFECTED" | "FALSE_POSITIVE" | "IGNORE" | "OTHER" | "VULNERABLE_CODE_NOT_IN_USE";
 
-  /** A comment about the un-muting reason. */
+  /** A comment about the muting reason. */
   comment: string;
 }
 
@@ -2770,14 +2848,23 @@ export interface RemediationItemMuteStateChangeDto {
 }
 
 /**
- * Information on muting a security problem.
+ * Information on un-muting a security problem.
  */
-export interface Mute {
-  /** The reason for muting a security problem. */
-  reason: "CONFIGURATION_NOT_AFFECTED" | "FALSE_POSITIVE" | "IGNORE" | "OTHER" | "VULNERABLE_CODE_NOT_IN_USE";
+export interface Unmute {
+  /** The reason for un-muting a security problem. */
+  reason: "AFFECTED" | "INITIAL_STATE";
 
-  /** A comment about the muting reason. */
+  /** A comment about the un-muting reason. */
   comment: string;
+}
+
+export interface ExtensionEnvironmentConfigurationVersion {
+  /**
+   * Extension version
+   * @pattern ^(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?
+   * @example 1.2.3
+   */
+  version: string;
 }
 
 export interface MonitoringConfigurationResponse {
@@ -2794,6 +2881,9 @@ export interface MonitoringConfigurationResponse {
   code?: number;
 }
 
+/**
+ * The monitoring configuration
+ */
 export type JsonNode = object;
 
 export interface MonitoringConfigurationDto {
@@ -2802,212 +2892,15 @@ export interface MonitoringConfigurationDto {
    * @example HOST-D3A3C5A146830A79
    */
   scope: string;
+
+  /** The monitoring configuration */
   value?: JsonNode;
-}
-
-export interface ExtensionMonitoringConfiguration {
-  /** Configuration id */
-  objectId?: string;
-
-  /** Configuration scope */
-  scope?: string;
-
-  /** Configuration */
-  value?: string;
-}
-
-export interface ExtensionMonitoringConfigurationsList {
-  /** A list of extension monitoring configurations. */
-  items?: ExtensionMonitoringConfiguration[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-}
-
-export interface MonitoringConfigurationUpdateDto {
-  value?: JsonNode;
-}
-
-/**
- * A list of extension events.
- */
-export interface ExtensionEventDto {
-  /** Timestamp of the event */
-  timestamp?: string;
-
-  /** Severity of the event */
-  severity?: string;
-
-  /** Content of the event */
-  content?: string;
-
-  /**
-   * Host that uses this monitoring configuration.
-   *
-   * Example: `HOST-ABCDEF0123456789`
-   */
-  "dt.entity.host"?: string;
-
-  /**
-   * Hexadecimal ID of Active Gate that uses this monitoring configuration.
-   *
-   * Example: `0x1a2b3c4d`
-   */
-  "dt.active_gate.id"?: string;
-
-  /**
-   * Data source that uses this monitoring configuration.
-   *
-   * Example: `snmp`
-   */
-  "dt.extension.ds"?: string;
-
-  /** Status of the event */
-  status?: "ERROR" | "INFO" | "NONE" | "WARN";
-}
-
-export interface ExtensionEventsList {
-  /** A list of extension events. */
-  extensionEvents?: ExtensionEventDto[];
-}
-
-export interface ExtensionStatusDto {
-  /**
-   * Timestamp of the latest status of given configuration.
-   * @format int64
-   */
-  timestamp?: number;
-
-  /** Latest status of given configuration. */
-  status?: string;
-}
-
-export interface SchemaFiles {
-  /** A list of schema files. */
-  files?: string[];
-}
-
-export interface ExtensionList {
-  /** A list of extensions. */
-  extensions?: MinimalExtension[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-}
-
-/**
- * A list of extensions.
- */
-export interface MinimalExtension {
-  /** Extension name */
-  extensionName?: string;
-
-  /**
-   * Extension version
-   * @pattern ^(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?
-   * @example 1.2.3
-   */
-  version?: string;
-}
-
-/**
- * Extension author
- */
-export interface AuthorDto {
-  /** Author name */
-  name?: string;
-}
-
-export interface Extension {
-  /** Extension name */
-  extensionName?: string;
-
-  /**
-   * Extension version
-   * @pattern ^(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?
-   * @example 1.2.3
-   */
-  version?: string;
-
-  /** Extension author */
-  author?: AuthorDto;
-
-  /** Data sources that extension uses to gather data */
-  dataSources?: string[];
-
-  /** Custom variables used in extension configuration */
-  variables?: string[];
-
-  /** Available feature sets */
-  featureSets?: string[];
-
-  /** Details of feature sets */
-  featureSetsDetails?: Record<string, FeatureSetDetails>;
-
-  /** Minimal Dynatrace version that works with the extension */
-  minDynatraceVersion?: string;
-
-  /** SHA-256 hash of uploaded Extension file */
-  fileHash?: string;
-}
-
-/**
- * Additional information about a Feature Set
- */
-export interface FeatureSetDetails {
-  /** Feature set metrics */
-  metrics?: MetricDto[];
-}
-
-/**
- * Metric gathered by an extension
- */
-export interface MetricDto {
-  /** Metric key */
-  key?: string;
 }
 
 /**
  * A constraint on the values accepted for a complex settings property.
  */
 export interface ComplexConstraint {
-  /** A custom message for invalid values. */
-  customMessage?: string;
-
   /**
    * The ID of a custom validator.
    * @example my-min-max
@@ -3028,6 +2921,9 @@ export interface ComplexConstraint {
    */
   maximumPropertyCount?: number;
 
+  /** A custom message for invalid values. */
+  customMessage?: string;
+
   /** A list of properties (defined by IDs) that are used to check the constraint. */
   properties?: string[];
 
@@ -3046,6 +2942,18 @@ export interface ComplexConstraint {
  * A constraint on the values accepted for a settings property.
  */
 export interface Constraint {
+  /**
+   * A list of properties for which the combination of values must be unique.
+   * @example ["my-prop-1","my-prop-2"]
+   */
+  uniqueProperties?: string[];
+
+  /**
+   * The ID of a custom validator.
+   * @example my-min-max
+   */
+  customValidatorId?: string;
+
   /**
    * A custom message for invalid values.
    * @example customConstraintMessage
@@ -3067,16 +2975,16 @@ export interface Constraint {
   minLength?: number;
 
   /**
-   * A list of properties for which the combination of values must be unique.
-   * @example ["my-prop-1","my-prop-2"]
+   * The maximum allowed value.
+   * @example 200
    */
-  uniqueProperties?: string[];
+  maximum?: number;
 
   /**
-   * The ID of a custom validator.
-   * @example my-min-max
+   * The minimum allowed value.
+   * @example 3
    */
-  customValidatorId?: string;
+  minimum?: number;
 
   /**
    * The type of the constraint.
@@ -3096,18 +3004,6 @@ export interface Constraint {
     | "UNKNOWN";
 
   /**
-   * The minimum allowed value.
-   * @example 3
-   */
-  minimum?: number;
-
-  /**
-   * The maximum allowed value.
-   * @example 200
-   */
-  maximum?: number;
-
-  /**
    * The regular expression pattern for valid string values.
    * @example ^([a-z]|[0-9]|\-|\_|\+|\.)+\@([a-z]|[0-9]|-){2,}\.([a-z]|[0-9]|-){2,}(\.[a-z]{2,})?$
    */
@@ -3118,6 +3014,9 @@ export interface Constraint {
  * Configuration of a datasource for a property.
  */
 export interface DatasourceDefinition {
+  /** When to reset datasource value in the UI on filter change. */
+  resetValue?: "ALWAYS" | "INVALID_ONLY" | "NEVER";
+
   /** The properties to filter the datasource options on. */
   filterProperties?: string[];
 
@@ -3129,9 +3028,6 @@ export interface DatasourceDefinition {
 
   /** If true, the datasource should use the api to filter the results instead of client-side filtering. */
   useApiSearch?: boolean;
-
-  /** When to reset datasource value in the UI on filter change. */
-  resetValue?: "ALWAYS" | "INVALID_ONLY" | "NEVER";
 
   /** The identifier of a custom data source of the property's value. */
   identifier?: string;
@@ -3215,12 +3111,6 @@ export interface EnumValue {
  */
 export interface Item {
   /**
-   * The type referenced by the item's value.
-   * @example itemReferencedType
-   */
-  referencedType?: string;
-
-  /**
    * An extended description and/or links to documentation.
    * @example propertyDocumentation
    */
@@ -3231,6 +3121,18 @@ export interface Item {
 
   /** Configuration of a datasource for a property. */
   datasource?: DatasourceDefinition;
+
+  /**
+   * The type referenced by the item's value.
+   * @example itemReferencedType
+   */
+  referencedType?: string;
+
+  /**
+   * The subtype of the item's value.
+   * @example itemSubType
+   */
+  subType?: string;
 
   /** The type of the item's value. */
   type?: object;
@@ -3252,18 +3154,20 @@ export interface Item {
 
   /** Metadata of the items. */
   metadata?: Record<string, string>;
-
-  /**
-   * The subtype of the item's value.
-   * @example itemSubType
-   */
-  subType?: string;
 }
 
 /**
  * A precondition for visibility of a property.
  */
 export interface Precondition {
+  /**
+   * The expected value of the property.
+   *
+   * Only applicable to properties of the `EQUALS` type.
+   * @example expectedValue
+   */
+  expectedValue?: object;
+
   /**
    * A list of child preconditions to be evaluated.
    *
@@ -3278,14 +3182,6 @@ export interface Precondition {
    * @example expectedValues
    */
   expectedValues?: object[];
-
-  /**
-   * The expected value of the property.
-   *
-   * Only applicable to properties of the `EQUALS` type.
-   * @example expectedValue
-   */
-  expectedValue?: object;
 
   /** A precondition for visibility of a property. */
   precondition?: Precondition;
@@ -3316,15 +3212,6 @@ export interface Precondition {
  */
 export interface PropertyDefinition {
   /**
-   * The type referenced by the property value
-   * @example propertyReferencedType
-   */
-  referencedType?: string;
-
-  /** An item of a collection property. */
-  items?: Item;
-
-  /**
    * An extended description and/or links to documentation.
    * @example propertyDocumentation
    */
@@ -3342,13 +3229,6 @@ export interface PropertyDefinition {
   uiCustomization?: UiCustomization;
 
   /**
-   * The minimum number of **objects** in a collection property.
-   * @format int32
-   * @example 1
-   */
-  minObjects?: number;
-
-  /**
    * Modification policy of the property.
    * @example ALWAYS
    */
@@ -3357,8 +3237,30 @@ export interface PropertyDefinition {
   /** A precondition for visibility of a property. */
   precondition?: Precondition;
 
+  /**
+   * The minimum number of **objects** in a collection property.
+   * @format int32
+   * @example 1
+   */
+  minObjects?: number;
+
   /** Configuration of a datasource for a property. */
   datasource?: DatasourceDefinition;
+
+  /**
+   * The type referenced by the property value
+   * @example propertyReferencedType
+   */
+  referencedType?: string;
+
+  /** An item of a collection property. */
+  items?: Item;
+
+  /**
+   * The subtype of the property's value.
+   * @example propertySubType
+   */
+  subType?: string;
 
   /**
    * The default value to be used when no value is provided.
@@ -3388,12 +3290,6 @@ export interface PropertyDefinition {
 
   /** Metadata of the property. */
   metadata?: Record<string, string>;
-
-  /**
-   * The subtype of the property's value.
-   * @example propertySubType
-   */
-  subType?: string;
 
   /**
    * The value can (`true`) or can't (`false`) be `null`.
@@ -3497,16 +3393,16 @@ export interface SchemaDefinitionRestDto {
 */
 export interface SchemaType {
   /**
-   * The pattern for the summary search(for example, "Alert after *X* minutes.") of the configuration in the UI.
-   * @example searchPatternOfType
-   */
-  searchPattern?: string;
-
-  /**
    * The pattern for the summary (for example, "Alert after *X* minutes.") of the configuration in the UI.
    * @example summaryPatternOfType
    */
   summaryPattern?: string;
+
+  /**
+   * The pattern for the summary search(for example, "Alert after *X* minutes.") of the configuration in the UI.
+   * @example searchPatternOfType
+   */
+  searchPattern?: string;
 
   /**
    * The version of the type.
@@ -3584,13 +3480,196 @@ export interface UiTableCustomization {
   columns?: UiTableColumnCustomization[];
 }
 
-export interface ExtensionEnvironmentConfigurationVersion {
+/**
+ * Extension author
+ */
+export interface AuthorDto {
+  /** Author name */
+  name?: string;
+}
+
+export interface Extension {
+  /** Extension name */
+  extensionName?: string;
+
   /**
    * Extension version
    * @pattern ^(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?
    * @example 1.2.3
    */
-  version: string;
+  version?: string;
+
+  /** Extension author */
+  author?: AuthorDto;
+
+  /** Data sources that extension uses to gather data */
+  dataSources?: string[];
+
+  /** Custom variables used in extension configuration */
+  variables?: string[];
+
+  /** Available feature sets */
+  featureSets?: string[];
+
+  /** Details of feature sets */
+  featureSetsDetails?: Record<string, FeatureSetDetails>;
+
+  /** Minimal Dynatrace version that works with the extension */
+  minDynatraceVersion?: string;
+
+  /** SHA-256 hash of uploaded Extension file */
+  fileHash?: string;
+}
+
+/**
+ * Additional information about a Feature Set
+ */
+export interface FeatureSetDetails {
+  /** Feature set metrics */
+  metrics?: MetricDto[];
+}
+
+/**
+ * Metric gathered by an extension
+ */
+export interface MetricDto {
+  /** Metric key */
+  key?: string;
+}
+
+export interface ExtensionMonitoringConfiguration {
+  /** Configuration id */
+  objectId?: string;
+
+  /** Configuration scope */
+  scope?: string;
+
+  /** Configuration */
+  value?: string;
+}
+
+export interface ExtensionMonitoringConfigurationsList {
+  /** A list of extension monitoring configurations. */
+  items?: ExtensionMonitoringConfiguration[];
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+}
+
+/**
+ * A list of extension events.
+ */
+export interface ExtensionEventDto {
+  /** Timestamp of the event */
+  timestamp?: string;
+
+  /** Severity of the event */
+  severity?: string;
+
+  /** Content of the event */
+  content?: string;
+
+  /**
+   * Host that uses this monitoring configuration.
+   *
+   * Example: `HOST-ABCDEF0123456789`
+   */
+  "dt.entity.host"?: string;
+
+  /**
+   * Hexadecimal ID of Active Gate that uses this monitoring configuration.
+   *
+   * Example: `0x1a2b3c4d`
+   */
+  "dt.active_gate.id"?: string;
+
+  /**
+   * Data source that uses this monitoring configuration.
+   *
+   * Example: `snmp`
+   */
+  "dt.extension.ds"?: string;
+
+  /** Status of the event */
+  status?: "ERROR" | "INFO" | "NONE" | "WARN";
+}
+
+export interface ExtensionEventsList {
+  /** A list of extension events. */
+  extensionEvents?: ExtensionEventDto[];
+}
+
+export interface ExtensionStatusDto {
+  /**
+   * Timestamp of the latest status of given configuration.
+   * @format int64
+   */
+  timestamp?: number;
+
+  /** Latest status of given configuration. */
+  status?: string;
+}
+
+export interface ExtensionList {
+  /** A list of extensions. */
+  extensions?: MinimalExtension[];
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+}
+
+/**
+ * A list of extensions.
+ */
+export interface MinimalExtension {
+  /** Extension name */
+  extensionName?: string;
+
+  /**
+   * Extension version
+   * @pattern ^(0|[1-9]\d*)(\.(0|[1-9]\d*))?(\.(0|[1-9]\d*))?
+   * @example 1.2.3
+   */
+  version?: string;
+}
+
+export interface SchemaFiles {
+  /** A list of schema files. */
+  files?: string[];
 }
 
 export interface SchemasList {
@@ -3598,12 +3677,9 @@ export interface SchemasList {
   versions?: string[];
 }
 
-export interface CommentRequestDtoImpl {
-  /** The text of the comment. */
-  message: string;
-
-  /** The context of the comment. */
-  context?: string;
+export interface MonitoringConfigurationUpdateDto {
+  /** The monitoring configuration */
+  value?: JsonNode;
 }
 
 /**
@@ -3633,14 +3709,14 @@ export interface Comment {
  * The result of closing a problem.
  */
 export interface ProblemCloseResult {
+  /** The ID of the problem. */
+  problemId: string;
+
   /**
    * The timestamp when the user triggered the closing.
    * @format int64
    */
   closeTimestamp: number;
-
-  /** The ID of the problem. */
-  problemId: string;
 
   /** True, if the problem is being closed. */
   closing: boolean;
@@ -3652,6 +3728,42 @@ export interface ProblemCloseResult {
 export interface ProblemCloseRequestDtoImpl {
   /** The text of the closing comment. */
   message: string;
+}
+
+export interface CommentRequestDtoImpl {
+  /** The text of the comment. */
+  message: string;
+
+  /** The context of the comment. */
+  context?: string;
+}
+
+/**
+ * A list of comments.
+ */
+export interface CommentsList {
+  /** The result entries. */
+  comments: Comment[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
 }
 
 /**
@@ -3676,34 +3788,6 @@ export type ApplicationImpact = Impact;
 Indicates an entity that has been unavailable during the problem lifespan and that might be related to the root cause.
 */
 export type AvailabilityEvidence = Evidence & { endTime?: number };
-
-/**
- * A list of comments.
- */
-export interface CommentsList {
-  /** The result entries. */
-  comments?: Comment[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-}
 
 /**
  * Analysis of problem impact to a custom application.
@@ -3764,7 +3848,7 @@ export interface EvidenceDetails {
   totalCount: number;
 
   /** A list of all evidence. */
-  details?: Evidence[];
+  details: Evidence[];
 }
 
 /**
@@ -3798,18 +3882,18 @@ export interface Impact {
  */
 export interface ImpactAnalysis {
   /** A list of all impacts of the problem. */
-  impacts?: Impact[];
+  impacts: Impact[];
 }
 
 /**
  * The properties of the linked problem.
  */
 export interface LinkedProblem {
-  /** The display ID of the problem. */
-  displayId: string;
-
   /** The ID of the problem. */
   problemId: string;
+
+  /** The display ID of the problem. */
+  displayId: string;
 }
 
 /**
@@ -3898,10 +3982,7 @@ export type MobileImpact = Impact;
  */
 export interface Problem {
   /** A list of all entities that are affected by the problem. */
-  affectedEntities?: EntityStub[];
-
-  /** A list of alerting profiles that match the problem. */
-  problemFilters?: AlertingProfileStub[];
+  affectedEntities: EntityStub[];
 
   /** The evidence details of a problem. */
   evidenceDetails?: EvidenceDetails;
@@ -3909,17 +3990,23 @@ export interface Problem {
   /** A list of comments. */
   recentComments?: CommentsList;
 
-  /** The properties of the linked problem. */
-  linkedProblemInfo?: LinkedProblem;
+  /** A list of all impacts of the problem. */
+  impactAnalysis?: ImpactAnalysis;
 
   /** A list of all entities that are impacted by the problem. */
-  impactedEntities?: EntityStub[];
+  impactedEntities: EntityStub[];
 
   /** A short representation of a monitored entity. */
   rootCauseEntity?: EntityStub;
 
-  /** A list of all impacts of the problem. */
-  impactAnalysis?: ImpactAnalysis;
+  /** A list of alerting profiles that match the problem. */
+  problemFilters: AlertingProfileStub[];
+
+  /** The properties of the linked problem. */
+  linkedProblemInfo?: LinkedProblem;
+
+  /** The impact level of the problem. It shows what is affected by the problem. */
+  impactLevel: "APPLICATION" | "ENVIRONMENT" | "INFRASTRUCTURE" | "SERVICES";
 
   /** The severity of the problem. */
   severityLevel:
@@ -3931,20 +4018,17 @@ export interface Problem {
     | "PERFORMANCE"
     | "RESOURCE_CONTENTION";
 
-  /** The impact level of the problem. It shows what is affected by the problem. */
-  impactLevel: "APPLICATION" | "ENVIRONMENT" | "INFRASTRUCTURE" | "SERVICES";
-
-  /** The display ID of the problem. */
-  displayId: string;
-
   /** A list of all management zones that the problem belongs to. */
-  managementZones?: ManagementZone[];
+  managementZones: ManagementZone[];
+
+  /** The ID of the problem. */
+  problemId: string;
 
   /** A list of all entity tags of the problem. */
   entityTags?: METag[];
 
-  /** The ID of the problem. */
-  problemId: string;
+  /** The display ID of the problem. */
+  displayId: string;
 
   /** The status of the problem. */
   status: "CLOSED" | "OPEN";
@@ -3966,6 +4050,23 @@ export interface Problem {
   /** The name of the problem, displayed in the UI. */
   title: string;
 }
+
+/**
+ * Analysis of problem impact to a service.
+ */
+export type ServiceImpact = Impact & { numberOfPotentiallyAffectedServiceCalls?: number };
+
+/**
+* The transactional evidence of the problem. 
+
+A behavior of a metric in an transaction that indicates the problem and/or is its root cause.
+*/
+export type TransactionalEvidence = Evidence & {
+  valueBeforeChangePoint?: number;
+  valueAfterChangePoint?: number;
+  endTime?: number;
+  unit?: string;
+};
 
 /**
  * A list of problems.
@@ -3992,28 +4093,11 @@ export interface Problems {
   nextPageKey?: string;
 
   /** The result entries. */
-  problems?: Problem[];
+  problems: Problem[];
 
   /** A list of warnings */
   warnings?: string[];
 }
-
-/**
- * Analysis of problem impact to a service.
- */
-export type ServiceImpact = Impact & { numberOfPotentiallyAffectedServiceCalls?: number };
-
-/**
-* The transactional evidence of the problem. 
-
-A behavior of a metric in an transaction that indicates the problem and/or is its root cause.
-*/
-export type TransactionalEvidence = Evidence & {
-  valueBeforeChangePoint?: number;
-  valueAfterChangePoint?: number;
-  endTime?: number;
-  unit?: string;
-};
 
 export interface Success {
   /** Detailed message */
@@ -4040,10 +4124,10 @@ The object might contain the following types of keys (the possible key values ar
 * Content. If the content key is not set, the whole JSON is parsed as the content. 
 * Semantic attribute. Only values of the `String` type are supported. Semantic attributes are indexed and can be used in queries. These are also displayed in aggregations (facets). If an unsupported key occurs it is not indexed and cannot be used in indexing and aggregations. 
 
-The length of the value is limited. Any content exceeding the limit is trimmed. Default limits:
+The object value can be a single constant or, in case of semantic attribute, an array of constants. The length of the value is limited. Any content exceeding the limit is trimmed. Default limits:
 
 * Content: 8,192 characters. 
-* Semantic attribute value: 250 characters.
+* Semantic attribute: 250 characters per value, up to 32 attribute values
 
 Supported timestamp keys:
  * @timestamp
@@ -4148,6 +4232,7 @@ Supported semantic attribute keys:
  * dt.host_group.id
  * dt.http.application_id
  * dt.http.context_root
+ * dt.kubernetes.cluster.id
  * dt.kubernetes.cluster.name
  * dt.kubernetes.config.id
  * dt.kubernetes.event.involved_object.kind
@@ -4219,6 +4304,7 @@ Supported semantic attribute keys:
  * net.peer.name
  * net.peer.port
  * net.transport
+ * process.technology
  * service.instance.id
  * service.name
  * service.namespace
@@ -4242,7 +4328,7 @@ export type LogMessagePlain = object;
 
 /**
  * A single log record.
- * @example {"timestamp":"1631193089000","status":"ERROR","content":"example log content","log.source":"/var/log/syslog","event.type":"LOG","additionalColumns":{"custom.attribute":["value1","value2"],"loglevel":["SEVERE"]}}
+ * @example {"timestamp":"1631193089000","status":"ERROR","content":"example log content","event.type":"LOG","additionalColumns":{"custom.attribute":["value1","value2"],"loglevel":["SEVERE"]}}
  */
 export interface LogRecord {
   /** Additional columns of the log record. */
@@ -4251,14 +4337,14 @@ export interface LogRecord {
   /** Type of event */
   eventType?: "K8S" | "LOG" | "SFM";
 
-  /** The content of the log record. */
-  content?: string;
-
   /**
    * The timestamp of the log record, in UTC milliseconds.
    * @format int64
    */
   timestamp?: number;
+
+  /** The content of the log record. */
+  content?: string;
 
   /** The log status (based on the log level). */
   status?: "ERROR" | "INFO" | "NONE" | "WARN";
@@ -4275,20 +4361,20 @@ export interface AggregatedLog {
 
 /**
  * A list of retrieved log records.
- * @example {"results":[{"timestamp":"1631193089000","status":"ERROR","content":"example log content","log.source":"/var/log/syslog","event.type":"LOG","additionalColumns":{"custom.attribute":["value1","value2"],"loglevel":["SEVERE"]}}],"sliceSize":100,"nextSliceKey":"___-2hI03q0AAAAAAAAAAAAAA-gAAAAAAAAH0P____8AAABkAAAACXRpbWVzdGFtcAD___7aEjTerQ"}
+ * @example {"results":[{"timestamp":"1631193089000","status":"ERROR","content":"example log content","event.type":"LOG","additionalColumns":{"custom.attribute":["value1","value2"],"loglevel":["SEVERE"]}}],"sliceSize":100,"nextSliceKey":"___-2hI03q0AAAAAAAAAAAAAA-gAAAAAAAAH0P____8AAABkAAAACXRpbWVzdGFtcAD___7aEjTerQ"}
  */
 export interface LogRecordsList {
   /** A list of retrieved log records. */
   results?: LogRecord[];
+
+  /** The cursor for the next slice of log records. */
+  nextSliceKey?: string;
 
   /**
    * The total number of records in a slice.
    * @format int64
    */
   sliceSize?: number;
-
-  /** The cursor for the next slice of log records. */
-  nextSliceKey?: string;
 }
 
 /**
@@ -4300,6 +4386,26 @@ In the first draft, a Component is always a Service.
 The tuple <name, product, stage, version> is always unique.
 */
 export interface Release {
+  /**
+   * The number of security vulnerabilities of the entity
+   * @format int32
+   * @min 0
+   * @example 4
+   */
+  securityVulnerabilitiesCount?: number;
+
+  /**
+   * The entity has one or more problems
+   * @example true
+   */
+  affectedByProblems?: boolean;
+
+  /**
+   * Indicates that the security vulnerabilities feature is enabled
+   * @example true
+   */
+  securityVulnerabilitiesEnabled?: boolean;
+
   /**
    * The entity has one or more security vulnerabilities
    * @example true
@@ -4331,26 +4437,6 @@ export interface Release {
    * @example Sockshop
    */
   product?: string;
-
-  /**
-   * The number of security vulnerabilities of the entity
-   * @format int32
-   * @min 0
-   * @example 4
-   */
-  securityVulnerabilitiesCount?: number;
-
-  /**
-   * The entity has one or more problems
-   * @example true
-   */
-  affectedByProblems?: boolean;
-
-  /**
-   * Indicates that the security vulnerabilities feature is enabled
-   * @example true
-   */
-  securityVulnerabilitiesEnabled?: boolean;
 
   /**
    * The instances entityIds included in this release
@@ -4398,16 +4484,16 @@ An instance is a Process Group Instance and has an optional build version.
 */
 export interface ReleaseInstance {
   /**
-   * The build version
-   * @example 223005
-   */
-  buildVersion?: string;
-
-  /**
    * List of Security vulnerabilities Ids
    * @example ["SNYK-JAVA-COMFASTERXMLJACKSONCORE-1234567"]
    */
   securityVulnerabilities?: string[];
+
+  /**
+   * The build version
+   * @example 223005
+   */
+  buildVersion?: string;
 
   /**
    * The entity id of the instance.
@@ -4426,14 +4512,20 @@ export interface ReleaseInstance {
  * A list of releases.
  */
 export interface Releases {
-  /** A list of releases. */
-  releases?: Release[];
-
   /**
    * Number of releases with problems.
    * @format int64
    */
   releasesWithProblems?: number;
+
+  /** A list of releases. */
+  releases?: Release[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
 
   /**
    * The total number of entries in the result.
@@ -4448,12 +4540,6 @@ export interface Releases {
    * @example AQAAABQBAAAABQ==
    */
   nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
 }
 
 /**
@@ -4461,6 +4547,12 @@ export interface Releases {
  * @example [{"technology":"JAVA","edition":"OpenJDK","version":"1.8.0_242","verbatimType":"Java"}]
  */
 export interface SoftwareTechs {
+  /**
+   * The type of the technology.
+   * @example JAVA
+   */
+  technology?: string;
+
   /**
    * The edition of the technology.
    * @example OpenJDK
@@ -4474,122 +4566,11 @@ export interface SoftwareTechs {
   verbatimType?: string;
 
   /**
-   * The type of the technology.
-   * @example JAVA
-   */
-  technology?: string;
-
-  /**
    * The version of the technology.
    * @example 11.0.10
    */
   version?: string;
 }
-
-/**
- * A list of settings objects.
- */
-export interface ObjectsList {
-  /** A list of settings objects. */
-  items?: SettingsObject[];
-
-  /**
-   * The total number of entries in the result.
-   * @format int64
-   */
-  totalCount: number;
-
-  /**
-   * The cursor for the next page of results. Has the value of `null` on the last page.
-   *
-   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
-   * @example AQAAABQBAAAABQ==
-   */
-  nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
-}
-
-/**
- * A settings object.
- */
-export interface SettingsObject {
-  /**
-   * The version of the schema on which the object is based.
-   * @example 1.0.0
-   */
-  schemaVersion?: string;
-
-  /**
-   * The timestamp of the last modification.
-   * @format int64
-   */
-  modified?: number;
-
-  /**
-   * The user (identified by a user ID or a public token ID) who performed that most recent modification.
-   * @example john.doe@example.com
-   */
-  author?: string;
-
-  /**
-   * The update token of the object. You can use it to detect simultaneous modifications by different users.
-   *
-   * It is generated upon retrieval (GET requests). If set on update (PUT request) or deletion, the update/deletion will be allowed only if there wasn't any change between the retrieval and the update.
-   * If omitted on update/deletion, the operation overrides the current value or deletes it without any checks.
-   * @example Y2ktaGdyb3VwLTEyMythZjhjOThlOS0wN2I0LTMyMGEtOTQzNi02NTEyMmVlNWY4NGQ=
-   */
-  updateToken?: string;
-
-  /**
-   * The ID of the settings object.
-   * @example Y2ktaGdyb3VwLTEyMythZjhjOThlOS0wN2I0LTMyMGEtOTQzNi02NTEyMmVlNWY4NGQ=
-   */
-  objectId?: string;
-
-  /**
-   * The timestamp of the creation.
-   * @format int64
-   */
-  created?: number;
-
-  /**
-   * The schema on which the object is based.
-   * @example builtin:container.built-in-monitoring-rule
-   */
-  schemaId?: string;
-
-  /**
-   * The value of the setting.
-   *
-   *  It defines the actual values of settings' parameters.
-   * The actual content depends on the object's schema.
-   */
-  value?: SettingsValue;
-
-  /**
-   * The scope that the object targets.
-   * @example HOST-D3A3C5A146830A79
-   */
-  scope?: string;
-
-  /** A short summary of settings. */
-  summary?: string;
-}
-
-/**
-* The value of the setting. 
-
- It defines the actual values of settings' parameters. 
-
-The actual content depends on the object's schema.
-* @example {"autoMonitoring":true}
-*/
-export type SettingsValue = object;
 
 /**
  * The response to a creation- or update-request.
@@ -4618,15 +4599,114 @@ export interface SettingsObjectResponse {
 }
 
 /**
- * Configuration of a new settings object.
+* The value of the setting. 
+
+ It defines the actual values of settings' parameters. 
+
+The actual content depends on the object's schema.
+* @example {"autoMonitoring":true}
+*/
+export type SettingsValue = object;
+
+/**
+ * A settings object.
  */
-export interface SettingsObjectCreate {
+export interface SettingsObject {
+  /**
+   * The user (identified by a user ID or a public token ID) who performed that most recent modification.
+   * @example john.doe@example.com
+   */
+  author?: string;
+
+  /**
+   * The update token of the object. You can use it to detect simultaneous modifications by different users.
+   *
+   * It is generated upon retrieval (GET requests). If set on update (PUT request) or deletion, the update/deletion will be allowed only if there wasn't any change between the retrieval and the update.
+   * If omitted on update/deletion, the operation overrides the current value or deletes it without any checks.
+   * @example Y2ktaGdyb3VwLTEyMythZjhjOThlOS0wN2I0LTMyMGEtOTQzNi02NTEyMmVlNWY4NGQ=
+   */
+  updateToken?: string;
+
+  /**
+   * The timestamp of the last modification.
+   * @format int64
+   */
+  modified?: number;
+
   /**
    * The version of the schema on which the object is based.
    * @example 1.0.0
    */
   schemaVersion?: string;
 
+  /**
+   * The ID of the settings object.
+   * @example Y2ktaGdyb3VwLTEyMythZjhjOThlOS0wN2I0LTMyMGEtOTQzNi02NTEyMmVlNWY4NGQ=
+   */
+  objectId?: string;
+
+  /**
+   * The timestamp of the creation.
+   * @format int64
+   */
+  created?: number;
+
+  /**
+   * The scope that the object targets.
+   * @example HOST-D3A3C5A146830A79
+   */
+  scope?: string;
+
+  /**
+   * The schema on which the object is based.
+   * @example builtin:container.built-in-monitoring-rule
+   */
+  schemaId?: string;
+
+  /**
+   * The value of the setting.
+   *
+   *  It defines the actual values of settings' parameters.
+   * The actual content depends on the object's schema.
+   */
+  value?: SettingsValue;
+
+  /** A short summary of settings. */
+  summary?: string;
+}
+
+/**
+ * A list of settings objects.
+ */
+export interface ObjectsList {
+  /** A list of settings objects. */
+  items?: SettingsObject[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
+
+  /**
+   * The total number of entries in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /**
+   * The cursor for the next page of results. Has the value of `null` on the last page.
+   *
+   * Use it in the **nextPageKey** query parameter to obtain subsequent pages of the result.
+   * @example AQAAABQBAAAABQ==
+   */
+  nextPageKey?: string;
+}
+
+/**
+ * Configuration of a new settings object.
+ */
+export interface SettingsObjectCreate {
   /**
    * The position of the new object. The new object will be added after the specified one.
    *
@@ -4636,6 +4716,20 @@ export interface SettingsObjectCreate {
    * @example Y2ktaGdyb3VwLTEyMythZjhjOThlOS0wN2I0LTMyMGEtOTQzNi02NTEyMmVlNWY4NGQ=
    */
   insertAfter?: string;
+
+  /**
+   * The version of the schema on which the object is based.
+   * @example 1.0.0
+   */
+  schemaVersion?: string;
+
+  /**
+   * The scope that the object targets.
+   *
+   * If omitted on creation of a new object and if the schema supports scope generation, the operation will generate a scope from the provided value.
+   * @example HOST-D3A3C5A146830A79
+   */
+  scope?: string;
 
   /**
    * The schema on which the object is based.
@@ -4650,26 +4744,12 @@ export interface SettingsObjectCreate {
    * The actual content depends on the object's schema.
    */
   value: SettingsValue;
-
-  /**
-   * The scope that the object targets.
-   *
-   * If omitted on creation of a new object and if the schema supports scope generation, the operation will generate a scope from the provided value.
-   * @example HOST-D3A3C5A146830A79
-   */
-  scope?: string;
 }
 
 /**
  * An update of a settings object.
  */
 export interface SettingsObjectUpdate {
-  /**
-   * The version of the schema on which the object is based.
-   * @example 1.0.0
-   */
-  schemaVersion?: string;
-
   /**
    * The update token of the object. You can use it to detect simultaneous modifications by different users.
    *
@@ -4678,6 +4758,12 @@ export interface SettingsObjectUpdate {
    * @example Y2ktaGdyb3VwLTEyMythZjhjOThlOS0wN2I0LTMyMGEtOTQzNi02NTEyMmVlNWY4NGQ=
    */
   updateToken?: string;
+
+  /**
+   * The version of the schema on which the object is based.
+   * @example 1.0.0
+   */
+  schemaVersion?: string;
 
   /**
    * The value of the setting.
@@ -4692,15 +4778,15 @@ export interface SettingsObjectUpdate {
  * The list of available settings schemas.
  */
 export interface SchemaList {
-  /** A list of settings schemas. */
-  items?: SchemaStub[];
-
   /**
    * The number of schemas in the list.
    * @format int64
    * @example 1
    */
   totalCount?: number;
+
+  /** A list of settings schemas. */
+  items?: SchemaStub[];
 }
 
 /**
@@ -4755,40 +4841,6 @@ export interface SloCreate {
   metricExpression?: string;
 
   /**
-   * The evaluation type of the SLO.
-   * @example AGGREGATE
-   */
-  evaluationType?: "AGGREGATE";
-
-  /**
-   * The entity filter for the SLO evaluation. Use the [syntax of entity selector](https://dt-url.net/entityselector).
-   * @example type("SERVICE")
-   */
-  filter?: string;
-
-  /**
-   * The target value of the SLO.
-   * @format double
-   * @example 95
-   */
-  target?: number;
-
-  /**
-   * The warning value of the SLO.
-   *
-   *  At warning state the SLO is still fulfilled but is getting close to failure.
-   * @format double
-   * @example 97.5
-   */
-  warning?: number;
-
-  /**
-   * The timeframe for the SLO evaluation. Use the syntax of the global timeframe selector.
-   * @example -1d
-   */
-  timeframe?: string;
-
-  /**
    * The type of the metric to use for SLO calculation:
    *
    * * `true`: An existing percentage-based metric.
@@ -4821,6 +4873,40 @@ export interface SloCreate {
    * @example builtin:service.requestCount.server
    */
   metricDenominator?: string;
+
+  /**
+   * The evaluation type of the SLO.
+   * @example AGGREGATE
+   */
+  evaluationType?: "AGGREGATE";
+
+  /**
+   * The entity filter for the SLO evaluation. Use the [syntax of entity selector](https://dt-url.net/entityselector).
+   * @example type("SERVICE")
+   */
+  filter?: string;
+
+  /**
+   * The target value of the SLO.
+   * @format double
+   * @example 95
+   */
+  target?: number;
+
+  /**
+   * The warning value of the SLO.
+   *
+   *  At warning state the SLO is still fulfilled but is getting close to failure.
+   * @format double
+   * @example 97.5
+   */
+  warning?: number;
+
+  /**
+   * The timeframe for the SLO evaluation. Use the syntax of the global timeframe selector.
+   * @example -1d
+   */
+  timeframe?: string;
 }
 
 /**
@@ -4883,6 +4969,34 @@ export interface SLO {
   evaluatedPercentage?: number;
 
   /**
+   * The numerator value used to evaluate the SLO when **useRateMetric** is set to `false`.
+   * @format double
+   * @example 80
+   */
+  numeratorValue?: number;
+
+  /**
+   * The denominator value used to evaluate the SLO when **useRateMetric** is set to `false`.
+   * @format double
+   * @example 90
+   */
+  denominatorValue?: number;
+
+  /**
+   * The entity filter for fetching the number of problems related to an SLO. Auto-generated in case no filter has been added to the SLO.
+   * @example type("SERVICE")
+   */
+  problemFilter?: string;
+
+  /**
+   * Number of OPEN problems related to the SLO.
+   *
+   * Has the value of `-1` if there's an error with fetching SLO related problems.
+   * @format int32
+   */
+  relatedOpenProblems?: number;
+
+  /**
    * Total number of problems related to the SLO.
    *
    * Has the value of `-1` if there's an error with fetching SLO related problems.
@@ -4906,32 +5020,16 @@ export interface SLO {
   errorBudget?: number;
 
   /**
-   * The numerator value used to evaluate the SLO when **useRateMetric** is set to `false`.
-   * @format double
-   * @example 80
-   */
-  numeratorValue?: number;
-
-  /**
-   * The denominator value used to evaluate the SLO when **useRateMetric** is set to `false`.
-   * @format double
-   * @example 90
-   */
-  denominatorValue?: number;
-
-  /**
-   * Number of OPEN problems related to the SLO.
-   *
-   * Has the value of `-1` if there's an error with fetching SLO related problems.
-   * @format int32
-   */
-  relatedOpenProblems?: number;
-
-  /**
    * The timeframe for the SLO evaluation. Use the syntax of the global timeframe selector.
    * @example -1d
    */
   timeframe?: string;
+
+  /**
+   * The entity filter for the SLO evaluation. Use the [syntax of entity selector](https://dt-url.net/entityselector).
+   * @example type("SERVICE")
+   */
+  filter?: string;
 
   /**
    * The name of the SLO.
@@ -4960,12 +5058,6 @@ export interface SLO {
   description?: string;
 
   /**
-   * The entity filter for the SLO evaluation. Use the [syntax of entity selector](https://dt-url.net/entityselector).
-   * @example type("SERVICE")
-   */
-  filter?: string;
-
-  /**
    * The SLO is enabled (`true`) or disabled (`false`).
    * @example true
    */
@@ -4978,6 +5070,14 @@ export interface SLO {
   status?: "FAILURE" | "SUCCESS" | "WARNING";
 
   /**
+   * The error of the SLO calculation.
+   *
+   * If the value differs from `NONE` there's something wrong with the SLO calculation.
+   * @example NONE
+   */
+  error?: string;
+
+  /**
    * The warning value of the SLO.
    *
    *  At warning state the SLO is still fulfilled but is getting close to failure.
@@ -4985,28 +5085,6 @@ export interface SLO {
    * @example 97.5
    */
   warning?: number;
-
-  /**
-   * The error of the SLO calculation.
-   *
-   * If the value differs from `NONE` there's something wrong with the SLO calculation.
-   * @example NONE
-   */
-  error?:
-    | "ARITHMETIC_WITH_ONE_EMPTY_INPUT"
-    | "EVALUATION_TIMEFRAME_OUT_OF_BOUNDS"
-    | "INTERNAL_ERROR"
-    | "INVALID_ENTITY_SELECTOR"
-    | "INVALID_METRIC_SELECTOR"
-    | "INVALID_TIMEFRAME"
-    | "MANAGEMENT_ZONE_INVALID"
-    | "METRIC_EXPRESSION_NOT_RESOLVED"
-    | "METRIC_EXPRESSION_NO_DATA"
-    | "METRIC_EXPRESSION_NO_DATA_POINTS"
-    | "METRIC_GENERIC_TSM_FAULT"
-    | "METRIC_TOO_MANY_RESULTS"
-    | "NONE"
-    | "NO_MANAGEMENT_ZONE_SELECTED";
 }
 
 /**
@@ -5015,6 +5093,12 @@ export interface SLO {
 export interface SLOs {
   /** A list of SLOs. */
   slo?: SLO[];
+
+  /**
+   * The number of entries per page.
+   * @format int32
+   */
+  pageSize?: number;
 
   /**
    * The total number of entries in the result.
@@ -5029,48 +5113,12 @@ export interface SLOs {
    * @example AQAAABQBAAAABQ==
    */
   nextPageKey?: string;
-
-  /**
-   * The number of entries per page.
-   * @format int32
-   */
-  pageSize?: number;
 }
 
 /**
  * A DTO for synthetic configuration.
  */
 export interface SyntheticConfigDto {
-  /** @format int32 */
-  hmRequestTimeoutInMs?: number;
-
-  /** @format int32 */
-  hmConnectTimeoutInMs?: number;
-
-  /** @format int32 */
-  hmMaxHeaderSizeInBytes?: number;
-
-  /** @format int32 */
-  hmExecutionTimeoutInMs?: number;
-
-  /** @format int32 */
-  hmScriptExecutionTimeoutInMs?: number;
-
-  /** @format int32 */
-  hmMaxRequestBodySizeInBytes?: number;
-
-  /** @format int32 */
-  hmMaxCustomScriptSizeInBytes?: number;
-
-  /** @format int32 */
-  hmMaxResponseBodySizeInBytes?: number;
-
-  /** @format int32 */
-  hmMaxResponseBodySizeToCustomScriptInBytes?: number;
-
-  /** @format int32 */
-  hmDnsQueryTimeoutInMs?: number;
-
   /**
    * bmMonitorTimeout - browser monitor execution timeout (ms)
    * @format int64
@@ -5266,14 +5314,6 @@ export interface MonitorRequestHeader {
 }
 
 /**
- * The status of public synthetic locations.
- */
-export interface SyntheticPublicLocationsStatus {
-  /** Synthetic monitors can (`true`) or can't (`false`) run on public synthetic locations. */
-  publicLocationsEnabled: boolean;
-}
-
-/**
  * A DTO for synthetic Location IDs.
  */
 export interface SyntheticLocationIdsDto {
@@ -5300,97 +5340,6 @@ export type PrivateSyntheticLocation = SyntheticLocation & {
 };
 
 /**
- * A synthetic location.
- */
-export interface LocationCollectionElement {
-  /** The name of the location. */
-  name: string;
-
-  /** The Dynatrace entity ID of the location. */
-  entityId: string;
-
-  /** The type of the location. */
-  type: "CLUSTER" | "PRIVATE" | "PUBLIC";
-
-  /**
-   * The cloud provider where the location is hosted.
-   *
-   *  Only applicable to `PUBLIC` locations.
-   */
-  cloudPlatform?:
-    | "ALIBABA"
-    | "AMAZON_EC2"
-    | "AZURE"
-    | "DYNATRACE_CLOUD"
-    | "GOOGLE_CLOUD"
-    | "INTEROUTE"
-    | "OTHER"
-    | "UNDEFINED";
-
-  /**
-   * The list of IP addresses assigned to the location.
-   *
-   *  Only applicable to `PUBLIC` locations.
-   */
-  ips?: string[];
-
-  /** The release stage of the location. */
-  stage?: "BETA" | "COMING_SOON" | "GA";
-
-  /** The status of the location. */
-  status?: "DISABLED" | "ENABLED" | "HIDDEN";
-
-  /** The Dynatrace GeoLocation ID of the location. */
-  geoLocationId: string;
-}
-
-/**
- * A list of synthetic locations.
- * @example {"locations":[{"name":"Gdansk","entityId":"SYNTHETIC_LOCATION-53F47ECB33907667","geoLocationId":"GEOLOCATION-95196F3C9A4F4215","type":"PUBLIC","cloudPlatform":"AMAZON_EC2","ips":["134.189.153.97","134.189.153.98"],"stage":"GA","status":"ENABLED","capabilities":["BROWSER","HTTP"]},{"name":"My private location","entityId":"SYNTHETIC_LOCATION-53F47ECB33907667","geoLocationId":"GEOLOCATION-95196F3C9A4F4215","type":"PRIVATE","status":"ENABLED"}]}
- */
-export interface SyntheticLocations {
-  /** A list of synthetic locations. */
-  locations: LocationCollectionElement[];
-}
-
-/**
- * The synthetic location update. This is a base object, the exact type depends on the value of the `type` field.
- */
-export interface SyntheticLocationUpdate {
-  /**
-   * Defines the actual set of fields depending on the value. See one of the following objects:
-   *
-   * * `PUBLIC` -> SyntheticPublicLocationUpdate
-   * * `PRIVATE` -> SyntheticPrivateLocationUpdate
-   */
-  type: "PRIVATE" | "PUBLIC";
-}
-
-/**
- * Configuration of a private synthetic location
- */
-export type SyntheticPrivateLocationUpdate = SyntheticLocationUpdate & {
-  nodes?: string[];
-  name?: string;
-  countryCode?: string;
-  regionCode?: string;
-  city?: string;
-  latitude?: number;
-  longitude?: number;
-  status?: "DISABLED" | "ENABLED" | "HIDDEN";
-  availabilityLocationOutage?: boolean;
-  availabilityNodeOutage?: boolean;
-  locationNodeOutageDelayInMinutes?: number;
-  availabilityNotificationsEnabled?: boolean;
-  autoUpdateChromium?: boolean;
-};
-
-/**
- * The update of a public Synthetic location.
- */
-export type SyntheticPublicLocationUpdate = SyntheticLocationUpdate & { status?: "DISABLED" | "ENABLED" | "HIDDEN" };
-
-/**
 * Configuration of a public synthetic location. 
 
  Some fields are inherited from the base *SyntheticLocation* object.
@@ -5407,7 +5356,7 @@ export type PublicSyntheticLocation = SyntheticLocation & {
     | "OTHER"
     | "UNDEFINED";
   ips?: string[];
-  stage?: "BETA" | "COMING_SOON" | "GA";
+  stage?: "BETA" | "COMING_SOON" | "DELETED" | "GA";
   browserType?: string;
   browserVersion?: string;
   capabilities?: string[];
@@ -5478,6 +5427,105 @@ export interface SyntheticLocation {
   /** The Dynatrace GeoLocation ID of the location. */
   geoLocationId?: string;
 }
+
+/**
+ * A synthetic location.
+ */
+export interface LocationCollectionElement {
+  /** The name of the location. */
+  name: string;
+
+  /** The Dynatrace entity ID of the location. */
+  entityId: string;
+
+  /** The type of the location. */
+  type: "CLUSTER" | "PRIVATE" | "PUBLIC";
+
+  /**
+   * The cloud provider where the location is hosted.
+   *
+   *  Only applicable to `PUBLIC` locations.
+   */
+  cloudPlatform?:
+    | "ALIBABA"
+    | "AMAZON_EC2"
+    | "AZURE"
+    | "DYNATRACE_CLOUD"
+    | "GOOGLE_CLOUD"
+    | "INTEROUTE"
+    | "OTHER"
+    | "UNDEFINED";
+
+  /**
+   * The list of IP addresses assigned to the location.
+   *
+   *  Only applicable to `PUBLIC` locations.
+   */
+  ips?: string[];
+
+  /** The release stage of the location. */
+  stage?: "BETA" | "COMING_SOON" | "DELETED" | "GA";
+
+  /** The status of the location. */
+  status?: "DISABLED" | "ENABLED" | "HIDDEN";
+
+  /** The Dynatrace GeoLocation ID of the location. */
+  geoLocationId: string;
+}
+
+/**
+ * A list of synthetic locations.
+ * @example {"locations":[{"name":"Gdansk","entityId":"SYNTHETIC_LOCATION-53F47ECB33907667","geoLocationId":"GEOLOCATION-95196F3C9A4F4215","type":"PUBLIC","cloudPlatform":"AMAZON_EC2","ips":["134.189.153.97","134.189.153.98"],"stage":"GA","status":"ENABLED","capabilities":["BROWSER","HTTP"]},{"name":"My private location","entityId":"SYNTHETIC_LOCATION-53F47ECB33907667","geoLocationId":"GEOLOCATION-95196F3C9A4F4215","type":"PRIVATE","status":"ENABLED"}]}
+ */
+export interface SyntheticLocations {
+  /** A list of synthetic locations. */
+  locations: LocationCollectionElement[];
+}
+
+/**
+ * The status of public synthetic locations.
+ */
+export interface SyntheticPublicLocationsStatus {
+  /** Synthetic monitors can (`true`) or can't (`false`) run on public synthetic locations. */
+  publicLocationsEnabled: boolean;
+}
+
+/**
+ * The synthetic location update. This is a base object, the exact type depends on the value of the `type` field.
+ */
+export interface SyntheticLocationUpdate {
+  /**
+   * Defines the actual set of fields depending on the value. See one of the following objects:
+   *
+   * * `PUBLIC` -> SyntheticPublicLocationUpdate
+   * * `PRIVATE` -> SyntheticPrivateLocationUpdate
+   */
+  type: "PRIVATE" | "PUBLIC";
+}
+
+/**
+ * Configuration of a private synthetic location
+ */
+export type SyntheticPrivateLocationUpdate = SyntheticLocationUpdate & {
+  nodes?: string[];
+  name?: string;
+  countryCode?: string;
+  regionCode?: string;
+  city?: string;
+  latitude?: number;
+  longitude?: number;
+  status?: "DISABLED" | "ENABLED" | "HIDDEN";
+  availabilityLocationOutage?: boolean;
+  availabilityNodeOutage?: boolean;
+  locationNodeOutageDelayInMinutes?: number;
+  availabilityNotificationsEnabled?: boolean;
+  autoUpdateChromium?: boolean;
+};
+
+/**
+ * The update of a public Synthetic location.
+ */
+export type SyntheticPublicLocationUpdate = SyntheticLocationUpdate & { status?: "DISABLED" | "ENABLED" | "HIDDEN" };
 
 /**
 * Configuration of a synthetic node. 
@@ -5598,6 +5646,39 @@ export interface TenantTokenConfig {
   active?: TenantToken;
 }
 
+/**
+ * The metadata of a single unit.
+ * @example {"unitId":"Second","displayName":"second","symbol":"s","description":"The second is the base unit of time and defined as 1/86400 of a day."}
+ */
+export interface Unit {
+  /** The identifier of the unit. */
+  unitId: string;
+
+  /** The pretty name of the unit. */
+  displayName?: string;
+
+  /** The symbol of the unit. */
+  symbol?: string;
+
+  /** The description of the unit. */
+  description?: string;
+}
+
+/**
+ * A list of units and their metadata.
+ * @example {"totalCount":2,"units":[{"unitId":"BytePerSecond","displayName":"byte per second","symbol":"B/s","description":"byte per second"},{"unitId":"BytePerMinute","displayName":"byte per minute","symbol":"B/min","description":"byte per minute"}]}
+ */
+export interface UnitCollection {
+  /**
+   * The total number of units in the result.
+   * @format int64
+   */
+  totalCount: number;
+
+  /** A list of units and their metadata. */
+  units: Unit[];
+}
+
 
 
 
@@ -5622,6 +5703,7 @@ export enum ContentType {
 /**
  * @title Dynatrace Environment API
  * @version 2.0
+ * @baseUrl https://kkr05643.sprint.dynatracelabs.com/api/v2
  *
  *
  * Documentation of the Dynatrace Environment API v2. Resources here generally supersede those in v1. Migration of resources from v1 is in progress.
@@ -5634,22 +5716,6 @@ export enum ContentType {
  */
 export class Api extends APIBase {
   activeGates = {
-    /**
-     * No description
-     *
-     * @tags ActiveGates - Auto-update configuration
-     * @name ValidateAutoUpdateConfigById
-     * @summary Validates the payload for the `POST /activeGates/{agId}/autoUpdate` request.
-     * @request POST:/activeGates/{agId}/autoUpdate/validator
-     */
-    validateAutoUpdateConfigById: (agId: string, data: ActiveGateAutoUpdateConfig, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/activeGates/${agId}/autoUpdate/validator`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
     /**
      * No description
      *
@@ -5677,6 +5743,22 @@ export class Api extends APIBase {
       this.request<void, ErrorEnvelope>({
         path: `/activeGates/${agId}/autoUpdate`,
         method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags ActiveGates - Auto-update configuration
+     * @name ValidateAutoUpdateConfigById
+     * @summary Validates the payload for the `POST /activeGates/{agId}/autoUpdate` request.
+     * @request POST:/activeGates/{agId}/autoUpdate/validator
+     */
+    validateAutoUpdateConfigById: (agId: string, data: ActiveGateAutoUpdateConfig, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/activeGates/${agId}/autoUpdate/validator`,
+        method: "POST",
         body: data,
         ...params,
       }),
@@ -5944,22 +6026,6 @@ export class Api extends APIBase {
   };
   entities = {
     /**
-     * No description
-     *
-     * @tags Monitored entities
-     * @name PushCustomDevice
-     * @summary Creates or updates a custom device
-     * @request POST:/entities/custom
-     */
-    pushCustomDevice: (data: CustomDeviceCreation, params: RequestParams = {}) =>
-      this.request<CustomDeviceCreationResult, void>({
-        path: `/entities/custom`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
      * @description Lists entities observed within the specified timeframe along with their properties. When you query entities of the `SERVICE_METHOD` type, only the following requests are returned: * [Key requests](https://dt-url.net/a903u9s) * Top X requests that are used for [baselining](https://dt-url.net/0j23uqb) * Requests that have caused a [problem](https://dt-url.net/pf43uqg) You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      *
      * @tags Monitored entities
@@ -6005,24 +6071,24 @@ export class Api extends APIBase {
         query: query,
         ...params,
       }),
-  };
-  entityTypes = {
+
     /**
-     * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
+     * No description
      *
      * @tags Monitored entities
-     * @name GetEntityTypes
-     * @summary Gets a list of properties for all entity types
-     * @request GET:/entityTypes
+     * @name PushCustomDevice
+     * @summary Creates or updates a custom device
+     * @request POST:/entities/custom
      */
-    getEntityTypes: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
-      this.request<EntityTypeList, void>({
-        path: `/entityTypes`,
-        method: "GET",
-        query: query,
+    pushCustomDevice: (data: CustomDeviceCreation, params: RequestParams = {}) =>
+      this.request<CustomDeviceCreationResult, void>({
+        path: `/entities/custom`,
+        method: "POST",
+        body: data,
         ...params,
       }),
-
+  };
+  entityTypes = {
     /**
      * No description
      *
@@ -6037,68 +6103,20 @@ export class Api extends APIBase {
         method: "GET",
         ...params,
       }),
-  };
-  eventProperties = {
-    /**
-     * No description
-     *
-     * @tags Events
-     * @name GetEventProperties
-     * @summary Lists all event properties | maturity=EARLY_ADOPTER
-     * @request GET:/eventProperties
-     */
-    getEventProperties: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
-      this.request<EventPropertyDetails, any>({
-        path: `/eventProperties`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
 
     /**
-     * No description
+     * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      *
-     * @tags Events
-     * @name GetEventProperty
-     * @summary Gets the details of an event property | maturity=EARLY_ADOPTER
-     * @request GET:/eventProperties/{propertyKey}
+     * @tags Monitored entities
+     * @name GetEntityTypes
+     * @summary Gets a list of properties for all entity types
+     * @request GET:/entityTypes
      */
-    getEventProperty: (propertyKey: string, params: RequestParams = {}) =>
-      this.request<EventPropertyDetail, any>({
-        path: `/eventProperties/${propertyKey}`,
-        method: "GET",
-        ...params,
-      }),
-  };
-  eventTypes = {
-    /**
-     * No description
-     *
-     * @tags Events
-     * @name GetEventTypes
-     * @summary Lists all event types | maturity=EARLY_ADOPTER
-     * @request GET:/eventTypes
-     */
-    getEventTypes: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
-      this.request<EventTypeList, any>({
-        path: `/eventTypes`,
+    getEntityTypes: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
+      this.request<EntityTypeList, void>({
+        path: `/entityTypes`,
         method: "GET",
         query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Events
-     * @name GetEventType
-     * @summary Gets the properties of an event type | maturity=EARLY_ADOPTER
-     * @request GET:/eventTypes/{eventType}
-     */
-    getEventType: (eventType: string, params: RequestParams = {}) =>
-      this.request<EventType, any>({
-        path: `/eventTypes/${eventType}`,
-        method: "GET",
         ...params,
       }),
   };
@@ -6155,6 +6173,70 @@ export class Api extends APIBase {
     ) =>
       this.request<EventList, any>({
         path: `/events`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+  };
+  eventProperties = {
+    /**
+     * No description
+     *
+     * @tags Events
+     * @name GetEventProperties
+     * @summary Lists all event properties | maturity=EARLY_ADOPTER
+     * @request GET:/eventProperties
+     */
+    getEventProperties: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
+      this.request<EventPropertyDetails, any>({
+        path: `/eventProperties`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Events
+     * @name GetEventProperty
+     * @summary Gets the details of an event property | maturity=EARLY_ADOPTER
+     * @request GET:/eventProperties/{propertyKey}
+     */
+    getEventProperty: (propertyKey: string, params: RequestParams = {}) =>
+      this.request<EventPropertyDetail, any>({
+        path: `/eventProperties/${propertyKey}`,
+        method: "GET",
+        ...params,
+      }),
+  };
+  eventTypes = {
+    /**
+     * No description
+     *
+     * @tags Events
+     * @name GetEventType
+     * @summary Gets the properties of an event type | maturity=EARLY_ADOPTER
+     * @request GET:/eventTypes/{eventType}
+     */
+    getEventType: (eventType: string, params: RequestParams = {}) =>
+      this.request<EventType, any>({
+        path: `/eventTypes/${eventType}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Events
+     * @name GetEventTypes
+     * @summary Lists all event types | maturity=EARLY_ADOPTER
+     * @request GET:/eventTypes
+     */
+    getEventTypes: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
+      this.request<EventTypeList, any>({
+        path: `/eventTypes`,
         method: "GET",
         query: query,
         ...params,
@@ -6258,23 +6340,8 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetAllNetworkZones
-     * @summary Lists all existing network zones | maturity=EARLY_ADOPTER
-     * @request GET:/networkZones
-     */
-    getAllNetworkZones: (params: RequestParams = {}) =>
-      this.request<NetworkZoneList, any>({
-        path: `/networkZones`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Network zones
      * @name GetSingleNetworkZone
-     * @summary Gets parameters of the specified network zone | maturity=EARLY_ADOPTER
+     * @summary Gets parameters of the specified network zone
      * @request GET:/networkZones/{id}
      */
     getSingleNetworkZone: (id: string, params: RequestParams = {}) =>
@@ -6289,7 +6356,7 @@ export class Api extends APIBase {
      *
      * @tags Network zones
      * @name CreateOrUpdateNetworkZone
-     * @summary Updates an existing network zone or creates a new one | maturity=EARLY_ADOPTER
+     * @summary Updates an existing network zone or creates a new one
      * @request PUT:/networkZones/{id}
      */
     createOrUpdateNetworkZone: (id: string, data: NetworkZone, params: RequestParams = {}) =>
@@ -6305,13 +6372,55 @@ export class Api extends APIBase {
      *
      * @tags Network zones
      * @name DeleteNetworkZone
-     * @summary Deletes the specified network zone | maturity=EARLY_ADOPTER
+     * @summary Deletes the specified network zone
      * @request DELETE:/networkZones/{id}
      */
     deleteNetworkZone: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/networkZones/${id}`,
         method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Network zones
+     * @name GetAllNetworkZones
+     * @summary Lists all existing network zones
+     * @request GET:/networkZones
+     */
+    getAllNetworkZones: (params: RequestParams = {}) =>
+      this.request<NetworkZoneList, any>({
+        path: `/networkZones`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Network zones
+     * @name GetHostStats
+     * @summary Gets the statistics about hosts using the network zone
+     * @request GET:/networkZones/{id}/hostConnectionStatistics
+     */
+    getHostStats: (
+      id: string,
+      query?: {
+        filter?:
+          | "all"
+          | "configuredButNotConnectedOnly"
+          | "connectedAsAlternativeOnly"
+          | "connectedAsFailoverOnly"
+          | "connectedAsFailoverWithoutOwnActiveGatesOnly";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<NetworkZoneConnectionStatistics, any>({
+        path: `/networkZones/${id}/hostConnectionStatistics`,
+        method: "GET",
+        query: query,
         ...params,
       }),
   };
@@ -6321,7 +6430,7 @@ export class Api extends APIBase {
      *
      * @tags Network zones
      * @name GetNetworkZoneSettings
-     * @summary Gets the global configuration of network zones | maturity=EARLY_ADOPTER
+     * @summary Gets the global configuration of network zones
      * @request GET:/networkZoneSettings
      */
     getNetworkZoneSettings: (params: RequestParams = {}) =>
@@ -6336,7 +6445,7 @@ export class Api extends APIBase {
      *
      * @tags Network zones
      * @name UpdateNetworkZoneSettings
-     * @summary Updates the global configuration of network zones | maturity=EARLY_ADOPTER
+     * @summary Updates the global configuration of network zones
      * @request PUT:/networkZoneSettings
      */
     updateNetworkZoneSettings: (data: NetworkZoneSettings, params: RequestParams = {}) =>
@@ -6582,6 +6691,21 @@ export class Api extends APIBase {
   };
   auditlogs = {
     /**
+     * No description
+     *
+     * @tags Audit Logs
+     * @name GetLog
+     * @summary Gets the specified entry of the audit log | maturity=EARLY_ADOPTER
+     * @request GET:/auditlogs/{id}
+     */
+    getLog: (id: string, params: RequestParams = {}) =>
+      this.request<AuditLogEntry, ErrorEnvelope>({
+        path: `/auditlogs/${id}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
      * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      *
      * @tags Audit Logs
@@ -6597,21 +6721,6 @@ export class Api extends APIBase {
         path: `/auditlogs`,
         method: "GET",
         query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Audit Logs
-     * @name GetLog
-     * @summary Gets the specified entry of the audit log | maturity=EARLY_ADOPTER
-     * @request GET:/auditlogs/{id}
-     */
-    getLog: (id: string, params: RequestParams = {}) =>
-      this.request<AuditLogEntry, ErrorEnvelope>({
-        path: `/auditlogs/${id}`,
-        method: "GET",
         ...params,
       }),
   };
@@ -6636,33 +6745,6 @@ export class Api extends APIBase {
       }),
   };
   securityProblems = {
-    /**
-     * No description
-     *
-     * @tags Security problems
-     * @name GetSecurityProblems
-     * @summary Lists all security problems | maturity=EARLY_ADOPTER
-     * @request GET:/securityProblems
-     */
-    getSecurityProblems: (
-      query?: {
-        nextPageKey?: string;
-        pageSize?: number;
-        securityProblemSelector?: string;
-        sort?: string;
-        fields?: string;
-        from?: string;
-        to?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<SecurityProblemList, any>({
-        path: `/securityProblems`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
     /**
      * No description
      *
@@ -6699,13 +6781,40 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name UnmuteSecurityProblem
-     * @summary Un-mutes the specified security problem. | maturity=EARLY_ADOPTER
-     * @request POST:/securityProblems/{id}/unmute
+     * @name GetSecurityProblems
+     * @summary Lists all security problems | maturity=EARLY_ADOPTER
+     * @request GET:/securityProblems
      */
-    unmuteSecurityProblem: (id: string, data: Unmute, params: RequestParams = {}) =>
+    getSecurityProblems: (
+      query?: {
+        nextPageKey?: string;
+        pageSize?: number;
+        securityProblemSelector?: string;
+        sort?: string;
+        fields?: string;
+        from?: string;
+        to?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<SecurityProblemList, any>({
+        path: `/securityProblems`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Security problems
+     * @name MuteSecurityProblem
+     * @summary Mutes the specified security problem. | maturity=EARLY_ADOPTER
+     * @request POST:/securityProblems/{id}/mute
+     */
+    muteSecurityProblem: (id: string, data: Mute, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/securityProblems/${id}/unmute`,
+        path: `/securityProblems/${id}/mute`,
         method: "POST",
         body: data,
         ...params,
@@ -6736,287 +6845,19 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name MuteSecurityProblem
-     * @summary Mutes the specified security problem. | maturity=EARLY_ADOPTER
-     * @request POST:/securityProblems/{id}/mute
+     * @name UnmuteSecurityProblem
+     * @summary Un-mutes the specified security problem. | maturity=EARLY_ADOPTER
+     * @request POST:/securityProblems/{id}/unmute
      */
-    muteSecurityProblem: (id: string, data: Mute, params: RequestParams = {}) =>
+    unmuteSecurityProblem: (id: string, data: Unmute, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/securityProblems/${id}/mute`,
+        path: `/securityProblems/${id}/unmute`,
         method: "POST",
         body: data,
         ...params,
       }),
   };
   extensions = {
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name ExtensionMonitoringConfigurations
-     * @summary Lists all the monitoring configurations of the specified extension 2.0
-     * @request GET:/extensions/{extensionName}/monitoringConfigurations
-     */
-    extensionMonitoringConfigurations: (
-      extensionName: string,
-      query?: { nextPageKey?: string; pageSize?: number; version?: string; active?: boolean },
-      params: RequestParams = {},
-    ) =>
-      this.request<ExtensionMonitoringConfigurationsList, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name CreateMonitoringConfiguration
-     * @summary Creates new monitoring configuration for the specified extension 2.0
-     * @request POST:/extensions/{extensionName}/monitoringConfigurations
-     */
-    createMonitoringConfiguration: (
-      extensionName: string,
-      data: MonitoringConfigurationDto[],
-      params: RequestParams = {},
-    ) =>
-      this.request<MonitoringConfigurationResponse[], ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name MonitoringConfigurationDetails
-     * @summary Gets the details of the specified monitoring configuration
-     * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
-     */
-    monitoringConfigurationDetails: (extensionName: string, configurationId: string, params: RequestParams = {}) =>
-      this.request<ExtensionMonitoringConfiguration, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name UpdateMonitoringConfiguration
-     * @summary Updates the specified monitoring configuration
-     * @request PUT:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
-     */
-    updateMonitoringConfiguration: (
-      extensionName: string,
-      configurationId: string,
-      data: MonitoringConfigurationUpdateDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<MonitoringConfigurationResponse, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name RemoveMonitoringConfiguration
-     * @summary Deletes the specified monitoring configuration
-     * @request DELETE:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
-     */
-    removeMonitoringConfiguration: (extensionName: string, configurationId: string, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name GetExtensionMonitoringConfigurationEvents
-     * @summary Gets the list of the events linked to specific monitoring configuration
-     * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}/events
-     */
-    getExtensionMonitoringConfigurationEvents: (
-      extensionName: string,
-      configurationId: string,
-      query?: {
-        from?: string;
-        to?: string;
-        "dt.entity.host"?: string;
-        "dt.active_gate.id"?: string;
-        "dt.extension.ds"?: string;
-        content?: string;
-        status?: "ERROR" | "INFO" | "NONE" | "WARN";
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<ExtensionEventsList, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}/events`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name GetExtensionMonitoringConfigurationStatus
-     * @summary Gets the most recent status of the execution of given monitoring configuration
-     * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}/status
-     */
-    getExtensionMonitoringConfigurationStatus: (
-      extensionName: string,
-      configurationId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<ExtensionStatusDto, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}/status`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name ListSchemaFiles
-     * @summary Lists all the files available for the specified extension 2.0 schema version
-     * @request GET:/extensions/schemas/{schemaVersion}
-     */
-    listSchemaFiles: (schemaVersion: string, params: RequestParams = {}) =>
-      this.request<SchemaFiles, ErrorEnvelope>({
-        path: `/extensions/schemas/${schemaVersion}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name GetSchemaFile
-     * @summary Gets the extension 2.0 schema file in the specified version
-     * @request GET:/extensions/schemas/{schemaVersion}/{fileName}
-     */
-    getSchemaFile: (schemaVersion: string, fileName: string, params: RequestParams = {}) =>
-      this.request<JsonNode, ErrorEnvelope>({
-        path: `/extensions/schemas/${schemaVersion}/${fileName}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name ListExtensions
-     * @summary Lists all the extensions 2.0 available in your environment
-     * @request GET:/extensions
-     */
-    listExtensions: (query?: { nextPageKey?: string; pageSize?: number; name?: string }, params: RequestParams = {}) =>
-      this.request<ExtensionList, any>({
-        path: `/extensions`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name UploadExtension
-     * @summary Uploads or verifies a new extension 2.0
-     * @request POST:/extensions
-     */
-    uploadExtension: (data: { file: File }, query?: { validateOnly?: boolean }, params: RequestParams = {}) =>
-      this.request<Extension, ErrorEnvelope>({
-        path: `/extensions`,
-        method: "POST",
-        query: query,
-        body: data,
-        type: ContentType.FormData,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name ListExtensionVersions
-     * @summary Lists all versions of the extension 2.0
-     * @request GET:/extensions/{extensionName}
-     */
-    listExtensionVersions: (
-      extensionName: string,
-      query?: { nextPageKey?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<ExtensionList, ErrorEnvelope>({
-        path: `/extensions/${extensionName}`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name ExtensionDetails
-     * @summary Gets details of the specified version of the extension 2.0
-     * @request GET:/extensions/{extensionName}/{extensionVersion}
-     */
-    extensionDetails: (extensionName: string, extensionVersion: string, params: RequestParams = {}) =>
-      this.request<Extension, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/${extensionVersion}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name RemoveExtension
-     * @summary Deletes the specified version of the extension 2.0
-     * @request DELETE:/extensions/{extensionName}/{extensionVersion}
-     */
-    removeExtension: (extensionName: string, extensionVersion: string, params: RequestParams = {}) =>
-      this.request<Extension, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/${extensionVersion}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Extensions 2.0
-     * @name ExtensionConfigurationSchema
-     * @summary Gets the configuration schema of the specified version of the extension 2.0
-     * @request GET:/extensions/{extensionName}/{extensionVersion}/schema
-     */
-    extensionConfigurationSchema: (extensionName: string, extensionVersion: string, params: RequestParams = {}) =>
-      this.request<SchemaDefinitionRestDto, ErrorEnvelope>({
-        path: `/extensions/${extensionName}/${extensionVersion}/schema`,
-        method: "GET",
-        ...params,
-      }),
-
     /**
      * No description
      *
@@ -7091,6 +6932,91 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
+     * @name ExtensionMonitoringConfigurations
+     * @summary Lists all the monitoring configurations of the specified extension 2.0
+     * @request GET:/extensions/{extensionName}/monitoringConfigurations
+     */
+    extensionMonitoringConfigurations: (
+      extensionName: string,
+      query?: { nextPageKey?: string; pageSize?: number; version?: string; active?: boolean },
+      params: RequestParams = {},
+    ) =>
+      this.request<ExtensionMonitoringConfigurationsList, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name CreateMonitoringConfiguration
+     * @summary Creates new monitoring configuration for the specified extension 2.0
+     * @request POST:/extensions/{extensionName}/monitoringConfigurations
+     */
+    createMonitoringConfiguration: (
+      extensionName: string,
+      data: MonitoringConfigurationDto[],
+      params: RequestParams = {},
+    ) =>
+      this.request<MonitoringConfigurationResponse[], ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name ExtensionConfigurationSchema
+     * @summary Gets the configuration schema of the specified version of the extension 2.0
+     * @request GET:/extensions/{extensionName}/{extensionVersion}/schema
+     */
+    extensionConfigurationSchema: (extensionName: string, extensionVersion: string, params: RequestParams = {}) =>
+      this.request<SchemaDefinitionRestDto, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/${extensionVersion}/schema`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name ExtensionDetails
+     * @summary Gets details of the specified version of the extension 2.0
+     * @request GET:/extensions/{extensionName}/{extensionVersion}
+     */
+    extensionDetails: (extensionName: string, extensionVersion: string, params: RequestParams = {}) =>
+      this.request<Extension, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/${extensionVersion}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name RemoveExtension
+     * @summary Deletes the specified version of the extension 2.0
+     * @request DELETE:/extensions/{extensionName}/{extensionVersion}
+     */
+    removeExtension: (extensionName: string, extensionVersion: string, params: RequestParams = {}) =>
+      this.request<Extension, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/${extensionVersion}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
      * @name GetEnvironmentConfigurationEvents
      * @summary List of the latest extension environment configuration events
      * @request GET:/extensions/{extensionName}/environmentConfiguration/events
@@ -7111,6 +7037,138 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
+     * @name GetExtensionMonitoringConfigurationEvents
+     * @summary Gets the list of the events linked to specific monitoring configuration
+     * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}/events
+     */
+    getExtensionMonitoringConfigurationEvents: (
+      extensionName: string,
+      configurationId: string,
+      query?: {
+        from?: string;
+        to?: string;
+        "dt.entity.host"?: string;
+        "dt.active_gate.id"?: string;
+        "dt.extension.ds"?: string;
+        content?: string;
+        status?: "ERROR" | "INFO" | "NONE" | "WARN";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ExtensionEventsList, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}/events`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name GetExtensionMonitoringConfigurationStatus
+     * @summary Gets the most recent status of the execution of given monitoring configuration
+     * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}/status
+     */
+    getExtensionMonitoringConfigurationStatus: (
+      extensionName: string,
+      configurationId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<ExtensionStatusDto, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}/status`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name GetSchemaFile
+     * @summary Gets the extension 2.0 schema file in the specified version
+     * @request GET:/extensions/schemas/{schemaVersion}/{fileName}
+     */
+    getSchemaFile: (schemaVersion: string, fileName: string, params: RequestParams = {}) =>
+      this.request<JsonNode, ErrorEnvelope>({
+        path: `/extensions/schemas/${schemaVersion}/${fileName}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name ListExtensionVersions
+     * @summary Lists all versions of the extension 2.0
+     * @request GET:/extensions/{extensionName}
+     */
+    listExtensionVersions: (
+      extensionName: string,
+      query?: { nextPageKey?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<ExtensionList, ErrorEnvelope>({
+        path: `/extensions/${extensionName}`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name ListExtensions
+     * @summary Lists all the extensions 2.0 available in your environment
+     * @request GET:/extensions
+     */
+    listExtensions: (query?: { nextPageKey?: string; pageSize?: number; name?: string }, params: RequestParams = {}) =>
+      this.request<ExtensionList, any>({
+        path: `/extensions`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name UploadExtension
+     * @summary Uploads or verifies a new extension 2.0
+     * @request POST:/extensions
+     */
+    uploadExtension: (data: { file: File }, query?: { validateOnly?: boolean }, params: RequestParams = {}) =>
+      this.request<Extension, ErrorEnvelope>({
+        path: `/extensions`,
+        method: "POST",
+        query: query,
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
+     * @name ListSchemaFiles
+     * @summary Lists all the files available for the specified extension 2.0 schema version
+     * @request GET:/extensions/schemas/{schemaVersion}
+     */
+    listSchemaFiles: (schemaVersion: string, params: RequestParams = {}) =>
+      this.request<SchemaFiles, ErrorEnvelope>({
+        path: `/extensions/schemas/${schemaVersion}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Extensions 2.0
      * @name ListSchemas
      * @summary Lists all the extension 2.0 schemas versions available in your environment
      * @request GET:/extensions/schemas
@@ -7121,19 +7179,18 @@ export class Api extends APIBase {
         method: "GET",
         ...params,
       }),
-  };
-  problems = {
+
     /**
      * No description
      *
-     * @tags Problems
-     * @name GetComment
-     * @summary Gets the specified comment on a problem
-     * @request GET:/problems/{problemId}/comments/{commentId}
+     * @tags Extensions 2.0
+     * @name MonitoringConfigurationDetails
+     * @summary Gets the details of the specified monitoring configuration
+     * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
      */
-    getComment: (problemId: string, commentId: string, params: RequestParams = {}) =>
-      this.request<Comment, any>({
-        path: `/problems/${problemId}/comments/${commentId}`,
+    monitoringConfigurationDetails: (extensionName: string, configurationId: string, params: RequestParams = {}) =>
+      this.request<ExtensionMonitoringConfiguration, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}`,
         method: "GET",
         ...params,
       }),
@@ -7141,14 +7198,19 @@ export class Api extends APIBase {
     /**
      * No description
      *
-     * @tags Problems
-     * @name UpdateComment
-     * @summary Updates the specified comment on a problem
-     * @request PUT:/problems/{problemId}/comments/{commentId}
+     * @tags Extensions 2.0
+     * @name UpdateMonitoringConfiguration
+     * @summary Updates the specified monitoring configuration
+     * @request PUT:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
      */
-    updateComment: (problemId: string, commentId: string, data: CommentRequestDtoImpl, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/problems/${problemId}/comments/${commentId}`,
+    updateMonitoringConfiguration: (
+      extensionName: string,
+      configurationId: string,
+      data: MonitoringConfigurationUpdateDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<MonitoringConfigurationResponse, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}`,
         method: "PUT",
         body: data,
         ...params,
@@ -7157,18 +7219,19 @@ export class Api extends APIBase {
     /**
      * No description
      *
-     * @tags Problems
-     * @name DeleteComment
-     * @summary Deletes the specified comment from a problem
-     * @request DELETE:/problems/{problemId}/comments/{commentId}
+     * @tags Extensions 2.0
+     * @name RemoveMonitoringConfiguration
+     * @summary Deletes the specified monitoring configuration
+     * @request DELETE:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
      */
-    deleteComment: (problemId: string, commentId: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/problems/${problemId}/comments/${commentId}`,
+    removeMonitoringConfiguration: (extensionName: string, configurationId: string, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/extensions/${extensionName}/monitoringConfigurations/${configurationId}`,
         method: "DELETE",
         ...params,
       }),
-
+  };
+  problems = {
     /**
      * No description
      *
@@ -7221,6 +7284,68 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Problems
+     * @name GetComment
+     * @summary Gets the specified comment on a problem
+     * @request GET:/problems/{problemId}/comments/{commentId}
+     */
+    getComment: (problemId: string, commentId: string, params: RequestParams = {}) =>
+      this.request<Comment, any>({
+        path: `/problems/${problemId}/comments/${commentId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Problems
+     * @name UpdateComment
+     * @summary Updates the specified comment on a problem
+     * @request PUT:/problems/{problemId}/comments/{commentId}
+     */
+    updateComment: (problemId: string, commentId: string, data: CommentRequestDtoImpl, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/problems/${problemId}/comments/${commentId}`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Problems
+     * @name DeleteComment
+     * @summary Deletes the specified comment from a problem
+     * @request DELETE:/problems/{problemId}/comments/{commentId}
+     */
+    deleteComment: (problemId: string, commentId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/problems/${problemId}/comments/${commentId}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Problems
+     * @name GetProblem
+     * @summary Gets the properties of the specified problem
+     * @request GET:/problems/{problemId}
+     */
+    getProblem: (problemId: string, query?: { fields?: string }, params: RequestParams = {}) =>
+      this.request<Problem, any>({
+        path: `/problems/${problemId}`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Problems
      * @name GetProblems
      * @summary Lists problems observed within the specified timeframe
      * @request GET:/problems
@@ -7240,22 +7365,6 @@ export class Api extends APIBase {
     ) =>
       this.request<Problems, any>({
         path: `/problems`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Problems
-     * @name GetProblem
-     * @summary Gets the properties of the specified problem
-     * @request GET:/problems/{problemId}
-     */
-    getProblem: (problemId: string, query?: { fields?: string }, params: RequestParams = {}) =>
-      this.request<Problem, any>({
-        path: `/problems/${problemId}`,
         method: "GET",
         query: query,
         ...params,
@@ -7356,46 +7465,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name GetSettingsObjects
-     * @summary Lists available settings objects | maturity=EARLY_ADOPTER
-     * @request GET:/settings/objects
-     */
-    getSettingsObjects: (
-      query?: { schemaIds?: string; scopes?: string; fields?: string; nextPageKey?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<ObjectsList, ErrorEnvelope>({
-        path: `/settings/objects`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * @description You can upload several objects at once. In that case each object returns its own response code. Check the response body for details.
-     *
-     * @tags Settings - Objects
-     * @name PostSettingsObjects
-     * @summary Creates a new settings object | maturity=EARLY_ADOPTER
-     * @request POST:/settings/objects
-     */
-    postSettingsObjects: (
-      data: SettingsObjectCreate[],
-      query?: { validateOnly?: boolean },
-      params: RequestParams = {},
-    ) =>
-      this.request<SettingsObjectResponse[], SettingsObjectResponse[]>({
-        path: `/settings/objects`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Settings - Objects
      * @name GetSettingsObjectByObjectId
      * @summary Gets the specified settings object | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects/{objectId}
@@ -7436,6 +7505,46 @@ export class Api extends APIBase {
         path: `/settings/objects/${objectId}`,
         method: "DELETE",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Settings - Objects
+     * @name GetSettingsObjects
+     * @summary Lists available settings objects | maturity=EARLY_ADOPTER
+     * @request GET:/settings/objects
+     */
+    getSettingsObjects: (
+      query?: { schemaIds?: string; scopes?: string; fields?: string; nextPageKey?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<ObjectsList, ErrorEnvelope>({
+        path: `/settings/objects`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description You can upload several objects at once. In that case each object returns its own response code. Check the response body for details.
+     *
+     * @tags Settings - Objects
+     * @name PostSettingsObjects
+     * @summary Creates a new settings object | maturity=EARLY_ADOPTER
+     * @request POST:/settings/objects
+     */
+    postSettingsObjects: (
+      data: SettingsObjectCreate[],
+      query?: { validateOnly?: boolean },
+      params: RequestParams = {},
+    ) =>
+      this.request<SettingsObjectResponse[], SettingsObjectResponse[]>({
+        path: `/settings/objects`,
+        method: "POST",
+        query: query,
+        body: data,
         ...params,
       }),
 
@@ -7492,6 +7601,7 @@ export class Api extends APIBase {
         demo?: boolean;
         evaluate?: boolean;
         enabledSlos?: boolean;
+        showGlobalSlos?: boolean;
       },
       params: RequestParams = {},
     ) =>
@@ -7626,37 +7736,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocationsStatus
-     * @summary Checks the status of public synthetic locations
-     * @request GET:/synthetic/locations/status
-     */
-    getLocationsStatus: (params: RequestParams = {}) =>
-      this.request<SyntheticPublicLocationsStatus, any>({
-        path: `/synthetic/locations/status`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocationsStatus
-     * @summary Changes the status of public synthetic locations
-     * @request PUT:/synthetic/locations/status
-     */
-    updateLocationsStatus: (data: SyntheticPublicLocationsStatus, params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/synthetic/locations/status`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Synthetic - Locations, nodes and configuration
      * @name GetLocations
      * @summary Lists all synthetic locations (both public and private) available for your environment
      * @request GET:/synthetic/locations
@@ -7738,6 +7817,37 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
+     * @name GetLocationsStatus
+     * @summary Checks the status of public synthetic locations
+     * @request GET:/synthetic/locations/status
+     */
+    getLocationsStatus: (params: RequestParams = {}) =>
+      this.request<SyntheticPublicLocationsStatus, any>({
+        path: `/synthetic/locations/status`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Synthetic - Locations, nodes and configuration
+     * @name UpdateLocationsStatus
+     * @summary Changes the status of public synthetic locations
+     * @request PUT:/synthetic/locations/status
+     */
+    updateLocationsStatus: (data: SyntheticPublicLocationsStatus, params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/synthetic/locations/status`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Synthetic - Locations, nodes and configuration
      * @name GetNode
      * @summary Lists properties of the specified synthetic node
      * @request GET:/synthetic/nodes/{nodeId}
@@ -7769,21 +7879,6 @@ export class Api extends APIBase {
      * @description To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
      *
      * @tags Access tokens - Tenant tokens
-     * @name StartRotation
-     * @summary Starts tenant token rotation
-     * @request POST:/tenantTokenRotation/start
-     */
-    startRotation: (params: RequestParams = {}) =>
-      this.request<TenantTokenConfig, ErrorEnvelope>({
-        path: `/tenantTokenRotation/start`,
-        method: "POST",
-        ...params,
-      }),
-
-    /**
-     * @description To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
-     *
-     * @tags Access tokens - Tenant tokens
      * @name CancelRotation
      * @summary Cancels tenant token rotation
      * @request POST:/tenantTokenRotation/cancel
@@ -7807,6 +7902,53 @@ export class Api extends APIBase {
       this.request<TenantTokenConfig, ErrorEnvelope>({
         path: `/tenantTokenRotation/finish`,
         method: "POST",
+        ...params,
+      }),
+
+    /**
+     * @description To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
+     *
+     * @tags Access tokens - Tenant tokens
+     * @name StartRotation
+     * @summary Starts tenant token rotation
+     * @request POST:/tenantTokenRotation/start
+     */
+    startRotation: (params: RequestParams = {}) =>
+      this.request<TenantTokenConfig, ErrorEnvelope>({
+        path: `/tenantTokenRotation/start`,
+        method: "POST",
+        ...params,
+      }),
+  };
+  units = {
+    /**
+     * No description
+     *
+     * @tags Units
+     * @name Unit
+     * @summary Gets the metadata of the specified unit | maturity=EARLY_ADOPTER
+     * @request GET:/units/{unitId}
+     */
+    unit: (unitId: string, params: RequestParams = {}) =>
+      this.request<Unit, void>({
+        path: `/units/${unitId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description You can either list all available units, or only list units which match the filter criteria of the **unitSelector**. You can also change the fields that are included in the response, by specifying them in the **fields** parameter.
+     *
+     * @tags Units
+     * @name AllUnits
+     * @summary Lists all available units | maturity=EARLY_ADOPTER
+     * @request GET:/units
+     */
+    allUnits: (query?: { unitSelector?: string; fields?: string }, params: RequestParams = {}) =>
+      this.request<UnitCollection, any>({
+        path: `/units`,
+        method: "GET",
+        query: query,
         ...params,
       }),
   };

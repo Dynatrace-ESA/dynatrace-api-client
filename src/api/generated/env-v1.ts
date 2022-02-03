@@ -16,33 +16,20 @@ export interface ClusterVersion {
 }
 
 /**
- * Latest OneAgent lambda version names available
- * @example {"java":"string","python":"string","nodejs":"string"}
+ * A list of available versions of ActiveGate installer.
  */
-export interface LatestLambdaLayerNames {
-  java?: string;
-  python?: string;
-  nodejs?: string;
-}
-
-/**
- * The checksum of the BOSH release tarball.
- */
-export interface BoshReleaseChecksum {
-  /**
-   * The checksum of the  BOSH release tarball.
-   *
-   *  This is the sha256 hash of the installer file.
-   */
-  sha256?: string;
-}
-
-/**
- * A list of available OneAgent versions for BOSH release tarballs.
- */
-export interface BoshReleaseAvailableVersions {
-  /** A list of available OneAgent versions for BOSH release tarballs. */
+export interface ActiveGateInstallerVersions {
+  /** Available versions. */
   availableVersions?: string[];
+}
+
+/**
+ * Connectivity information for an Environment ActiveGate (except ActiveGate tokens)
+ */
+export interface ActiveGateConnectionInfo {
+  tenantUUID?: string;
+  tenantToken?: string;
+  communicationEndpoints?: string;
 }
 
 /**
@@ -68,15 +55,6 @@ export interface ConnectionInfo {
 
   /** The formatted list of endpoints to connect to the Dynatrace environment. */
   formattedCommunicationEndpoints?: string[];
-}
-
-/**
- * Connectivity information for an Environment ActiveGate (except ActiveGate tokens)
- */
-export interface ActiveGateConnectionInfo {
-  tenantUUID?: string;
-  tenantToken?: string;
-  communicationEndpoints?: string;
 }
 
 export interface InstallerMetaInfoDto {
@@ -122,11 +100,33 @@ export interface SectionProperty {
 }
 
 /**
- * A list of available versions of ActiveGate installer.
+ * A list of available OneAgent versions for BOSH release tarballs.
  */
-export interface ActiveGateInstallerVersions {
-  /** Available versions. */
+export interface BoshReleaseAvailableVersions {
+  /** A list of available OneAgent versions for BOSH release tarballs. */
   availableVersions?: string[];
+}
+
+/**
+ * The checksum of the BOSH release tarball.
+ */
+export interface BoshReleaseChecksum {
+  /**
+   * The checksum of the  BOSH release tarball.
+   *
+   *  This is the sha256 hash of the installer file.
+   */
+  sha256?: string;
+}
+
+/**
+ * Latest OneAgent lambda version names available
+ * @example {"java":"string","python":"string","nodejs":"string"}
+ */
+export interface LatestLambdaLayerNames {
+  java?: string;
+  python?: string;
+  nodejs?: string;
 }
 
 /**
@@ -161,10 +161,10 @@ export interface AnonymizationProgressResult {
 }
 
 /**
- * The user session query result as a tree.
- * @example {"extrapolationLevel":1,"branchNames":["country","city"],"leafNames":["avg(duration)","max(duration)"],"values":{"Austria":{"Klagenfurt":["65996.75","129940"],"Linz":["57360.86","222912"]},"Poland":{"Gdansk":["22482.2","351263"]}}}
+ * The user session query result as a table.
+ * @example {"extrapolationLevel":1,"columnNames":["city","avg(duration)","max(duration)"],"values":[["Klagenfurt","65996.75","129940"],["Linz","57360.86","222912"],["Gdansk","22482.2","351263"]]}
  */
-export interface UsqlResultsAsTree {
+export interface UsqlResults {
   /**
    * The extrapolation level of the result.
    *
@@ -200,22 +200,16 @@ export interface UsqlResultsAsTree {
    */
   explanations?: string[];
 
-  /**
-   * A list of branches of the tree.
-   *
-   *  Typically, these are fields from the `SELECT` clause, that have been used in the `GROUP BY` clause.
-   */
-  branchNames?: string[];
+  /** A list of columns in the result table. */
+  columnNames?: string[];
 
   /**
-   * A list of leaves on each tree branch.
+   * A list of data rows.
    *
-   *  Typically, these are fields from the `SELECT` clause, that have not been used in the `GROUP BY` clause.
+   *  Each array element represents a row in the result table.
+   * The size of each data row and the order of the elements correspond to the **columnNames** content.
    */
-  leafNames?: string[];
-
-  /** The user session query result as a tree. */
-  values?: object;
+  values?: object[][];
 }
 
 /**
@@ -344,7 +338,7 @@ export interface UserSession {
   /**
    * The user session has (`true`) or doesn't have (`false`) a bounce.
    *
-   *  A bounce means there is only one user action in the user session.
+   *  A bounce means there is only one (or less) user action in the user session.
    */
   bounce?: boolean;
 
@@ -1087,10 +1081,10 @@ export interface UserSessionUserAction {
 }
 
 /**
- * The user session query result as a table.
- * @example {"extrapolationLevel":1,"columnNames":["city","avg(duration)","max(duration)"],"values":[["Klagenfurt","65996.75","129940"],["Linz","57360.86","222912"],["Gdansk","22482.2","351263"]]}
+ * The user session query result as a tree.
+ * @example {"extrapolationLevel":1,"branchNames":["country","city"],"leafNames":["avg(duration)","max(duration)"],"values":{"Austria":{"Klagenfurt":["65996.75","129940"],"Linz":["57360.86","222912"]},"Poland":{"Gdansk":["22482.2","351263"]}}}
  */
-export interface UsqlResults {
+export interface UsqlResultsAsTree {
   /**
    * The extrapolation level of the result.
    *
@@ -1126,16 +1120,22 @@ export interface UsqlResults {
    */
   explanations?: string[];
 
-  /** A list of columns in the result table. */
-  columnNames?: string[];
+  /**
+   * A list of branches of the tree.
+   *
+   *  Typically, these are fields from the `SELECT` clause, that have been used in the `GROUP BY` clause.
+   */
+  branchNames?: string[];
 
   /**
-   * A list of data rows.
+   * A list of leaves on each tree branch.
    *
-   *  Each array element represents a row in the result table.
-   * The size of each data row and the order of the elements correspond to the **columnNames** content.
+   *  Typically, these are fields from the `SELECT` clause, that have not been used in the `GROUP BY` clause.
    */
-  values?: object[][];
+  leafNames?: string[];
+
+  /** The user session query result as a tree. */
+  values?: object;
 }
 
 /**
@@ -1511,41 +1511,6 @@ export interface TagInfo {
 }
 
 /**
- * Events of the environment.
- * @example {"nextCursor":"AgEBAAFn5IIFrgEAAAFofwDTrgAAAQAcMTY4N2RhYzViZTAtZmUxODEwOWQ5YTA1MTIyNQ%3D%3D","from":1521042929000,"to":1521542929000,"totalEventCount":2,"events":[{"startTime":1521042929000,"endTime":1521542929000,"entityId":"HOST-0000000000000007","entityName":"Example Host","severityLevel":"PERFORMANCE","impactLevel":"INFRASTRUCTURE","eventType":"SLOW_DISK","eventStatus":"OPEN","tags":[{"context":"CONTEXTLESS","key":"exampleTag"}],"id":"5915682011263205071_1521042929000","source":"builtin"},{"startTime":1521042929000,"endTime":1521542929000,"entityId":"HOST-0000000000000007","entityName":"Example Host","severityLevel":"PERFORMANCE","impactLevel":"INFRASTRUCTURE","eventType":"SLOW_DISK","eventStatus":"OPEN","tags":[{"context":"CONTEXTLESS","key":"exampleTag"}],"id":"5915682011263205071_1521042929000","source":"builtin"}]}
- */
-export interface EventQueryResult {
-  /**
-   * The cursor for the next 150 events, fitting the specified criteria.
-   *
-   *  Set this value for the **cursor** query parameter. Without it you'll get the first 150 events again.
-   * You don't have to specify any additional parameters, because the cursor already contains all of them.
-   */
-  nextCursor?: string;
-
-  /**
-   * Start of the query timeframe.
-   * @format int64
-   */
-  from?: number;
-
-  /**
-   * End of the query timeframe.
-   * @format int64
-   */
-  to?: number;
-
-  /**
-   * The total amount of events, fitting the specified criteria.
-   * @format int64
-   */
-  totalEventCount?: number;
-
-  /** The list of events. */
-  events?: EventRestEntry[];
-}
-
-/**
  * Contains IDs of all custom events, created by an event push call.
  */
 export interface EventStoreResult {
@@ -1802,6 +1767,41 @@ export interface TagMatchRule {
 }
 
 /**
+ * Events of the environment.
+ * @example {"nextCursor":"AgEBAAFn5IIFrgEAAAFofwDTrgAAAQAcMTY4N2RhYzViZTAtZmUxODEwOWQ5YTA1MTIyNQ%3D%3D","from":1521042929000,"to":1521542929000,"totalEventCount":2,"events":[{"startTime":1521042929000,"endTime":1521542929000,"entityId":"HOST-0000000000000007","entityName":"Example Host","severityLevel":"PERFORMANCE","impactLevel":"INFRASTRUCTURE","eventType":"SLOW_DISK","eventStatus":"OPEN","tags":[{"context":"CONTEXTLESS","key":"exampleTag"}],"id":"5915682011263205071_1521042929000","source":"builtin"},{"startTime":1521042929000,"endTime":1521542929000,"entityId":"HOST-0000000000000007","entityName":"Example Host","severityLevel":"PERFORMANCE","impactLevel":"INFRASTRUCTURE","eventType":"SLOW_DISK","eventStatus":"OPEN","tags":[{"context":"CONTEXTLESS","key":"exampleTag"}],"id":"5915682011263205071_1521042929000","source":"builtin"}]}
+ */
+export interface EventQueryResult {
+  /**
+   * The cursor for the next 150 events, fitting the specified criteria.
+   *
+   *  Set this value for the **cursor** query parameter. Without it you'll get the first 150 events again.
+   * You don't have to specify any additional parameters, because the cursor already contains all of them.
+   */
+  nextCursor?: string;
+
+  /**
+   * Start of the query timeframe.
+   * @format int64
+   */
+  from?: number;
+
+  /**
+   * End of the query timeframe.
+   * @format int64
+   */
+  to?: number;
+
+  /**
+   * The total amount of events, fitting the specified criteria.
+   * @format int64
+   */
+  totalEventCount?: number;
+
+  /** The list of events. */
+  events?: EventRestEntry[];
+}
+
+/**
  * A list of constraint violations
  */
 export interface ConstraintViolation {
@@ -1827,6 +1827,74 @@ export interface Error {
 
 export interface ErrorEnvelope {
   error?: Error;
+}
+
+/**
+ * The open third-party synthetic event.
+ */
+export interface Type3rdPartyEventOpenNotification {
+  /** The ID of the third-party synthetic monitor. */
+  testId: string;
+
+  /** The unique ID of the event. */
+  eventId: string;
+
+  /** The name of the event. */
+  name: string;
+
+  /** The type of the event. */
+  eventType: "testOutage" | "testSlowdown";
+
+  /** The cause of the event. */
+  reason: string;
+
+  /**
+   * The start timestamp of the event, in UTC milliseconds.
+   * @format int64
+   */
+  startTimestamp: number;
+
+  /** The list of IDs of third-party synthetic locations where the event happens. */
+  locationIds: string[];
+}
+
+/**
+ * The closed third-party synthetic event.
+ */
+export interface Type3rdPartyEventResolvedNotification {
+  /** The ID of the third-party synthetic monitor. */
+  testId: string;
+
+  /** The unique ID of the event. */
+  eventId: string;
+
+  /**
+   * The end timestamp of the event, in UTC milliseconds.
+   * @format int64
+   */
+  endTimestamp: number;
+}
+
+/**
+ * The list of third-party synthetic events.
+ */
+export interface Type3rdPartySyntheticEvents {
+  /** The type of the third-party synthetic monitor. */
+  syntheticEngineName: string;
+
+  /** The list of open third-party synthetic events. */
+  open?: Type3rdPartyEventOpenNotification[];
+
+  /** The list of closed third-party synthetic events. */
+  resolved?: Type3rdPartyEventResolvedNotification[];
+}
+
+/**
+ * Operation state to be set for all third-party Synthetic monitors
+ */
+export interface StateModification {
+  /** The new operation state for all third-party Synthetic monitors. */
+  state: "ACTIVE" | "HIDDEN" | "INACTIVE";
 }
 
 /**
@@ -1876,7 +1944,7 @@ export interface Type3rdPartySyntheticLocationTestResult {
   responseTimeMillis?: number;
 
   /** Results of individual monitor steps. */
-  stepResults?: SyntheticMonitorStepResult[];
+  stepResults: SyntheticMonitorStepResult[];
 }
 
 /**
@@ -1948,9 +2016,6 @@ export interface Type3rdPartySyntheticMonitor {
 export interface Type3rdPartySyntheticTestResult {
   /** The ID of the third-party synthetic monitor. */
   id: string;
-
-  /** @format int32 */
-  scheduleIntervalInSeconds?: number;
 
   /**
    * Number of steps in the monitor. Defaults to number of SyntheticTestSteps.
@@ -2050,74 +2115,6 @@ export interface SyntheticTestStep {
 
   /** The name of the step, displayed in the UI. */
   title: string;
-}
-
-/**
- * The open third-party synthetic event.
- */
-export interface Type3rdPartyEventOpenNotification {
-  /** The ID of the third-party synthetic monitor. */
-  testId: string;
-
-  /** The unique ID of the event. */
-  eventId: string;
-
-  /** The name of the event. */
-  name: string;
-
-  /** The type of the event. */
-  eventType: "testOutage" | "testSlowdown";
-
-  /** The cause of the event. */
-  reason: string;
-
-  /**
-   * The start timestamp of the event, in UTC milliseconds.
-   * @format int64
-   */
-  startTimestamp: number;
-
-  /** The list of IDs of third-party synthetic locations where the event happens. */
-  locationIds: string[];
-}
-
-/**
- * The closed third-party synthetic event.
- */
-export interface Type3rdPartyEventResolvedNotification {
-  /** The ID of the third-party synthetic monitor. */
-  testId: string;
-
-  /** The unique ID of the event. */
-  eventId: string;
-
-  /**
-   * The end timestamp of the event, in UTC milliseconds.
-   * @format int64
-   */
-  endTimestamp: number;
-}
-
-/**
- * The list of third-party synthetic events.
- */
-export interface Type3rdPartySyntheticEvents {
-  /** The type of the third-party synthetic monitor. */
-  syntheticEngineName: string;
-
-  /** The list of open third-party synthetic events. */
-  open?: Type3rdPartyEventOpenNotification[];
-
-  /** The list of closed third-party synthetic events. */
-  resolved?: Type3rdPartyEventResolvedNotification[];
-}
-
-/**
- * Operation state to be set for all third-party Synthetic monitors
- */
-export interface StateModification {
-  /** The new operation state for all third-party Synthetic monitors. */
-  state: "ACTIVE" | "HIDDEN" | "INACTIVE";
 }
 
 /**
@@ -2398,156 +2395,46 @@ export interface UniversalTagKey {
   key?: string;
 }
 
-/**
- * The result of a custom device push request. The entity ID is calculated automatically.
- */
-export interface CustomDevicePushResult {
-  /** The Dynatrace entity ID of the custom device. */
+export interface Application {
+  /** The Dynatrace entity ID of the required entity. */
   entityId?: string;
 
-  /** The Dynatrace entity ID of the custom device group. */
-  groupId?: string;
-}
-
-/**
- * Configuration of a custom device.
- * @example {"displayName":"coffeeMachine","group":"myCustomDeviceGroup","ipAddresses":["10.0.0.1"],"listenPorts":[80],"favicon":"https://www.freefavicon.com/freefavicons/food/cup-of-coffee-152-78475.png","configUrl":"http://coffee-machine.dynatrace.internal.com/coffeemachine/manage","type":"coffee machine","properties":{},"tags":["office-linz"],"series":[{"timeseriesId":"custom:created.coffee.metric","dimensions":{"office":"Linz"},"dataPoints":[[1521542929000,13]]}],"hostNames":["coffee-machine.dynatrace.internal.com"]}
- */
-export interface CustomDevicePushMessage {
-  /** The name of the custom device that will appear in the user interface. */
+  /** The name of the Dynatrace entity as displayed in the UI. */
   displayName?: string;
 
-  /**
-   * User defined group ID of entity.
-   *
-   * The group ID helps to keep a consistent picture of device-group relations. One of many cases where a proper group is important is service detection: you can define which custom devices should lead to the same service by defining the same group ID for them.
-   * If you set a group ID, it will be hashed into the Dynatrace entity ID of the custom device. In that case the custom device can only be part of one custom device group.
-   * If you don't set the group ID, Dynatrace will create it based on the ID or type of the custom device. Also, the group will not be hashed into the device ID which means the device may switch groups.
-   */
-  group?: string;
+  /** The customized name of the entity */
+  customizedName?: string;
+
+  /** The discovered name of the entity */
+  discoveredName?: string;
 
   /**
-   * The list of IP addresses that belong to the custom device.
-   *
-   * These addresses are used to automatically discover the horizontal communication relationship between this component and all other observed components within Smartscape. Once a connection is discovered, it is automatically mapped and shown within Smartscape.
-   * If you send a value (including an empty value), the existing values will be overwritten.
-   * If you send `null` or omit this field, the existing values will be kept.
+   * The timestamp of when the entity was first detected, in UTC milliseconds
+   * @format int64
    */
-  ipAddresses?: string[];
+  firstSeenTimestamp?: number;
 
   /**
-   * The list of ports the custom devices listens to.
-   *
-   * These ports are used to discover the horizontal communication relationship between this component and all other observed components within Smartscape.
-   * Once a connection is discovered, it is automatically mapped and shown within Smartscape.
-   * If ports are specified, you should also add at least one IP address or a host name for the custom device.
-   * If you send a value, the existing values will be overwritten.
-   * If you send `null`, or an empty value, or omit this field, the existing values will be kept.
+   * The timestamp of when the entity was last detected, in UTC milliseconds
+   * @format int64
    */
-  listenPorts?: number[];
+  lastSeenTimestamp?: number;
 
-  /**
-   * The technology type definition of the custom device.
-   *
-   * It must be the same technology type of the metric you're reporting.
-   * If you send a value, the existing value will be overwritten.
-   * If you send `null`, empty or omit this field, the existing value will be kept.
-   */
-  type?: string;
+  /** The list of entity tags. */
+  tags?: TagInfo[];
 
-  /** The icon to be displayed for your custom component within Smartscape. Provide the full URL of the icon file. */
-  favicon?: string;
+  /** The list of outgoing calls from the application. */
+  fromRelationships?: { calls?: string[] };
 
-  /** The URL of a configuration web page for the custom device, such as a login page for a firewall or router. */
-  configUrl?: string;
+  /** The list of incoming calls to the application. */
+  toRelationships?: { monitors?: string[] };
+  applicationMatchTarget?: "DOMAIN" | "URL";
 
-  /** The list of key-value pair properties that will be shown beneath the infographics of your custom device. */
-  properties?: Record<string, string>;
-
-  /** List of custom tags that you want to attach to your custom device. */
-  tags?: string[];
-
-  /**
-   * The list of metric values that are reported for the custom device.
-   *
-   * The metric you're reporting must already exist in Dynatrace. To learn how to create a custom metric, see [Timeseries API v1 - PUT a custom metric](https://dt-url.net/5k143rzb).
-   * Dynatrace aggregates all the values you report for a custom device.
-   * If you send a value (including an empty value), it will be added to the set of existing values.
-   * If you send `null` or omit this field, the set of existing values won't change.
-   */
-  series?: EntityTimeseriesData[];
-
-  /**
-   * The list of host names related to the custom device.
-   *
-   * These names are used to automatically discover the horizontal communication relationship between this component and all other observed components within Smartscape. Once a connection is discovered, it is automatically mapped and shown within Smartscape.
-   * If you send a value, the existing values will be overwritten.
-   * If you send `null` or an empty value; or omit this field, the existing values will be kept.
-   */
-  hostNames?: string[];
-}
-
-/**
- * Information about a metric and its data points.
- */
-export interface EntityTimeseriesData {
-  /** The ID of the metric, where you want to post data points. */
-  timeseriesId: string;
-
-  /**
-   * Dimensions of the data points you're posting.
-   *
-   * The key of the metric dimension must be defined earlier in the metric definition.
-   */
-  dimensions?: Record<string, string>;
-
-  /**
-   * List of data points.
-   *
-   * Each data point is an array, containing the timestamp and the value.
-   * Timestamp is UTC milliseconds reported as a number, for example: `1520523365557`.
-   * You have the guaranteed timeframe of **30 minutes** into the past.
-   * A custom metric must be registered **before** you can report a metric value. Therefore, the timestamp for reporting a value must be after the registration time of the metric.
-   */
-  dataPoints: number[][];
-}
-
-/**
- * A list of tags to be assigned to a Dynatrace entity.
- * @example {"tags":["office-linz","office-klagenfurt"]}
- */
-export interface UpdateEntity {
-  /** A list of tags to be assigned to a Dynatrace entity. */
-  tags: string[];
-}
-
-/**
- * Defines the version of the agent currently running on the entity.
- */
-export interface AgentVersion {
-  /**
-   * The major version number.
-   * @format int32
-   */
-  major?: number;
-
-  /**
-   * The minor version number.
-   * @format int32
-   */
-  minor?: number;
-
-  /**
-   * The revision number.
-   * @format int32
-   */
-  revision?: number;
-
-  /** A timestamp string: format "yyyymmdd-hhmmss */
-  timestamp?: string;
-
-  /** A string representation of the SVN revision number. */
-  sourceRevision?: string;
+  /** The management zones that the entity is part of. */
+  managementZones?: EntityShortRepresentation[];
+  applicationType?: "AGENTLESS_MONITORING" | "AMP" | "AUTO_INJECTED" | "DEFAULT" | "SAAS_VENDOR";
+  ruleAppliedMatchType?: "ALL_URLS_AND_DOMAINS" | "CONTAINS" | "ENDS" | "EQUALS" | "MATCHES" | "STARTS";
+  ruleAppliedPattern?: string;
 }
 
 /**
@@ -2563,580 +2450,6 @@ export interface EntityShortRepresentation {
 
   /** A short description of the Dynatrace entity. */
   description?: string;
-}
-
-/**
- * Information about the host.
- */
-export interface Host {
-  /** The Dynatrace entity ID of the required entity. */
-  entityId?: string;
-
-  /** The name of the Dynatrace entity as displayed in the UI. */
-  displayName?: string;
-
-  /** The customized name of the entity */
-  customizedName?: string;
-
-  /** The discovered name of the entity */
-  discoveredName?: string;
-
-  /**
-   * The timestamp of when the entity was first detected, in UTC milliseconds
-   * @format int64
-   */
-  firstSeenTimestamp?: number;
-
-  /**
-   * The timestamp of when the entity was last detected, in UTC milliseconds
-   * @format int64
-   */
-  lastSeenTimestamp?: number;
-
-  /** The list of entity tags. */
-  tags?: TagInfo[];
-  toRelationships?: {
-    isProcessOf?: string[];
-    isSiteOf?: string[];
-    isNetworkClientOfHost?: string[];
-    runsOn?: string[];
-  };
-  amiId?: string;
-
-  /**
-   * Memory assigned to the host (Terabyte).
-   * @format int32
-   */
-  zosTotalPhysicalMemory?: number;
-  hypervisorType?:
-    | "AHV"
-    | "HYPERV"
-    | "KVM"
-    | "LPAR"
-    | "QEMU"
-    | "UNRECOGNIZED"
-    | "VIRTUALBOX"
-    | "VMWARE"
-    | "WPAR"
-    | "XEN";
-
-  /** The Cloud Foundry BOSH deployment ID. */
-  boshDeploymentId?: string;
-  userLevel?: "NON_SUPERUSER" | "NON_SUPERUSER_STRICT" | "SUPERUSER";
-
-  /** The Google Compute Engine machine type. */
-  gceMachineType?: string;
-  cloudType?: "AZURE" | "EC2" | "GOOGLE_CLOUD_PLATFORM" | "OPENSTACK" | "ORACLE" | "UNRECOGNIZED";
-
-  /** The public IP addresses of the Google Compute Engine. */
-  gcePublicIpAddresses?: string[];
-
-  /**
-   * Number of assigned processors for this LPAR.
-   * @format int32
-   */
-  zosTotalGeneralPurposeProcessors?: number;
-
-  /** The Google Cloud Platform Zone. */
-  gcpZone?: string;
-
-  /** The ID of network zone the entity is in. */
-  networkZoneId?: string;
-  azureVmName?: string;
-
-  /** The kubernetes labels defined on the entity. */
-  kubernetesLabels?: Record<string, object>;
-  azureZone?: string;
-  awsSecurityGroup?: string[];
-
-  /** @format int64 */
-  paasMemoryLimit?: number;
-  azureEnvironment?: string;
-  paasType?:
-    | "AWS_ECS_EC2"
-    | "AWS_ECS_FARGATE"
-    | "AWS_LAMBDA"
-    | "AZURE_FUNCTIONS"
-    | "AZURE_WEBSITES"
-    | "CLOUD_FOUNDRY"
-    | "GOOGLE_APP_ENGINE"
-    | "HEROKU"
-    | "KUBERNETES"
-    | "OPENSHIFT";
-  vmwareName?: string;
-  azureSku?: "BASIC" | "DYNAMIC" | "FREE" | "PREMIUM" | "SHARED" | "STANDARD";
-  azureComputeModeName?: "DEDICATED" | "SHARED";
-  azureResourceGroupName?: string;
-
-  /** The Google Compute Engine project. */
-  gceProject?: string;
-
-  /** The CPU model number. */
-  zosCPUModelNumber?: string;
-  openstackComputeNodeName?: string;
-  osArchitecture?: "ARM" | "IA64" | "PARISC" | "PPC" | "PPCLE" | "S390" | "SPARC" | "X86" | "ZOS";
-
-  /** The name inherited from AWS. */
-  awsNameTag?: string;
-  azureHostNames?: string[];
-
-  /** The Google Compute Engine numeric project ID. */
-  gceProjectId?: string;
-
-  /** The versions of the PaaS agents currently running on the entity. */
-  paasAgentVersions?: AgentVersion[];
-  openstackProjectName?: string;
-
-  /**
-   * The AIX instance virtual CPU count.
-   * @format int32
-   */
-  virtualCpus?: number;
-  azureSiteNames?: string[];
-
-  /**
-   * The AIX instance logical CPU count.
-   * @format int32
-   */
-  logicalCpus?: number;
-  esxiHostName?: string;
-
-  /**
-   * The AIX instance simultaneous threads count.
-   * @format int32
-   */
-  simultaneousMultithreading?: number;
-  openstackAvZone?: string;
-  azureVmScaleSetName?: string;
-  azureVmSizeLabel?: string;
-
-  /** The Cloud Foundry BOSH instance name. */
-  boshInstanceName?: string;
-
-  /** @format int32 */
-  logicalCpuCores?: number;
-
-  /** Defines the version of the agent currently running on the entity. */
-  agentVersion?: AgentVersion;
-
-  /** The kubernetes node the entity is in. */
-  kubernetesNode?: string;
-  openstackVmName?: string;
-
-  /** The custom name defined in OneAgent config. */
-  oneAgentCustomHostName?: string;
-  openStackInstaceType?: string;
-  beanstalkEnvironmentName?: string;
-  ipAddresses?: string[];
-
-  /** The Cloud Foundry BOSH name. */
-  boshName?: string;
-
-  /** The Cloud Foundry BOSH availability zone. */
-  boshAvailabilityZone?: string;
-
-  /** The Google Compute Engine instance name. */
-  gceInstanceName?: string;
-
-  /** The management zones that the entity is part of. */
-  managementZones?: EntityShortRepresentation[];
-
-  /** The kubernetes cluster the entity is in. */
-  kubernetesCluster?: string;
-  consumedHostUnits?: string;
-
-  /** Name of the LPAR. */
-  zosLpaName?: string;
-  publicHostName?: string;
-
-  /** Type of virtualization on the mainframe. */
-  zosVirtualization?: string;
-  scaleSetName?: string;
-
-  /** The Google Compute Engine instance ID. */
-  gceInstanceId?: string;
-  azureResourceId?: string;
-  osType?: "AIX" | "DARWIN" | "HPUX" | "LINUX" | "SOLARIS" | "WINDOWS" | "ZOS";
-
-  /** Name of the system. */
-  zosSystemName?: string;
-  osVersion?: string;
-  awsInstanceType?: string;
-  localHostName?: string;
-  monitoringMode?: "FULL_STACK" | "INFRASTRUCTURE" | "OFF";
-  publicIp?: string;
-  localIp?: string;
-  hostGroup?: HostGroup;
-  openstackSecurityGroups?: string[];
-
-  /** The Cloud Foundry BOSH stemcell version. */
-  boshStemcellVersion?: string;
-
-  /** The CPU serial number. */
-  zosCPUSerialNumber?: string;
-  bitness?: "32bit" | "64bit";
-  softwareTechnologies?: TechnologyInfo[];
-
-  /**
-   * Number of assigned support processors for this LPAR.
-   * @format int32
-   */
-  zosTotalZiipProcessors?: number;
-
-  /** Defines the cloud platform vendor version. */
-  cloudPlatformVendorVersion?: string;
-  awsInstanceId?: string;
-  isMonitoringCandidate?: boolean;
-  autoScalingGroup?: string;
-
-  /** @format int32 */
-  cpuCores?: number;
-
-  /** The Cloud Foundry BOSH instance ID. */
-  boshInstanceId?: string;
-  fromRelationships?: { isNetworkClientOfHost?: string[] };
-}
-
-export interface HostGroup {
-  /** The Dynatrace entity ID of the host group. */
-  meId?: string;
-
-  /** The name of the Dynatrace entity, displayed in the UI. */
-  name?: string;
-}
-
-export interface TechnologyInfo {
-  type?: string;
-  edition?: string;
-  version?: string;
-}
-
-/**
- * Parameters of a process group.
- */
-export interface ProcessGroup {
-  /** The Dynatrace entity ID of the required entity. */
-  entityId?: string;
-
-  /** The name of the Dynatrace entity as displayed in the UI. */
-  displayName?: string;
-
-  /** The customized name of the entity */
-  customizedName?: string;
-
-  /** The discovered name of the entity */
-  discoveredName?: string;
-
-  /**
-   * The timestamp of when the entity was first detected, in UTC milliseconds
-   * @format int64
-   */
-  firstSeenTimestamp?: number;
-
-  /**
-   * The timestamp of when the entity was last detected, in UTC milliseconds
-   * @format int64
-   */
-  lastSeenTimestamp?: number;
-
-  /** The list of entity tags. */
-  tags?: TagInfo[];
-  toRelationships?: { isNetworkClientOfProcessGroup?: string[]; isInstanceOf?: string[]; runsOn?: string[] };
-  metadata?: {
-    hostGroups?: string[];
-    cloudFoundryAppIds?: string[];
-    dynatraceNodeIds?: string[];
-    executables?: string[];
-    googleComputeEngineMetadata?: Record<string, string>;
-    phpScripts?: string[];
-    awsEcsCluster?: string[];
-    declarativeId?: string[];
-    glassfishInstanceNames?: string[];
-    tibcoBusinessWorksEnginePropertyFiles?: string[];
-    jbossServerNames?: string[];
-    catalinaBaseValues?: string[];
-    mssqlInstanceName?: string[];
-    ibmIntegrationServerName?: string[];
-    varnishInstanceNames?: string[];
-    phpWorkingDirectories?: string[];
-    websphereLibertyServerName?: string[];
-    googleCloudProjects?: string[];
-    dockerContainerImageVersions?: string[];
-    hybrisConfigDirectories?: string[];
-    executablePaths?: string[];
-    awsEcrImageRegions?: string[];
-    tibcoBusinessWorksAppSpaceName?: string[];
-    springBootStartupClass?: string[];
-    weblogicDomainNames?: string[];
-    elasticSearchNodeNames?: string[];
-    tibcoBWEnginePropertyFilePaths?: string[];
-    kubernetesContainerNames?: string[];
-    rubyAppRootPaths?: string[];
-    ibmImsMessageProcessingRegions?: string[];
-    linkage?: string[];
-    cloudfoundryMetadata?: Record<string, string>;
-    oracleSid?: string[];
-    awsEcsFamily?: string[];
-    commandLineArgs?: string[];
-    aspDotNetCoreApplicationPaths?: string[];
-    awsEcrImageAccountIds?: string[];
-    springBootAppName?: string[];
-    websphereClusterNames?: string[];
-    springBootProfileName?: string[];
-    kubernetesAnnotations?: Record<string, string>;
-    websphereServerNames?: string[];
-    catalinaHomeValues?: string[];
-    glassfishDomainNames?: string[];
-    kubernetesBasePodNames?: string[];
-    weblogicClusterNames?: string[];
-    javaMainModules?: string[];
-    kubernetesPodUids?: string[];
-    awsEcsContainerName?: string[];
-    coldfusionJvmConfigFiles?: string[];
-    dotnetCommandPath?: string[];
-    tibcoBusinessWorksDomainName?: string[];
-    elasticSearchClusterNames?: string[];
-    nodejsScriptNames?: string[];
-    iisRoleNames?: string[];
-    apacheSparkMasterIpAddresses?: string[];
-    weblogicNames?: string[];
-    rubyScriptPaths?: string[];
-    ibmImsSoapGwName?: string[];
-    nodejsAppBaseDirectories?: string[];
-    softwareAgProductPropertyName?: string[];
-    awsEcsRevision?: string[];
-    ibmImsControlRegions?: string[];
-    javaMainClasses?: string[];
-    cassandraClusterNames?: string[];
-    softwareAgInstallRoot?: string[];
-    cloudFoundryAppNames?: string[];
-    cloudFoundrySpaceNames?: string[];
-    pluginMetadata?: Record<string, string>;
-    ibmIntegrationNodeName?: string[];
-    dockerContainerNames?: string[];
-    ibmCtgName?: string[];
-    tibcoBusinessWorksCeAppName?: string[];
-    kubernetesFullPodNames?: string[];
-    apacheConfigPaths?: string[];
-    tibcoBusinessWorksAppNodeName?: string[];
-    tibcoBusinessWorksCeVersion?: string[];
-    dotNetCommands?: string[];
-    googleAppEngineServices?: string[];
-    kubernetesNamespaces?: string[];
-    hybrisDataDirectories?: string[];
-    envVariables?: Record<string, string>;
-    javaJarFiles?: string[];
-    javaJarPaths?: string[];
-    dockerContainerIds?: string[];
-    cloudFoundrySpaceIds?: string[];
-    ruleResult?: string[];
-    jbossModes?: string[];
-    awsLambdaFunctionNames?: string[];
-    cloudFoundryInstanceIndexes?: string[];
-    hybrisBinDirectories?: string[];
-    weblogicHomeValues?: string[];
-    jbossHomes?: string[];
-    dynatraceClusterIds?: string[];
-    googleAppEngineInstances?: string[];
-    websphereNodeNames?: string[];
-    agentValueMetadata?: Record<string, string>;
-    iisAppPools?: string[];
-    ibmImsConnectRegions?: string[];
-    dockerContainerImageNames?: string[];
-    tibcoBusinessWorksHome?: string[];
-    ibmCicsRegion?: string[];
-    serviceNames?: string[];
-    websphereCellNames?: string[];
-    nodejsAppNames?: string[];
-    equinoxConfigPath?: string[];
-    awsRegions?: string[];
-  };
-  softwareTechnologies?: TechnologyInfo[];
-  listenPorts?: number[];
-
-  /** The management zones that the entity is part of. */
-  managementZones?: EntityShortRepresentation[];
-  azureHostName?: string;
-  azureSiteName?: string;
-  fromRelationships?: { isNetworkClientOfProcessGroup?: string[]; runsOn?: string[] };
-}
-
-/**
- * Defines the current monitoring state of an entity.
- */
-export interface MonitoringState {
-  /** The current actual monitoring state on the entity. */
-  actualMonitoringState?: "OFF" | "ON";
-
-  /** The monitoring state that is expected from the configuration */
-  expectedMonitoringState?: "OFF" | "ON";
-
-  /** Defines whether or not the process has to restarted to enable monitoring */
-  restartRequired?: boolean;
-}
-
-/**
- * Parameters of a process.
- */
-export interface ProcessGroupInstance {
-  /** The Dynatrace entity ID of the required entity. */
-  entityId?: string;
-
-  /** The name of the Dynatrace entity as displayed in the UI. */
-  displayName?: string;
-
-  /** The customized name of the entity */
-  customizedName?: string;
-
-  /** The discovered name of the entity */
-  discoveredName?: string;
-
-  /**
-   * The timestamp of when the entity was first detected, in UTC milliseconds
-   * @format int64
-   */
-  firstSeenTimestamp?: number;
-
-  /**
-   * The timestamp of when the entity was last detected, in UTC milliseconds
-   * @format int64
-   */
-  lastSeenTimestamp?: number;
-
-  /** The list of entity tags. */
-  tags?: TagInfo[];
-  toRelationships?: { runsOnProcessGroupInstance?: string[]; isNetworkClientOf?: string[] };
-  metadata?: {
-    hostGroups?: string[];
-    cloudFoundryAppIds?: string[];
-    dynatraceNodeIds?: string[];
-    executables?: string[];
-    googleComputeEngineMetadata?: Record<string, string>;
-    phpScripts?: string[];
-    awsEcsCluster?: string[];
-    declarativeId?: string[];
-    glassfishInstanceNames?: string[];
-    tibcoBusinessWorksEnginePropertyFiles?: string[];
-    jbossServerNames?: string[];
-    catalinaBaseValues?: string[];
-    mssqlInstanceName?: string[];
-    ibmIntegrationServerName?: string[];
-    varnishInstanceNames?: string[];
-    phpWorkingDirectories?: string[];
-    websphereLibertyServerName?: string[];
-    googleCloudProjects?: string[];
-    dockerContainerImageVersions?: string[];
-    hybrisConfigDirectories?: string[];
-    executablePaths?: string[];
-    awsEcrImageRegions?: string[];
-    tibcoBusinessWorksAppSpaceName?: string[];
-    springBootStartupClass?: string[];
-    weblogicDomainNames?: string[];
-    elasticSearchNodeNames?: string[];
-    tibcoBWEnginePropertyFilePaths?: string[];
-    kubernetesContainerNames?: string[];
-    rubyAppRootPaths?: string[];
-    ibmImsMessageProcessingRegions?: string[];
-    linkage?: string[];
-    cloudfoundryMetadata?: Record<string, string>;
-    oracleSid?: string[];
-    awsEcsFamily?: string[];
-    commandLineArgs?: string[];
-    aspDotNetCoreApplicationPaths?: string[];
-    awsEcrImageAccountIds?: string[];
-    springBootAppName?: string[];
-    websphereClusterNames?: string[];
-    springBootProfileName?: string[];
-    kubernetesAnnotations?: Record<string, string>;
-    websphereServerNames?: string[];
-    catalinaHomeValues?: string[];
-    glassfishDomainNames?: string[];
-    kubernetesBasePodNames?: string[];
-    weblogicClusterNames?: string[];
-    javaMainModules?: string[];
-    kubernetesPodUids?: string[];
-    awsEcsContainerName?: string[];
-    coldfusionJvmConfigFiles?: string[];
-    dotnetCommandPath?: string[];
-    tibcoBusinessWorksDomainName?: string[];
-    elasticSearchClusterNames?: string[];
-    nodejsScriptNames?: string[];
-    iisRoleNames?: string[];
-    apacheSparkMasterIpAddresses?: string[];
-    weblogicNames?: string[];
-    rubyScriptPaths?: string[];
-    ibmImsSoapGwName?: string[];
-    nodejsAppBaseDirectories?: string[];
-    softwareAgProductPropertyName?: string[];
-    awsEcsRevision?: string[];
-    ibmImsControlRegions?: string[];
-    javaMainClasses?: string[];
-    cassandraClusterNames?: string[];
-    softwareAgInstallRoot?: string[];
-    cloudFoundryAppNames?: string[];
-    cloudFoundrySpaceNames?: string[];
-    pluginMetadata?: Record<string, string>;
-    ibmIntegrationNodeName?: string[];
-    dockerContainerNames?: string[];
-    ibmCtgName?: string[];
-    tibcoBusinessWorksCeAppName?: string[];
-    kubernetesFullPodNames?: string[];
-    apacheConfigPaths?: string[];
-    tibcoBusinessWorksAppNodeName?: string[];
-    tibcoBusinessWorksCeVersion?: string[];
-    dotNetCommands?: string[];
-    googleAppEngineServices?: string[];
-    kubernetesNamespaces?: string[];
-    hybrisDataDirectories?: string[];
-    envVariables?: Record<string, string>;
-    javaJarFiles?: string[];
-    javaJarPaths?: string[];
-    dockerContainerIds?: string[];
-    cloudFoundrySpaceIds?: string[];
-    ruleResult?: string[];
-    jbossModes?: string[];
-    awsLambdaFunctionNames?: string[];
-    cloudFoundryInstanceIndexes?: string[];
-    hybrisBinDirectories?: string[];
-    weblogicHomeValues?: string[];
-    jbossHomes?: string[];
-    dynatraceClusterIds?: string[];
-    googleAppEngineInstances?: string[];
-    websphereNodeNames?: string[];
-    agentValueMetadata?: Record<string, string>;
-    iisAppPools?: string[];
-    ibmImsConnectRegions?: string[];
-    dockerContainerImageNames?: string[];
-    tibcoBusinessWorksHome?: string[];
-    ibmCicsRegion?: string[];
-    serviceNames?: string[];
-    websphereCellNames?: string[];
-    nodejsAppNames?: string[];
-    equinoxConfigPath?: string[];
-    awsRegions?: string[];
-  };
-  bitness?: "32bit" | "64bit";
-  modules?: string[];
-  softwareTechnologies?: TechnologyInfo[];
-  listenPorts?: number[];
-
-  /** The management zones that the entity is part of. */
-  managementZones?: EntityShortRepresentation[];
-  versionedModules?: ProcessGroupInstanceModule[];
-
-  /** Defines the current monitoring state of an entity. */
-  monitoringState?: MonitoringState;
-  azureHostName?: string;
-  azureSiteName?: string;
-
-  /** Versions of OneAgents currently running on the entity. */
-  agentVersions?: AgentVersion[];
-  fromRelationships?: { isProcessOf?: string[]; isInstanceOf?: string[]; isNetworkClientOf?: string[] };
-}
-
-export interface ProcessGroupInstanceModule {
-  name?: string;
-  version?: string;
 }
 
 /**
@@ -3219,182 +2532,17 @@ export interface EntityBaselineData {
   childBaselines?: EntityBaselineData[];
 }
 
-export interface Application {
-  /** The Dynatrace entity ID of the required entity. */
-  entityId?: string;
-
-  /** The name of the Dynatrace entity as displayed in the UI. */
-  displayName?: string;
-
-  /** The customized name of the entity */
-  customizedName?: string;
-
-  /** The discovered name of the entity */
-  discoveredName?: string;
-
-  /**
-   * The timestamp of when the entity was first detected, in UTC milliseconds
-   * @format int64
-   */
-  firstSeenTimestamp?: number;
-
-  /**
-   * The timestamp of when the entity was last detected, in UTC milliseconds
-   * @format int64
-   */
-  lastSeenTimestamp?: number;
-
-  /** The list of entity tags. */
-  tags?: TagInfo[];
-
-  /** The list of outgoing calls from the application. */
-  fromRelationships?: { calls?: string[] };
-
-  /** The list of incoming calls to the application. */
-  toRelationships?: { monitors?: string[] };
-  ruleAppliedPattern?: string;
-  ruleAppliedMatchType?: "ALL_URLS_AND_DOMAINS" | "CONTAINS" | "ENDS" | "EQUALS" | "MATCHES" | "STARTS";
-
-  /** The management zones that the entity is part of. */
-  managementZones?: EntityShortRepresentation[];
-  applicationType?: "AGENTLESS_MONITORING" | "AMP" | "AUTO_INJECTED" | "DEFAULT" | "SAAS_VENDOR";
-  applicationMatchTarget?: "DOMAIN" | "URL";
-}
-
 /**
- * The baseline data for a service and its children for the **Response time** duration metric.
+ * A list of tags to be assigned to a Dynatrace entity.
+ * @example {"tags":["office-linz","office-klagenfurt"]}
  */
-export interface ServiceBaselineValues {
-  /** The ID of the service. */
-  entityId: string;
-
-  /** The display name of the service. */
-  displayName?: string;
-
-  /** The baseline data for the **Response time** duration metric. */
-  serviceResponseTimeBaselines?: EntityBaselineData[];
+export interface UpdateEntity {
+  /** A list of tags to be assigned to a Dynatrace entity. */
+  tags: string[];
 }
 
-export interface Service {
-  /** The Dynatrace entity ID of the required entity. */
-  entityId?: string;
-
-  /** The name of the Dynatrace entity as displayed in the UI. */
-  displayName?: string;
-
-  /** The customized name of the entity */
-  customizedName?: string;
-
-  /** The discovered name of the entity */
-  discoveredName?: string;
-
-  /**
-   * The timestamp of when the entity was first detected, in UTC milliseconds
-   * @format int64
-   */
-  firstSeenTimestamp?: number;
-
-  /**
-   * The timestamp of when the entity was last detected, in UTC milliseconds
-   * @format int64
-   */
-  lastSeenTimestamp?: number;
-
-  /** The list of entity tags. */
-  tags?: TagInfo[];
-  toRelationships?: { calls?: string[] };
-  contextRoot?: string;
-  serviceTechnologyTypes?: string[];
-
-  /** @format int32 */
-  port?: number;
-
-  /** The IIB application name. */
-  iibApplicationName?: string;
-  serviceType?:
-    | "AMP"
-    | "Cics"
-    | "CicsInteraction"
-    | "CustomApplication"
-    | "Database"
-    | "EnterpriseServiceBus"
-    | "External"
-    | "Ims"
-    | "ImsInteraction"
-    | "Messaging"
-    | "Method"
-    | "Mobile"
-    | "Process"
-    | "QueueInteraction"
-    | "QueueListener"
-    | "RemoteCall"
-    | "Rmi"
-    | "SaasVendor"
-    | "Span"
-    | "Unknown"
-    | "WebRequest"
-    | "WebService"
-    | "WebSite"
-    | "ZosConnect";
-  webServerName?: string;
-  webServiceName?: string;
-  webApplicationId?: string;
-  databaseVendor?: string;
-
-  /** The name of the remote service. */
-  remoteServiceName?: string;
-
-  /** The endpoint of the remote service. */
-  remoteEndpoint?: string;
-  ipAddresses?: string[];
-
-  /** The ESB application name. */
-  esbApplicationName?: string;
-  agentTechnologyType?:
-    | "APACHE"
-    | "DOTNET"
-    | "DUMPPROC"
-    | "GO"
-    | "IIS"
-    | "JAVA"
-    | "LOG_ANALYTICS"
-    | "N/A"
-    | "NET"
-    | "NETTRACER"
-    | "NGINX"
-    | "NODEJS"
-    | "OPENTRACINGNATIVE"
-    | "OS"
-    | "PHP"
-    | "PLUGIN"
-    | "PROCESS"
-    | "PYTHON"
-    | "REMOTE_PLUGIN"
-    | "RUBY"
-    | "SDK"
-    | "UPDATER"
-    | "VARNISH"
-    | "WSMB"
-    | "Z";
-  softwareTechnologies?: TechnologyInfo[];
-  path?: string;
-
-  /** The management zones that the entity is part of. */
-  managementZones?: EntityShortRepresentation[];
-  databaseHostNames?: string[];
-  webServiceNamespace?: string;
-  databaseName?: string;
-
-  /** The IBM CTG gateway URL. */
-  ibmCtgGatewayUrl?: string;
-  className?: string;
-
-  /** The services of the akka actor system. */
-  akkaActorSystem?: string;
-
-  /** The IBM CICS Transaction Gateway name. */
-  ibmCtgServerName?: string;
-  fromRelationships?: { runsOnProcessGroupInstance?: string[]; calls?: string[]; runsOn?: string[] };
+export interface LogJobDeleteResult {
+  message?: string;
 }
 
 /**
@@ -3469,38 +2617,6 @@ export interface SortingAttributes {
 
   /** The field to sort by. */
   sortFieldName?: string;
-}
-
-/**
- * The list of available OS logs.
- */
-export interface Log4Host {
-  /** The full path to the log. */
-  path?: string;
-
-  /**
-   * The size of the log, bytes.
-   * @format int64
-   */
-  size?: number;
-
-  /** The log is available (`true`) or not available (`false`) for analysis. */
-  availableForAnalysis?: boolean;
-}
-
-/**
- * OS logs available on the host.
- */
-export interface LogList4HostResult {
-  /** The access to the log content is granted (`true`) or denied (`false`). */
-  contentAccess?: boolean;
-
-  /** The list of available OS logs. */
-  logs?: Log4Host[];
-}
-
-export interface LogJobDeleteResult {
-  message?: string;
 }
 
 /**
@@ -3638,6 +2754,442 @@ export interface LogJobStatusResult {
 }
 
 /**
+ * The list of available logs.
+ */
+export interface LogForCustomDevice {
+  /** The full path to the log. */
+  path?: string;
+
+  /** The log is available (`true`) or not available (`false`) for analysis. */
+  availableForAnalysis?: boolean;
+}
+
+/**
+ * Logs available on the Custom Device.
+ */
+export interface LogListForCustomDeviceResult {
+  /** The list of available logs. */
+  logs?: LogForCustomDevice[];
+}
+
+/**
+ * The result of a custom device push request. The entity ID is calculated automatically.
+ */
+export interface CustomDevicePushResult {
+  /** The Dynatrace entity ID of the custom device. */
+  entityId?: string;
+
+  /** The Dynatrace entity ID of the custom device group. */
+  groupId?: string;
+}
+
+/**
+ * Configuration of a custom device.
+ * @example {"displayName":"coffeeMachine","group":"myCustomDeviceGroup","ipAddresses":["10.0.0.1"],"listenPorts":[80],"favicon":"https://www.freefavicon.com/freefavicons/food/cup-of-coffee-152-78475.png","configUrl":"http://coffee-machine.dynatrace.internal.com/coffeemachine/manage","type":"coffee machine","properties":{},"tags":["office-linz"],"series":[{"timeseriesId":"custom:created.coffee.metric","dimensions":{"office":"Linz"},"dataPoints":[[1521542929000,13]]}],"hostNames":["coffee-machine.dynatrace.internal.com"]}
+ */
+export interface CustomDevicePushMessage {
+  /** The name of the custom device that will appear in the user interface. */
+  displayName?: string;
+
+  /**
+   * User defined group ID of entity.
+   *
+   * The group ID helps to keep a consistent picture of device-group relations. One of many cases where a proper group is important is service detection: you can define which custom devices should lead to the same service by defining the same group ID for them.
+   * If you set a group ID, it will be hashed into the Dynatrace entity ID of the custom device. In that case the custom device can only be part of one custom device group.
+   * If you don't set the group ID, Dynatrace will create it based on the ID or type of the custom device. Also, the group will not be hashed into the device ID which means the device may switch groups.
+   */
+  group?: string;
+
+  /**
+   * The list of IP addresses that belong to the custom device.
+   *
+   * These addresses are used to automatically discover the horizontal communication relationship between this component and all other observed components within Smartscape. Once a connection is discovered, it is automatically mapped and shown within Smartscape.
+   * If you send a value (including an empty value), the existing values will be overwritten.
+   * If you send `null` or omit this field, the existing values will be kept.
+   */
+  ipAddresses?: string[];
+
+  /**
+   * The list of ports the custom devices listens to.
+   *
+   * These ports are used to discover the horizontal communication relationship between this component and all other observed components within Smartscape.
+   * Once a connection is discovered, it is automatically mapped and shown within Smartscape.
+   * If ports are specified, you should also add at least one IP address or a host name for the custom device.
+   * If you send a value, the existing values will be overwritten.
+   * If you send `null`, or an empty value, or omit this field, the existing values will be kept.
+   */
+  listenPorts?: number[];
+
+  /**
+   * The technology type definition of the custom device.
+   *
+   * It must be the same technology type of the metric you're reporting.
+   * If you send a value, the existing value will be overwritten.
+   * If you send `null`, empty or omit this field, the existing value will be kept.
+   */
+  type?: string;
+
+  /** The icon to be displayed for your custom component within Smartscape. Provide the full URL of the icon file. */
+  favicon?: string;
+
+  /** The URL of a configuration web page for the custom device, such as a login page for a firewall or router. */
+  configUrl?: string;
+
+  /** The list of key-value pair properties that will be shown beneath the infographics of your custom device. */
+  properties?: Record<string, string>;
+
+  /** List of custom tags that you want to attach to your custom device. */
+  tags?: string[];
+
+  /**
+   * The list of metric values that are reported for the custom device.
+   *
+   * The metric you're reporting must already exist in Dynatrace. To learn how to create a custom metric, see [Timeseries API v1 - PUT a custom metric](https://dt-url.net/5k143rzb).
+   * Dynatrace aggregates all the values you report for a custom device.
+   * If you send a value (including an empty value), it will be added to the set of existing values.
+   * If you send `null` or omit this field, the set of existing values won't change.
+   */
+  series?: EntityTimeseriesData[];
+
+  /**
+   * The list of host names related to the custom device.
+   *
+   * These names are used to automatically discover the horizontal communication relationship between this component and all other observed components within Smartscape. Once a connection is discovered, it is automatically mapped and shown within Smartscape.
+   * If you send a value, the existing values will be overwritten.
+   * If you send `null` or an empty value; or omit this field, the existing values will be kept.
+   */
+  hostNames?: string[];
+}
+
+/**
+ * Information about a metric and its data points.
+ */
+export interface EntityTimeseriesData {
+  /** The ID of the metric, where you want to post data points. */
+  timeseriesId: string;
+
+  /**
+   * Dimensions of the data points you're posting.
+   *
+   * The key of the metric dimension must be defined earlier in the metric definition.
+   */
+  dimensions?: Record<string, string>;
+
+  /**
+   * List of data points.
+   *
+   * Each data point is an array, containing the timestamp and the value.
+   * Timestamp is UTC milliseconds reported as a number, for example: `1520523365557`.
+   * You have the guaranteed timeframe of **30 minutes** into the past.
+   * A custom metric must be registered **before** you can report a metric value. Therefore, the timestamp for reporting a value must be after the registration time of the metric.
+   */
+  dataPoints: number[][];
+}
+
+/**
+ * The list of available OS logs.
+ */
+export interface Log4Host {
+  /** The full path to the log. */
+  path?: string;
+
+  /**
+   * The size of the log, bytes.
+   * @format int64
+   */
+  size?: number;
+
+  /** The log is available (`true`) or not available (`false`) for analysis. */
+  availableForAnalysis?: boolean;
+}
+
+/**
+ * OS logs available on the host.
+ */
+export interface LogList4HostResult {
+  /** The access to the log content is granted (`true`) or denied (`false`). */
+  contentAccess?: boolean;
+
+  /** The list of available OS logs. */
+  logs?: Log4Host[];
+}
+
+/**
+ * Defines the version of the agent currently running on the entity.
+ */
+export interface AgentVersion {
+  /**
+   * The major version number.
+   * @format int32
+   */
+  major?: number;
+
+  /**
+   * The minor version number.
+   * @format int32
+   */
+  minor?: number;
+
+  /**
+   * The revision number.
+   * @format int32
+   */
+  revision?: number;
+
+  /** A timestamp string: format "yyyymmdd-hhmmss */
+  timestamp?: string;
+
+  /** A string representation of the SVN revision number. */
+  sourceRevision?: string;
+}
+
+/**
+ * Information about the host.
+ */
+export interface Host {
+  /** The Dynatrace entity ID of the required entity. */
+  entityId?: string;
+
+  /** The name of the Dynatrace entity as displayed in the UI. */
+  displayName?: string;
+
+  /** The customized name of the entity */
+  customizedName?: string;
+
+  /** The discovered name of the entity */
+  discoveredName?: string;
+
+  /**
+   * The timestamp of when the entity was first detected, in UTC milliseconds
+   * @format int64
+   */
+  firstSeenTimestamp?: number;
+
+  /**
+   * The timestamp of when the entity was last detected, in UTC milliseconds
+   * @format int64
+   */
+  lastSeenTimestamp?: number;
+
+  /** The list of entity tags. */
+  tags?: TagInfo[];
+  fromRelationships?: { isNetworkClientOfHost?: string[] };
+  toRelationships?: {
+    isProcessOf?: string[];
+    isSiteOf?: string[];
+    isNetworkClientOfHost?: string[];
+    runsOn?: string[];
+  };
+
+  /** The Google Cloud Platform Zone. */
+  gcpZone?: string;
+  azureEnvironment?: string;
+  consumedHostUnits?: string;
+
+  /** The CPU serial number. */
+  zosCPUSerialNumber?: string;
+  esxiHostName?: string;
+  hostGroup?: HostGroup;
+  azureVmSizeLabel?: string;
+  localHostName?: string;
+  azureSiteNames?: string[];
+  azureResourceGroupName?: string;
+  awsSecurityGroup?: string[];
+  publicHostName?: string;
+
+  /** The Google Compute Engine instance ID. */
+  gceInstanceId?: string;
+  paasType?:
+    | "AWS_ECS_EC2"
+    | "AWS_ECS_FARGATE"
+    | "AWS_LAMBDA"
+    | "AZURE_FUNCTIONS"
+    | "AZURE_WEBSITES"
+    | "CLOUD_FOUNDRY"
+    | "GOOGLE_APP_ENGINE"
+    | "HEROKU"
+    | "KUBERNETES"
+    | "OPENSHIFT";
+  beanstalkEnvironmentName?: string;
+
+  /** Defines the cloud platform vendor version. */
+  cloudPlatformVendorVersion?: string;
+
+  /** The kubernetes labels defined on the entity. */
+  kubernetesLabels?: Record<string, object>;
+
+  /** Name of the system. */
+  zosSystemName?: string;
+  azureSku?: "BASIC" | "DYNAMIC" | "FREE" | "PREMIUM" | "SHARED" | "STANDARD";
+
+  /** Defines the version of the agent currently running on the entity. */
+  agentVersion?: AgentVersion;
+
+  /** The versions of the PaaS agents currently running on the entity. */
+  paasAgentVersions?: AgentVersion[];
+
+  /** The Cloud Foundry BOSH deployment ID. */
+  boshDeploymentId?: string;
+
+  /** The Google Compute Engine machine type. */
+  gceMachineType?: string;
+  userLevel?: "NON_SUPERUSER" | "NON_SUPERUSER_STRICT" | "SUPERUSER";
+
+  /** The kubernetes node the entity is in. */
+  kubernetesNode?: string;
+
+  /**
+   * The AIX instance virtual CPU count.
+   * @format int32
+   */
+  virtualCpus?: number;
+  azureResourceId?: string;
+
+  /** The kubernetes cluster the entity is in. */
+  kubernetesCluster?: string;
+  openstackComputeNodeName?: string;
+
+  /** The ID of network zone the entity is in. */
+  networkZoneId?: string;
+
+  /** The Google Compute Engine instance name. */
+  gceInstanceName?: string;
+
+  /**
+   * Memory assigned to the host (Terabyte).
+   * @format int32
+   */
+  zosTotalPhysicalMemory?: number;
+
+  /** @format int32 */
+  logicalCpuCores?: number;
+  openStackInstaceType?: string;
+  vmwareName?: string;
+  openstackAvZone?: string;
+  bitness?: "32bit" | "64bit";
+
+  /** The Cloud Foundry BOSH instance ID. */
+  boshInstanceId?: string;
+
+  /**
+   * Number of assigned processors for this LPAR.
+   * @format int32
+   */
+  zosTotalGeneralPurposeProcessors?: number;
+
+  /** The CPU model number. */
+  zosCPUModelNumber?: string;
+  openstackVmName?: string;
+  publicIp?: string;
+  monitoringMode?: "FULL_STACK" | "INFRASTRUCTURE" | "OFF";
+
+  /** @format int32 */
+  cpuCores?: number;
+
+  /** The Google Compute Engine project. */
+  gceProject?: string;
+
+  /**
+   * The AIX instance logical CPU count.
+   * @format int32
+   */
+  logicalCpus?: number;
+
+  /** @format int64 */
+  paasMemoryLimit?: number;
+
+  /** Name of the LPAR. */
+  zosLpaName?: string;
+  openstackProjectName?: string;
+
+  /** The management zones that the entity is part of. */
+  managementZones?: EntityShortRepresentation[];
+  autoScalingGroup?: string;
+  osType?: "AIX" | "DARWIN" | "HPUX" | "LINUX" | "SOLARIS" | "WINDOWS" | "ZOS";
+
+  /** The Cloud Foundry BOSH instance name. */
+  boshInstanceName?: string;
+  awsInstanceType?: string;
+  scaleSetName?: string;
+  localIp?: string;
+
+  /** The name inherited from AWS. */
+  awsNameTag?: string;
+
+  /**
+   * The AIX instance simultaneous threads count.
+   * @format int32
+   */
+  simultaneousMultithreading?: number;
+
+  /** The Cloud Foundry BOSH stemcell version. */
+  boshStemcellVersion?: string;
+  isMonitoringCandidate?: boolean;
+
+  /** The custom name defined in OneAgent config. */
+  oneAgentCustomHostName?: string;
+
+  /**
+   * Number of assigned support processors for this LPAR.
+   * @format int32
+   */
+  zosTotalZiipProcessors?: number;
+  azureVmScaleSetName?: string;
+  amiId?: string;
+  awsInstanceId?: string;
+
+  /** The Cloud Foundry BOSH name. */
+  boshName?: string;
+  hypervisorType?:
+    | "AHV"
+    | "HYPERV"
+    | "KVM"
+    | "LPAR"
+    | "QEMU"
+    | "UNRECOGNIZED"
+    | "VIRTUALBOX"
+    | "VMWARE"
+    | "WPAR"
+    | "XEN";
+  azureZone?: string;
+
+  /** Type of virtualization on the mainframe. */
+  zosVirtualization?: string;
+  softwareTechnologies?: TechnologyInfo[];
+  ipAddresses?: string[];
+  azureHostNames?: string[];
+  azureVmName?: string;
+  openstackSecurityGroups?: string[];
+  cloudType?: "AZURE" | "EC2" | "GOOGLE_CLOUD_PLATFORM" | "OPENSTACK" | "ORACLE" | "UNRECOGNIZED";
+  osArchitecture?: "ARM" | "IA64" | "PARISC" | "PPC" | "PPCLE" | "S390" | "SPARC" | "X86" | "ZOS";
+  azureComputeModeName?: "DEDICATED" | "SHARED";
+
+  /** The Cloud Foundry BOSH availability zone. */
+  boshAvailabilityZone?: string;
+
+  /** The Google Compute Engine numeric project ID. */
+  gceProjectId?: string;
+  osVersion?: string;
+
+  /** The public IP addresses of the Google Compute Engine. */
+  gcePublicIpAddresses?: string[];
+}
+
+export interface HostGroup {
+  /** The Dynatrace entity ID of the host group. */
+  meId?: string;
+
+  /** The name of the Dynatrace entity, displayed in the UI. */
+  name?: string;
+}
+
+export interface TechnologyInfo {
+  type?: string;
+  edition?: string;
+  version?: string;
+}
+
+/**
  * The process group log on the host.
  */
 export interface Host4Pg {
@@ -3680,22 +3232,467 @@ export interface LogList4PgResult {
 }
 
 /**
- * The list of available logs.
+ * Parameters of a process group.
  */
-export interface LogForCustomDevice {
-  /** The full path to the log. */
-  path?: string;
+export interface ProcessGroup {
+  /** The Dynatrace entity ID of the required entity. */
+  entityId?: string;
 
-  /** The log is available (`true`) or not available (`false`) for analysis. */
-  availableForAnalysis?: boolean;
+  /** The name of the Dynatrace entity as displayed in the UI. */
+  displayName?: string;
+
+  /** The customized name of the entity */
+  customizedName?: string;
+
+  /** The discovered name of the entity */
+  discoveredName?: string;
+
+  /**
+   * The timestamp of when the entity was first detected, in UTC milliseconds
+   * @format int64
+   */
+  firstSeenTimestamp?: number;
+
+  /**
+   * The timestamp of when the entity was last detected, in UTC milliseconds
+   * @format int64
+   */
+  lastSeenTimestamp?: number;
+
+  /** The list of entity tags. */
+  tags?: TagInfo[];
+  fromRelationships?: { isNetworkClientOfProcessGroup?: string[]; runsOn?: string[] };
+  toRelationships?: { isNetworkClientOfProcessGroup?: string[]; isInstanceOf?: string[]; runsOn?: string[] };
+  metadata?: {
+    hostGroups?: string[];
+    cloudFoundryAppIds?: string[];
+    dynatraceNodeIds?: string[];
+    executables?: string[];
+    googleComputeEngineMetadata?: Record<string, string>;
+    phpScripts?: string[];
+    awsEcsCluster?: string[];
+    declarativeId?: string[];
+    glassfishInstanceNames?: string[];
+    tibcoBusinessWorksEnginePropertyFiles?: string[];
+    jbossServerNames?: string[];
+    catalinaBaseValues?: string[];
+    mssqlInstanceName?: string[];
+    ibmIntegrationServerName?: string[];
+    varnishInstanceNames?: string[];
+    phpWorkingDirectories?: string[];
+    websphereLibertyServerName?: string[];
+    googleCloudProjects?: string[];
+    dockerContainerImageVersions?: string[];
+    hybrisConfigDirectories?: string[];
+    executablePaths?: string[];
+    awsEcrImageRegions?: string[];
+    tibcoBusinessWorksAppSpaceName?: string[];
+    springBootStartupClass?: string[];
+    weblogicDomainNames?: string[];
+    elasticSearchNodeNames?: string[];
+    tibcoBWEnginePropertyFilePaths?: string[];
+    kubernetesContainerNames?: string[];
+    rubyAppRootPaths?: string[];
+    ibmImsMessageProcessingRegions?: string[];
+    linkage?: string[];
+    cloudfoundryMetadata?: Record<string, string>;
+    oracleSid?: string[];
+    awsEcsFamily?: string[];
+    commandLineArgs?: string[];
+    aspDotNetCoreApplicationPaths?: string[];
+    awsEcrImageAccountIds?: string[];
+    springBootAppName?: string[];
+    websphereClusterNames?: string[];
+    springBootProfileName?: string[];
+    kubernetesAnnotations?: Record<string, string>;
+    websphereServerNames?: string[];
+    catalinaHomeValues?: string[];
+    glassfishDomainNames?: string[];
+    kubernetesBasePodNames?: string[];
+    weblogicClusterNames?: string[];
+    javaMainModules?: string[];
+    kubernetesPodUids?: string[];
+    awsEcsContainerName?: string[];
+    coldfusionJvmConfigFiles?: string[];
+    dotnetCommandPath?: string[];
+    tibcoBusinessWorksDomainName?: string[];
+    elasticSearchClusterNames?: string[];
+    nodejsScriptNames?: string[];
+    iisRoleNames?: string[];
+    apacheSparkMasterIpAddresses?: string[];
+    weblogicNames?: string[];
+    rubyScriptPaths?: string[];
+    ibmImsSoapGwName?: string[];
+    nodejsAppBaseDirectories?: string[];
+    softwareAgProductPropertyName?: string[];
+    awsEcsRevision?: string[];
+    ibmImsControlRegions?: string[];
+    javaMainClasses?: string[];
+    cassandraClusterNames?: string[];
+    softwareAgInstallRoot?: string[];
+    cloudFoundryAppNames?: string[];
+    cloudFoundrySpaceNames?: string[];
+    pluginMetadata?: Record<string, string>;
+    ibmIntegrationNodeName?: string[];
+    dockerContainerNames?: string[];
+    ibmCtgName?: string[];
+    tibcoBusinessWorksCeAppName?: string[];
+    kubernetesFullPodNames?: string[];
+    apacheConfigPaths?: string[];
+    tibcoBusinessWorksAppNodeName?: string[];
+    tibcoBusinessWorksCeVersion?: string[];
+    dotNetCommands?: string[];
+    googleAppEngineServices?: string[];
+    kubernetesNamespaces?: string[];
+    hybrisDataDirectories?: string[];
+    envVariables?: Record<string, string>;
+    javaJarFiles?: string[];
+    javaJarPaths?: string[];
+    dockerContainerIds?: string[];
+    cloudFoundrySpaceIds?: string[];
+    ruleResult?: string[];
+    jbossModes?: string[];
+    awsLambdaFunctionNames?: string[];
+    cloudFoundryInstanceIndexes?: string[];
+    hybrisBinDirectories?: string[];
+    weblogicHomeValues?: string[];
+    jbossHomes?: string[];
+    dynatraceClusterIds?: string[];
+    googleAppEngineInstances?: string[];
+    websphereNodeNames?: string[];
+    agentValueMetadata?: Record<string, string>;
+    iisAppPools?: string[];
+    ibmImsConnectRegions?: string[];
+    dockerContainerImageNames?: string[];
+    tibcoBusinessWorksHome?: string[];
+    ibmCicsRegion?: string[];
+    serviceNames?: string[];
+    websphereCellNames?: string[];
+    nodejsAppNames?: string[];
+    equinoxConfigPath?: string[];
+    awsRegions?: string[];
+  };
+  softwareTechnologies?: TechnologyInfo[];
+  listenPorts?: number[];
+  azureHostName?: string;
+
+  /** The management zones that the entity is part of. */
+  managementZones?: EntityShortRepresentation[];
+  azureSiteName?: string;
 }
 
 /**
- * Logs available on the Custom Device.
+ * Defines the current monitoring state of an entity.
  */
-export interface LogListForCustomDeviceResult {
-  /** The list of available logs. */
-  logs?: LogForCustomDevice[];
+export interface MonitoringState {
+  /** The current actual monitoring state on the entity. */
+  actualMonitoringState?: "OFF" | "ON";
+
+  /** The monitoring state that is expected from the configuration */
+  expectedMonitoringState?: "OFF" | "ON";
+
+  /** Defines whether or not the process has to restarted to enable monitoring */
+  restartRequired?: boolean;
+}
+
+/**
+ * Parameters of a process.
+ */
+export interface ProcessGroupInstance {
+  /** The Dynatrace entity ID of the required entity. */
+  entityId?: string;
+
+  /** The name of the Dynatrace entity as displayed in the UI. */
+  displayName?: string;
+
+  /** The customized name of the entity */
+  customizedName?: string;
+
+  /** The discovered name of the entity */
+  discoveredName?: string;
+
+  /**
+   * The timestamp of when the entity was first detected, in UTC milliseconds
+   * @format int64
+   */
+  firstSeenTimestamp?: number;
+
+  /**
+   * The timestamp of when the entity was last detected, in UTC milliseconds
+   * @format int64
+   */
+  lastSeenTimestamp?: number;
+
+  /** The list of entity tags. */
+  tags?: TagInfo[];
+  fromRelationships?: { isProcessOf?: string[]; isInstanceOf?: string[]; isNetworkClientOf?: string[] };
+  toRelationships?: { runsOnProcessGroupInstance?: string[]; isNetworkClientOf?: string[] };
+  metadata?: {
+    hostGroups?: string[];
+    cloudFoundryAppIds?: string[];
+    dynatraceNodeIds?: string[];
+    executables?: string[];
+    googleComputeEngineMetadata?: Record<string, string>;
+    phpScripts?: string[];
+    awsEcsCluster?: string[];
+    declarativeId?: string[];
+    glassfishInstanceNames?: string[];
+    tibcoBusinessWorksEnginePropertyFiles?: string[];
+    jbossServerNames?: string[];
+    catalinaBaseValues?: string[];
+    mssqlInstanceName?: string[];
+    ibmIntegrationServerName?: string[];
+    varnishInstanceNames?: string[];
+    phpWorkingDirectories?: string[];
+    websphereLibertyServerName?: string[];
+    googleCloudProjects?: string[];
+    dockerContainerImageVersions?: string[];
+    hybrisConfigDirectories?: string[];
+    executablePaths?: string[];
+    awsEcrImageRegions?: string[];
+    tibcoBusinessWorksAppSpaceName?: string[];
+    springBootStartupClass?: string[];
+    weblogicDomainNames?: string[];
+    elasticSearchNodeNames?: string[];
+    tibcoBWEnginePropertyFilePaths?: string[];
+    kubernetesContainerNames?: string[];
+    rubyAppRootPaths?: string[];
+    ibmImsMessageProcessingRegions?: string[];
+    linkage?: string[];
+    cloudfoundryMetadata?: Record<string, string>;
+    oracleSid?: string[];
+    awsEcsFamily?: string[];
+    commandLineArgs?: string[];
+    aspDotNetCoreApplicationPaths?: string[];
+    awsEcrImageAccountIds?: string[];
+    springBootAppName?: string[];
+    websphereClusterNames?: string[];
+    springBootProfileName?: string[];
+    kubernetesAnnotations?: Record<string, string>;
+    websphereServerNames?: string[];
+    catalinaHomeValues?: string[];
+    glassfishDomainNames?: string[];
+    kubernetesBasePodNames?: string[];
+    weblogicClusterNames?: string[];
+    javaMainModules?: string[];
+    kubernetesPodUids?: string[];
+    awsEcsContainerName?: string[];
+    coldfusionJvmConfigFiles?: string[];
+    dotnetCommandPath?: string[];
+    tibcoBusinessWorksDomainName?: string[];
+    elasticSearchClusterNames?: string[];
+    nodejsScriptNames?: string[];
+    iisRoleNames?: string[];
+    apacheSparkMasterIpAddresses?: string[];
+    weblogicNames?: string[];
+    rubyScriptPaths?: string[];
+    ibmImsSoapGwName?: string[];
+    nodejsAppBaseDirectories?: string[];
+    softwareAgProductPropertyName?: string[];
+    awsEcsRevision?: string[];
+    ibmImsControlRegions?: string[];
+    javaMainClasses?: string[];
+    cassandraClusterNames?: string[];
+    softwareAgInstallRoot?: string[];
+    cloudFoundryAppNames?: string[];
+    cloudFoundrySpaceNames?: string[];
+    pluginMetadata?: Record<string, string>;
+    ibmIntegrationNodeName?: string[];
+    dockerContainerNames?: string[];
+    ibmCtgName?: string[];
+    tibcoBusinessWorksCeAppName?: string[];
+    kubernetesFullPodNames?: string[];
+    apacheConfigPaths?: string[];
+    tibcoBusinessWorksAppNodeName?: string[];
+    tibcoBusinessWorksCeVersion?: string[];
+    dotNetCommands?: string[];
+    googleAppEngineServices?: string[];
+    kubernetesNamespaces?: string[];
+    hybrisDataDirectories?: string[];
+    envVariables?: Record<string, string>;
+    javaJarFiles?: string[];
+    javaJarPaths?: string[];
+    dockerContainerIds?: string[];
+    cloudFoundrySpaceIds?: string[];
+    ruleResult?: string[];
+    jbossModes?: string[];
+    awsLambdaFunctionNames?: string[];
+    cloudFoundryInstanceIndexes?: string[];
+    hybrisBinDirectories?: string[];
+    weblogicHomeValues?: string[];
+    jbossHomes?: string[];
+    dynatraceClusterIds?: string[];
+    googleAppEngineInstances?: string[];
+    websphereNodeNames?: string[];
+    agentValueMetadata?: Record<string, string>;
+    iisAppPools?: string[];
+    ibmImsConnectRegions?: string[];
+    dockerContainerImageNames?: string[];
+    tibcoBusinessWorksHome?: string[];
+    ibmCicsRegion?: string[];
+    serviceNames?: string[];
+    websphereCellNames?: string[];
+    nodejsAppNames?: string[];
+    equinoxConfigPath?: string[];
+    awsRegions?: string[];
+  };
+  softwareTechnologies?: TechnologyInfo[];
+  listenPorts?: number[];
+  azureHostName?: string;
+  versionedModules?: ProcessGroupInstanceModule[];
+
+  /** Versions of OneAgents currently running on the entity. */
+  agentVersions?: AgentVersion[];
+
+  /** The management zones that the entity is part of. */
+  managementZones?: EntityShortRepresentation[];
+  bitness?: "32bit" | "64bit";
+  azureSiteName?: string;
+  modules?: string[];
+
+  /** Defines the current monitoring state of an entity. */
+  monitoringState?: MonitoringState;
+}
+
+export interface ProcessGroupInstanceModule {
+  name?: string;
+  version?: string;
+}
+
+/**
+ * The baseline data for a service and its children for the **Response time** duration metric.
+ */
+export interface ServiceBaselineValues {
+  /** The ID of the service. */
+  entityId: string;
+
+  /** The display name of the service. */
+  displayName?: string;
+
+  /** The baseline data for the **Response time** duration metric. */
+  serviceResponseTimeBaselines?: EntityBaselineData[];
+}
+
+export interface Service {
+  /** The Dynatrace entity ID of the required entity. */
+  entityId?: string;
+
+  /** The name of the Dynatrace entity as displayed in the UI. */
+  displayName?: string;
+
+  /** The customized name of the entity */
+  customizedName?: string;
+
+  /** The discovered name of the entity */
+  discoveredName?: string;
+
+  /**
+   * The timestamp of when the entity was first detected, in UTC milliseconds
+   * @format int64
+   */
+  firstSeenTimestamp?: number;
+
+  /**
+   * The timestamp of when the entity was last detected, in UTC milliseconds
+   * @format int64
+   */
+  lastSeenTimestamp?: number;
+
+  /** The list of entity tags. */
+  tags?: TagInfo[];
+  fromRelationships?: { runsOnProcessGroupInstance?: string[]; calls?: string[]; runsOn?: string[] };
+  toRelationships?: { calls?: string[] };
+  webServiceNamespace?: string;
+  databaseVendor?: string;
+
+  /** The services of the akka actor system. */
+  akkaActorSystem?: string;
+
+  /** The IBM CICS Transaction Gateway name. */
+  ibmCtgServerName?: string;
+
+  /** The ESB application name. */
+  esbApplicationName?: string;
+  databaseName?: string;
+
+  /** The IBM CTG gateway URL. */
+  ibmCtgGatewayUrl?: string;
+  softwareTechnologies?: TechnologyInfo[];
+
+  /** @format int32 */
+  port?: number;
+  ipAddresses?: string[];
+  path?: string;
+  contextRoot?: string;
+  webServerName?: string;
+
+  /** The IIB application name. */
+  iibApplicationName?: string;
+  serviceType?:
+    | "AMP"
+    | "Cics"
+    | "CicsInteraction"
+    | "CustomApplication"
+    | "Database"
+    | "EnterpriseServiceBus"
+    | "External"
+    | "Ims"
+    | "ImsInteraction"
+    | "Messaging"
+    | "Method"
+    | "Mobile"
+    | "Process"
+    | "QueueInteraction"
+    | "QueueListener"
+    | "RemoteCall"
+    | "Rmi"
+    | "SaasVendor"
+    | "Span"
+    | "Unknown"
+    | "WebRequest"
+    | "WebService"
+    | "WebSite"
+    | "ZosConnect";
+
+  /** The management zones that the entity is part of. */
+  managementZones?: EntityShortRepresentation[];
+  databaseHostNames?: string[];
+  serviceTechnologyTypes?: string[];
+  webApplicationId?: string;
+
+  /** The name of the remote service. */
+  remoteServiceName?: string;
+  className?: string;
+
+  /** The endpoint of the remote service. */
+  remoteEndpoint?: string;
+  webServiceName?: string;
+  agentTechnologyType?:
+    | "APACHE"
+    | "DOTNET"
+    | "DUMPPROC"
+    | "GO"
+    | "IIS"
+    | "JAVA"
+    | "LOG_ANALYTICS"
+    | "N/A"
+    | "NET"
+    | "NETTRACER"
+    | "NGINX"
+    | "NODEJS"
+    | "OPENTRACINGNATIVE"
+    | "OS"
+    | "PHP"
+    | "PLUGIN"
+    | "PROCESS"
+    | "PYTHON"
+    | "REMOTE_PLUGIN"
+    | "RUBY"
+    | "SDK"
+    | "UPDATER"
+    | "VARNISH"
+    | "WSMB"
+    | "Z";
 }
 
 /**
@@ -3897,6 +3894,26 @@ export interface PluginInstance {
 }
 
 /**
+ * The result of closing a problem.
+ */
+export interface ProblemCloseResult {
+  /** The ID of the problem. */
+  problemId?: string;
+
+  /** The comment to the problem. */
+  comment?: ProblemComment;
+
+  /**
+   * The timestamp when the closure was triggered.
+   * @format int64
+   */
+  closeTimestamp?: number;
+
+  /** The problem is in process of closing (`true`) or closed (`false`). */
+  closing?: boolean;
+}
+
+/**
  * The comment to the problem.
  */
 export interface ProblemComment {
@@ -3924,37 +3941,11 @@ export interface ProblemComment {
 }
 
 /**
- * A comment of a problem
- * @example {"comment":"This is a comment!","user":"user1","context":"Slack"}
+ * The list of comments to the problem.
  */
-export interface PushProblemComment {
-  /** A comment on the problem. */
-  comment: string;
-
-  /** The author of the comment. */
-  user: string;
-
-  /** The context of the comment. It can contain any additional information. */
-  context?: string;
-}
-
-/**
- * The count of open problems in your environment.
- */
-export interface GlobalProblemStatus {
-  /**
-   * The total number of open problems in your environment.
-   * @format int32
-   */
-  totalOpenProblemsCount?: number;
-
-  /** Numbers of open problems per impact level. */
-  openProblemCounts?: { APPLICATION?: number; ENVIRONMENT?: number; INFRASTRUCTURE?: number; SERVICE?: number };
-}
-
-export interface ProblemStatusResultWrapper {
-  /** The count of open problems in your environment. */
-  result?: GlobalProblemStatus;
+export interface ProblemCommentList {
+  /** The list of comments to the problem. */
+  comments?: ProblemComment[];
 }
 
 /**
@@ -4361,6 +4352,11 @@ export interface Problem {
   hasRootCause?: boolean;
 }
 
+export interface ProblemDetailsResultWrapper {
+  /** The properties of a problem. */
+  result?: Problem;
+}
+
 /**
  * Details on open problems in your environment.
  */
@@ -4382,61 +4378,37 @@ export interface ProblemFeedResultWrapper {
 }
 
 /**
- * The result of closing a problem.
+ * The count of open problems in your environment.
  */
-export interface ProblemCloseResult {
-  /** The ID of the problem. */
-  problemId?: string;
-
-  /** The comment to the problem. */
-  comment?: ProblemComment;
-
+export interface GlobalProblemStatus {
   /**
-   * The timestamp when the closure was triggered.
-   * @format int64
+   * The total number of open problems in your environment.
+   * @format int32
    */
-  closeTimestamp?: number;
+  totalOpenProblemsCount?: number;
 
-  /** The problem is in process of closing (`true`) or closed (`false`). */
-  closing?: boolean;
+  /** Numbers of open problems per impact level. */
+  openProblemCounts?: { APPLICATION?: number; ENVIRONMENT?: number; INFRASTRUCTURE?: number; SERVICE?: number };
+}
+
+export interface ProblemStatusResultWrapper {
+  /** The count of open problems in your environment. */
+  result?: GlobalProblemStatus;
 }
 
 /**
- * The list of comments to the problem.
+ * A comment of a problem
+ * @example {"comment":"This is a comment!","user":"user1","context":"Slack"}
  */
-export interface ProblemCommentList {
-  /** The list of comments to the problem. */
-  comments?: ProblemComment[];
-}
+export interface PushProblemComment {
+  /** A comment on the problem. */
+  comment: string;
 
-export interface ProblemDetailsResultWrapper {
-  /** The properties of a problem. */
-  result?: Problem;
-}
+  /** The author of the comment. */
+  user: string;
 
-/**
- * The short representation of a synthetic monitor.
- */
-export interface MonitorCollectionElement {
-  /** The name of a synthetic object. */
-  name: string;
-
-  /** The ID of a synthetic object. */
-  entityId: string;
-
-  /** The type of a synthetic monitor. */
-  type: "BROWSER" | "HTTP";
-
-  /** The state of a synthetic monitor. */
-  enabled: boolean;
-}
-
-/**
- * A list of synthetic monitors
- */
-export interface Monitors {
-  /** The list of synthetic monitors. */
-  monitors: MonitorCollectionElement[];
+  /** The context of the comment. It can contain any additional information. */
+  context?: string;
 }
 
 /**
@@ -4452,10 +4424,10 @@ export interface EntityIdDto {
  */
 export interface AnomalyDetection {
   /** Outage handling configuration. */
-  outageHandling?: OutageHandlingPolicy;
+  outageHandling: OutageHandlingPolicy;
 
   /** Performance thresholds configuration. */
-  loadingTimeThresholds?: LoadingTimeThresholdsPolicyDto;
+  loadingTimeThresholds: LoadingTimeThresholdsPolicyDto;
 }
 
 /**
@@ -4537,7 +4509,7 @@ export interface LoadingTimeThresholdsPolicyDto {
   enabled: boolean;
 
   /** The list of performance threshold rules. */
-  thresholds?: LoadingTimeThreshold[];
+  thresholds: LoadingTimeThreshold[];
 }
 
 /**
@@ -4786,6 +4758,31 @@ export interface SyntheticMonitor {
 
   /** A set of manually assigned applications. */
   manuallyAssignedApps: string[];
+}
+
+/**
+ * The short representation of a synthetic monitor.
+ */
+export interface MonitorCollectionElement {
+  /** The name of a synthetic object. */
+  name: string;
+
+  /** The ID of a synthetic object. */
+  entityId: string;
+
+  /** The type of a synthetic monitor. */
+  type: "BROWSER" | "HTTP";
+
+  /** The state of a synthetic monitor. */
+  enabled: boolean;
+}
+
+/**
+ * A list of synthetic monitors
+ */
+export interface Monitors {
+  /** The list of synthetic monitors. */
+  monitors: MonitorCollectionElement[];
 }
 
 /**
@@ -5132,6 +5129,100 @@ export interface TimeseriesDefinition {
 }
 
 /**
+ * The definition of a custom metric.
+ * @example {"displayName":"received.coffees","unit":"Count","dimensions":["coffee"],"types":["coffee machine"]}
+ */
+export interface TimeseriesRegistrationMessage {
+  /**
+   * The name of the metric that will appear in the user interface. It is limited to 256 characters.
+   *
+   *  To edit the value of that field, you need the **Write configuration** (`WriteConfig`) or the **Write settings** (`settings.write`) permission assigned to your API token.
+   */
+  displayName?: string;
+
+  /**
+   * The unit the metric will use.
+   *
+   *  To edit the value of that field, you need the **Write configuration** (`WriteConfig`) or the **Write settings** (`settings.write`) permission assigned to your API token.
+   */
+  unit?:
+    | "Bit (bit)"
+    | "BitPerHour (bit/h)"
+    | "BitPerMinute (bit/min)"
+    | "BitPerSecond (bit/s)"
+    | "Byte (B)"
+    | "BytePerHour (B/h)"
+    | "BytePerMinute (B/min)"
+    | "BytePerSecond (B/s)"
+    | "Cores"
+    | "Count (count)"
+    | "Day (ds)"
+    | "DecibelMilliWatt (dBm)"
+    | "G"
+    | "GibiByte (GiB)"
+    | "GigaByte (GB)"
+    | "Hour (hs)"
+    | "KibiByte (KiB)"
+    | "KibiBytePerHour (KiB/h)"
+    | "KibiBytePerMinute (KiB/min)"
+    | "KibiBytePerSecond (KiB/s)"
+    | "KiloByte (kB)"
+    | "KiloBytePerHour (kB/h)"
+    | "KiloBytePerMinute (kB/min)"
+    | "KiloBytePerSecond (kB/s)"
+    | "M"
+    | "MSU"
+    | "MebiByte (MiB)"
+    | "MebiBytePerHour (MiB/h)"
+    | "MebiBytePerMinute (MiB/min)"
+    | "MebiBytePerSecond (MiB/s)"
+    | "MegaByte (MB)"
+    | "MegaBytePerHour (MB/h)"
+    | "MegaBytePerMinute (MB/min)"
+    | "MegaBytePerSecond (MB/s)"
+    | "MicroSecond (µs)"
+    | "MilliSecond (ms)"
+    | "MilliSecondPerMinute (ms/min)"
+    | "Minute (mins)"
+    | "Month (mos)"
+    | "N/A"
+    | "NanoSecond (ns)"
+    | "NanoSecondPerMinute (ns/min)"
+    | "PerHour (count/h)"
+    | "PerMinute (count/min)"
+    | "PerSecond (count/s)"
+    | "Percent (%)"
+    | "Pixel (px)"
+    | "Promille (‰)"
+    | "Ratio"
+    | "Second (s)"
+    | "State"
+    | "Unspecified"
+    | "Week (ws)"
+    | "Year (ys)"
+    | "k"
+    | "mCores";
+
+  /**
+   * The metric dimension key that will be used to report multiple dimensions. For example, a dimension key to report the metric for different network cards for the same firewall.
+   *
+   * You can use alphanumeric characters and the following punctuation marks: periods (`.`), hyphens (`-`), and underscores (`_`).
+   * The CUSTOM_DEVICE dimension is added to each new custom metric automatically.
+   * The length of dimension keys and values is limited to **128 characters** each.
+   */
+  dimensions?: string[];
+
+  /**
+   * The definition of the technology type. It is used to group metrics under a logical technology name in the UI.
+   *
+   * Metrics must be assigned a software technology type that is identical to the technology type of the custom device you are sending the metric to.
+   * For example, if you define your custom device using type `F5-Firewall` you must also register all related custom metrics as type `F5-Firewall`.
+   * The field is **required** when creating a new metric.
+   */
+  types?: string[];
+}
+
+/**
  * List of metric's datapoints, as well as their parameters.
  * @example {"dataPoints":{"HOST-0000000000000007":[[1522220334000,89]]},"timeseriesId":"com.dynatrace.builtin:host.cpu.idle","unit":"Percent","entities":{"HOST-0000000000000007":"Laptop-8"},"resolutionInMillisUTC":300000,"aggregationType":"AVG"}
  */
@@ -5227,101 +5318,6 @@ export interface TimeseriesDataPointQueryResult {
    * A JSON object that maps the entity ID in Dynatrace and the actual name of the entity.
    */
   entities?: Record<string, string>;
-}
-
-/**
- * The configuration of a metric with all its parameters and, optionally, data points.
- * @example {"timeseriesId":"com.dynatrace.builtin:host.cpu.idle","displayName":"CPU idle","dimensions":["HOST"],"aggregationTypes":["AVG","SUM","MIN","MAX"],"unit":"Percent","filter":"BUILTIN","detailedSource":"Infrastructure","types":[],"dataResult":{"dataPoints":{"HOST-0000000000000007":[[1522220334000,89]]},"timeseriesId":"com.dynatrace.builtin:host.cpu.idle","unit":"Percent","entities":{"HOST-0000000000000007":"Laptop-8"},"resolutionInMillisUTC":300000,"aggregationType":"AVG"}}
- */
-export interface TimeseriesQueryResult {
-  /** The ID of the metric. */
-  timeseriesId?: string;
-
-  /** The name of the metric in the user interface. */
-  displayName?: string;
-
-  /** The fine metric division, for example process group and process ID for some process-related metric. */
-  dimensions?: string[];
-
-  /** The list of allowed aggregations for this metric. */
-  aggregationTypes?: ("AVG" | "COUNT" | "MAX" | "MEDIAN" | "MIN" | "PERCENTILE" | "SUM")[];
-
-  /** The unit of the metric. */
-  unit?:
-    | "Bit (bit)"
-    | "BitPerHour (bit/h)"
-    | "BitPerMinute (bit/min)"
-    | "BitPerSecond (bit/s)"
-    | "Byte (B)"
-    | "BytePerHour (B/h)"
-    | "BytePerMinute (B/min)"
-    | "BytePerSecond (B/s)"
-    | "Cores"
-    | "Count (count)"
-    | "Day (ds)"
-    | "DecibelMilliWatt (dBm)"
-    | "G"
-    | "GibiByte (GiB)"
-    | "GigaByte (GB)"
-    | "Hour (hs)"
-    | "KibiByte (KiB)"
-    | "KibiBytePerHour (KiB/h)"
-    | "KibiBytePerMinute (KiB/min)"
-    | "KibiBytePerSecond (KiB/s)"
-    | "KiloByte (kB)"
-    | "KiloBytePerHour (kB/h)"
-    | "KiloBytePerMinute (kB/min)"
-    | "KiloBytePerSecond (kB/s)"
-    | "M"
-    | "MSU"
-    | "MebiByte (MiB)"
-    | "MebiBytePerHour (MiB/h)"
-    | "MebiBytePerMinute (MiB/min)"
-    | "MebiBytePerSecond (MiB/s)"
-    | "MegaByte (MB)"
-    | "MegaBytePerHour (MB/h)"
-    | "MegaBytePerMinute (MB/min)"
-    | "MegaBytePerSecond (MB/s)"
-    | "MicroSecond (µs)"
-    | "MilliSecond (ms)"
-    | "MilliSecondPerMinute (ms/min)"
-    | "Minute (mins)"
-    | "Month (mos)"
-    | "N/A"
-    | "NanoSecond (ns)"
-    | "NanoSecondPerMinute (ns/min)"
-    | "PerHour (count/h)"
-    | "PerMinute (count/min)"
-    | "PerSecond (count/s)"
-    | "Percent (%)"
-    | "Pixel (px)"
-    | "Promille (‰)"
-    | "Ratio"
-    | "Second (s)"
-    | "State"
-    | "Unspecified"
-    | "Week (ws)"
-    | "Year (ys)"
-    | "k"
-    | "mCores";
-
-  /** The feature, where the metric originates. */
-  filter?: "ALL" | "BUILTIN" | "CUSTOM" | "PLUGIN" | "REMOTE_PLUGIN";
-
-  /** The feature, where the metric originates. */
-  detailedSource?: string;
-
-  /** The ID of the plugin, where the metric originates. */
-  pluginId?: string;
-
-  /** Technology type definition. Used to group metrics under a logical technology name. */
-  types?: string[];
-
-  /** List of metric's datapoints, as well as their parameters. */
-  dataResult?: TimeseriesDataPointQueryResult;
-
-  /** The warnings that occurred while creating the metric. */
-  warnings?: string[];
 }
 
 export interface TimeseriesQueryResultWrapper {
@@ -5441,22 +5437,23 @@ export interface TimeseriesQueryMessage {
 }
 
 /**
- * The definition of a custom metric.
- * @example {"displayName":"received.coffees","unit":"Count","dimensions":["coffee"],"types":["coffee machine"]}
+ * The configuration of a metric with all its parameters and, optionally, data points.
+ * @example {"timeseriesId":"com.dynatrace.builtin:host.cpu.idle","displayName":"CPU idle","dimensions":["HOST"],"aggregationTypes":["AVG","SUM","MIN","MAX"],"unit":"Percent","filter":"BUILTIN","detailedSource":"Infrastructure","types":[],"dataResult":{"dataPoints":{"HOST-0000000000000007":[[1522220334000,89]]},"timeseriesId":"com.dynatrace.builtin:host.cpu.idle","unit":"Percent","entities":{"HOST-0000000000000007":"Laptop-8"},"resolutionInMillisUTC":300000,"aggregationType":"AVG"}}
  */
-export interface TimeseriesRegistrationMessage {
-  /**
-   * The name of the metric that will appear in the user interface. It is limited to 256 characters.
-   *
-   *  To edit the value of that field, you need the **Write configuration** (`WriteConfig`) or the **Write settings** (`settings.write`) permission assigned to your API token.
-   */
+export interface TimeseriesQueryResult {
+  /** The ID of the metric. */
+  timeseriesId?: string;
+
+  /** The name of the metric in the user interface. */
   displayName?: string;
 
-  /**
-   * The unit the metric will use.
-   *
-   *  To edit the value of that field, you need the **Write configuration** (`WriteConfig`) or the **Write settings** (`settings.write`) permission assigned to your API token.
-   */
+  /** The fine metric division, for example process group and process ID for some process-related metric. */
+  dimensions?: string[];
+
+  /** The list of allowed aggregations for this metric. */
+  aggregationTypes?: ("AVG" | "COUNT" | "MAX" | "MEDIAN" | "MIN" | "PERCENTILE" | "SUM")[];
+
+  /** The unit of the metric. */
   unit?:
     | "Bit (bit)"
     | "BitPerHour (bit/h)"
@@ -5515,144 +5512,23 @@ export interface TimeseriesRegistrationMessage {
     | "k"
     | "mCores";
 
-  /**
-   * The metric dimension key that will be used to report multiple dimensions. For example, a dimension key to report the metric for different network cards for the same firewall.
-   *
-   * You can use alphanumeric characters and the following punctuation marks: periods (`.`), hyphens (`-`), and underscores (`_`).
-   * The CUSTOM_DEVICE dimension is added to each new custom metric automatically.
-   * The length of dimension keys and values is limited to **128 characters** each.
-   */
-  dimensions?: string[];
+  /** The feature, where the metric originates. */
+  filter?: "ALL" | "BUILTIN" | "CUSTOM" | "PLUGIN" | "REMOTE_PLUGIN";
 
-  /**
-   * The definition of the technology type. It is used to group metrics under a logical technology name in the UI.
-   *
-   * Metrics must be assigned a software technology type that is identical to the technology type of the custom device you are sending the metric to.
-   * For example, if you define your custom device using type `F5-Firewall` you must also register all related custom metrics as type `F5-Firewall`.
-   */
+  /** The feature, where the metric originates. */
+  detailedSource?: string;
+
+  /** The ID of the plugin, where the metric originates. */
+  pluginId?: string;
+
+  /** Technology type definition. Used to group metrics under a logical technology name. */
   types?: string[];
-}
 
-/**
- * An ordered list of short representations of Dynatrace entities.
- * @example {"values":[{"id":"6a98d7bc-abb9-44f8-ae6a-73e68e71812a","name":"Dynatrace entity 1","description":"Dynatrace entity 1 for the REST API example"},{"id":"ee70f7d3-9a4e-4f5f-94d2-c9d6156f1618","name":"Dynatrace entity 2"},{"id":"8cdabe77-9e1a-4be8-b3df-269dd6fa9d7f"}]}
- */
-export interface StubList {
-  /** An ordered list of short representations of Dynatrace entities. */
-  values: EntityShortRepresentation[];
-}
+  /** List of metric's datapoints, as well as their parameters. */
+  dataResult?: TimeseriesDataPointQueryResult;
 
-/**
- * Metadata of a token.
- * @example {"id":"acbed0c4-4ef1-4303-991f-102510a69322","name":"myToken","userId":"john.smith","revoked":true,"created":1554076800000,"expires":1585976400000,"lastUse":1554354000000,"personalAccessToken":true,"scopes":["DataExport","ReadConfig","WriteConfig"]}
- */
-export interface TokenMetadata {
-  /** The ID of the token. */
-  id?: string;
-
-  /** The name of the token. */
-  name?: string;
-
-  /** The owner of the token. */
-  userId?: string;
-
-  /** Revocation status of the token. Revoked tokens are disabled. */
-  revoked?: boolean;
-
-  /**
-   * The creation time as a unix timestamp in milliseconds.
-   * @format int64
-   */
-  created?: number;
-
-  /**
-   * The expiration time as a unix timestamp in milliseconds.
-   * @format int64
-   */
-  expires?: number;
-
-  /**
-   * The unix timestamp in milliseconds when the token was last used.
-   * @format int64
-   */
-  lastUse?: number;
-
-  /** A list of scopes assigned to the token. */
-  scopes?: (
-    | "ActiveGateCertManagement"
-    | "AdvancedSyntheticIntegration"
-    | "AppMonIntegration"
-    | "CaptureRequestData"
-    | "DTAQLAccess"
-    | "DataExport"
-    | "DataImport"
-    | "DataPrivacy"
-    | "Davis"
-    | "DcrumIntegration"
-    | "DiagnosticExport"
-    | "DssFileManagement"
-    | "ExternalSyntheticIntegration"
-    | "InstallerDownload"
-    | "LogExport"
-    | "MemoryDump"
-    | "Mobile"
-    | "PluginUpload"
-    | "ReadConfig"
-    | "ReadSyntheticData"
-    | "RestRequestForwarding"
-    | "RumBrowserExtension"
-    | "RumJavaScriptTagManagement"
-    | "SupportAlert"
-    | "TenantTokenManagement"
-    | "UserSessionAnonymization"
-    | "ViewDashboard"
-    | "ViewReport"
-    | "WriteConfig"
-    | "WriteSyntheticData"
-    | "activeGateTokenManagement.create"
-    | "activeGateTokenManagement.read"
-    | "activeGateTokenManagement.write"
-    | "activeGates.read"
-    | "activeGates.write"
-    | "apiTokens.read"
-    | "apiTokens.write"
-    | "auditLogs.read"
-    | "credentialVault.read"
-    | "credentialVault.write"
-    | "entities.read"
-    | "entities.write"
-    | "events.ingest"
-    | "events.read"
-    | "extensionConfigurations.read"
-    | "extensionConfigurations.write"
-    | "extensionEnvironment.read"
-    | "extensionEnvironment.write"
-    | "extensions.read"
-    | "extensions.write"
-    | "logs.ingest"
-    | "logs.read"
-    | "metrics.ingest"
-    | "metrics.read"
-    | "metrics.write"
-    | "networkZones.read"
-    | "networkZones.write"
-    | "openTelemetryTrace.ingest"
-    | "problems.read"
-    | "problems.write"
-    | "releases.read"
-    | "securityProblems.read"
-    | "securityProblems.write"
-    | "settings.read"
-    | "settings.write"
-    | "slo.read"
-    | "slo.write"
-    | "syntheticLocations.read"
-    | "syntheticLocations.write"
-    | "tenantTokenRotation.write"
-  )[];
-
-  /** The token is a [personal access token](https://dt-url.net/wm03sop) (`true`) or an API token (`false`). */
-  personalAccessToken?: boolean;
+  /** The warnings that occurred while creating the metric. */
+  warnings?: string[];
 }
 
 /**
@@ -5661,150 +5537,6 @@ export interface TokenMetadata {
 export interface Token {
   /** Dynatrace API authentication token. */
   token: string;
-}
-
-export interface UpdateToken {
-  /** The token is revoked (`true`) or active (`false`). */
-  revoked?: boolean;
-
-  /** The name of the token. */
-  name?: string;
-
-  /**
-   * The list of permissions assigned to the token.
-   *
-   * Apart from the new permissions, you need to submit the existing permissions you want to keep, too. Any existing permission, missing in the payload, is revoked.
-   * * `InstallerDownload`: PaaS integration - Installer download.
-   * * `DataExport`: Access problem and event feed, metrics, and topology.
-   * * `PluginUpload`: Upload Extension.
-   * * `SupportAlert`: PaaS integration - Support alert.
-   * * `DcrumIntegration`: Dynatrace module integration - NAM.
-   * * `AdvancedSyntheticIntegration`: Dynatrace module integration - Synthetic Classic.
-   * * `ExternalSyntheticIntegration`: Create and read synthetic monitors, locations, and nodes.
-   * * `AppMonIntegration`: Dynatrace module integration - AppMon.
-   * * `RumBrowserExtension`: RUM Browser Extension.
-   * * `LogExport`: Read logs.
-   * * `ReadConfig`: Read configuration.
-   * * `WriteConfig`: Write configuration.
-   * * `DTAQLAccess`: User sessions.
-   * * `UserSessionAnonymization`: Anonymize user session data for data privacy reasons.
-   * * `DataPrivacy`: Change data privacy settings.
-   * * `CaptureRequestData`: Capture request data.
-   * * `Davis`: Dynatrace module integration - Davis.
-   * * `DssFileManagement`: Mobile symbolication file management.
-   * * `RumJavaScriptTagManagement`: Real user monitoring JavaScript tag management.
-   * * `TenantTokenManagement`: Token management.
-   * * `ActiveGateCertManagement`: ActiveGate certificate management.
-   * * `RestRequestForwarding`: Fetch data from a remote environment.
-   * * `ReadSyntheticData`: Read synthetic monitors, locations, and nodes.
-   * * `DataImport`: Data ingest, e.g.: metrics and events.
-   * * `auditLogs.read`: Read audit logs.
-   * * `metrics.read`: Read metrics.
-   * * `metrics.write`: Write metrics.
-   * * `entities.read`: Read entities.
-   * * `entities.write`: Write entities.
-   * * `problems.read`: Read problems.
-   * * `problems.write`: Write problems.
-   * * `events.read`: Read events.
-   * * `events.ingest`: Ingest events.
-   * * `networkZones.read`: Read network zones.
-   * * `networkZones.write`: Write network zones.
-   * * `activeGates.read`: Read ActiveGates.
-   * * `activeGates.write`: Write ActiveGates.
-   * * `activeGateTokenManagement.read`: Read ActiveGate tokens.
-   * * `activeGateTokenManagement.create`: Create ActiveGate tokens.
-   * * `activeGateTokenManagement.write`: Write ActiveGate tokens.
-   * * `credentialVault.read`: Read credential vault entries.
-   * * `credentialVault.write`: Write credential vault entries.
-   * * `extensions.read`: Read extensions.
-   * * `extensions.write`: Write extensions.
-   * * `extensionConfigurations.read`: Read extension monitoring configurations.
-   * * `extensionConfigurations.write`: Write extension monitoring configurations.
-   * * `extensionEnvironment.read`: Read extension environment configurations.
-   * * `extensionEnvironment.write`: Write extension environment configurations.
-   * * `metrics.ingest`: Ingest metrics.
-   * * `securityProblems.read`: Read security problems.
-   * * `securityProblems.write`: Write security problems.
-   * * `syntheticLocations.read`: Read synthetic locations.
-   * * `syntheticLocations.write`: Write synthetic locations.
-   * * `settings.read`: Read settings.
-   * * `settings.write`: Write settings.
-   * * `tenantTokenRotation.write`: Tenant token rotation.
-   * * `slo.read`: Read SLO.
-   * * `slo.write`: Write SLO.
-   * * `releases.read`: Read releases.
-   * * `apiTokens.read`: Read API tokens.
-   * * `apiTokens.write`: Write API tokens.
-   * * `openTelemetryTrace.ingest`: Ingest OpenTelemetry traces.
-   * * `logs.read`: Read logs.
-   * * `logs.ingest`: Ingest logs.
-   */
-  scopes?: (
-    | "InstallerDownload"
-    | "DataExport"
-    | "PluginUpload"
-    | "SupportAlert"
-    | "DcrumIntegration"
-    | "AdvancedSyntheticIntegration"
-    | "ExternalSyntheticIntegration"
-    | "AppMonIntegration"
-    | "RumBrowserExtension"
-    | "LogExport"
-    | "ReadConfig"
-    | "WriteConfig"
-    | "DTAQLAccess"
-    | "UserSessionAnonymization"
-    | "DataPrivacy"
-    | "CaptureRequestData"
-    | "Davis"
-    | "DssFileManagement"
-    | "RumJavaScriptTagManagement"
-    | "TenantTokenManagement"
-    | "ActiveGateCertManagement"
-    | "RestRequestForwarding"
-    | "ReadSyntheticData"
-    | "DataImport"
-    | "auditLogs.read"
-    | "metrics.read"
-    | "metrics.write"
-    | "entities.read"
-    | "entities.write"
-    | "problems.read"
-    | "problems.write"
-    | "events.read"
-    | "events.ingest"
-    | "networkZones.read"
-    | "networkZones.write"
-    | "activeGates.read"
-    | "activeGates.write"
-    | "activeGateTokenManagement.read"
-    | "activeGateTokenManagement.create"
-    | "activeGateTokenManagement.write"
-    | "credentialVault.read"
-    | "credentialVault.write"
-    | "extensions.read"
-    | "extensions.write"
-    | "extensionConfigurations.read"
-    | "extensionConfigurations.write"
-    | "extensionEnvironment.read"
-    | "extensionEnvironment.write"
-    | "metrics.ingest"
-    | "securityProblems.read"
-    | "securityProblems.write"
-    | "syntheticLocations.read"
-    | "syntheticLocations.write"
-    | "settings.read"
-    | "settings.write"
-    | "tenantTokenRotation.write"
-    | "slo.read"
-    | "slo.write"
-    | "releases.read"
-    | "apiTokens.read"
-    | "apiTokens.write"
-    | "openTelemetryTrace.ingest"
-    | "logs.read"
-    | "logs.ingest"
-  )[];
 }
 
 export interface CreateToken {
@@ -5969,11 +5701,269 @@ export interface Duration {
 }
 
 /**
- * The status of public synthetic locations.
+ * Metadata of a token.
+ * @example {"id":"acbed0c4-4ef1-4303-991f-102510a69322","name":"myToken","userId":"john.smith","revoked":true,"created":1554076800000,"expires":1585976400000,"lastUse":1554354000000,"personalAccessToken":true,"scopes":["DataExport","ReadConfig","WriteConfig"]}
  */
-export interface SyntheticPublicLocationsStatus {
-  /** Synthetic monitors can (`true`) or can't (`false`) run on public synthetic locations. */
-  publicLocationsEnabled: boolean;
+export interface TokenMetadata {
+  /** The ID of the token. */
+  id?: string;
+
+  /** The name of the token. */
+  name?: string;
+
+  /** The owner of the token. */
+  userId?: string;
+
+  /** Revocation status of the token. Revoked tokens are disabled. */
+  revoked?: boolean;
+
+  /**
+   * The creation time as a unix timestamp in milliseconds.
+   * @format int64
+   */
+  created?: number;
+
+  /**
+   * The expiration time as a unix timestamp in milliseconds.
+   * @format int64
+   */
+  expires?: number;
+
+  /**
+   * The unix timestamp in milliseconds when the token was last used.
+   * @format int64
+   */
+  lastUse?: number;
+
+  /** A list of scopes assigned to the token. */
+  scopes: (
+    | "ActiveGateCertManagement"
+    | "AdvancedSyntheticIntegration"
+    | "AppMonIntegration"
+    | "CaptureRequestData"
+    | "DTAQLAccess"
+    | "DataExport"
+    | "DataImport"
+    | "DataPrivacy"
+    | "Davis"
+    | "DcrumIntegration"
+    | "DiagnosticExport"
+    | "DssFileManagement"
+    | "ExternalSyntheticIntegration"
+    | "InstallerDownload"
+    | "LogExport"
+    | "MemoryDump"
+    | "Mobile"
+    | "PluginUpload"
+    | "ReadConfig"
+    | "ReadSyntheticData"
+    | "RestRequestForwarding"
+    | "RumBrowserExtension"
+    | "RumJavaScriptTagManagement"
+    | "SupportAlert"
+    | "TenantTokenManagement"
+    | "UserSessionAnonymization"
+    | "ViewDashboard"
+    | "ViewReport"
+    | "WriteConfig"
+    | "WriteSyntheticData"
+    | "activeGateTokenManagement.create"
+    | "activeGateTokenManagement.read"
+    | "activeGateTokenManagement.write"
+    | "activeGates.read"
+    | "activeGates.write"
+    | "apiTokens.read"
+    | "apiTokens.write"
+    | "auditLogs.read"
+    | "credentialVault.read"
+    | "credentialVault.write"
+    | "entities.read"
+    | "entities.write"
+    | "events.ingest"
+    | "events.read"
+    | "extensionConfigurations.read"
+    | "extensionConfigurations.write"
+    | "extensionEnvironment.read"
+    | "extensionEnvironment.write"
+    | "extensions.read"
+    | "extensions.write"
+    | "logs.ingest"
+    | "logs.read"
+    | "metrics.ingest"
+    | "metrics.read"
+    | "metrics.write"
+    | "networkZones.read"
+    | "networkZones.write"
+    | "openTelemetryTrace.ingest"
+    | "problems.read"
+    | "problems.write"
+    | "releases.read"
+    | "securityProblems.read"
+    | "securityProblems.write"
+    | "settings.read"
+    | "settings.write"
+    | "slo.read"
+    | "slo.write"
+    | "syntheticLocations.read"
+    | "syntheticLocations.write"
+    | "tenantTokenRotation.write"
+  )[];
+
+  /** The token is a [personal access token](https://dt-url.net/wm03sop) (`true`) or an API token (`false`). */
+  personalAccessToken?: boolean;
+}
+
+/**
+ * An ordered list of short representations of Dynatrace entities.
+ * @example {"values":[{"id":"6a98d7bc-abb9-44f8-ae6a-73e68e71812a","name":"Dynatrace entity 1","description":"Dynatrace entity 1 for the REST API example"},{"id":"ee70f7d3-9a4e-4f5f-94d2-c9d6156f1618","name":"Dynatrace entity 2"},{"id":"8cdabe77-9e1a-4be8-b3df-269dd6fa9d7f"}]}
+ */
+export interface StubList {
+  /** An ordered list of short representations of Dynatrace entities. */
+  values: EntityShortRepresentation[];
+}
+
+export interface UpdateToken {
+  /** The token is revoked (`true`) or active (`false`). */
+  revoked?: boolean;
+
+  /** The name of the token. */
+  name?: string;
+
+  /**
+   * The list of permissions assigned to the token.
+   *
+   * Apart from the new permissions, you need to submit the existing permissions you want to keep, too. Any existing permission, missing in the payload, is revoked.
+   * * `InstallerDownload`: PaaS integration - Installer download.
+   * * `DataExport`: Access problem and event feed, metrics, and topology.
+   * * `PluginUpload`: Upload Extension.
+   * * `SupportAlert`: PaaS integration - Support alert.
+   * * `DcrumIntegration`: Dynatrace module integration - NAM.
+   * * `AdvancedSyntheticIntegration`: Dynatrace module integration - Synthetic Classic.
+   * * `ExternalSyntheticIntegration`: Create and read synthetic monitors, locations, and nodes.
+   * * `AppMonIntegration`: Dynatrace module integration - AppMon.
+   * * `RumBrowserExtension`: RUM Browser Extension.
+   * * `LogExport`: Read logs.
+   * * `ReadConfig`: Read configuration.
+   * * `WriteConfig`: Write configuration.
+   * * `DTAQLAccess`: User sessions.
+   * * `UserSessionAnonymization`: Anonymize user session data for data privacy reasons.
+   * * `DataPrivacy`: Change data privacy settings.
+   * * `CaptureRequestData`: Capture request data.
+   * * `Davis`: Dynatrace module integration - Davis.
+   * * `DssFileManagement`: Mobile symbolication file management.
+   * * `RumJavaScriptTagManagement`: Real user monitoring JavaScript tag management.
+   * * `TenantTokenManagement`: Token management.
+   * * `ActiveGateCertManagement`: ActiveGate certificate management.
+   * * `RestRequestForwarding`: Fetch data from a remote environment.
+   * * `ReadSyntheticData`: Read synthetic monitors, locations, and nodes.
+   * * `DataImport`: Data ingest, e.g.: metrics and events.
+   * * `auditLogs.read`: Read audit logs.
+   * * `metrics.read`: Read metrics.
+   * * `metrics.write`: Write metrics.
+   * * `entities.read`: Read entities.
+   * * `entities.write`: Write entities.
+   * * `problems.read`: Read problems.
+   * * `problems.write`: Write problems.
+   * * `events.read`: Read events.
+   * * `events.ingest`: Ingest events.
+   * * `networkZones.read`: Read network zones.
+   * * `networkZones.write`: Write network zones.
+   * * `activeGates.read`: Read ActiveGates.
+   * * `activeGates.write`: Write ActiveGates.
+   * * `activeGateTokenManagement.read`: Read ActiveGate tokens.
+   * * `activeGateTokenManagement.create`: Create ActiveGate tokens.
+   * * `activeGateTokenManagement.write`: Write ActiveGate tokens.
+   * * `credentialVault.read`: Read credential vault entries.
+   * * `credentialVault.write`: Write credential vault entries.
+   * * `extensions.read`: Read extensions.
+   * * `extensions.write`: Write extensions.
+   * * `extensionConfigurations.read`: Read extension monitoring configurations.
+   * * `extensionConfigurations.write`: Write extension monitoring configurations.
+   * * `extensionEnvironment.read`: Read extension environment configurations.
+   * * `extensionEnvironment.write`: Write extension environment configurations.
+   * * `metrics.ingest`: Ingest metrics.
+   * * `securityProblems.read`: Read security problems.
+   * * `securityProblems.write`: Write security problems.
+   * * `syntheticLocations.read`: Read synthetic locations.
+   * * `syntheticLocations.write`: Write synthetic locations.
+   * * `settings.read`: Read settings.
+   * * `settings.write`: Write settings.
+   * * `tenantTokenRotation.write`: Tenant token rotation.
+   * * `slo.read`: Read SLO.
+   * * `slo.write`: Write SLO.
+   * * `releases.read`: Read releases.
+   * * `apiTokens.read`: Read API tokens.
+   * * `apiTokens.write`: Write API tokens.
+   * * `openTelemetryTrace.ingest`: Ingest OpenTelemetry traces.
+   * * `logs.read`: Read logs.
+   * * `logs.ingest`: Ingest logs.
+   */
+  scopes?: (
+    | "InstallerDownload"
+    | "DataExport"
+    | "PluginUpload"
+    | "SupportAlert"
+    | "DcrumIntegration"
+    | "AdvancedSyntheticIntegration"
+    | "ExternalSyntheticIntegration"
+    | "AppMonIntegration"
+    | "RumBrowserExtension"
+    | "LogExport"
+    | "ReadConfig"
+    | "WriteConfig"
+    | "DTAQLAccess"
+    | "UserSessionAnonymization"
+    | "DataPrivacy"
+    | "CaptureRequestData"
+    | "Davis"
+    | "DssFileManagement"
+    | "RumJavaScriptTagManagement"
+    | "TenantTokenManagement"
+    | "ActiveGateCertManagement"
+    | "RestRequestForwarding"
+    | "ReadSyntheticData"
+    | "DataImport"
+    | "auditLogs.read"
+    | "metrics.read"
+    | "metrics.write"
+    | "entities.read"
+    | "entities.write"
+    | "problems.read"
+    | "problems.write"
+    | "events.read"
+    | "events.ingest"
+    | "networkZones.read"
+    | "networkZones.write"
+    | "activeGates.read"
+    | "activeGates.write"
+    | "activeGateTokenManagement.read"
+    | "activeGateTokenManagement.create"
+    | "activeGateTokenManagement.write"
+    | "credentialVault.read"
+    | "credentialVault.write"
+    | "extensions.read"
+    | "extensions.write"
+    | "extensionConfigurations.read"
+    | "extensionConfigurations.write"
+    | "extensionEnvironment.read"
+    | "extensionEnvironment.write"
+    | "metrics.ingest"
+    | "securityProblems.read"
+    | "securityProblems.write"
+    | "syntheticLocations.read"
+    | "syntheticLocations.write"
+    | "settings.read"
+    | "settings.write"
+    | "tenantTokenRotation.write"
+    | "slo.read"
+    | "slo.write"
+    | "releases.read"
+    | "apiTokens.read"
+    | "apiTokens.write"
+    | "openTelemetryTrace.ingest"
+    | "logs.read"
+    | "logs.ingest"
+  )[];
 }
 
 /**
@@ -5992,97 +5982,6 @@ export type PrivateSyntheticLocation = SyntheticLocation & {
 };
 
 /**
- * A synthetic location.
- */
-export interface LocationCollectionElement {
-  /** The name of the location. */
-  name: string;
-
-  /** The Dynatrace entity ID of the location. */
-  entityId: string;
-
-  /** The type of the location. */
-  type: "CLUSTER" | "PRIVATE" | "PUBLIC";
-
-  /**
-   * The cloud provider where the location is hosted.
-   *
-   *  Only applicable to `PUBLIC` locations.
-   */
-  cloudPlatform?:
-    | "ALIBABA"
-    | "AMAZON_EC2"
-    | "AZURE"
-    | "DYNATRACE_CLOUD"
-    | "GOOGLE_CLOUD"
-    | "INTEROUTE"
-    | "OTHER"
-    | "UNDEFINED";
-
-  /**
-   * The list of IP addresses assigned to the location.
-   *
-   *  Only applicable to `PUBLIC` locations.
-   */
-  ips?: string[];
-
-  /** The release stage of the location. */
-  stage?: "BETA" | "COMING_SOON" | "GA";
-
-  /** The status of the location. */
-  status?: "DISABLED" | "ENABLED" | "HIDDEN";
-}
-
-/**
- * A list of synthetic locations.
- * @example {"locations":[{"name":"Gdansk","entityId":"GEOLOCATION-B8D793BCA914E0AF","type":"PUBLIC","cloudPlatform":"AMAZON_EC2","ips":["134.189.153.97","134.189.153.98"],"stage":"GA","status":"ENABLED","capabilities":["BROWSER","HTTP"]},{"name":"My private location","entityId":"SYNTHETIC_LOCATION-53F47ECB33907667","type":"PRIVATE","status":"ENABLED"}]}
- */
-export interface SyntheticLocations {
-  /** A list of synthetic locations. */
-  locations: LocationCollectionElement[];
-}
-
-/**
- * The update of a private Synthetic location.
- * @example {"type":"PRIVATE","name":"Linz Location","latitude":48.306351,"longitude":14.287399,"nodes":["93302281"],"status":"ENABLED","availabilityNodeOutage":false,"isAvailabilityNodeOutage":false,"locationNodeOutageDelayInMinutes":5,"availabilityNotificationsEnabled":true,"autoUpdateChromium":true}
- */
-export type PrivateSyntheticLocationUpdate = SyntheticLocationUpdate & {
-  nodes?: string[];
-  name?: string;
-  countryCode?: string;
-  regionCode?: string;
-  city?: string;
-  latitude?: number;
-  longitude?: number;
-  status?: "DISABLED" | "ENABLED" | "HIDDEN";
-  availabilityLocationOutage?: boolean;
-  availabilityNodeOutage?: boolean;
-  locationNodeOutageDelayInMinutes?: number;
-  availabilityNotificationsEnabled?: boolean;
-  autoUpdateChromium?: boolean;
-};
-
-/**
- * The update of a synthetic location. The actual object depends on the **type** of the location.
- * @example {"type":"PRIVATE","name":"Linz Location","latitude":48.306351,"longitude":14.287399,"nodes":["93302281"],"status":"ENABLED"}
- */
-export interface SyntheticLocationUpdate {
-  /**
-   * Defines the actual set of fields depending on the value. See one of the following objects:
-   *
-   * * `PUBLIC` -> SyntheticPublicLocationUpdate
-   * * `PRIVATE` -> PrivateSyntheticLocationUpdate
-   */
-  type: "PRIVATE" | "PUBLIC";
-}
-
-/**
- * The update of a public Synthetic location.
- * @example {"type":"PUBLIC","status":"ENABLED"}
- */
-export type SyntheticPublicLocationUpdate = SyntheticLocationUpdate & { status?: "DISABLED" | "ENABLED" | "HIDDEN" };
-
-/**
  * Configuration of a public synthetic location.
  * @example {"entityId":"GEOLOCATION-95196F3C9A4F4215","type":"PUBLIC","name":"Amazon US East","countryCode":"US","regionCode":"VA","city":"Amazon US East (N. Virginia)","latitude":39.0436,"longitude":-77.4875,"cloudPlatform":"AMAZON_EC2","ips":["134.189.153.97","134.189.153.98"],"stage":"GA","browserType":"Chrome","browserVersion":"69.0.3497.81","status":"ENABLED","capabilities":["BROWSER","HTTP"]}
  */
@@ -6097,7 +5996,7 @@ export type PublicSyntheticLocation = SyntheticLocation & {
     | "OTHER"
     | "UNDEFINED";
   ips?: string[];
-  stage?: "BETA" | "COMING_SOON" | "GA";
+  stage?: "BETA" | "COMING_SOON" | "DELETED" | "GA";
   browserType?: string;
   browserVersion?: string;
   capabilities?: string[];
@@ -6165,6 +6064,105 @@ export interface SyntheticLocation {
    */
   status?: "DISABLED" | "ENABLED" | "HIDDEN";
 }
+
+/**
+ * A synthetic location.
+ */
+export interface LocationCollectionElement {
+  /** The name of the location. */
+  name: string;
+
+  /** The Dynatrace entity ID of the location. */
+  entityId: string;
+
+  /** The type of the location. */
+  type: "CLUSTER" | "PRIVATE" | "PUBLIC";
+
+  /**
+   * The cloud provider where the location is hosted.
+   *
+   *  Only applicable to `PUBLIC` locations.
+   */
+  cloudPlatform?:
+    | "ALIBABA"
+    | "AMAZON_EC2"
+    | "AZURE"
+    | "DYNATRACE_CLOUD"
+    | "GOOGLE_CLOUD"
+    | "INTEROUTE"
+    | "OTHER"
+    | "UNDEFINED";
+
+  /**
+   * The list of IP addresses assigned to the location.
+   *
+   *  Only applicable to `PUBLIC` locations.
+   */
+  ips?: string[];
+
+  /** The release stage of the location. */
+  stage?: "BETA" | "COMING_SOON" | "DELETED" | "GA";
+
+  /** The status of the location. */
+  status?: "DISABLED" | "ENABLED" | "HIDDEN";
+}
+
+/**
+ * A list of synthetic locations.
+ * @example {"locations":[{"name":"Gdansk","entityId":"GEOLOCATION-B8D793BCA914E0AF","type":"PUBLIC","cloudPlatform":"AMAZON_EC2","ips":["134.189.153.97","134.189.153.98"],"stage":"GA","status":"ENABLED","capabilities":["BROWSER","HTTP"]},{"name":"My private location","entityId":"SYNTHETIC_LOCATION-53F47ECB33907667","type":"PRIVATE","status":"ENABLED"}]}
+ */
+export interface SyntheticLocations {
+  /** A list of synthetic locations. */
+  locations: LocationCollectionElement[];
+}
+
+/**
+ * The status of public synthetic locations.
+ */
+export interface SyntheticPublicLocationsStatus {
+  /** Synthetic monitors can (`true`) or can't (`false`) run on public synthetic locations. */
+  publicLocationsEnabled: boolean;
+}
+
+/**
+ * The update of a private Synthetic location.
+ * @example {"type":"PRIVATE","name":"Linz Location","latitude":48.306351,"longitude":14.287399,"nodes":["93302281"],"status":"ENABLED","availabilityNodeOutage":false,"isAvailabilityNodeOutage":false,"locationNodeOutageDelayInMinutes":5,"availabilityNotificationsEnabled":true,"autoUpdateChromium":true}
+ */
+export type PrivateSyntheticLocationUpdate = SyntheticLocationUpdate & {
+  nodes?: string[];
+  name?: string;
+  countryCode?: string;
+  regionCode?: string;
+  city?: string;
+  latitude?: number;
+  longitude?: number;
+  status?: "DISABLED" | "ENABLED" | "HIDDEN";
+  availabilityLocationOutage?: boolean;
+  availabilityNodeOutage?: boolean;
+  locationNodeOutageDelayInMinutes?: number;
+  availabilityNotificationsEnabled?: boolean;
+  autoUpdateChromium?: boolean;
+};
+
+/**
+ * The update of a synthetic location. The actual object depends on the **type** of the location.
+ * @example {"type":"PRIVATE","name":"Linz Location","latitude":48.306351,"longitude":14.287399,"nodes":["93302281"],"status":"ENABLED"}
+ */
+export interface SyntheticLocationUpdate {
+  /**
+   * Defines the actual set of fields depending on the value. See one of the following objects:
+   *
+   * * `PUBLIC` -> SyntheticPublicLocationUpdate
+   * * `PRIVATE` -> PrivateSyntheticLocationUpdate
+   */
+  type: "PRIVATE" | "PUBLIC";
+}
+
+/**
+ * The update of a public Synthetic location.
+ * @example {"type":"PUBLIC","status":"ENABLED"}
+ */
+export type SyntheticPublicLocationUpdate = SyntheticLocationUpdate & { status?: "DISABLED" | "ENABLED" | "HIDDEN" };
 
 /**
 * Configuration of a synthetic node. 
@@ -6290,6 +6288,7 @@ export enum ContentType {
 /**
  * @title Dynatrace Environment API
  * @version 1.0
+ * @baseUrl https://kkr05643.sprint.dynatracelabs.com/api/v1
  *
  * Documentation of the Dynatrace Environment API v1. To read about use cases and examples, see [Dynatrace Documentation](https://dt-url.net/xc03k3c).
  *
@@ -6320,13 +6319,14 @@ export class Api extends APIBase {
      * @description For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
      *
      * @tags Deployment
-     * @name DownloadLatestAgentInstaller
-     * @summary Downloads the latest OneAgent installer
-     * @request GET:/deployment/installer/agent/{osType}/{installerType}/latest
+     * @name DownloadAgentInstallerWithVersion
+     * @summary Downloads OneAgent installer of the specified version
+     * @request GET:/deployment/installer/agent/{osType}/{installerType}/version/{version}
      */
-    downloadLatestAgentInstaller: (
+    downloadAgentInstallerWithVersion: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
       installerType: "default" | "default-unattended" | "paas" | "paas-sh",
+      version: string,
       query?: {
         flavor?: "default" | "multidistro" | "musl";
         arch?: "all" | "arm" | "ppc" | "ppcle" | "s390" | "sparc" | "x86";
@@ -6338,25 +6338,47 @@ export class Api extends APIBase {
       params: RequestParams = {},
     ) =>
       this.request<void, void>({
-        path: `/deployment/installer/agent/${osType}/${installerType}/latest`,
+        path: `/deployment/installer/agent/${osType}/${installerType}/version/${version}`,
         method: "GET",
         query: query,
         ...params,
       }),
 
     /**
-     * @description Get the latest version names of the OneAgent for the Java, Node.js, and Python AWS Lambda runtime.
+     * @description Downloading the requested version matching deployment orchestration tarball's signature matching the requested Orchestration Type (ansible, puppet).
      *
      * @tags Deployment
-     * @name GetLatestLambdaBuildUnits
-     * @summary Get the latest version names of the OneAgent for AWS Lambda
-     * @request GET:/deployment/lambda/agent/latest
+     * @name DownloadAgentOrchestrationSignatureWithVersion
+     * @summary Downloads the requested version matching OneAgent deployment orchestration tarball's signature
+     * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}/signature
      */
-    getLatestLambdaBuildUnits: (params: RequestParams = {}) =>
-      this.request<LatestLambdaLayerNames, any>({
-        path: `/deployment/lambda/agent/latest`,
+    downloadAgentOrchestrationSignatureWithVersion: (
+      orchestrationType: "ansible" | "puppet",
+      version: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/deployment/orchestration/agent/${orchestrationType}/version/${version}/signature`,
         method: "GET",
-        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Downloading the requested version matching deployment orchestration tarball matching the requested Orchestration Type (ansible, puppet).
+     *
+     * @tags Deployment
+     * @name DownloadAgentOrchestrationWithVersion
+     * @summary Downloads the requested version matching OneAgent deployment orchestration tarball
+     * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}
+     */
+    downloadAgentOrchestrationWithVersion: (
+      orchestrationType: "ansible" | "puppet",
+      version: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/deployment/orchestration/agent/${orchestrationType}/version/${version}`,
+        method: "GET",
         ...params,
       }),
 
@@ -6382,23 +6404,105 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description The checksum is the sha256 hash of the installer file. Result is not stable if **skipMetadata** is set to `false`. For SaaS only works on environment ActiveGates version 1.176 or higher
+     * No description
      *
      * @tags Deployment
-     * @name GetBoshReleaseChecksum
-     * @summary Gets the checksum of the specified BOSH release tarbell
-     * @request GET:/deployment/boshrelease/agent/{osType}/version/{version}/checksum
+     * @name DownloadGatewayInstallerWithVersion
+     * @summary Downloads the ActiveGate installer of the specified version
+     * @request GET:/deployment/installer/gateway/{osType}/version/{version}
      */
-    getBoshReleaseChecksum: (
-      osType: "windows" | "unix",
-      version: string,
-      query?: { skipMetadata?: boolean; networkZone?: string },
+    downloadGatewayInstallerWithVersion: (osType: "windows" | "unix", version: string, params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/deployment/installer/gateway/${osType}/version/${version}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
+     *
+     * @tags Deployment
+     * @name DownloadLatestAgentInstaller
+     * @summary Downloads the latest OneAgent installer
+     * @request GET:/deployment/installer/agent/{osType}/{installerType}/latest
+     */
+    downloadLatestAgentInstaller: (
+      osType: "windows" | "unix" | "aix" | "solaris" | "zos",
+      installerType: "default" | "default-unattended" | "paas" | "paas-sh",
+      query?: {
+        flavor?: "default" | "multidistro" | "musl";
+        arch?: "all" | "arm" | "ppc" | "ppcle" | "s390" | "sparc" | "x86";
+        bitness?: "32" | "64" | "all";
+        include?: ("all" | "java" | "apache" | "nginx" | "nodejs" | "dotnet" | "php" | "go" | "sdk")[];
+        skipMetadata?: boolean;
+        networkZone?: string;
+      },
       params: RequestParams = {},
     ) =>
-      this.request<BoshReleaseChecksum, any>({
-        path: `/deployment/boshrelease/agent/${osType}/version/${version}/checksum`,
+      this.request<void, void>({
+        path: `/deployment/installer/agent/${osType}/${installerType}/latest`,
         method: "GET",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Downloading the latest available deployment orchestration script tarball matching the requested Orchestration Type (ansible, puppet).
+     *
+     * @tags Deployment
+     * @name DownloadLatestAgentOrchestration
+     * @summary Downloads the latest OneAgent deployment orchestration tarball
+     * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest
+     */
+    downloadLatestAgentOrchestration: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/deployment/orchestration/agent/${orchestrationType}/latest`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Downloading the latest available deployment orchestration tarball's sigature matching the requested Orchestration Type (ansible, puppet).
+     *
+     * @tags Deployment
+     * @name DownloadLatestAgentOrchestrationSignature
+     * @summary Downloads the latest OneAgent deployment orchestration tarball's signature
+     * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest/signature
+     */
+    downloadLatestAgentOrchestrationSignature: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/deployment/orchestration/agent/${orchestrationType}/latest/signature`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Deployment
+     * @name DownloadLatestGatewayInstaller
+     * @summary Downloads the configured standard ActiveGate installer of the latest version for the specified OS
+     * @request GET:/deployment/installer/gateway/{osType}/latest
+     */
+    downloadLatestGatewayInstaller: (osType: "windows" | "unix", params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/deployment/installer/gateway/${osType}/latest`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Deployment
+     * @name GetActiveGateInstallerAvailableVersions
+     * @summary Lists all available versions of ActiveGate installer
+     * @request GET:/deployment/installer/gateway/versions/{osType}
+     */
+    getActiveGateInstallerAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
+      this.request<ActiveGateInstallerVersions, void>({
+        path: `/deployment/installer/gateway/versions/${osType}`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -6407,14 +6511,15 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetBoshReleaseAvailableVersions
-     * @summary Gets the list of available OneAgent versions for BOSH release tarballs
-     * @request GET:/deployment/boshrelease/versions/{osType}
+     * @name GetActiveGateInstallerConnectionInfo
+     * @summary Gets the connectivity information for Environment ActiveGate
+     * @request GET:/deployment/installer/gateway/connectioninfo
      */
-    getBoshReleaseAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
-      this.request<BoshReleaseAvailableVersions, any>({
-        path: `/deployment/boshrelease/versions/${osType}`,
+    getActiveGateInstallerConnectionInfo: (query?: { networkZone?: string }, params: RequestParams = {}) =>
+      this.request<ActiveGateConnectionInfo, any>({
+        path: `/deployment/installer/gateway/connectioninfo`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -6445,65 +6550,6 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
-     *
-     * @tags Deployment
-     * @name DownloadAgentInstallerWithVersion
-     * @summary Downloads OneAgent installer of the specified version
-     * @request GET:/deployment/installer/agent/{osType}/{installerType}/version/{version}
-     */
-    downloadAgentInstallerWithVersion: (
-      osType: "windows" | "unix" | "aix" | "solaris" | "zos",
-      installerType: "default" | "default-unattended" | "paas" | "paas-sh",
-      version: string,
-      query?: {
-        flavor?: "default" | "multidistro" | "musl";
-        arch?: "all" | "arm" | "ppc" | "ppcle" | "s390" | "sparc" | "x86";
-        bitness?: "32" | "64" | "all";
-        include?: ("all" | "java" | "apache" | "nginx" | "nodejs" | "dotnet" | "php" | "go" | "sdk")[];
-        skipMetadata?: boolean;
-        networkZone?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<void, void>({
-        path: `/deployment/installer/agent/${osType}/${installerType}/version/${version}`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Deployment
-     * @name DownloadLatestGatewayInstaller
-     * @summary Downloads the configured standard ActiveGate installer of the latest version for the specified OS
-     * @request GET:/deployment/installer/gateway/{osType}/latest
-     */
-    downloadLatestGatewayInstaller: (osType: "windows" | "unix", params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/deployment/installer/gateway/${osType}/latest`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Deployment
-     * @name DownloadGatewayInstallerWithVersion
-     * @summary Downloads the ActiveGate installer of the specified version
-     * @request GET:/deployment/installer/gateway/{osType}/version/{version}
-     */
-    downloadGatewayInstallerWithVersion: (osType: "windows" | "unix", version: string, params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/deployment/installer/gateway/${osType}/version/${version}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
      * No description
      *
      * @tags Deployment
@@ -6521,28 +6567,11 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
-     *
-     * @tags Deployment
-     * @name GetActiveGateInstallerConnectionInfo
-     * @summary Gets the connectivity information for Environment ActiveGate
-     * @request GET:/deployment/installer/gateway/connectioninfo
-     */
-    getActiveGateInstallerConnectionInfo: (query?: { networkZone?: string }, params: RequestParams = {}) =>
-      this.request<ActiveGateConnectionInfo, any>({
-        path: `/deployment/installer/gateway/connectioninfo`,
-        method: "GET",
-        query: query,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Highest priority first, separated by a semicolon.If no network zone provided the default zone is used. Responds with 404 if network zone is not known.
      *
      * @tags Deployment
      * @name GetAgentInstallerConnectionInfoEndpoints
-     * @summary Gets the list of the ActiveGate-Endpoints to be used for Agents ordered by networkzone-priorities. | maturity=EARLY_ADOPTER
+     * @summary Gets the list of the ActiveGate-Endpoints to be used for Agents ordered by networkzone-priorities.
      * @request GET:/deployment/installer/agent/connectioninfo/endpoints
      */
     getAgentInstallerConnectionInfoEndpoints: (query?: { networkZone?: string }, params: RequestParams = {}) =>
@@ -6580,74 +6609,6 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description Downloading the latest available deployment orchestration script tarball matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadLatestAgentOrchestration
-     * @summary Downloads the latest OneAgent deployment orchestration tarball
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest
-     */
-    downloadLatestAgentOrchestration: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/deployment/orchestration/agent/${orchestrationType}/latest`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Downloading the latest available deployment orchestration tarball's sigature matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadLatestAgentOrchestrationSignature
-     * @summary Downloads the latest OneAgent deployment orchestration tarball's signature
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest/signature
-     */
-    downloadLatestAgentOrchestrationSignature: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/deployment/orchestration/agent/${orchestrationType}/latest/signature`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Downloading the requested version matching deployment orchestration tarball matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadAgentOrchestrationWithVersion
-     * @summary Downloads the requested version matching OneAgent deployment orchestration tarball
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}
-     */
-    downloadAgentOrchestrationWithVersion: (
-      orchestrationType: "ansible" | "puppet",
-      version: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, void>({
-        path: `/deployment/orchestration/agent/${orchestrationType}/version/${version}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Downloading the requested version matching deployment orchestration tarball's signature matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadAgentOrchestrationSignatureWithVersion
-     * @summary Downloads the requested version matching OneAgent deployment orchestration tarball's signature
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}/signature
-     */
-    downloadAgentOrchestrationSignatureWithVersion: (
-      orchestrationType: "ansible" | "puppet",
-      version: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, void>({
-        path: `/deployment/orchestration/agent/${orchestrationType}/version/${version}/signature`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
      * @description Returns the latest process module config. Passing a previously gotten revision will first do a revision check, and return a 304 response if no changes were detected.
      *
      * @tags Deployment
@@ -6668,13 +6629,51 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetActiveGateInstallerAvailableVersions
-     * @summary Lists all available versions of ActiveGate installer
-     * @request GET:/deployment/installer/gateway/versions/{osType}
+     * @name GetBoshReleaseAvailableVersions
+     * @summary Gets the list of available OneAgent versions for BOSH release tarballs
+     * @request GET:/deployment/boshrelease/versions/{osType}
      */
-    getActiveGateInstallerAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
-      this.request<ActiveGateInstallerVersions, void>({
-        path: `/deployment/installer/gateway/versions/${osType}`,
+    getBoshReleaseAvailableVersions: (osType: "windows" | "unix", params: RequestParams = {}) =>
+      this.request<BoshReleaseAvailableVersions, any>({
+        path: `/deployment/boshrelease/versions/${osType}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description The checksum is the sha256 hash of the installer file. Result is not stable if **skipMetadata** is set to `false`. For SaaS only works on environment ActiveGates version 1.176 or higher
+     *
+     * @tags Deployment
+     * @name GetBoshReleaseChecksum
+     * @summary Gets the checksum of the specified BOSH release tarbell
+     * @request GET:/deployment/boshrelease/agent/{osType}/version/{version}/checksum
+     */
+    getBoshReleaseChecksum: (
+      osType: "windows" | "unix",
+      version: string,
+      query?: { skipMetadata?: boolean; networkZone?: string },
+      params: RequestParams = {},
+    ) =>
+      this.request<BoshReleaseChecksum, any>({
+        path: `/deployment/boshrelease/agent/${osType}/version/${version}/checksum`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Get the latest version names of the OneAgent for the Java, Node.js, and Python AWS Lambda runtime.
+     *
+     * @tags Deployment
+     * @name GetLatestLambdaBuildUnits
+     * @summary Get the latest version names of the OneAgent for AWS Lambda
+     * @request GET:/deployment/lambda/agent/latest
+     */
+    getLatestLambdaBuildUnits: (params: RequestParams = {}) =>
+      this.request<LatestLambdaLayerNames, any>({
+        path: `/deployment/lambda/agent/latest`,
         method: "GET",
         format: "json",
         ...params,
@@ -6751,33 +6750,6 @@ export class Api extends APIBase {
   };
   userSessionQueryLanguage = {
     /**
-     * @description To get a proper tree structure, you need to specify grouping in the query.
-     *
-     * @tags RUM - User sessions
-     * @name GetUsqlResultsAsTree
-     * @summary Returns the result of the query as a tree structure
-     * @request GET:/userSessionQueryLanguage/tree
-     */
-    getUsqlResultsAsTree: (
-      query: {
-        query: string;
-        startTimestamp?: number;
-        endTimestamp?: number;
-        offsetUTC?: number;
-        addDeepLinkFields?: boolean;
-        explain?: boolean;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<UsqlResultsAsTree, UserSession | void>({
-        path: `/userSessionQueryLanguage/tree`,
-        method: "GET",
-        query: query,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description The result is a flat list of rows containing the requested columns.
      *
      * @tags RUM - User sessions
@@ -6800,6 +6772,33 @@ export class Api extends APIBase {
     ) =>
       this.request<UsqlResults, UserSession | void>({
         path: `/userSessionQueryLanguage/table`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description To get a proper tree structure, you need to specify grouping in the query.
+     *
+     * @tags RUM - User sessions
+     * @name GetUsqlResultsAsTree
+     * @summary Returns the result of the query as a tree structure
+     * @request GET:/userSessionQueryLanguage/tree
+     */
+    getUsqlResultsAsTree: (
+      query: {
+        query: string;
+        startTimestamp?: number;
+        endTimestamp?: number;
+        offsetUTC?: number;
+        addDeepLinkFields?: boolean;
+        explain?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<UsqlResultsAsTree, UserSession | void>({
+        path: `/userSessionQueryLanguage/tree`,
         method: "GET",
         query: query,
         format: "json",
@@ -7008,22 +7007,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Synthetic - Third party
-     * @name TestResults
-     * @summary Pushes third-party synthetic monitors, locations, and results to Dynatrace
-     * @request POST:/synthetic/ext/tests
-     */
-    testResults: (data: Type3rdPartySyntheticTests, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/synthetic/ext/tests`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Synthetic - Third party
      * @name PushEvents
      * @summary Pushes third-party synthetic events to Dynatrace
      * @request POST:/synthetic/ext/events
@@ -7047,6 +7030,22 @@ export class Api extends APIBase {
     pushStateModification: (data: StateModification, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
         path: `/synthetic/ext/stateModifications`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Synthetic - Third party
+     * @name TestResults
+     * @summary Pushes third-party synthetic monitors, locations, and results to Dynatrace
+     * @request POST:/synthetic/ext/tests
+     */
+    testResults: (data: Type3rdPartySyntheticTests, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/synthetic/ext/tests`,
         method: "POST",
         body: data,
         ...params,
@@ -7146,37 +7145,6 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocationsStatus
-     * @summary Returns whether public locations are enabled or not | maturity=EARLY_ADOPTER
-     * @request GET:/synthetic/locations/status
-     */
-    getLocationsStatus: (params: RequestParams = {}) =>
-      this.request<SyntheticPublicLocationsStatus, any>({
-        path: `/synthetic/locations/status`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocationsStatus
-     * @summary Enable/disable public synthetic locations | maturity=EARLY_ADOPTER
-     * @request PUT:/synthetic/locations/status
-     */
-    updateLocationsStatus: (data: SyntheticPublicLocationsStatus, params: RequestParams = {}) =>
-      this.request<void, void>({
-        path: `/synthetic/locations/status`,
-        method: "PUT",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Synthetic - Locations, nodes and configuration
      * @name GetLocations
      * @summary Lists all synthetic locations (both public and private) available for your environment
      * @request GET:/synthetic/locations
@@ -7258,6 +7226,37 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
+     * @name GetLocationsStatus
+     * @summary Returns whether public locations are enabled or not | maturity=EARLY_ADOPTER
+     * @request GET:/synthetic/locations/status
+     */
+    getLocationsStatus: (params: RequestParams = {}) =>
+      this.request<SyntheticPublicLocationsStatus, any>({
+        path: `/synthetic/locations/status`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Synthetic - Locations, nodes and configuration
+     * @name UpdateLocationsStatus
+     * @summary Enable/disable public synthetic locations | maturity=EARLY_ADOPTER
+     * @request PUT:/synthetic/locations/status
+     */
+    updateLocationsStatus: (data: SyntheticPublicLocationsStatus, params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/synthetic/locations/status`,
+        method: "PUT",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Synthetic - Locations, nodes and configuration
      * @name GetNode
      * @summary Lists properties of the specified synthetic node
      * @request GET:/synthetic/nodes/{nodeId}
@@ -7286,6 +7285,21 @@ export class Api extends APIBase {
   };
   rum = {
     /**
+     * No description
+     *
+     * @tags RUM - JavaScript tag management
+     * @name GetAppRevision
+     * @summary Gets the version of the RUM JavaScript code injected into specified application
+     * @request GET:/rum/appRevision/{entity}
+     */
+    getAppRevision: (entity: string, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/rum/appRevision/${entity}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
      * @description This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded asynchronously.
      *
      * @tags RUM - JavaScript tag management
@@ -7296,51 +7310,6 @@ export class Api extends APIBase {
     getAsyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/rum/asyncCS/${entity}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded synchronously.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetSyncCodeSnippet
-     * @summary Downloads the synchronous code snippet
-     * @request GET:/rum/syncCS/{entity}
-     */
-    getSyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/rum/syncCS/${entity}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Returns a JavaScript tag to be manually inserted into your web application code. The tag references a JavaScript file with full configuration and monitoring code, which causes a lower possible caching duration.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetJsTagComplete
-     * @summary Downloads JavaScript tag
-     * @request GET:/rum/jsTagComplete/{entity}
-     */
-    getJsTagComplete: (entity: string, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/rum/jsTagComplete/${entity}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Returns the OneAgent JavaScript tag. This is a complete configuration and monitoring code to be manually inserted into your web application code. The monitoring code is loaded as a separate file from a CDN.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetJsScript
-     * @summary Downloads OneAgent JavaScript tag
-     * @request GET:/rum/jsTag/{entity}
-     */
-    getJsScript: (entity: string, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/rum/jsTag/${entity}`,
         method: "GET",
         ...params,
       }),
@@ -7376,6 +7345,36 @@ export class Api extends APIBase {
       }),
 
     /**
+     * @description Returns the OneAgent JavaScript tag. This is a complete configuration and monitoring code to be manually inserted into your web application code. The monitoring code is loaded as a separate file from a CDN.
+     *
+     * @tags RUM - JavaScript tag management
+     * @name GetJsScript
+     * @summary Downloads OneAgent JavaScript tag
+     * @request GET:/rum/jsTag/{entity}
+     */
+    getJsScript: (entity: string, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/rum/jsTag/${entity}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Returns a JavaScript tag to be manually inserted into your web application code. The tag references a JavaScript file with full configuration and monitoring code, which causes a lower possible caching duration.
+     *
+     * @tags RUM - JavaScript tag management
+     * @name GetJsTagComplete
+     * @summary Downloads JavaScript tag
+     * @request GET:/rum/jsTagComplete/{entity}
+     */
+    getJsTagComplete: (entity: string, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/rum/jsTagComplete/${entity}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
      * No description
      *
      * @tags RUM - JavaScript tag management
@@ -7391,16 +7390,16 @@ export class Api extends APIBase {
       }),
 
     /**
-     * No description
+     * @description This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded synchronously.
      *
      * @tags RUM - JavaScript tag management
-     * @name GetAppRevision
-     * @summary Gets the version of the RUM JavaScript code injected into specified application
-     * @request GET:/rum/appRevision/{entity}
+     * @name GetSyncCodeSnippet
+     * @summary Downloads the synchronous code snippet
+     * @request GET:/rum/syncCS/{entity}
      */
-    getAppRevision: (entity: string, params: RequestParams = {}) =>
+    getSyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
-        path: `/rum/appRevision/${entity}`,
+        path: `/rum/syncCS/${entity}`,
         method: "GET",
         ...params,
       }),
@@ -7480,6 +7479,224 @@ export class Api extends APIBase {
   };
   entity = {
     /**
+     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
+     *
+     * @tags Topology & Smartscape - Application
+     * @name GetApplications
+     * @summary Gets the list of all applications in your environment along with their parameters
+     * @request GET:/entity/applications
+     */
+    getApplications: (
+      query?: {
+        startTimestamp?: number;
+        endTimestamp?: number;
+        relativeTime?:
+          | "min"
+          | "5mins"
+          | "10mins"
+          | "15mins"
+          | "30mins"
+          | "hour"
+          | "2hours"
+          | "6hours"
+          | "day"
+          | "3days";
+        tag?: string[];
+        entity?: string[];
+        managementZone?: number;
+        includeDetails?: boolean;
+        pageSize?: number;
+        nextPageKey?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<Application[], ErrorEnvelope>({
+        path: `/entity/applications`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Topology & Smartscape - Application
+     * @name GetBaselineValuesForSingleApplication
+     * @summary Gets baseline data for the specified application | maturity=EARLY_ADOPTER
+     * @request GET:/entity/applications/{meIdentifier}/baseline
+     */
+    getBaselineValuesForSingleApplication: (meIdentifier: string, params: RequestParams = {}) =>
+      this.request<ApplicationBaselineValues, any>({
+        path: `/entity/applications/${meIdentifier}/baseline`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Topology & Smartscape - Application
+     * @name GetSingleApplication
+     * @summary Gets parameters of the specified application
+     * @request GET:/entity/applications/{meIdentifier}
+     */
+    getSingleApplication: (meIdentifier: string, params: RequestParams = {}) =>
+      this.request<Application, any>({
+        path: `/entity/applications/${meIdentifier}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Topology & Smartscape - Application
+     * @name UpdateApplication
+     * @summary Updates parameters of the specified application
+     * @request POST:/entity/applications/{meIdentifier}
+     */
+    updateApplication: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/entity/applications/${meIdentifier}`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogJobStatus
+     * @summary Gets status of the specified log analysis job
+     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
+     */
+    customDeviceLogJobStatus: (customDeviceId: string, jobId: string, params: RequestParams = {}) =>
+      this.request<LogJobStatusResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogJobDelete
+     * @summary Deletes or cancels the specified log analysis job
+     * @request DELETE:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
+     */
+    customDeviceLogJobDelete: (customDeviceId: string, jobId: string, params: RequestParams = {}) =>
+      this.request<LogJobDeleteResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogJobRecords
+     * @summary Gets the content of the analyzed log
+     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
+     */
+    customDeviceLogJobRecords: (
+      customDeviceId: string,
+      jobId: string,
+      query?: { scrollToken?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogJobRecordsFiltered
+     * @summary Gets the filtered content of the analyzed log
+     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
+     */
+    customDeviceLogJobRecordsFiltered: (
+      customDeviceId: string,
+      jobId: string,
+      data: FilterLogContent,
+      query?: { scrollToken?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogJobRecordsTop
+     * @summary Gets the top values of fields present in the content of the analyzed log
+     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records/top
+     */
+    customDeviceLogJobRecordsTop: (
+      customDeviceId: string,
+      jobId: string,
+      data: FilterTopLogRecords,
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records/top`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description The response returns the ID of the job.
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogJobStart
+     * @summary Starts the analysis job for the specified custom device log
+     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/{logPath}
+     */
+    customDeviceLogJobStart: (
+      customDeviceId: string,
+      logPath: string,
+      data: ExtractFields,
+      query?: { query?: string; startTimestamp?: number; endTimestamp?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<string, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/${logPath}`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Custom devices
+     * @name CustomDeviceLogList
+     * @summary Lists all the available logs on the specified custom device
+     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs
+     */
+    customDeviceLogList: (customDeviceId: string, params: RequestParams = {}) =>
+      this.request<LogListForCustomDeviceResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
      * No description
      *
      * @tags Topology & Smartscape - Custom device
@@ -7492,6 +7709,176 @@ export class Api extends APIBase {
         path: `/entity/infrastructure/custom/${customDeviceId}`,
         method: "POST",
         body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogJobStatus
+     * @summary Gets status of the specified log analysis job
+     * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
+     */
+    hostLogJobStatus: (hostId: string, jobId: string, params: RequestParams = {}) =>
+      this.request<LogJobStatusResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogJobDelete
+     * @summary Deletes or cancels the specified log analysis job
+     * @request DELETE:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
+     */
+    hostLogJobDelete: (hostId: string, jobId: string, params: RequestParams = {}) =>
+      this.request<LogJobDeleteResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogJobRecords
+     * @summary Gets the full content of the analyzed log
+     * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
+     */
+    hostLogJobRecords: (
+      hostId: string,
+      jobId: string,
+      query?: { scrollToken?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogJobRecordsFiltered
+     * @summary Gets the filtered content of the analyzed log
+     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
+     */
+    hostLogJobRecordsFiltered: (
+      hostId: string,
+      jobId: string,
+      data: FilterLogContent,
+      query?: { scrollToken?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request.
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogJobRecordsTop
+     * @summary Gets the top values of fields present in the content of the analyzed log
+     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records/top
+     */
+    hostLogJobRecordsTop: (hostId: string, jobId: string, data: FilterTopLogRecords, params: RequestParams = {}) =>
+      this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records/top`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description The response returns the ID of the job.
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogJobStart
+     * @summary Starts the analysis job for the specified OS log
+     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/{logPath}
+     */
+    hostLogJobStart: (
+      hostId: string,
+      logPath: string,
+      data: ExtractFields,
+      query?: { query?: string; startTimestamp?: number; endTimestamp?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<string, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs/${logPath}`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Hosts
+     * @name HostLogList
+     * @summary Lists all the available OS logs on the specified host
+     * @request GET:/entity/infrastructure/hosts/{hostId}/logs
+     */
+    hostLogList: (hostId: string, params: RequestParams = {}) =>
+      this.request<LogList4HostResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts/${hostId}/logs`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
+     *
+     * @tags Topology & Smartscape - Host
+     * @name GetHosts
+     * @summary Lists all available hosts in your environment
+     * @request GET:/entity/infrastructure/hosts
+     */
+    getHosts: (
+      query?: {
+        startTimestamp?: number;
+        endTimestamp?: number;
+        relativeTime?:
+          | "min"
+          | "5mins"
+          | "10mins"
+          | "15mins"
+          | "30mins"
+          | "hour"
+          | "2hours"
+          | "6hours"
+          | "day"
+          | "3days";
+        tag?: string[];
+        showMonitoringCandidates?: boolean;
+        entity?: string[];
+        managementZone?: number;
+        hostGroupId?: string;
+        hostGroupName?: string;
+        includeDetails?: boolean;
+        pageSize?: number;
+        nextPageKey?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<Host[], ErrorEnvelope>({
+        path: `/entity/infrastructure/hosts`,
+        method: "GET",
+        query: query,
         ...params,
       }),
 
@@ -7542,75 +7929,135 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
+     * No description
      *
-     * @tags Topology & Smartscape - Host
-     * @name GetHosts
-     * @summary Lists all available hosts in your environment
-     * @request GET:/entity/infrastructure/hosts
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogJobStatus
+     * @summary Gets status of the specified log analysis job
+     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
      */
-    getHosts: (
-      query?: {
-        startTimestamp?: number;
-        endTimestamp?: number;
-        relativeTime?:
-          | "min"
-          | "5mins"
-          | "10mins"
-          | "15mins"
-          | "30mins"
-          | "hour"
-          | "2hours"
-          | "6hours"
-          | "day"
-          | "3days";
-        tag?: string[];
-        showMonitoringCandidates?: boolean;
-        entity?: string[];
-        managementZone?: number;
-        hostGroupId?: string;
-        hostGroupName?: string;
-        includeDetails?: boolean;
-        pageSize?: number;
-        nextPageKey?: string;
-      },
+    processGroupLogJobStatus: (pgId: string, jobId: string, params: RequestParams = {}) =>
+      this.request<LogJobStatusResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogJobDelete
+     * @summary Deletes or cancels the specified log analysis job
+     * @request DELETE:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
+     */
+    processGroupLogJobDelete: (pgId: string, jobId: string, params: RequestParams = {}) =>
+      this.request<LogJobDeleteResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
+     *
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogJobRecords
+     * @summary Gets the content of the analyzed log
+     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
+     */
+    processGroupLogJobRecords: (
+      pgId: string,
+      jobId: string,
+      query?: { scrollToken?: string; pageSize?: number },
       params: RequestParams = {},
     ) =>
-      this.request<Host[], ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts`,
+      this.request<LogJobRecordsResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records`,
         method: "GET",
         query: query,
         ...params,
       }),
 
     /**
-     * No description
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      *
-     * @tags Topology & Smartscape - Process group
-     * @name GetSingleProcessGroup
-     * @summary List properties of the specified process group
-     * @request GET:/entity/infrastructure/process-groups/{meIdentifier}
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogJobRecordsFiltered
+     * @summary Gets the content of the analyzed log
+     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
      */
-    getSingleProcessGroup: (meIdentifier: string, params: RequestParams = {}) =>
-      this.request<ProcessGroup, any>({
-        path: `/entity/infrastructure/process-groups/${meIdentifier}`,
-        method: "GET",
+    processGroupLogJobRecordsFiltered: (
+      pgId: string,
+      jobId: string,
+      data: FilterLogContent,
+      query?: { scrollToken?: string; pageSize?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records`,
+        method: "POST",
+        query: query,
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
+     *
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogJobRecordsTop
+     * @summary Gets the top values of fields present in the content of the analyzed log
+     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records/top
+     */
+    processGroupLogJobRecordsTop: (
+      pgId: string,
+      jobId: string,
+      data: FilterTopLogRecords,
+      params: RequestParams = {},
+    ) =>
+      this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records/top`,
+        method: "POST",
+        body: data,
         ...params,
       }),
 
     /**
      * No description
      *
-     * @tags Topology & Smartscape - Process group
-     * @name UpdateProcessGroup
-     * @summary Updates properties of the specified process group
-     * @request POST:/entity/infrastructure/process-groups/{meIdentifier}
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogJobStart
+     * @summary Starts analysis job for the specified process group log
+     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/{logPath}
      */
-    updateProcessGroup: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${meIdentifier}`,
+    processGroupLogJobStart: (
+      pgId: string,
+      logPath: string,
+      data: ExtractFields,
+      query?: { hostFilter?: string; query?: string; startTimestamp?: number; endTimestamp?: number },
+      params: RequestParams = {},
+    ) =>
+      this.request<string, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs/${logPath}`,
         method: "POST",
+        query: query,
         body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Log monitoring - Process groups
+     * @name ProcessGroupLogList
+     * @summary Lists all the available logs of the specified process group
+     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs
+     */
+    processGroupLogList: (pgId: string, params: RequestParams = {}) =>
+      this.request<LogList4PgResult, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${pgId}/logs`,
+        method: "GET",
         ...params,
       }),
 
@@ -7657,15 +8104,31 @@ export class Api extends APIBase {
     /**
      * No description
      *
-     * @tags Topology & Smartscape - Process
-     * @name GetSingleProcess
-     * @summary List properties of the specified process
-     * @request GET:/entity/infrastructure/processes/{meIdentifier}
+     * @tags Topology & Smartscape - Process group
+     * @name GetSingleProcessGroup
+     * @summary List properties of the specified process group
+     * @request GET:/entity/infrastructure/process-groups/{meIdentifier}
      */
-    getSingleProcess: (meIdentifier: string, params: RequestParams = {}) =>
-      this.request<ProcessGroupInstance, any>({
-        path: `/entity/infrastructure/processes/${meIdentifier}`,
+    getSingleProcessGroup: (meIdentifier: string, params: RequestParams = {}) =>
+      this.request<ProcessGroup, any>({
+        path: `/entity/infrastructure/process-groups/${meIdentifier}`,
         method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Topology & Smartscape - Process group
+     * @name UpdateProcessGroup
+     * @summary Updates properties of the specified process group
+     * @request POST:/entity/infrastructure/process-groups/{meIdentifier}
+     */
+    updateProcessGroup: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/entity/infrastructure/process-groups/${meIdentifier}`,
+        method: "POST",
+        body: data,
         ...params,
       }),
 
@@ -7715,116 +8178,15 @@ export class Api extends APIBase {
     /**
      * No description
      *
-     * @tags Topology & Smartscape - Application
-     * @name GetBaselineValuesForSingleApplication
-     * @summary Gets baseline data for the specified application | maturity=EARLY_ADOPTER
-     * @request GET:/entity/applications/{meIdentifier}/baseline
+     * @tags Topology & Smartscape - Process
+     * @name GetSingleProcess
+     * @summary List properties of the specified process
+     * @request GET:/entity/infrastructure/processes/{meIdentifier}
      */
-    getBaselineValuesForSingleApplication: (meIdentifier: string, params: RequestParams = {}) =>
-      this.request<ApplicationBaselineValues, any>({
-        path: `/entity/applications/${meIdentifier}/baseline`,
+    getSingleProcess: (meIdentifier: string, params: RequestParams = {}) =>
+      this.request<ProcessGroupInstance, any>({
+        path: `/entity/infrastructure/processes/${meIdentifier}`,
         method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Topology & Smartscape - Application
-     * @name GetApplications
-     * @summary Gets the list of all applications in your environment along with their parameters
-     * @request GET:/entity/applications
-     */
-    getApplications: (
-      query?: {
-        startTimestamp?: number;
-        endTimestamp?: number;
-        relativeTime?:
-          | "min"
-          | "5mins"
-          | "10mins"
-          | "15mins"
-          | "30mins"
-          | "hour"
-          | "2hours"
-          | "6hours"
-          | "day"
-          | "3days";
-        tag?: string[];
-        entity?: string[];
-        managementZone?: number;
-        includeDetails?: boolean;
-        pageSize?: number;
-        nextPageKey?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<Application[], ErrorEnvelope>({
-        path: `/entity/applications`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Topology & Smartscape - Application
-     * @name GetSingleApplication
-     * @summary Gets parameters of the specified application
-     * @request GET:/entity/applications/{meIdentifier}
-     */
-    getSingleApplication: (meIdentifier: string, params: RequestParams = {}) =>
-      this.request<Application, any>({
-        path: `/entity/applications/${meIdentifier}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Topology & Smartscape - Application
-     * @name UpdateApplication
-     * @summary Updates parameters of the specified application
-     * @request POST:/entity/applications/{meIdentifier}
-     */
-    updateApplication: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/entity/applications/${meIdentifier}`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Topology & Smartscape - Service
-     * @name GetSingleService
-     * @summary Gets parameters of the specified service
-     * @request GET:/entity/services/{meIdentifier}
-     */
-    getSingleService: (meIdentifier: string, params: RequestParams = {}) =>
-      this.request<Service, any>({
-        path: `/entity/services/${meIdentifier}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Topology & Smartscape - Service
-     * @name UpdateService
-     * @summary Updates parameters of the specified service
-     * @request POST:/entity/services/{meIdentifier}
-     */
-    updateService: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
-      this.request<void, ErrorEnvelope>({
-        path: `/entity/services/${meIdentifier}`,
-        method: "POST",
-        body: data,
         ...params,
       }),
 
@@ -7883,60 +8245,16 @@ export class Api extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobRecords
-     * @summary Gets the full content of the analyzed log
-     * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
-     */
-    hostLogJobRecords: (
-      hostId: string,
-      jobId: string,
-      query?: { scrollToken?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobRecordsFiltered
-     * @summary Gets the filtered content of the analyzed log
-     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
-     */
-    hostLogJobRecordsFiltered: (
-      hostId: string,
-      jobId: string,
-      data: FilterLogContent,
-      query?: { scrollToken?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
      * No description
      *
-     * @tags Log monitoring - Hosts
-     * @name HostLogList
-     * @summary Lists all the available OS logs on the specified host
-     * @request GET:/entity/infrastructure/hosts/{hostId}/logs
+     * @tags Topology & Smartscape - Service
+     * @name GetSingleService
+     * @summary Gets parameters of the specified service
+     * @request GET:/entity/services/{meIdentifier}
      */
-    hostLogList: (hostId: string, params: RequestParams = {}) =>
-      this.request<LogList4HostResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs`,
+    getSingleService: (meIdentifier: string, params: RequestParams = {}) =>
+      this.request<Service, any>({
+        path: `/entity/services/${meIdentifier}`,
         method: "GET",
         ...params,
       }),
@@ -7944,334 +8262,15 @@ export class Api extends APIBase {
     /**
      * No description
      *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobStatus
-     * @summary Gets status of the specified log analysis job
-     * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
+     * @tags Topology & Smartscape - Service
+     * @name UpdateService
+     * @summary Updates parameters of the specified service
+     * @request POST:/entity/services/{meIdentifier}
      */
-    hostLogJobStatus: (hostId: string, jobId: string, params: RequestParams = {}) =>
-      this.request<LogJobStatusResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobDelete
-     * @summary Deletes or cancels the specified log analysis job
-     * @request DELETE:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
-     */
-    hostLogJobDelete: (hostId: string, jobId: string, params: RequestParams = {}) =>
-      this.request<LogJobDeleteResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobRecordsTop
-     * @summary Gets the top values of fields present in the content of the analyzed log
-     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records/top
-     */
-    hostLogJobRecordsTop: (hostId: string, jobId: string, data: FilterTopLogRecords, params: RequestParams = {}) =>
-      this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs/jobs/${jobId}/records/top`,
+    updateService: (meIdentifier: string, data: UpdateEntity, params: RequestParams = {}) =>
+      this.request<void, ErrorEnvelope>({
+        path: `/entity/services/${meIdentifier}`,
         method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * @description The response returns the ID of the job.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobStart
-     * @summary Starts the analysis job for the specified OS log
-     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/{logPath}
-     */
-    hostLogJobStart: (
-      hostId: string,
-      logPath: string,
-      data: ExtractFields,
-      query?: { query?: string; startTimestamp?: number; endTimestamp?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<string, ErrorEnvelope>({
-        path: `/entity/infrastructure/hosts/${hostId}/logs/${logPath}`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobRecords
-     * @summary Gets the content of the analyzed log
-     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
-     */
-    processGroupLogJobRecords: (
-      pgId: string,
-      jobId: string,
-      query?: { scrollToken?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobRecordsFiltered
-     * @summary Gets the content of the analyzed log
-     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
-     */
-    processGroupLogJobRecordsFiltered: (
-      pgId: string,
-      jobId: string,
-      data: FilterLogContent,
-      query?: { scrollToken?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogList
-     * @summary Lists all the available logs of the specified process group
-     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs
-     */
-    processGroupLogList: (pgId: string, params: RequestParams = {}) =>
-      this.request<LogList4PgResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobStatus
-     * @summary Gets status of the specified log analysis job
-     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
-     */
-    processGroupLogJobStatus: (pgId: string, jobId: string, params: RequestParams = {}) =>
-      this.request<LogJobStatusResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobDelete
-     * @summary Deletes or cancels the specified log analysis job
-     * @request DELETE:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
-     */
-    processGroupLogJobDelete: (pgId: string, jobId: string, params: RequestParams = {}) =>
-      this.request<LogJobDeleteResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobRecordsTop
-     * @summary Gets the top values of fields present in the content of the analyzed log
-     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records/top
-     */
-    processGroupLogJobRecordsTop: (
-      pgId: string,
-      jobId: string,
-      data: FilterTopLogRecords,
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs/jobs/${jobId}/records/top`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobStart
-     * @summary Starts analysis job for the specified process group log
-     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/{logPath}
-     */
-    processGroupLogJobStart: (
-      pgId: string,
-      logPath: string,
-      data: ExtractFields,
-      query?: { hostFilter?: string; query?: string; startTimestamp?: number; endTimestamp?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<string, ErrorEnvelope>({
-        path: `/entity/infrastructure/process-groups/${pgId}/logs/${logPath}`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobRecords
-     * @summary Gets the content of the analyzed log
-     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
-     */
-    customDeviceLogJobRecords: (
-      customDeviceId: string,
-      jobId: string,
-      query?: { scrollToken?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobRecordsFiltered
-     * @summary Gets the filtered content of the analyzed log
-     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
-     */
-    customDeviceLogJobRecordsFiltered: (
-      customDeviceId: string,
-      jobId: string,
-      data: FilterLogContent,
-      query?: { scrollToken?: string; pageSize?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records`,
-        method: "POST",
-        query: query,
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogList
-     * @summary Lists all the available logs on the specified custom device
-     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs
-     */
-    customDeviceLogList: (customDeviceId: string, params: RequestParams = {}) =>
-      this.request<LogListForCustomDeviceResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobStatus
-     * @summary Gets status of the specified log analysis job
-     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
-     */
-    customDeviceLogJobStatus: (customDeviceId: string, jobId: string, params: RequestParams = {}) =>
-      this.request<LogJobStatusResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobDelete
-     * @summary Deletes or cancels the specified log analysis job
-     * @request DELETE:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
-     */
-    customDeviceLogJobDelete: (customDeviceId: string, jobId: string, params: RequestParams = {}) =>
-      this.request<LogJobDeleteResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobRecordsTop
-     * @summary Gets the top values of fields present in the content of the analyzed log
-     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records/top
-     */
-    customDeviceLogJobRecordsTop: (
-      customDeviceId: string,
-      jobId: string,
-      data: FilterTopLogRecords,
-      params: RequestParams = {},
-    ) =>
-      this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/jobs/${jobId}/records/top`,
-        method: "POST",
-        body: data,
-        ...params,
-      }),
-
-    /**
-     * @description The response returns the ID of the job.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobStart
-     * @summary Starts the analysis job for the specified custom device log
-     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/{logPath}
-     */
-    customDeviceLogJobStart: (
-      customDeviceId: string,
-      logPath: string,
-      data: ExtractFields,
-      query?: { query?: string; startTimestamp?: number; endTimestamp?: number },
-      params: RequestParams = {},
-    ) =>
-      this.request<string, ErrorEnvelope>({
-        path: `/entity/infrastructure/custom-devices/${customDeviceId}/logs/${logPath}`,
-        method: "POST",
-        query: query,
         body: data,
         ...params,
       }),
@@ -8427,30 +8426,15 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name GetComment
-     * @summary Gets all the comments to the specified problem
-     * @request GET:/problem/details/{problemId}/comments
+     * @name CloseProblem
+     * @summary Closes the specified problem and adds a closing comment to it
+     * @request POST:/problem/details/{problemId}/close
      */
-    getComment: (problemId: string, params: RequestParams = {}) =>
-      this.request<ProblemCommentList, any>({
-        path: `/problem/details/${problemId}/comments`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Problem
-     * @name PushComment
-     * @summary Adds a new comment to the specified problem
-     * @request POST:/problem/details/{problemId}/comments
-     */
-    pushComment: (problemId: string, data: PushProblemComment, params: RequestParams = {}) =>
-      this.request<ProblemComment, any>({
-        path: `/problem/details/${problemId}/comments`,
+    closeProblem: (problemId: string, query: { content: string }, params: RequestParams = {}) =>
+      this.request<ProblemCloseResult, any>({
+        path: `/problem/details/${problemId}/close`,
         method: "POST",
-        body: data,
+        query: query,
         ...params,
       }),
 
@@ -8489,13 +8473,44 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name GetProblemStatus
-     * @summary Lists the number of open problems, split by impact level
-     * @request GET:/problem/status
+     * @name GetComment
+     * @summary Gets all the comments to the specified problem
+     * @request GET:/problem/details/{problemId}/comments
      */
-    getProblemStatus: (params: RequestParams = {}) =>
-      this.request<ProblemStatusResultWrapper, any>({
-        path: `/problem/status`,
+    getComment: (problemId: string, params: RequestParams = {}) =>
+      this.request<ProblemCommentList, any>({
+        path: `/problem/details/${problemId}/comments`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Problem
+     * @name PushComment
+     * @summary Adds a new comment to the specified problem
+     * @request POST:/problem/details/{problemId}/comments
+     */
+    pushComment: (problemId: string, data: PushProblemComment, params: RequestParams = {}) =>
+      this.request<ProblemComment, any>({
+        path: `/problem/details/${problemId}/comments`,
+        method: "POST",
+        body: data,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Problem
+     * @name GetDetails
+     * @summary Gets the properties of the specified problem
+     * @request GET:/problem/details/{problemId}
+     */
+    getDetails: (problemId: string, params: RequestParams = {}) =>
+      this.request<ProblemDetailsResultWrapper, any>({
+        path: `/problem/details/${problemId}`,
         method: "GET",
         ...params,
       }),
@@ -8550,54 +8565,18 @@ export class Api extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name CloseProblem
-     * @summary Closes the specified problem and adds a closing comment to it
-     * @request POST:/problem/details/{problemId}/close
+     * @name GetProblemStatus
+     * @summary Lists the number of open problems, split by impact level
+     * @request GET:/problem/status
      */
-    closeProblem: (problemId: string, query?: { content?: string }, params: RequestParams = {}) =>
-      this.request<ProblemCloseResult, any>({
-        path: `/problem/details/${problemId}/close`,
-        method: "POST",
-        query: query,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Problem
-     * @name GetDetails
-     * @summary Gets the properties of the specified problem
-     * @request GET:/problem/details/{problemId}
-     */
-    getDetails: (problemId: string, params: RequestParams = {}) =>
-      this.request<ProblemDetailsResultWrapper, any>({
-        path: `/problem/details/${problemId}`,
+    getProblemStatus: (params: RequestParams = {}) =>
+      this.request<ProblemStatusResultWrapper, any>({
+        path: `/problem/status`,
         method: "GET",
         ...params,
       }),
   };
   thresholds = {
-    /**
-     * No description
-     *
-     * @tags Threshold
-     * @name ReadCustomThresholds
-     * @summary Gets all configured thresholds for plugins and custom events in your environment
-     * @request GET:/thresholds
-     * @deprecated
-     */
-    readCustomThresholds: (
-      query?: { filter?: "ALL" | "PLUGIN" | "REMOTE_PLUGIN" | "USER_INTERACTION" },
-      params: RequestParams = {},
-    ) =>
-      this.request<Threshold[], any>({
-        path: `/thresholds`,
-        method: "GET",
-        query: query,
-        ...params,
-      }),
-
     /**
      * No description
      *
@@ -8630,27 +8609,28 @@ export class Api extends APIBase {
         method: "DELETE",
         ...params,
       }),
-  };
-  timeseries = {
+
     /**
-     * @description You can specify filtering parameters to return only matched metrics. If no parameters are specified, the call will list all the defined metrics.
+     * No description
      *
-     * @tags Timeseries
-     * @name GetAllTimeseriesDefinitions
-     * @summary Lists all metric definitions, with the parameters of each metric
-     * @request GET:/timeseries
+     * @tags Threshold
+     * @name ReadCustomThresholds
+     * @summary Gets all configured thresholds for plugins and custom events in your environment
+     * @request GET:/thresholds
+     * @deprecated
      */
-    getAllTimeseriesDefinitions: (
-      query?: { source?: "ALL" | "BUILTIN" | "CUSTOM" | "PLUGIN" | "REMOTE_PLUGIN"; detailedSource?: string },
+    readCustomThresholds: (
+      query?: { filter?: "ALL" | "PLUGIN" | "REMOTE_PLUGIN" | "USER_INTERACTION" },
       params: RequestParams = {},
     ) =>
-      this.request<TimeseriesDefinition[], any>({
-        path: `/timeseries`,
+      this.request<Threshold[], any>({
+        path: `/thresholds`,
         method: "GET",
         query: query,
         ...params,
       }),
-
+  };
+  timeseries = {
     /**
      * @description To obtain data points, set **includeData** to `true`. You can obtain either data points or the scalar result of the specified timeseries, depending on the **queryMode**. To obtain data points, you must specify the timeframe, either as **relativeTime** or as a combination of **startTimestamp** and **endTimestamp**. You must also provide the **aggregationType**, supported by the metric.
      *
@@ -8744,6 +8724,25 @@ export class Api extends APIBase {
       this.request<void, any>({
         path: `/timeseries/${timeseriesIdentifier}`,
         method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description You can specify filtering parameters to return only matched metrics. If no parameters are specified, the call will list all the defined metrics.
+     *
+     * @tags Timeseries
+     * @name GetAllTimeseriesDefinitions
+     * @summary Lists all metric definitions, with the parameters of each metric
+     * @request GET:/timeseries
+     */
+    getAllTimeseriesDefinitions: (
+      query?: { source?: "ALL" | "BUILTIN" | "CUSTOM" | "PLUGIN" | "REMOTE_PLUGIN"; detailedSource?: string },
+      params: RequestParams = {},
+    ) =>
+      this.request<TimeseriesDefinition[], any>({
+        path: `/timeseries`,
+        method: "GET",
+        query: query,
         ...params,
       }),
   };

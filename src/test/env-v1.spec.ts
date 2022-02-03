@@ -1,6 +1,7 @@
 import { DynatraceTenantAPI } from "..";
 import test from 'ava';
 import dotenv from 'dotenv';
+import fs from 'fs';
 dotenv.config();
 
 // @ts-ignore
@@ -20,6 +21,37 @@ const api = new DynatraceTenantAPI({
     token: process.env['TENANT_TOKEN']
 });
 
+const usqlApi = new DynatraceTenantAPI({
+    // @ts-ignore
+    url: process.env['TENANT2_URL'],
+    // @ts-ignore
+    token: process.env['TENANT2_TOKEN']
+});
+
+test('Environment V1: USQL BST Test', async t => {
+
+    let d = new Date();
+    d.setHours(0);
+    d.setMinutes(0);
+    d.setSeconds(0);
+    d.setMilliseconds(0);
+    const midnight = d.getTime();
+
+    // Get all userIds in the last day.
+    let sessions = await usqlApi.v1.userSessionQueryLanguage.getAllUserSessions({
+        usqlFilter: "internalUserId is not null",
+        startTimestamp: midnight - 24*60*60*1000,
+        endTimestamp: midnight,
+    }, {timeout: 50000});
+
+    // data is an array of chunks.
+    fs.writeFileSync(__dirname + "/sessions.json", JSON.stringify(sessions));
+
+    t.assert(Array.isArray(sessions));
+    t.assert(sessions.length > 50000);
+});
+
+ 
 test('Environment V1: Time', async t => {
     let time = await paasAPI.v1.time.getCurrentClusterTime();
     t.assert(typeof time == 'number');
