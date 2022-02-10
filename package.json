@@ -44,7 +44,7 @@
   "dependencies": {
     "@dt-esa/dynatrace-api-balancer": "^1.0.12",
     "@dt-esa/platform-constants": "^1.0.0",
-    "axios": "^0.24.0"
+    "axios": "^0.25.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
