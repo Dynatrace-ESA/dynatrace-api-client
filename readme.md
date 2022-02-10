@@ -1,6 +1,10 @@
 
 #### Use VS Code and Typescript for typings.
 
+A dependency map can be found [here](https://npmgraph.js.org/?q=@dt-esa/dynatrace-api-client).
+
+---
+
 Create an API instance
 ```typescript
 const api = new DynatraceTenantAPI({

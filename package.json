@@ -1,6 +1,6 @@
 {
   "name": "@dt-esa/dynatrace-api-client",
-  "version": "1.213.4",
+  "version": "1.234.1",
   "description": "",
   "main": "./dist/index.js",
   "files": [
@@ -12,13 +12,13 @@
     "prebuild": "npm run generate",
     "build": "tsc",
     "tsc": "tsc",
-    "generate:config": "swagger-typescript-api -p ./src/spec/config.json -o ./src/api -n config.ts",
-    "generate:env1": "  swagger-typescript-api -p ./src/spec/env_v1.json -o ./src/api -n env-v1.ts",
-    "generate:env2": "  swagger-typescript-api -p ./src/spec/env_v2.json -o ./src/api -n env-v2.ts",
-    "generate:cmc1": "  swagger-typescript-api -p ./src/spec/cmc_v1.json -o ./src/api -n cmc-v1.ts",
-    "generate:cmc2": "  swagger-typescript-api -p ./src/spec/cmc_v2.json -o ./src/api -n cmc-v2.ts",
-    "generate:iam": "   swagger-typescript-api -p ./src/spec/iam.json    -o ./src/api -n iam.ts   ",
-    "pregenerate": "rm src/api/*.ts",
+    "generate:config": "swagger-typescript-api -p ./src/spec/config.json -o ./src/api/generated -n config.ts",
+    "generate:env1": "  swagger-typescript-api -p ./src/spec/env_v1.json -o ./src/api/generated -n env-v1.ts",
+    "generate:env2": "  swagger-typescript-api -p ./src/spec/env_v2.json -o ./src/api/generated -n env-v2.ts",
+    "generate:cmc1": "  swagger-typescript-api -p ./src/spec/cmc_v1.json -o ./src/api/generated -n cmc-v1.ts",
+    "generate:cmc2": "  swagger-typescript-api -p ./src/spec/cmc_v2.json -o ./src/api/generated -n cmc-v2.ts",
+    "generate:iam": "   swagger-typescript-api -p ./src/spec/iam.json    -o ./src/api/generated -n iam.ts   ",
+    "pregenerate": "rm src/api/generated/*.ts",
     "generate": "npm-run-all -p generate:config generate:env1 generate:env2 generate:cmc1 generate:cmc2 generate:iam",
     "postgenerate": "node generator.js",
     "test": "ava"
@@ -42,9 +42,9 @@
   },
   "homepage": "https://github.com/dynatrace-esa/dynatrace-api-client#readme",
   "dependencies": {
-    "@dt-esa/dynatrace-api-balancer": "^1.0.11",
+    "@dt-esa/dynatrace-api-balancer": "^1.0.12",
     "@dt-esa/platform-constants": "^1.1.0",
-    "axios": "^0.24.0"
+    "axios": "^0.25.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
