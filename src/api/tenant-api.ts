@@ -1,6 +1,5 @@
 import { dynatraceTokenRegex } from "@dt-esa/platform-constants";
 import { DynatraceEnvironmentAPIV2, DynatraceConfigurationAPI } from "..";
-import { APIBase } from "../apibase";
 import { DynatraceConnection } from "../types/dynatrace-connection";
 import { DynatraceEnvironmentAPIV1 } from "./env-v1";
 
@@ -12,13 +11,12 @@ import { DynatraceEnvironmentAPIV1 } from "./env-v1";
  * - v2: DynatraceEnvironmentAPIV2
  * - config: DynatraceConfigurationAPI
  */
-export class DynatraceTenantAPI extends APIBase {
+export class DynatraceTenantAPI {
     v1: DynatraceEnvironmentAPIV1;
     v2: DynatraceEnvironmentAPIV2;
     config: DynatraceConfigurationAPI;
 
     constructor(protected environment: DynatraceConnection, testConnection = true, customAxios?) {
-        super(environment, '', customAxios);
 
         this.v1 = new DynatraceEnvironmentAPIV1(environment, testConnection, customAxios);
         this.v2 = new DynatraceEnvironmentAPIV2(environment, false, customAxios);

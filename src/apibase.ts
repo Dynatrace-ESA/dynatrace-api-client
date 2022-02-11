@@ -2,9 +2,12 @@ import { dynatraceTokenRegex } from "@dt-esa/platform-constants";
 import { DirectAPIRequest } from "@dt-esa/dynatrace-api-balancer";
 import { DynatraceConnection } from "./types/dynatrace-connection";
 
+/**
+ * Base API handler class. This is inherited for the generated API clients.
+ */
 export class APIBase {
 
-    requester: DirectAPIRequest;
+    private requester: DirectAPIRequest;
 
     constructor(protected environment: DynatraceConnection, private apiRoute: string, private customAxios?: DirectAPIRequest) {
         this.requester = new DirectAPIRequest();
@@ -73,5 +76,4 @@ export class APIBase {
         this.environment.url = url;
         return this;
     }
-
 }

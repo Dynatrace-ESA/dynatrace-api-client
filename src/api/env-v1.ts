@@ -1,25 +1,33 @@
 import { DynatraceConnection } from "../types/dynatrace-connection";
-import { Api as EnvironmentV1 } from "./generated/env-v1";
+import { internalEnvV1 as EnvironmentV1 } from "./generated/env-v1";
 import { checkEnvironment, checkConnection } from "./shared";
 import { UserSession } from '../types/usersession';
 
 /**
- * Dynatrace Tenant Environmnent API v1
+ * @title Dynatrace Environment API
+ * @version 1.0
+ * @baseUrl https://kkr05643.sprint.dynatracelabs.com/api/v1
+ *
+ * Documentation of the Dynatrace Environment API v1. To read about use cases and examples, see [Dynatrace Documentation](https://dt-url.net/xc03k3c).
+ *
+ * Notes about compatibility:
+ * * Operations marked as early adopter or preview may be changed in non-compatible ways, although we try to avoid this.
+ * * We may add new enum constants without incrementing the API version; thus, clients need to handle unknown enum constants gracefully.
  */
 export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
-    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
-        super(environment, "api/v1", customAxios);
+    constructor(options: DynatraceConnection, testConnection = true, customAxios?) {
+        super(options, "api/v1", customAxios);
 
         if (testConnection) {
-            checkEnvironment(environment, 'env');
+            checkEnvironment(options, 'env');
             checkConnection(this);
         }
     }
 
+    // * If you get an error here, restart your typescript server.
     userSessionQueryLanguage = {
-        getUsqlResults: super.userSessionQueryLanguage.getUsqlResults,
-        getUsqlResultsAsTree: super.userSessionQueryLanguage.getUsqlResultsAsTree,
+        ...this.userSessionQueryLanguage,
 
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
@@ -45,7 +53,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             // Create a map of binary-search chunks to resolve.
 
             const statChunkSize = async (sTime, eTime): Promise<number> => {
-                // console.log("Stat chunk size", sTime, eTime);
+                console.log("Stat chunk size", sTime, eTime);
 
                 const timeConstraints = ` startTime > ${sTime} AND startTime < ${eTime}`;
 
@@ -90,7 +98,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
                     const timeConstraints = ` startTime > ${startTime} AND startTime < ${endTime}`;
 
                     // Re-assemble the query
-                    const newQuery = `SELECT * from usersession ${usqlFilter} ${timeConstraints}`;
+                    const newQuery = `SELECT * from usersession where ${usqlFilter} ${timeConstraints}`;
 
                     return [
                         await this.userSessionQueryLanguage.getUsqlResults({
@@ -142,7 +150,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
                 out.push(sessionMap[sessionId]);
             });
 
-            console.log("Originally found " + allSessions.length + " sessions.");
+            console.log("Originally found " + Object.keys(sessionMap).length + " sessions.");
             console.log("Deduplicated to " + out.length + " sessions.");
 
             return out.map(session => {
@@ -155,8 +163,8 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
 const parseSession = (session: Array<any>): UserSession => {
     return {
-        applicationType:                session[1],
         appVersion:                     session[0],
+        applicationType:                session[1],
         bounce:                         session[2],
         browserFamily:                  session[3],
         browserMajorVersion:            session[4],
