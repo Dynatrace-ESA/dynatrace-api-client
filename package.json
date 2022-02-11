@@ -1,6 +1,6 @@
 {
   "name": "@dt-esa/dynatrace-api-client",
-  "version": "1.234.1",
+  "version": "1.234.2",
   "description": "",
   "main": "./dist/index.js",
   "files": [
