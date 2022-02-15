@@ -11,5 +11,9 @@
     "esModuleInterop": true,
     "target": "es2015",
     "module": "commonjs"
-  }
+  },
+  "exclude": [
+    "test/**/*.ts",
+    "dist/**/*.ts"
+  ]
 }
