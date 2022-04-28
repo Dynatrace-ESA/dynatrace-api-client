@@ -17,7 +17,6 @@ export class DynatraceTenantAPI {
     config: DynatraceConfigurationAPI;
 
     constructor(protected environment: DynatraceConnection, testConnection = true, customAxios?) {
-
         this.v1 = new DynatraceEnvironmentAPIV1(environment, testConnection, customAxios);
         this.v2 = new DynatraceEnvironmentAPIV2(environment, false, customAxios);
         this.config = new DynatraceConfigurationAPI(environment, false, customAxios);

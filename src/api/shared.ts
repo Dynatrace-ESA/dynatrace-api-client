@@ -1,5 +1,7 @@
 import { dynatraceUrlRegex, dynatraceTokenRegex } from "@dt-esa/platform-constants";
+import { APIBase } from "../apibase";
 import { DynatraceConnection } from "../types/dynatrace-connection";
+import { TokenMetadata } from "./generated/env-v1";
 
 /**
  * 
@@ -49,20 +51,40 @@ export const checkEnvironment = async (environment: DynatraceConnection, mode) =
  * @param mode 
  */
 // TODO: Also test token permissions
-export const checkConnection = async (handler, mode?) => {
+export const checkConnection = async (handler: APIBase, mode?) => {
     const sTime = new Date().getTime();
     console.log("Connecting to your Dynatrace instance...");
 
-    // Check if we can hit the Dynatrace API endpoint provided.
-    let time = await handler.request({
-        fullPath: 'time',
-        method: "get"
-    });
+    let tokenMeta: TokenMetadata;
 
-    let permissions = await handler.request({
+    try {
 
-    })
+        // Check if we can hit the Dynatrace API endpoint provided.
+        // let time = await handler.request({
+        //     path: "",
+        //     fullPath: 'api/v1/time',
+        //     method: "get"
+        // })
+    
+        tokenMeta = await handler.request<TokenMetadata>({
+            path: "",
+            fullPath: "api/v1/tokens/lookup",
+            method: "POST",
+            body: {
+                token: handler['environment'].token
+            }
+        });
+    }
+    catch(ex) {
+        console.error("Failed to connect to the Dynatrace API endpoint. See error below.");
+        console.error(ex);
+    }
 
-        .then(res => console.log('Connected to your Dynatrace instance in', (new Date().getTime() - sTime), 'ms'))
-        .catch(err => console.error("Failed to connect to the Dynatrace API endpoint.", err))
+    if (tokenMeta.revoked) 
+        throw Error("Your API token is revoked!");
+
+    if (tokenMeta.expires && (tokenMeta.expires < new Date().getTime()))
+        throw Error("Your API token is expired!");
+
+    console.log('Connected to your Dynatrace instance in', (new Date().getTime() - sTime), 'ms');
 }

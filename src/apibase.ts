@@ -23,7 +23,7 @@ export class APIBase {
         return this.environment.url;
     }
 
-    protected request = async <T = any, E = any>({ 
+    public request = async <T = any, E = any>({ 
         body = null, 
         method = "GET", 
         path, 
