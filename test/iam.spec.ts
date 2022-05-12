@@ -1,5 +1,5 @@
 import { DynatraceTenantAPI } from "..";
-import test from 'ava';
+// import test from 'ava';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -19,6 +19,6 @@ dotenv.config();
 //     t.assert(time > 0);
 // });
 
-test('true', async t => {
-    t.assert(true);
-});
+// test('true', async t => {
+//     t.assert(true);
+// });

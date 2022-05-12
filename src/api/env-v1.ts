@@ -1,7 +1,12 @@
 import { DynatraceConnection } from "../types/dynatrace-connection";
-import { internalEnvV1 as EnvironmentV1 } from "./generated/env-v1";
+import { internalEnvV1 as EnvironmentV1, UserSession, UserSessionErrors, UserSessionEvents, UserSessionUserAction } from "./generated/env-v1";
 import { checkEnvironment, checkConnection } from "./shared";
-import { UserSession } from '../types/usersession';
+import { UserActionDetails } from "./generated/config";
+
+type UserAction = UserSessionUserAction & { "usersession.userSessionId": string };
+type UserEvent  = UserSessionEvents     & { "usersession.userSessionId": string };
+type UserError  = UserSessionErrors     & { "usersession.userSessionId": string };
+
 
 /**
  * @title Dynatrace Environment API
@@ -25,7 +30,6 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
         }
     }
 
-    // * If you get an error here, restart your typescript server.
     userSessionQueryLanguage = {
         ...this.userSessionQueryLanguage,
 
@@ -40,184 +44,145 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
          * @param requestArgs 
          * @returns 
          */
-        getAllUserSessions: async (query: {
+        getAllUserSessions: (query: {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?) => {
-            // I do not know why this is 1000. 
-            // I hate our developers.
-            const pageSize = 1000; // THIS WAS 5000
-            const usqlFilter = query.usqlFilter ? query.usqlFilter + " AND " : "";
+        }, requestArgs?): Promise<UserSession[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usersession", "*"),
 
-            // Create a map of binary-search chunks to resolve.
+        getAllUserActions: (query: {
+            usqlFilter?: string,
+            startTimestamp?: number;
+            endTimestamp?: number;
+        }, requestArgs?): Promise<UserAction[]> => this.fetchChunkedUSQLdata(query, requestArgs, "useraction", "usersession.userSessionId, *"),
 
-            const statChunkSize = async (sTime, eTime): Promise<number> => {
-                console.log("Stat chunk size", sTime, eTime);
+        getAllUserEvents: (query: {
+            usqlFilter?: string,
+            startTimestamp?: number;
+            endTimestamp?: number;
+        }, requestArgs?): Promise<UserEvent[]> => this.fetchChunkedUSQLdata(query, requestArgs, "userevent", "usersession.userSessionId, *"),
 
-                const timeConstraints = ` startTime > ${sTime} AND startTime < ${eTime}`;
+        getAllUserErrors: (query: {
+            usqlFilter?: string,
+            startTimestamp?: number;
+            endTimestamp?: number;
+        }, requestArgs?): Promise<UserError[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
+    }
 
-                const sizeQuery = `SELECT count(*) from usersession WHERE ${usqlFilter} ${timeConstraints}`;
+    private async fetchChunkedUSQLdata(query, requestArgs, metric, table) {
+        // I do not know why this is 1000. 
+        // I hate our developers.
+        const pageSize = 1000; // THIS WAS 5000
+        const usqlFilter = query.usqlFilter ? query.usqlFilter + " AND " : "";
 
-                let data = await this.userSessionQueryLanguage.getUsqlResults({
-                    ...query,
-                    startTimestamp: query.startTimestamp,
-                    endTimestamp: query.endTimestamp,
-                    query: encodeURIComponent(sizeQuery),
-                    pageSize: 1,
-                }, requestArgs);
+        // Create a map of binary-search chunks to resolve.
 
-                // Screwy type-safety override.
-                return data.values[0][0] as unknown as number; // Count(*) response from the API.
+        const statChunkSize = async (sTime, eTime): Promise<number> => {
+            console.log("Stat chunk size", sTime, eTime);
+
+            const timeConstraints = ` startTime > ${sTime} AND startTime < ${eTime}`;
+
+            const sizeQuery = `SELECT count(*) from ${table} WHERE ${usqlFilter} ${timeConstraints}`;
+
+            let data = await this.userSessionQueryLanguage.getUsqlResults({
+                ...query,
+                startTimestamp: query.startTimestamp,
+                endTimestamp: query.endTimestamp,
+                query: encodeURIComponent(sizeQuery),
+                pageSize: 1,
+            }, requestArgs);
+
+            // Screwy type-safety override.
+            return data.values[0][0] as unknown as number; // Count(*) response from the API.
+        }
+
+        let counter = 0;
+        let hasLogged = false;
+        const createUsqlChunkRequests = async (startTime: number, endTime: number) => {
+            const chunkSize = await statChunkSize(startTime, endTime);
+
+            if (!hasLogged) {
+                hasLogged = true;
+                console.log("Fetching data: Estimated at", chunkSize, "rows.");
             }
 
-            let counter = 0;
-            let hasLogged = false;
-            const createUsqlChunkRequests = async (startTime: number, endTime: number) => {
-                const chunkSize = await statChunkSize(startTime, endTime);
+            const diff = Math.floor((endTime - startTime) / 2);
 
-                if (!hasLogged) {
-                    hasLogged = true;
-                    console.log("Fetching data: Estimated at", chunkSize, "rows.");
-                }
-
-                const diff = Math.floor((endTime - startTime) / 2);
-
-                // How many results we should get via the API.
-                if (chunkSize > pageSize) {
-                    return [
-                        ...await createUsqlChunkRequests(startTime, startTime + diff),
-                        ...await createUsqlChunkRequests(startTime + diff + 1000, endTime),
-                    ];
-                }
-                else {
-                    // console.log("Fetching data for", chunkSize, "items.", startTime, endTime, Math.round((endTime - startTime) / (60 * 1000)) + " minutes");
-                    console.log("Slice:", diff, startTime, endTime);
-                    counter++;
-
-                    const timeConstraints = ` startTime > ${startTime} AND startTime < ${endTime}`;
-
-                    // Re-assemble the query
-                    const newQuery = `SELECT * from usersession where ${usqlFilter} ${timeConstraints}`;
-
-                    return [
-                        await this.userSessionQueryLanguage.getUsqlResults({
-                            ...query,
-                            startTimestamp: query.startTimestamp,
-                            endTimestamp: query.endTimestamp,
-                            query: encodeURIComponent(newQuery),
-                            pageSize: pageSize
-                        }, requestArgs)
-                        // this.userSessionQueryLanguage.getUsqlResults()
-                    ];
-                }
-            };
-
-            query.startTimestamp = query.startTimestamp || Date.now() - 2 * 60 * 60 * 1000;
-            query.endTimestamp = query.endTimestamp || Date.now();
-
-            // Resolve all requests into a sorted array
-            let requests = await createUsqlChunkRequests(query.startTimestamp, query.endTimestamp);
-
-            let outData = [];
-
-            let sessionMap = {};
-            let allSessions = [];
-
-            let duplicates = {};
-
-            // Get the first chunk to return metadata back.
-            for (let chunk of requests) {
-                chunk.forEach(session => {
-                    const userSessionId = session[54];
-
-                    if (sessionMap[userSessionId]) {
-                        if (!duplicates[userSessionId])
-                            duplicates[userSessionId] = [];
-                        duplicates[userSessionId].push(session);
-                    }
-
-                    sessionMap[userSessionId] = session;
-                    allSessions.push(session);
-                });
+            // How many results we should get via the API.
+            if (chunkSize > pageSize) {
+                return [
+                    ...await createUsqlChunkRequests(startTime, startTime + diff),
+                    ...await createUsqlChunkRequests(startTime + diff + 1000, endTime),
+                ];
             }
-            console.log("Fetched a total of", outData.length, "rows.");
-            console.log("  ...in", counter, "chunks.");
+            else {
+                // console.log("Fetching data for", chunkSize, "items.", startTime, endTime, Math.round((endTime - startTime) / (60 * 1000)) + " minutes");
+                console.log("Slice:", diff, startTime, endTime);
+                counter++;
 
-            // Create a map of sessions to prevent duplicates
-            let out = [];
-            Object.keys(sessionMap).forEach(sessionId => {
-                out.push(sessionMap[sessionId]);
-            });
+                const timeConstraints = ` startTime > ${startTime} AND startTime < ${endTime}`;
 
-            console.log("Originally found " + Object.keys(sessionMap).length + " sessions.");
-            console.log("Deduplicated to " + out.length + " sessions.");
+                // Re-assemble the query
+                const newQuery = `SELECT ${metric} from ${table} where ${usqlFilter} ${timeConstraints}`;
 
-            return out.map(session => {
-                return parseSession(session);
+                return [
+                    await this.userSessionQueryLanguage.getUsqlResults({
+                        ...query,
+                        startTimestamp: query.startTimestamp,
+                        endTimestamp: query.endTimestamp,
+                        query: encodeURIComponent(newQuery),
+                        pageSize: pageSize
+                    }, requestArgs)
+                ];
+            }
+        };
+
+        query.startTimestamp = query.startTimestamp || Date.now() - 2 * 60 * 60 * 1000;
+        query.endTimestamp = query.endTimestamp || Date.now();
+
+        // Resolve all requests into a sorted array
+        let requests = await createUsqlChunkRequests(query.startTimestamp, query.endTimestamp);
+
+        let outData = [];
+
+        let sessionMap = {};
+        let allSessions = [];
+
+        let duplicates = {};
+
+        // Get the first chunk to return metadata back.
+        for (let chunk of requests) {
+            chunk.forEach(session => {
+                const userSessionId = session[54];
+
+                if (sessionMap[userSessionId]) {
+                    if (!duplicates[userSessionId])
+                        duplicates[userSessionId] = [];
+                    duplicates[userSessionId].push(session);
+                }
+
+                sessionMap[userSessionId] = session;
+                allSessions.push(session);
             });
         }
+        console.log("Fetched a total of", outData.length, "rows.");
+        console.log("  ...in", counter, "chunks.");
+
+        // Create a map of sessions to prevent duplicates
+        let out = [];
+        Object.keys(sessionMap).forEach(sessionId => {
+            out.push(sessionMap[sessionId]);
+        });
+
+        console.log("Originally found " + Object.keys(sessionMap).length + " sessions.");
+        console.log("Deduplicated to " + out.length + " sessions.");
+
+
+        return out.map(session => {
+            let obj = {};
+
+            return {} as any;
+
+        });
     }
-}
-
-
-const parseSession = (session: Array<any>): UserSession => {
-    return {
-        appVersion:                     session[0],
-        applicationType:                session[1],
-        bounce:                         session[2],
-        browserFamily:                  session[3],
-        browserMajorVersion:            session[4],
-        browserMonitorId:               session[5],
-        browserMonitorName:             session[6],
-        browserType:                    session[7],
-        carrier:                        session[8],
-        city:                           session[9],
-        clientTimeOffset:               session[10],
-        connectionType:                 session[11],
-        continent:                      session[12],
-        country:                        session[13],
-        crashGroupId:                   session[14],
-        dateProperties:                 session[15],
-        device:                         session[16],
-        displayResolution:              session[17],
-        doubleProperties:               session[18],
-        duration:                       session[19], //ms
-        endReason:                      session[20],
-        endTime:                        session[21], // unix timestamp
-        hasCrash:                       session[22],
-        hasError:                       session[23],
-        hasSessionReplay:               session[24],
-        internalUserId:                 session[25],
-        ip:                             session[26],
-        isp:                            session[27],
-        longProperties:                 session[28],
-        manufacturer:                   session[29],
-        matchingConversionGoals:        session[30],
-        matchingConversionGoalsCount:   session[31],
-        networkTechnology:              session[32],
-        newUser:                        session[33],
-        numberOfRageClicks:             session[34],
-        numberOfRageTaps:               session[35],
-        osFamily:                       session[36],
-        osVersion:                      session[37],
-        reasonForNoSessionReplay:       session[38],
-        reasonForNoSessionReplayMobile: session[39],
-        region:                         session[40],
-        replayEnd:                      session[41],
-        replayStart:                    session[42],
-        rootedOrJailbroken:             session[43],
-        screenHeight:                   session[44],
-        screenOrientation:              session[45],
-        screenWidth:                    session[46],
-        startTime:                      session[47],
-        stringProperties:               session[48],
-        totalErrorCount:                session[49],
-        totalLicenseCreditcount:        session[50],
-        userActionCount:                session[51],
-        userExperienceScore:            session[52],
-        userId:                         session[53],
-        userSessionId:                  session[54],
-        userType:                       session[55]
-    };
 }

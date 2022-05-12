@@ -5,18 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Test",
             "type": "node",
             "request": "launch",
-            "name": "Debug AVA test file",
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
+            "args": [
+                "test.ts"
+            ],
             "runtimeArgs": [
-                "${file}"
+                "--nolazy",
+                "-r",
+                "ts-node/register"
             ],
-            "outputCapture": "std",
-            "skipFiles": [
-                "<node_internals>/**/*.js"
-            ],
-            "protocol": "inspector"
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}/test",
+            "protocol": "inspector",
         }
     ]
 }

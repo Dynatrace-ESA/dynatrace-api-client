@@ -1,6 +1,7 @@
 import { checkEnvironment, checkConnection } from "./shared";
-import { internalEnvV2 as EnvironmentV2 } from "./generated/env-v2";
+import { EntitiesList, internalEnvV2 as EnvironmentV2 } from "./generated/env-v2";
 import { DynatraceConnection } from "../types/dynatrace-connection";
+import { RequestOptions } from "@dt-esa/dynatrace-api-balancer";
 
 /**
  * @title Dynatrace Environment API
@@ -24,6 +25,24 @@ export class DynatraceEnvironmentAPIV2 extends EnvironmentV2 {
         if (testConnection) {
             checkEnvironment(environment, 'env');
             checkConnection(this);
+        }
+    }
+
+    entities = {
+        ...this.entities,
+        getEntitiesCount: async (query?: {
+            nextPageKey?: string;
+            pageSize?: number;
+            entitySelector?: string;
+            from?: string;
+            to?: string;
+            fields?: string;
+            sort?: string;
+        }, params?: RequestOptions): Promise<number> => {
+            query.pageSize = 1;
+            params.paging = false;
+
+            return (await this.entities.getEntities(query, params)).totalCount;
         }
     }
 }

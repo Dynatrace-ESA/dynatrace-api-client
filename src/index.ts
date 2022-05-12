@@ -8,7 +8,6 @@ export * from "./api/iam";
 export * from "./api/tenant-api";
 
 // Types
-export * from "./types/usersession";
 export * from "./types/dynatrace-connection";
 
 

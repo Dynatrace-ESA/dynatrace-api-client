@@ -22,6 +22,7 @@
     "generate": "npm-run-all -p generate:config generate:env1 generate:env2 generate:cmc1 generate:cmc2 generate:iam",
     "postgenerate": "node generator.js",
     "test": "ava",
+    "test2": "mocha --require ts-node/register test/**/*.ts",
     "get-spec:config": "rm src/spec/iam.json; curl -o src/spec/iam.json https://kkr05643.sprint.dynatracelabs.com/api/config/v1/spec3?api-token=$TENANT_TOKEN",
     "get-spec:env1": "rm src/spec/iam.json; curl -o src/spec/iam.json https://kkr05643.sprint.dynatracelabs.com/api/v1/spec3?api-token=$TENANT_TOKEN",
     "get-spec:env2": "rm src/spec/iam.json; curl -o src/spec/iam.json https://kkr05643.sprint.dynatracelabs.com/api/v2/spec3?api-token=$TENANT_TOKEN",
@@ -51,10 +52,14 @@
   "homepage": "https://github.com/dynatrace-esa/dynatrace-api-client#readme",
   "dependencies": {
     "@dt-esa/dynatrace-api-balancer": "^1.2.5",
-    "@dt-esa/platform-constants": "^1.2.1"
+    "@dt-esa/platform-constants": "^1.2.1",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0"
   },
   "devDependencies": {
     "@ava/typescript": "^2.0.0",
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
     "@types/node": "^17.0.8",
     "ava": "^3.15.0",
     "dotenv": "^16.0.0",
