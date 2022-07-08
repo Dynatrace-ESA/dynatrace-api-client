@@ -69,17 +69,14 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
         }, requestArgs?): Promise<UserError[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
     }
 
-    private async fetchChunkedUSQLdata(query, requestArgs, metric, table) {
-        // I do not know why this is 1000. 
-        // I hate our developers.
-        const pageSize = 1000; // THIS WAS 5000
+    private async fetchChunkedUSQLdata(query, requestArgs, table, metric) {
+        // I do not know why this is 1000.
+        const pageSize = 1000; 
         const usqlFilter = query.usqlFilter ? query.usqlFilter + " AND " : "";
 
         // Create a map of binary-search chunks to resolve.
 
         const statChunkSize = async (sTime, eTime): Promise<number> => {
-            console.log("Stat chunk size", sTime, eTime);
-
             const timeConstraints = ` startTime > ${sTime} AND startTime < ${eTime}`;
 
             const sizeQuery = `SELECT count(*) from ${table} WHERE ${usqlFilter} ${timeConstraints}`;
@@ -103,7 +100,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
             if (!hasLogged) {
                 hasLogged = true;
-                console.log("Fetching data: Estimated at", chunkSize, "rows.");
+                // console.log("Fetching data: Estimated at", chunkSize, "rows.");
             }
 
             const diff = Math.floor((endTime - startTime) / 2);
@@ -116,8 +113,6 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
                 ];
             }
             else {
-                // console.log("Fetching data for", chunkSize, "items.", startTime, endTime, Math.round((endTime - startTime) / (60 * 1000)) + " minutes");
-                console.log("Slice:", diff, startTime, endTime);
                 counter++;
 
                 const timeConstraints = ` startTime > ${startTime} AND startTime < ${endTime}`;
@@ -143,17 +138,21 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
         // Resolve all requests into a sorted array
         let requests = await createUsqlChunkRequests(query.startTimestamp, query.endTimestamp);
 
-        let outData = [];
-
         let sessionMap = {};
         let allSessions = [];
 
         let duplicates = {};
+        let firstChunk;
 
-        // Get the first chunk to return metadata back.
         for (let chunk of requests) {
-            chunk.forEach(session => {
-                const userSessionId = session[54];
+            // Get the first chunk to use with formatting the output.
+            if (!firstChunk) firstChunk = chunk;
+
+            const sidx = firstChunk.columnNames.findIndex(c => c.endsWith("userSessionId"));
+
+            chunk.values.forEach(session => {
+
+                const userSessionId = session[sidx];
 
                 if (sessionMap[userSessionId]) {
                     if (!duplicates[userSessionId])
@@ -165,24 +164,27 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
                 allSessions.push(session);
             });
         }
-        console.log("Fetched a total of", outData.length, "rows.");
-        console.log("  ...in", counter, "chunks.");
+        // console.log("Fetched a total of", outData.length, "rows.");
+        // console.log("  ...in", counter, "chunks.");
 
-        // Create a map of sessions to prevent duplicates
+        // Create a map of sessions to clear out duplicates
         let out = [];
         Object.keys(sessionMap).forEach(sessionId => {
             out.push(sessionMap[sessionId]);
         });
 
-        console.log("Originally found " + Object.keys(sessionMap).length + " sessions.");
-        console.log("Deduplicated to " + out.length + " sessions.");
+        // console.log("Originally found " + Object.keys(sessionMap).length + " sessions.");
+        // console.log("Deduplicated to " + out.length + " sessions.");
 
 
         return out.map(session => {
             let obj = {};
 
-            return {} as any;
+            firstChunk.columnNames.forEach((col, i) => {
+                obj[col] = session[i];
+            });
 
+            return obj as any;
         });
     }
 }
