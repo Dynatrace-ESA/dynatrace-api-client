@@ -1,7 +1,6 @@
 import { DynatraceConnection } from "../types/dynatrace-connection";
 import { internalEnvV1 as EnvironmentV1, UserSession, UserSessionErrors, UserSessionEvents, UserSessionUserAction } from "./generated/env-v1";
 import { checkEnvironment, checkConnection } from "./shared";
-import { UserActionDetails } from "./generated/config";
 
 type UserAction = UserSessionUserAction & { "usersession.userSessionId": string };
 type UserEvent  = UserSessionEvents     & { "usersession.userSessionId": string };
@@ -31,42 +30,133 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
     }
 
     userSessionQueryLanguage = {
-        ...this.userSessionQueryLanguage,
+        /**
+         * RUM - User sessions \
+         * `GET:/userSessionQueryLanguage/table` \
+         * Returns the result of the query as a table structure \
+         * 
+         * ---
+         * @returns The result is a flat list of rows containing the requested columns.
+         */
+        getUsqlResults: super.userSessionQueryLanguage.getUsqlResults,
+
+        /**
+         * RUM - User sessions \
+         * `GET:/userSessionQueryLanguage/tree` \
+         * Returns the result of the query as a tree structure \
+         * 
+         * ---
+         * @returns To get a proper tree structure, you need to specify grouping in the query.
+         */
+        getUsqlResultsAsTree: super.userSessionQueryLanguage.getUsqlResultsAsTree,
 
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
          * Caveats:
-         * Your USQL WHERE filter may not use "startTime" filtering. This keyword is reserved for the 
-         * result querying mechanism.
+         * - Your WHERE filter may not use "startTime" filtering. This keyword is reserved for the 
+         * result querying mechanism. 
+         * - This does NOT work with aggregations, FUNNEL, or other transformative filters.
+         * - Due to the way this works, querying can load very large volumes of data (GB range)
+         * for large RUM datasets. We do not yet offer a "stream" or otherwise dynamic option of this functionality.
+         * @param query.customMetrics additional custom properties to "SELECT". 
+         * This is an array of properties that follows the pattern `stringProperties.username as "Username"`. 
+         * Can be used in conjunction with dynamic types like so: 
+         * ```
+         *  api.userSessionQueryLanguage.getAllUserSessions<{"stringProperties.username": string}>(...args)
+         * ```
          * @param query.usqlFilter "WHERE" portion of a USQL call. Do not include the "WHERE" text.
          * @param query.startTimestamp Unix start timestamp of window to pull USQL data. Defaults to 2 hours ago.
          * @param query.endTimestamp   Unix end timestamp of window to pull USQL data. Defaults to now.
          * @param requestArgs 
-         * @returns 
+         * 
          */
-        getAllUserSessions: (query: {
+        getAllUserSessions: <T = {}>(query: {
+            customMetrics?: string[],
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<UserSession[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usersession", "*"),
+        }, requestArgs?): Promise<(UserSession & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usersession", "*"),
 
-        getAllUserActions: (query: {
+        /**
+         * A method to return all user actions from a tenant in the specified timeframe.
+         * Caveats:
+         * - Your WHERE filter may not use "startTime" filtering. This keyword is reserved for the 
+         * result querying mechanism. 
+         * - This does NOT work with aggregations, FUNNEL, or other transformative filters.
+         * - Due to the way this works, querying can load very large volumes of data (GB range)
+         * for large RUM datasets. We do not yet offer a "stream" or otherwise dynamic option of this functionality.
+         * @param query.customMetrics additional custom properties to "SELECT". 
+         * This is an array of properties that follows the pattern `stringProperties.username as "Username"`. 
+         * Can be used in conjunction with dynamic types like so: 
+         * ```
+         *  api.userSessionQueryLanguage.getAllUserActions<{"stringProperties.username": string}>(...args)
+         * ```
+         * @param query.usqlFilter "WHERE" portion of a USQL call. Do not include the "WHERE" text.
+         * @param query.startTimestamp Unix start timestamp of window to pull USQL data. Defaults to 2 hours ago.
+         * @param query.endTimestamp   Unix end timestamp of window to pull USQL data. Defaults to now.
+         * @param requestArgs 
+         * 
+         */
+        getAllUserActions: <T = {}>(query: {
+            customMetrics?: string[],
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<UserAction[]> => this.fetchChunkedUSQLdata(query, requestArgs, "useraction", "usersession.userSessionId, *"),
+        }, requestArgs?): Promise<(UserAction & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "useraction", "usersession.userSessionId, *"),
 
-        getAllUserEvents: (query: {
+        /**
+         * A method to return all user events from a tenant in the specified timeframe.
+         * Caveats:
+         * - Your WHERE filter may not use "startTime" filtering. This keyword is reserved for the 
+         * result querying mechanism. 
+         * - This does NOT work with aggregations, FUNNEL, or other transformative filters.
+         * - Due to the way this works, querying can load very large volumes of data (GB range)
+         * for large RUM datasets. We do not yet offer a "stream" or otherwise dynamic option of this functionality.
+         * @param query.customMetrics additional custom properties to "SELECT". 
+         * This is an array of properties that follows the pattern `stringProperties.username as "Username"`. 
+         * Can be used in conjunction with dynamic types like so: 
+         * ```
+         *  api.userSessionQueryLanguage.getAllUserEvents<{"stringProperties.username": string}>(...args)
+         * ```
+         * @param query.usqlFilter "WHERE" portion of a USQL call. Do not include the "WHERE" text.
+         * @param query.startTimestamp Unix start timestamp of window to pull USQL data. Defaults to 2 hours ago.
+         * @param query.endTimestamp   Unix end timestamp of window to pull USQL data. Defaults to now.
+         * @param requestArgs 
+         * 
+         */
+        getAllUserEvents: <T = {}>(query: {
+            customMetrics?: string[],
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<UserEvent[]> => this.fetchChunkedUSQLdata(query, requestArgs, "userevent", "usersession.userSessionId, *"),
+        }, requestArgs?): Promise<(UserEvent & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "userevent", "usersession.userSessionId, *"),
 
-        getAllUserErrors: (query: {
+        /**
+         * A method to return all user errors from a tenant in the specified timeframe.
+         * Caveats:
+         * - Your WHERE filter may not use "startTime" filtering. This keyword is reserved for the 
+         * result querying mechanism. 
+         * - This does NOT work with aggregations, FUNNEL, or other transformative filters.
+         * - Due to the way this works, querying can load very large volumes of data (GB range)
+         * for large RUM datasets. We do not yet offer a "stream" or otherwise dynamic option of this functionality.
+         * @param query.customMetrics additional custom properties to "SELECT". 
+         * This is an array of properties that follows the pattern `stringProperties.username as "Username"`. 
+         * Can be used in conjunction with dynamic types like so: 
+         * ```
+         *  api.userSessionQueryLanguage.getAllUserErrors<{"stringProperties.username": string}>(...args)
+         * ```
+         * @param query.usqlFilter "WHERE" portion of a USQL call. Do not include the "WHERE" text.
+         * @param query.startTimestamp Unix start timestamp of window to pull USQL data. Defaults to 2 hours ago.
+         * @param query.endTimestamp   Unix end timestamp of window to pull USQL data. Defaults to now.
+         * @param requestArgs 
+         * 
+         */
+        getAllUserErrors: <T = {}>(query: {
+            customMetrics?: string[],
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<UserError[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
+        }, requestArgs?): Promise<(UserError & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
     }
 
     private async fetchChunkedUSQLdata(query, requestArgs, table, metric) {
@@ -93,15 +183,10 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             return data.values[0][0] as unknown as number; // Count(*) response from the API.
         }
 
-        let counter = 0;
-        let hasLogged = false;
+        const reqMetric = query.customMetrics ? metric + "," + query.customMetrics.join() : metric;
+
         const createUsqlChunkRequests = async (startTime: number, endTime: number) => {
             const chunkSize = await statChunkSize(startTime, endTime);
-
-            if (!hasLogged) {
-                hasLogged = true;
-                // console.log("Fetching data: Estimated at", chunkSize, "rows.");
-            }
 
             const diff = Math.floor((endTime - startTime) / 2);
 
@@ -109,16 +194,15 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             if (chunkSize > pageSize) {
                 return [
                     ...await createUsqlChunkRequests(startTime, startTime + diff),
-                    ...await createUsqlChunkRequests(startTime + diff + 1000, endTime),
+                    ...await createUsqlChunkRequests(startTime + diff + 1, endTime),
                 ];
             }
             else {
-                counter++;
 
                 const timeConstraints = ` startTime > ${startTime} AND startTime < ${endTime}`;
 
                 // Re-assemble the query
-                const newQuery = `SELECT ${metric} from ${table} where ${usqlFilter} ${timeConstraints}`;
+                const newQuery = `SELECT ${reqMetric} from ${table} where ${usqlFilter} ${timeConstraints}`;
 
                 return [
                     await this.userSessionQueryLanguage.getUsqlResults({
@@ -164,8 +248,6 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
                 allSessions.push(session);
             });
         }
-        // console.log("Fetched a total of", outData.length, "rows.");
-        // console.log("  ...in", counter, "chunks.");
 
         // Create a map of sessions to clear out duplicates
         let out = [];
@@ -173,11 +255,8 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             out.push(sessionMap[sessionId]);
         });
 
-        // console.log("Originally found " + Object.keys(sessionMap).length + " sessions.");
-        // console.log("Deduplicated to " + out.length + " sessions.");
 
-
-        return out.map(session => {
+        return (table == "usersession" ? out : allSessions).map(session => {
             let obj = {};
 
             firstChunk.columnNames.forEach((col, i) => {
@@ -185,6 +264,6 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             });
 
             return obj as any;
-        });
+        }) || [];
     }
 }
