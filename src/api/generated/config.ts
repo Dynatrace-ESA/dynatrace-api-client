@@ -12585,7 +12585,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Alerting Profiles
-     * @name GetAlertingProfiles
      * @summary Lists all alerting profiles available in your environment | maturity=EARLY_ADOPTER
      * @request GET:/alertingProfiles
      */
@@ -12597,12 +12596,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Alerting Profiles
-     * @name CreateAlertingProfile
-     * @summary Creates a new alerting profile | maturity=EARLY_ADOPTER
-     * @request POST:/alertingProfiles
+     * Alerting Profiles \
+     * `POST:/alertingProfiles` \
+     * Creates a new alerting profile | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createAlertingProfile: (data: AlertingProfile, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -12616,7 +12615,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Alerting Profiles
-     * @name GetAlertingProfile
      * @summary Gets the properties of the specified alerting profile | maturity=EARLY_ADOPTER
      * @request GET:/alertingProfiles/{id}
      */
@@ -12628,12 +12626,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If an alerting profile with the specified ID doesn't exist, a new one is created.
-     *
-     * @tags Alerting Profiles
-     * @name CreateOrUpdateAlertingProfile
-     * @summary Updates an existing alerting profile | maturity=EARLY_ADOPTER
-     * @request PUT:/alertingProfiles/{id}
+     * Alerting Profiles \
+     * `PUT:/alertingProfiles/{id}` \
+     * Updates an existing alerting profile | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If an alerting profile with the specified ID doesn't exist, a new one is created.
      */
     createOrUpdateAlertingProfile: (id: string, data: AlertingProfile, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -12644,12 +12642,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The default alerting profile cannot be deleted.
-     *
-     * @tags Alerting Profiles
-     * @name DeleteAlertingProfile
-     * @summary Deletes the specified alerting profile | maturity=EARLY_ADOPTER
-     * @request DELETE:/alertingProfiles/{id}
+     * Alerting Profiles \
+     * `DELETE:/alertingProfiles/{id}` \
+     * Deletes the specified alerting profile | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The default alerting profile cannot be deleted.
      */
     deleteAlertingProfile: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -12662,7 +12660,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Alerting Profiles
-     * @name ValidateCreateAlertingProfile
      * @summary Validates the payload the `POST /alertingProfiles` request | maturity=EARLY_ADOPTER
      * @request POST:/alertingProfiles/validator
      */
@@ -12678,7 +12675,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Alerting Profiles
-     * @name ValidateCreateOrUpdateAlertingProfile
      * @summary Validates the payload the `PUT /alertingProfiles/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/alertingProfiles/{id}/validator
      */
@@ -12695,7 +12691,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Applications
-     * @name GetApplicationAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for applications
      * @request GET:/anomalyDetection/applications
      */
@@ -12710,7 +12705,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Applications
-     * @name UpdateApplicationAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for applications
      * @request PUT:/anomalyDetection/applications
      */
@@ -12726,7 +12720,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Applications
-     * @name ValidateApplicationAnomalyDetectionConfig
      * @summary Validates the configuration of anomaly detection for applications for the `PUT /anomalyDetection/applications` request
      * @request POST:/anomalyDetection/applications/validator
      */
@@ -12742,7 +12735,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - AWS
-     * @name GetAwsAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for AWS
      * @request GET:/anomalyDetection/aws
      */
@@ -12757,7 +12749,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - AWS
-     * @name UpdateAwsAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for AWS
      * @request PUT:/anomalyDetection/aws
      */
@@ -12773,7 +12764,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - AWS
-     * @name ValidateAwsAnomalyDetectionConfig
      * @summary Validates the configuration of anomaly detection for AWS for the `PUT /anomalyDetection/aws` request
      * @request POST:/anomalyDetection/aws/validator
      */
@@ -12789,7 +12779,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Database services
-     * @name GetDatabaseServiceAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for database services
      * @request GET:/anomalyDetection/databaseServices
      */
@@ -12804,7 +12793,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Database services
-     * @name UpdateDatabaseServiceAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for database services
      * @request PUT:/anomalyDetection/databaseServices
      */
@@ -12820,7 +12808,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Database services
-     * @name ValidateDatabaseServiceAnomalyDetectionConfig
      * @summary Validates the payload for the `PUT /anomalyDetection/databaseServices` request
      * @request POST:/anomalyDetection/databaseServices/validator
      */
@@ -12836,7 +12823,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name ListDiskEventConfigs
      * @summary Lists all existing disk event rules | maturity=EARLY_ADOPTER
      * @request GET:/anomalyDetection/diskEvents
      */
@@ -12848,12 +12834,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Anomaly detection - Disk events
-     * @name CreateDiskEventConfig
-     * @summary Creates a new disk event rule | maturity=EARLY_ADOPTER
-     * @request POST:/anomalyDetection/diskEvents
+     * Anomaly detection - Disk events \
+     * `POST:/anomalyDetection/diskEvents` \
+     * Creates a new disk event rule | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createDiskEventConfig: (data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -12867,7 +12853,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name GetDiskEventConfig
      * @summary Gets the properties of the specified disk event rule | maturity=EARLY_ADOPTER
      * @request GET:/anomalyDetection/diskEvents/{id}
      */
@@ -12879,12 +12864,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a disk event rule with the specified ID does not exist, a new rule is created.
-     *
-     * @tags Anomaly detection - Disk events
-     * @name UpdateDiskEventConfig
-     * @summary Updates or creates a disk event rule | maturity=EARLY_ADOPTER
-     * @request PUT:/anomalyDetection/diskEvents/{id}
+     * Anomaly detection - Disk events \
+     * `PUT:/anomalyDetection/diskEvents/{id}` \
+     * Updates or creates a disk event rule | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If a disk event rule with the specified ID does not exist, a new rule is created.
      */
     updateDiskEventConfig: (id: string, data: DiskEventAnomalyDetectionConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope | void>({
@@ -12898,7 +12883,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name DeleteDiskEventConfig
      * @summary Deletes the specified disk event rule | maturity=EARLY_ADOPTER
      * @request DELETE:/anomalyDetection/diskEvents/{id}
      */
@@ -12913,7 +12897,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name ValidateCreateDiskEventConfig
      * @summary Validates the payload for the `POST /anomalyDetection/diskEvents` request | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/diskEvents/validator
      */
@@ -12929,7 +12912,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Disk events
-     * @name ValidateUpdateDiskEventConfig
      * @summary Validates the payload for the `PUT /anomalyDetection/diskEvents/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/diskEvents/{id}/validator
      */
@@ -12945,7 +12927,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Hosts
-     * @name GetHostEventsConfig
      * @summary Gets the configuration of anomaly detection for hosts
      * @request GET:/anomalyDetection/hosts
      */
@@ -12960,7 +12941,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Hosts
-     * @name UpdateHostEventsConfig
      * @summary Updates the configuration of anomaly detection for hosts
      * @request PUT:/anomalyDetection/hosts
      */
@@ -12976,7 +12956,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Hosts
-     * @name ValidateHostEventsConfig
      * @summary Validates the configuration of anomaly detection for hosts for the `PUT /anomalyDetection/hosts` request
      * @request POST:/anomalyDetection/hosts/validator
      */
@@ -12992,7 +12971,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Metric events
-     * @name ListMetricEventConfigs
      * @summary Lists all configured metric events
      * @request GET:/anomalyDetection/metricEvents
      */
@@ -13005,12 +12983,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The response contains the ID of the newly created metric event.
-     *
-     * @tags Anomaly detection - Metric events
-     * @name CreateMetricEvent
-     * @summary Creates a new metric event
-     * @request POST:/anomalyDetection/metricEvents
+     * Anomaly detection - Metric events \
+     * `POST:/anomalyDetection/metricEvents` \
+     * Creates a new metric event \
+     * 
+     * ---
+     * @returns The response contains the ID of the newly created metric event.
      */
     createMetricEvent: (data: MetricEvent, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -13024,7 +13002,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Metric events
-     * @name GetMetricEventConfig
      * @summary Gets the properties of the specified metric event
      * @request GET:/anomalyDetection/metricEvents/{id}
      */
@@ -13036,12 +13013,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the metric event with the specified ID does not exist, a new metric event will be created. You can't update the **type** of the metric event.
-     *
-     * @tags Anomaly detection - Metric events
-     * @name UpdateMetricEvent
-     * @summary Updates an existing metric event or creates a new one
-     * @request PUT:/anomalyDetection/metricEvents/{id}
+     * Anomaly detection - Metric events \
+     * `PUT:/anomalyDetection/metricEvents/{id}` \
+     * Updates an existing metric event or creates a new one \
+     * 
+     * ---
+     * @returns If the metric event with the specified ID does not exist, a new metric event will be created. You can't update the **type** of the metric event.
      */
     updateMetricEvent: (id: string, data: MetricEvent, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -13052,12 +13029,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description You can't delete events created by plugins.
-     *
-     * @tags Anomaly detection - Metric events
-     * @name DeleteMetricEvent
-     * @summary Deletes the specified metric event
-     * @request DELETE:/anomalyDetection/metricEvents/{id}
+     * Anomaly detection - Metric events \
+     * `DELETE:/anomalyDetection/metricEvents/{id}` \
+     * Deletes the specified metric event \
+     * 
+     * ---
+     * @returns You can't delete events created by plugins.
      */
     deleteMetricEvent: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -13070,7 +13047,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Metric events
-     * @name ValidateCreateMetricEvent
      * @summary Validates the payload for the `POST /anomalyDetection/metricEvents` request
      * @request POST:/anomalyDetection/metricEvents/validator
      */
@@ -13086,7 +13062,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Metric events
-     * @name ValidateUpdateMetricEvent
      * @summary Validates the payload for the `PUT /anomalyDetection/metricEvents/{id}` request
      * @request POST:/anomalyDetection/metricEvents/{id}/validator
      */
@@ -13102,7 +13077,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Process groups
-     * @name GetLocalAvailabilityConfig
      * @summary Gets the configuration of anomaly detection for the specified process group | maturity=EARLY_ADOPTER
      * @request GET:/anomalyDetection/processGroups/{id}
      */
@@ -13117,7 +13091,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Process groups
-     * @name SetLocalAvailabilityConfig
      * @summary Updates the configuration of anomaly detection for the specified process group | maturity=EARLY_ADOPTER
      * @request PUT:/anomalyDetection/processGroups/{id}
      */
@@ -13133,7 +13106,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Process groups
-     * @name DeleteLocalAvailabilityConfig
      * @summary Switches off anomaly detection for the specified process group | maturity=EARLY_ADOPTER
      * @request DELETE:/anomalyDetection/processGroups/{id}
      */
@@ -13148,7 +13120,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Process groups
-     * @name ValidateLocalPgAvailabilityAlertingEvent
      * @summary Validates the payload for the `PUT /anomalyDetection/processGroups/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/anomalyDetection/processGroups/{id}/validator
      */
@@ -13164,7 +13135,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Services
-     * @name GetServiceAnomalyDetectionConfig
      * @summary Gets the service anomaly detection configuration
      * @request GET:/anomalyDetection/services
      */
@@ -13179,7 +13149,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Services
-     * @name UpdateServiceAnomalyDetectionConfig
      * @summary Updates the service anomaly detection configuration
      * @request PUT:/anomalyDetection/services
      */
@@ -13195,7 +13164,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - Services
-     * @name ValidateServiceAnomalyDetectionConfig
      * @summary Validates the payload for the `PUT /anomalyDetection/services` request
      * @request POST:/anomalyDetection/services/validator
      */
@@ -13211,7 +13179,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - VMware
-     * @name GetVMwareAnomalyDetectionConfig
      * @summary Gets the configuration of anomaly detection for VMware
      * @request GET:/anomalyDetection/vmware
      */
@@ -13226,7 +13193,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - VMware
-     * @name UpdateVMwareAnomalyDetectionConfig
      * @summary Updates the configuration of anomaly detection for VMware
      * @request PUT:/anomalyDetection/vmware
      */
@@ -13242,7 +13208,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Anomaly detection - VMware
-     * @name ValidateVMwareAnomalyDetectionConfig
      * @summary Validates the configuration of anomaly detection for VMware for the `PUT /anomalyDetection/vmware` request
      * @request POST:/anomalyDetection/vmware/validator
      */
@@ -13259,7 +13224,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ListMobileApplicationConfigs
      * @summary Lists all existing mobile and custom applications
      * @request GET:/applications/mobile
      */
@@ -13271,12 +13235,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an identifier. An identifier is assigned automatically by Dynatrace. You can, however, provide your own applicationId. If you don't specify an applicationId, it is assigned automatically by Dynatrace.
-     *
-     * @tags RUM - Mobile and custom application configuration
-     * @name CreateMobileApplicationConfig
-     * @summary Creates a new mobile or custom application
-     * @request POST:/applications/mobile
+     * RUM - Mobile and custom application configuration \
+     * `POST:/applications/mobile` \
+     * Creates a new mobile or custom application \
+     * 
+     * ---
+     * @returns The body must not provide an identifier. An identifier is assigned automatically by Dynatrace. You can, however, provide your own applicationId. If you don't specify an applicationId, it is assigned automatically by Dynatrace.
      */
     createMobileApplicationConfig: (data: NewMobileCustomAppConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -13290,7 +13254,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name GetMobileApplicationConfig
      * @summary Gets the configuration of the specified mobile or custom application
      * @request GET:/applications/mobile/{id}
      */
@@ -13302,12 +13265,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description You can't change applicationId and applicationType with this request. All other values must be included in the body, depending on the applicationType.
-     *
-     * @tags RUM - Mobile and custom application configuration
-     * @name UpdateMobileApplicationConfig
-     * @summary Updates the configuration of the specified mobile or custom application
-     * @request PUT:/applications/mobile/{id}
+     * RUM - Mobile and custom application configuration \
+     * `PUT:/applications/mobile/{id}` \
+     * Updates the configuration of the specified mobile or custom application \
+     * 
+     * ---
+     * @returns You can't change applicationId and applicationType with this request. All other values must be included in the body, depending on the applicationType.
      */
     updateMobileApplicationConfig: (id: string, data: MobileCustomAppConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope | void>({
@@ -13321,7 +13284,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name DeleteMobileApplicationConfig
      * @summary Deletes the specified mobile or custom application
      * @request DELETE:/applications/mobile/{id}
      */
@@ -13336,7 +13298,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ValidateCreateMobileApplicationConfig
      * @summary Validates the payload for the `POST /applications/mobile` request
      * @request POST:/applications/mobile/validator
      */
@@ -13352,7 +13313,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ValidateUpdateMobileApplicationConfig
      * @summary Validates the payload for the `PUT /applications/mobile/{id}` request.
      * @request POST:/applications/mobile/{id}/validator
      */
@@ -13368,7 +13328,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ListSessionProperties
      * @summary Lists all mobile session and user action properties for the specified application
      * @request GET:/applications/mobile/{applicationId}/userActionAndSessionProperties
      */
@@ -13383,7 +13342,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name CreateSessionProperty
      * @summary Creates a new mobile session or user action property for the specified application
      * @request POST:/applications/mobile/{applicationId}/userActionAndSessionProperties
      */
@@ -13399,7 +13357,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name GetSessionProperty
      * @summary Gets the specified mobile session or user action property of an application
      * @request GET:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}
      */
@@ -13411,12 +13368,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the property with the specified ID does not exist, a new property is created.
-     *
-     * @tags RUM - Mobile and custom application configuration
-     * @name UpdateSessionProperty
-     * @summary Updates the specified mobile session or user action property for an application
-     * @request PUT:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}
+     * RUM - Mobile and custom application configuration \
+     * `PUT:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}` \
+     * Updates the specified mobile session or user action property for an application \
+     * 
+     * ---
+     * @returns If the property with the specified ID does not exist, a new property is created.
      */
     updateSessionProperty: (
       applicationId: string,
@@ -13435,7 +13392,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name DeleteSessionProperty
      * @summary Deletes the specified mobile session or user action property for an application
      * @request DELETE:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}
      */
@@ -13450,7 +13406,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ValidateCreateSessionProperty
      * @summary Validates the payload for the `POST /applications/mobile/{applicationId}/userActionAndSessionProperties` request
      * @request POST:/applications/mobile/{applicationId}/userActionAndSessionProperties/validator
      */
@@ -13470,7 +13425,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ValidateUpdateSessionProperty
      * @summary Validates the payload for the `PUT /applications/mobile/{applicationId}/userActionAndSessionProperties/{key}` request
      * @request POST:/applications/mobile/{applicationId}/userActionAndSessionProperties/{key}/validator
      */
@@ -13491,7 +13445,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name CreateMobileKeyUserAction
      * @summary Marks the user action as a key user action in the specified application
      * @request POST:/applications/mobile/{applicationId}/keyUserActions/{actionName}
      */
@@ -13506,7 +13459,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name DeleteMobileKeyUserAction
      * @summary Removes the specified user action from the list of key user actions in the specified application
      * @request DELETE:/applications/mobile/{applicationId}/keyUserActions/{actionName}
      */
@@ -13521,7 +13473,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Mobile and custom application configuration
-     * @name ListMobileKeyUserActions
      * @summary Gets the list of key user actions in the specified application
      * @request GET:/applications/mobile/{applicationId}/keyUserActions
      */
@@ -13536,7 +13487,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ListKeyUserActions
      * @summary Gets the list of key user actions in the specified web application
      * @request GET:/applications/web/{id}/keyUserActions
      */
@@ -13551,7 +13501,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name CreateKeyUserAction
      * @summary Marks the user action as a key user action in the specified web application
      * @request POST:/applications/web/{id}/keyUserActions
      */
@@ -13564,12 +13513,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
-     *
-     * @tags RUM - Web application configuration
-     * @name GetDefaultApplication
-     * @summary Gets the configuration of the default web application
-     * @request GET:/applications/web/default
+     * RUM - Web application configuration \
+     * `GET:/applications/web/default` \
+     * Gets the configuration of the default web application \
+     * 
+     * ---
+     * @returns Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
      */
     getDefaultApplication: (params: RequestParams = {}) =>
       this.request<WebApplicationConfig, any>({
@@ -13579,12 +13528,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
-     *
-     * @tags RUM - Web application configuration
-     * @name CreateOrUpdateDefaultConfiguration
-     * @summary Updates the configuration of the default web application
-     * @request PUT:/applications/web/default
+     * RUM - Web application configuration \
+     * `PUT:/applications/web/default` \
+     * Updates the configuration of the default web application \
+     * 
+     * ---
+     * @returns Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
      */
     createOrUpdateDefaultConfiguration: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -13598,7 +13547,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ListWebApplicationConfigs
      * @summary Lists all existing web applications
      * @request GET:/applications/web
      */
@@ -13610,12 +13558,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as that will be automatically assigned by Dynatrace server.
-     *
-     * @tags RUM - Web application configuration
-     * @name CreateWebApplicationConfig
-     * @summary Creates a new web application
-     * @request POST:/applications/web
+     * RUM - Web application configuration \
+     * `POST:/applications/web` \
+     * Creates a new web application \
+     * 
+     * ---
+     * @returns The body must not provide an ID as that will be automatically assigned by Dynatrace server.
      */
     createWebApplicationConfig: (data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -13629,7 +13577,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name DeleteKeyUserAction
      * @summary Removes the specified user action from the list of key user actions in the specified web application
      * @request DELETE:/applications/web/{id}/keyUserActions/{keyUserActionId}
      */
@@ -13644,7 +13591,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name GetWebApplicationConfig
      * @summary Gets the configuration of the specified web application
      * @request GET:/applications/web/{id}
      */
@@ -13656,12 +13602,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the application with the specified ID does not exist, a new application will be created.
-     *
-     * @tags RUM - Web application configuration
-     * @name UpdateWebApplicationConfig
-     * @summary Updates the configuration of the specified web application or creates a new one
-     * @request PUT:/applications/web/{id}
+     * RUM - Web application configuration \
+     * `PUT:/applications/web/{id}` \
+     * Updates the configuration of the specified web application or creates a new one \
+     * 
+     * ---
+     * @returns If the application with the specified ID does not exist, a new application will be created.
      */
     updateWebApplicationConfig: (id: string, data: WebApplicationConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -13675,7 +13621,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name DeleteWebApplicationConfig
      * @summary Deletes the specified web application
      * @request DELETE:/applications/web/{id}
      */
@@ -13690,7 +13635,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name GetApplicationErrorConfig
      * @summary Gets the configuration of error rules in the specified application
      * @request GET:/applications/web/{id}/errorRules
      */
@@ -13705,7 +13649,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name UpdateApplicationErrorConfig
      * @summary Updates the configuration of error rules in the specified application
      * @request PUT:/applications/web/{id}/errorRules
      */
@@ -13721,7 +13664,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name GetDataPrivacySettings
      * @summary Gets the data privacy settings of the specified web application
      * @request GET:/applications/web/{id}/dataPrivacy
      */
@@ -13736,7 +13678,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name UpdateDataPrivacySettings
      * @summary Updates the data privacy settings of the specified web application
      * @request PUT:/applications/web/{id}/dataPrivacy
      */
@@ -13749,12 +13690,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Default application is pre-configured in your Dynatrace environment. By default all the traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
-     *
-     * @tags RUM - Web application configuration
-     * @name GetDefaultApplicationDataPrivacySettings
-     * @summary Gets the data privacy settings of the default web application
-     * @request GET:/applications/web/default/dataPrivacy
+     * RUM - Web application configuration \
+     * `GET:/applications/web/default/dataPrivacy` \
+     * Gets the data privacy settings of the default web application \
+     * 
+     * ---
+     * @returns Default application is pre-configured in your Dynatrace environment. By default all the traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
      */
     getDefaultApplicationDataPrivacySettings: (params: RequestParams = {}) =>
       this.request<ApplicationDataPrivacy, any>({
@@ -13764,12 +13705,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
-     *
-     * @tags RUM - Web application configuration
-     * @name UpdateDefaultApplicationDataPrivacySettings
-     * @summary Updates the data privacy settings of the default web application
-     * @request PUT:/applications/web/default/dataPrivacy
+     * RUM - Web application configuration \
+     * `PUT:/applications/web/default/dataPrivacy` \
+     * Updates the data privacy settings of the default web application \
+     * 
+     * ---
+     * @returns Default application is pre-configured in your Dynatrace environment. By default all traffic goes to this application. After you configure your own applications, all the traffic, which doesn't fit to any of your applications, goes to the default one.
      */
     updateDefaultApplicationDataPrivacySettings: (data: ApplicationDataPrivacy, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -13783,7 +13724,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ListDataPrivacySettings
      * @summary Lists data privacy settings of all web applications
      * @request GET:/applications/web/dataPrivacy
      */
@@ -13798,7 +13738,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ValidateCreateWebApplicationConfig
      * @summary Validates the configuration of the web application for the `POST /applications/web` request
      * @request POST:/applications/web/validator
      */
@@ -13814,7 +13753,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ValidateDataPrivacySettings
      * @summary Validates data privacy settings for the `PUT /applications/web/{id}/dataPrivacy` request
      * @request POST:/applications/web/{id}/dataPrivacy/validator
      */
@@ -13830,7 +13768,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ValidateDefaultApplicationDataPrivacySettings
      * @summary Validates data privacy settings of the default web application for the `PUT /applications/web/default/dataPrivacy` request
      * @request POST:/applications/web/default/dataPrivacy/validator
      */
@@ -13846,7 +13783,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ValidateDefaultConfiguration
      * @summary Validates the configuration of the default web application for the `PUT /applications/web/default` request
      * @request POST:/applications/web/default/validator
      */
@@ -13862,7 +13798,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Web application configuration
-     * @name ValidateUpdateWebApplicationConfig
      * @summary Validates the configuration of the web application for the `PUT /applications/web/{id}` request.
      * @request POST:/applications/web/{id}/validator
      */
@@ -13879,7 +13814,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules
-     * @name ListApplicationDetectionConfigs
      * @summary Lists all available application detection rules
      * @request GET:/applicationDetectionRules
      */
@@ -13891,12 +13825,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server. You can only create detection rules for an existing application. If you need to create a rule for an application that doesn't exist yet, [create an application first](https://dt-url.net/vt03khh) and then configure detection rules for it.
-     *
-     * @tags RUM - Application detection rules
-     * @name CreateApplicationDetectionConfig
-     * @summary Creates a new application detection rule
-     * @request POST:/applicationDetectionRules
+     * RUM - Application detection rules \
+     * `POST:/applicationDetectionRules` \
+     * Creates a new application detection rule \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server. You can only create detection rules for an existing application. If you need to create a rule for an application that doesn't exist yet, [create an application first](https://dt-url.net/vt03khh) and then configure detection rules for it.
      */
     createApplicationDetectionConfig: (
       data: ApplicationDetectionRuleConfig,
@@ -13915,7 +13849,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules
-     * @name GetApplicationDetectionConfig
      * @summary Gets the parameters of the specified application detection rule
      * @request GET:/applicationDetectionRules/{id}
      */
@@ -13927,12 +13860,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the application detection rule with the specified ID doesn't exist, a new application is created and appended to the end of the rule list. If the **order** parameter is set for an existing rule, the request uses this value. Otherwise it keeps the existing order of rules.
-     *
-     * @tags RUM - Application detection rules
-     * @name UpdateApplicationDetectionConfig
-     * @summary Updates the specified application detection rule
-     * @request PUT:/applicationDetectionRules/{id}
+     * RUM - Application detection rules \
+     * `PUT:/applicationDetectionRules/{id}` \
+     * Updates the specified application detection rule \
+     * 
+     * ---
+     * @returns If the application detection rule with the specified ID doesn't exist, a new application is created and appended to the end of the rule list. If the **order** parameter is set for an existing rule, the request uses this value. Otherwise it keeps the existing order of rules.
      */
     updateApplicationDetectionConfig: (id: string, data: ApplicationDetectionRuleConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -13946,7 +13879,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules
-     * @name DeleteApplicationDetectionConfig
      * @summary Deletes the specified application detection rule
      * @request DELETE:/applicationDetectionRules/{id}
      */
@@ -13958,12 +13890,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description This request reorders the application detection rules according to the submitted list of IDs. Application detection rules not present in the body of the request will retain their relative ordering but are placed *after* all those present in the request.
-     *
-     * @tags RUM - Application detection rules
-     * @name OrderApplicationDetectionConfigs
-     * @summary Reorders the application detection rules
-     * @request PUT:/applicationDetectionRules/order
+     * RUM - Application detection rules \
+     * `PUT:/applicationDetectionRules/order` \
+     * Reorders the application detection rules \
+     * 
+     * ---
+     * @returns This request reorders the application detection rules according to the submitted list of IDs. Application detection rules not present in the body of the request will retain their relative ordering but are placed *after* all those present in the request.
      */
     orderApplicationDetectionConfigs: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -13977,7 +13909,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules
-     * @name ValidateCreateApplicationDetectionConfig
      * @summary Validates the payload for the `POST /applicationDetection` request
      * @request POST:/applicationDetectionRules/validator
      */
@@ -13993,7 +13924,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules
-     * @name ValidateUpdateApplicationDetectionConfig
      * @summary Validate the payload for the `PUT /applicationDetection/{id}` request
      * @request POST:/applicationDetectionRules/{id}/validator
      */
@@ -14013,7 +13943,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules - Host detection
-     * @name GetHostDetectionConfig
      * @summary Gets the configuration of host detection headers
      * @request GET:/applicationDetectionRules/hostDetection
      */
@@ -14025,12 +13954,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request overwrites the existing configuration. Any headers not presented in the payload will be lost.
-     *
-     * @tags RUM - Application detection rules - Host detection
-     * @name UpdateHostDetectionConfig
-     * @summary Updates the configuration of host detection headers
-     * @request PUT:/applicationDetectionRules/hostDetection
+     * RUM - Application detection rules - Host detection \
+     * `PUT:/applicationDetectionRules/hostDetection` \
+     * Updates the configuration of host detection headers \
+     * 
+     * ---
+     * @returns The request overwrites the existing configuration. Any headers not presented in the payload will be lost.
      */
     updateHostDetectionConfig: (data: ApplicationDetectionRulesHostDetectionSettings, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -14044,7 +13973,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Application detection rules - Host detection
-     * @name ValidateHostDetectionConfig
      * @summary Validate the payload for `PUT /applicationDetection/hostDetection` request.
      * @request POST:/applicationDetectionRules/hostDetection/validator
      */
@@ -14061,7 +13989,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Automatically applied tags
-     * @name ListAutoTags
      * @summary Lists all configured auto-tags
      * @request GET:/autoTags
      */
@@ -14073,12 +14000,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Automatically applied tags
-     * @name CreateAutoTag
-     * @summary Creates a new auto-tag
-     * @request POST:/autoTags
+     * Automatically applied tags \
+     * `POST:/autoTags` \
+     * Creates a new auto-tag \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createAutoTag: (data: AutoTag, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -14092,7 +14019,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Automatically applied tags
-     * @name GetAutoTag
      * @summary Gets the properties of the specified auto-tag
      * @request GET:/autoTags/{id}
      */
@@ -14105,12 +14031,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the auto-tag with the specified ID does not exist, a new auto-tag is created.
-     *
-     * @tags Automatically applied tags
-     * @name UpdateAutoTag
-     * @summary Updates an existing auto-tag
-     * @request PUT:/autoTags/{id}
+     * Automatically applied tags \
+     * `PUT:/autoTags/{id}` \
+     * Updates an existing auto-tag \
+     * 
+     * ---
+     * @returns If the auto-tag with the specified ID does not exist, a new auto-tag is created.
      */
     updateAutoTag: (id: string, data: AutoTag, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -14124,7 +14050,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Automatically applied tags
-     * @name DeleteAutoTag
      * @summary Deletes the specified auto-tag
      * @request DELETE:/autoTags/{id}
      */
@@ -14139,7 +14064,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Automatically applied tags
-     * @name ValidateCreateAutoTag
      * @summary Validates the payload for the `POST /autoTags` request
      * @request POST:/autoTags/validator
      */
@@ -14155,7 +14079,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Automatically applied tags
-     * @name ValidateUpdateAutoTag
      * @summary Validates the payload for the `PUT /autoTags/{id}` request
      * @request POST:/autoTags/{id}/validator
      */
@@ -14172,7 +14095,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent - Environment-wide configuration
-     * @name GetAutoUpdateConfig
      * @summary Gets the environment-wide configuration of OneAgents auto-update
      * @request GET:/hosts/autoupdate
      */
@@ -14184,12 +14106,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description OneAgents are updated several minutes after the change of configuration. The process can take more time depending on number of OneAgents in the update queue.
-     *
-     * @tags OneAgent - Environment-wide configuration
-     * @name SetAutoUpdateConfig
-     * @summary Updates the environment-wide configuration of OneAgents auto-update
-     * @request PUT:/hosts/autoupdate
+     * OneAgent - Environment-wide configuration \
+     * `PUT:/hosts/autoupdate` \
+     * Updates the environment-wide configuration of OneAgents auto-update \
+     * 
+     * ---
+     * @returns OneAgents are updated several minutes after the change of configuration. The process can take more time depending on number of OneAgents in the update queue.
      */
     setAutoUpdateConfig: (data: EnvironmentAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -14203,7 +14125,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent - Environment-wide configuration
-     * @name ValidateAutoUpdateConfig
      * @summary Validates the payload for the `PUT /hosts/autoupdate` request
      * @request POST:/hosts/autoupdate/validator
      */
@@ -14219,7 +14140,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent on a host
-     * @name GetAutoUpdateConfig1
      * @summary Gets the configuration of OneAgent auto-update on the specified host
      * @request GET:/hosts/{id}/autoupdate
      */
@@ -14231,12 +14151,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description OneAgent is updated several minutes after the change of configuration. The process can take more time depending on number of OneAgents in the update queue.
-     *
-     * @tags OneAgent on a host
-     * @name UpdateAutoUpdateConfig
-     * @summary Updates the configuration of OneAgent auto-update on the specified host
-     * @request PUT:/hosts/{id}/autoupdate
+     * OneAgent on a host \
+     * `PUT:/hosts/{id}/autoupdate` \
+     * Updates the configuration of OneAgent auto-update on the specified host \
+     * 
+     * ---
+     * @returns OneAgent is updated several minutes after the change of configuration. The process can take more time depending on number of OneAgents in the update queue.
      */
     updateAutoUpdateConfig: (id: string, data: HostAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -14250,7 +14170,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent on a host
-     * @name ValidateAutoUpdateConfig1
      * @summary Validates the payload for the `PUT /hosts/{id}/autoupdate` request
      * @request POST:/hosts/{id}/autoupdate/validator
      */
@@ -14266,7 +14185,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent on a host
-     * @name GetHostConfig
      * @summary Gets the OneAgent configuration on the specified host
      * @request GET:/hosts/{id}
      */
@@ -14281,7 +14199,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent on a host
-     * @name GetMonitoringConfig
      * @summary Gets the monitoring configuration of OneAgent on the specified host
      * @request GET:/hosts/{id}/monitoring
      */
@@ -14293,12 +14210,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The monitoring mode of OneAgent is updated several minutes after the change of configuration.
-     *
-     * @tags OneAgent on a host
-     * @name UpdateMonitoringConfig
-     * @summary Updates the monitoring configuration of OneAgent on the specified host
-     * @request PUT:/hosts/{id}/monitoring
+     * OneAgent on a host \
+     * `PUT:/hosts/{id}/monitoring` \
+     * Updates the monitoring configuration of OneAgent on the specified host \
+     * 
+     * ---
+     * @returns The monitoring mode of OneAgent is updated several minutes after the change of configuration.
      */
     updateMonitoringConfig: (id: string, data: MonitoringConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -14312,7 +14229,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent on a host
-     * @name ValidateMonitoringConfig
      * @summary Validates the payload for the `PUT /hosts/{id}/monitoring` request
      * @request POST:/hosts/{id}/monitoring/validator
      */
@@ -14328,7 +14244,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent on a host
-     * @name GetTechHostConfigs
      * @summary Gets the configuration of monitored technologies on the specified host
      * @request GET:/hosts/{id}/technologies
      */
@@ -14344,7 +14259,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Allowed beacon origins for CORS
-     * @name GetAllowedBeaconOriginsConfig
      * @summary Gets the configuration of the allowed beacon origins for CORS requests
      * @request GET:/allowedBeaconOriginsForCors
      */
@@ -14356,12 +14270,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request overwrites the existing configuration. Any rules not presented in the payload will be lost.
-     *
-     * @tags RUM - Allowed beacon origins for CORS
-     * @name PutAllowedBeaconOriginsConfig
-     * @summary Updates the configuration of the allowed beacon origins for CORS requests
-     * @request PUT:/allowedBeaconOriginsForCors
+     * RUM - Allowed beacon origins for CORS \
+     * `PUT:/allowedBeaconOriginsForCors` \
+     * Updates the configuration of the allowed beacon origins for CORS requests \
+     * 
+     * ---
+     * @returns The request overwrites the existing configuration. Any rules not presented in the payload will be lost.
      */
     putAllowedBeaconOriginsConfig: (data: AllowedBeaconOrigins, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -14375,7 +14289,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Allowed beacon origins for CORS
-     * @name ValidateAllowedBeaconOriginsConfig
      * @summary Validates the payload for the `PUT /allowedBeaconOriginsForCors` request
      * @request POST:/allowedBeaconOriginsForCors/validator
      */
@@ -14392,7 +14305,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Conditional naming
-     * @name ListNamingRules
      * @summary Lists all configured naming rules of the specified type
      * @request GET:/conditionalNaming/{type}
      */
@@ -14404,12 +14316,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Conditional naming
-     * @name CreateNamingRule
-     * @summary Creates a new naming rule
-     * @request POST:/conditionalNaming/{type}
+     * Conditional naming \
+     * `POST:/conditionalNaming/{type}` \
+     * Creates a new naming rule \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createNamingRule: (
       type: "processGroup" | "host" | "service",
@@ -14427,7 +14339,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Conditional naming
-     * @name GetNamingRule
      * @summary Lists the parameters of the specified naming rule
      * @request GET:/conditionalNaming/{type}/{id}
      */
@@ -14439,12 +14350,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
-     *
-     * @tags Conditional naming
-     * @name UpdateNamingRule
-     * @summary Updates the specified naming rule
-     * @request PUT:/conditionalNaming/{type}/{id}
+     * Conditional naming \
+     * `PUT:/conditionalNaming/{type}/{id}` \
+     * Updates the specified naming rule \
+     * 
+     * ---
+     * @returns If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
      */
     updateNamingRule: (
       type: "processGroup" | "host" | "service",
@@ -14463,7 +14374,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Conditional naming
-     * @name DeleteNamingRule
      * @summary Deletes the specified naming rule
      * @request DELETE:/conditionalNaming/{type}/{id}
      */
@@ -14478,7 +14388,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Conditional naming
-     * @name ValidateCreateNamingRule
      * @summary Validates the payload for the `POST /conditionalNaming/{type}` request
      * @request POST:/conditionalNaming/{type}/validator
      */
@@ -14498,7 +14407,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Conditional naming
-     * @name ValidateUpdateNamingRule
      * @summary Validates the payload for the `PUT /conditionalNaming/{type}/{id}` request
      * @request POST:/conditionalNaming/{type}/{id}/validator
      */
@@ -14520,7 +14428,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Content resources
-     * @name GetContentConfig
      * @summary Gets the configuration of content resources
      * @request GET:/contentResources
      */
@@ -14535,7 +14442,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Content resources
-     * @name PutContentResourceConfig
      * @summary Updates the configuration of content resources
      * @request PUT:/contentResources
      */
@@ -14551,7 +14457,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Content resources
-     * @name ValidateContentResourceConfig
      * @summary Validates the payload for the `PUT /contentResources` request
      * @request POST:/contentResources/validator
      */
@@ -14568,7 +14473,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Credential vault
-     * @name ListCredentials
      * @summary Lists all sets of credentials for synthetic monitors stored in your environment
      * @request GET:/credentials
      */
@@ -14581,12 +14485,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Credential vault
-     * @name CreateCredentials
-     * @summary Creates a new credentials set
-     * @request POST:/credentials
+     * Credential vault \
+     * `POST:/credentials` \
+     * Creates a new credentials set \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createCredentials: (data: Credentials, params: RequestParams = {}) =>
       this.request<CredentialsResponseElement, ErrorEnvelope>({
@@ -14597,12 +14501,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The credentials set itself (username/certificate and password) is not included in the response.
-     *
-     * @tags Credential vault
-     * @name GetCredentials
-     * @summary Gets the metadata of the specified credentials set
-     * @request GET:/credentials/{id}
+     * Credential vault \
+     * `GET:/credentials/{id}` \
+     * Gets the metadata of the specified credentials set \
+     * 
+     * ---
+     * @returns The credentials set itself (username/certificate and password) is not included in the response.
      */
     getCredentials: (id: string, params: RequestParams = {}) =>
       this.request<CredentialsResponseElement, any>({
@@ -14615,7 +14519,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Credential vault
-     * @name UpdateCredentials
      * @summary Updates the specified credentials set
      * @request PUT:/credentials/{id}
      */
@@ -14631,7 +14534,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Credential vault
-     * @name RemoveCredentials
      * @summary Deletes the specified credentials set
      * @request DELETE:/credentials/{id}
      */
@@ -14647,7 +14549,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Custom services
-     * @name ListCustomServices
      * @summary Lists all custom services of the specified technology
      * @request GET:/service/customServices/{technology}
      */
@@ -14659,12 +14560,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description In the body of the request, neither custom service nor its rules can have the ID. All IDs will be generated automatically by Dynatrace.
-     *
-     * @tags Service - Custom services
-     * @name CreateCustomService
-     * @summary Creates a custom service
-     * @request POST:/service/customServices/{technology}
+     * Service - Custom services \
+     * `POST:/service/customServices/{technology}` \
+     * Creates a custom service \
+     * 
+     * ---
+     * @returns In the body of the request, neither custom service nor its rules can have the ID. All IDs will be generated automatically by Dynatrace.
      */
     createCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14684,7 +14585,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Custom services
-     * @name GetCustomService
      * @summary Gets the definition of the specified custom service
      * @request GET:/service/customServices/{technology}/{id}
      */
@@ -14702,12 +14602,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Will use the config's ´order´ attribute if supplied, otherwise keeps the order of the existing config or appends if no existing config with the supplied ID was found.
-     *
-     * @tags Service - Custom services
-     * @name UpdateCustomService
-     * @summary Updates the specified custom service or create a new one.
-     * @request PUT:/service/customServices/{technology}/{id}
+     * Service - Custom services \
+     * `PUT:/service/customServices/{technology}/{id}` \
+     * Updates the specified custom service or create a new one. \
+     * 
+     * ---
+     * @returns Will use the config's ´order´ attribute if supplied, otherwise keeps the order of the existing config or appends if no existing config with the supplied ID was found.
      */
     updateCustomService: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14726,7 +14626,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Custom services
-     * @name DeleteCustomService
      * @summary Deletes the specified custom service
      * @request DELETE:/service/customServices/{technology}/{id}
      */
@@ -14742,12 +14641,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description This request reorders the custom services of the specified technology according to the given list of IDs. Custom services not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
-     *
-     * @tags Service - Custom services
-     * @name OrderCustomServices
-     * @summary Reorders the custom services of the specified technology
-     * @request PUT:/service/customServices/{technology}/order
+     * Service - Custom services \
+     * `PUT:/service/customServices/{technology}/order` \
+     * Reorders the custom services of the specified technology \
+     * 
+     * ---
+     * @returns This request reorders the custom services of the specified technology according to the given list of IDs. Custom services not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
      */
     orderCustomServices: (
       technology: "dotNet" | "go" | "java" | "nodeJS" | "php",
@@ -14765,7 +14664,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Custom services
-     * @name ValidateCreateCustomService
      * @summary Validate the new custom service for the `POST /customServices/{technology}` request
      * @request POST:/service/customServices/{technology}/validator
      */
@@ -14785,7 +14683,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Custom services
-     * @name ValidateUpdateCustomService
      * @summary Validate the new custom service for the `PUT /customServices/{technology}/{id}` request
      * @request POST:/service/customServices/{technology}/{id}/validator
      */
@@ -14803,12 +14700,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Rules that use the set will be automatically adapted to the new ID.
-     *
-     * @tags Service - Failure detection parameter sets
-     * @name ChangeFdpId
-     * @summary Changes the ID of the specified failure detection parameter set | maturity=EARLY_ADOPTER
-     * @request PUT:/service/failureDetection/parameterSelection/parameterSets/{id}/changeId
+     * Service - Failure detection parameter sets \
+     * `PUT:/service/failureDetection/parameterSelection/parameterSets/{id}/changeId` \
+     * Changes the ID of the specified failure detection parameter set | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Rules that use the set will be automatically adapted to the new ID.
      */
     changeFdpId: (id: string, data: EntityShortRepresentation, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -14822,7 +14719,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection parameter sets
-     * @name GetAllFdps
      * @summary Lists all available failure detection parameter sets | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/parameterSets
      */
@@ -14837,7 +14733,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection parameter sets
-     * @name CreateFdp
      * @summary Creates a new failure detection parameter set | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets
      */
@@ -14853,7 +14748,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection parameter sets
-     * @name GetFdp
      * @summary Gets the specified failure detection parameter set | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/parameterSets/{id}
      */
@@ -14865,12 +14759,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a set with the specified ID doesn't exist, a new one is created.
-     *
-     * @tags Service - Failure detection parameter sets
-     * @name CreateOrUpdateFdp
-     * @summary Updates the specified failure detection parameter set | maturity=EARLY_ADOPTER
-     * @request PUT:/service/failureDetection/parameterSelection/parameterSets/{id}
+     * Service - Failure detection parameter sets \
+     * `PUT:/service/failureDetection/parameterSelection/parameterSets/{id}` \
+     * Updates the specified failure detection parameter set | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If a set with the specified ID doesn't exist, a new one is created.
      */
     createOrUpdateFdp: (id: string, data: FailureDetectionParameterSet, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -14881,12 +14775,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description You cannot delete the set that is used by any failure detection rule. If you need to delete such a set, switch the rule to a new set or delete the rule first.
-     *
-     * @tags Service - Failure detection parameter sets
-     * @name DeleteFdp
-     * @summary Deletes the specified failure detection parameter set | maturity=EARLY_ADOPTER
-     * @request DELETE:/service/failureDetection/parameterSelection/parameterSets/{id}
+     * Service - Failure detection parameter sets \
+     * `DELETE:/service/failureDetection/parameterSelection/parameterSets/{id}` \
+     * Deletes the specified failure detection parameter set | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You cannot delete the set that is used by any failure detection rule. If you need to delete such a set, switch the rule to a new set or delete the rule first.
      */
     deleteFdp: (id: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -14899,7 +14793,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection parameter sets
-     * @name ValidateCreateFdp
      * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/parameterSets` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets/validator
      */
@@ -14915,7 +14808,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection parameter sets
-     * @name ValidateUpdateFdp
      * @summary Validates the payload for the `PUT /service/failureDetection/parameterSelection/parameterSets/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/parameterSets/{id}/validator
      */
@@ -14931,7 +14823,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name ChangeRuleId
      * @summary Changes the ID of the specified rule | maturity=EARLY_ADOPTER
      * @request PUT:/service/failureDetection/parameterSelection/rules/{id}/changeId
      */
@@ -14947,7 +14838,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name GetRule
      * @summary Gets the properties of the specified rule | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/rules/{id}
      */
@@ -14959,12 +14849,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a rule with the specified ID doesn't exist, a new one is created and appended to the end of the rule list. Rules are evaluated from top to bottom, the first matching rule applies.To enforce a particular order use the reorder request. The failure detection parameter set used by the rule must exist at the time of rule creation.
-     *
-     * @tags Service - Failure detection rules
-     * @name CreateOrUpdateRule
-     * @summary Updates the specified failure detection rule rule | maturity=EARLY_ADOPTER
-     * @request PUT:/service/failureDetection/parameterSelection/rules/{id}
+     * Service - Failure detection rules \
+     * `PUT:/service/failureDetection/parameterSelection/rules/{id}` \
+     * Updates the specified failure detection rule rule | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If a rule with the specified ID doesn't exist, a new one is created and appended to the end of the rule list. Rules are evaluated from top to bottom, the first matching rule applies.To enforce a particular order use the reorder request. The failure detection parameter set used by the rule must exist at the time of rule creation.
      */
     createOrUpdateRule: (id: string, data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -14978,7 +14868,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name DeleteRule
      * @summary Deletes the specified failure detection rule | maturity=EARLY_ADOPTER
      * @request DELETE:/service/failureDetection/parameterSelection/rules/{id}
      */
@@ -14993,7 +14882,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name GetAllRules
      * @summary Lists all available failure detection rules | maturity=EARLY_ADOPTER
      * @request GET:/service/failureDetection/parameterSelection/rules
      */
@@ -15005,12 +14893,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The new rule is appended to the end of the rule list. Rules are evaluated from top to bottom, the first matching rule applies.To enforce a particular order use the reorder request. The failure detection parameter set used by the rule must exist at the time of rule creation.
-     *
-     * @tags Service - Failure detection rules
-     * @name CreateRule
-     * @summary Creates a new failure detection rule | maturity=EARLY_ADOPTER
-     * @request POST:/service/failureDetection/parameterSelection/rules
+     * Service - Failure detection rules \
+     * `POST:/service/failureDetection/parameterSelection/rules` \
+     * Creates a new failure detection rule | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The new rule is appended to the end of the rule list. Rules are evaluated from top to bottom, the first matching rule applies.To enforce a particular order use the reorder request. The failure detection parameter set used by the rule must exist at the time of rule creation.
      */
     createRule: (data: FailureDetectionRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15021,12 +14909,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Rules are evaluated from top to bottom, the first matching rule applies.
-     *
-     * @tags Service - Failure detection rules
-     * @name ReorderRules
-     * @summary Reorders failure detection rules | maturity=EARLY_ADOPTER
-     * @request PUT:/service/failureDetection/parameterSelection/rules/reorderRules
+     * Service - Failure detection rules \
+     * `PUT:/service/failureDetection/parameterSelection/rules/reorderRules` \
+     * Reorders failure detection rules | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Rules are evaluated from top to bottom, the first matching rule applies.
      */
     reorderRules: (data: FdpSelectionRuleOrder, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15040,7 +14928,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name ValidateCreateRule
      * @summary Validates the payload for the `POST /service/failureDetection/parameterSelection/rules` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/rules/validator
      */
@@ -15056,7 +14943,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Failure detection rules
-     * @name ValidateUpdateRule
      * @summary Validates the payload for the `PUT /service/failureDetection/parameterSelection/rules/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/service/failureDetection/parameterSelection/rules/{id}/validator
      */
@@ -15069,12 +14955,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description This endpoint is used to provide Dynatrace with all IBM MQ queues (defined by QueueManagerName and QueueName) which are used to send messages to IBM IMS on the mainframe. This is required to facilitate end to end tracing for messages sent via IBM MQ to IBM IMS.
-     *
-     * @tags Service - IBM MQ tracing
-     * @name GetAllImsEntryQueues
-     * @summary Lists all IBM IMS entry queues
-     * @request GET:/service/ibmMQTracing/imsEntryQueue
+     * Service - IBM MQ tracing \
+     * `GET:/service/ibmMQTracing/imsEntryQueue` \
+     * Lists all IBM IMS entry queues \
+     * 
+     * ---
+     * @returns This endpoint is used to provide Dynatrace with all IBM MQ queues (defined by QueueManagerName and QueueName) which are used to send messages to IBM IMS on the mainframe. This is required to facilitate end to end tracing for messages sent via IBM MQ to IBM IMS.
      */
     getAllImsEntryQueues: (params: RequestParams = {}) =>
       this.request<StubList, any>({
@@ -15084,12 +14970,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as it will be automatically assigned by the Dynatrace server.
-     *
-     * @tags Service - IBM MQ tracing
-     * @name CreateImsEntryQueue
-     * @summary Creates an IBM IMS entry queue
-     * @request POST:/service/ibmMQTracing/imsEntryQueue
+     * Service - IBM MQ tracing \
+     * `POST:/service/ibmMQTracing/imsEntryQueue` \
+     * Creates an IBM IMS entry queue \
+     * 
+     * ---
+     * @returns The body must not provide an ID as it will be automatically assigned by the Dynatrace server.
      */
     createImsEntryQueue: (data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15103,7 +14989,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name GetImsEntryQueue
      * @summary Gets the properties of the specified IBM IMS entry queue
      * @request GET:/service/ibmMQTracing/imsEntryQueue/{id}
      */
@@ -15115,12 +15000,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the IBM IMS entry queue with the specified ID does not exist, a new IBM IMS entry queue will be created.
-     *
-     * @tags Service - IBM MQ tracing
-     * @name CreateOrUpdateImsEntryQueue
-     * @summary Updates an existing IBM IMS entry queue or creates a new one
-     * @request PUT:/service/ibmMQTracing/imsEntryQueue/{id}
+     * Service - IBM MQ tracing \
+     * `PUT:/service/ibmMQTracing/imsEntryQueue/{id}` \
+     * Updates an existing IBM IMS entry queue or creates a new one \
+     * 
+     * ---
+     * @returns If the IBM IMS entry queue with the specified ID does not exist, a new IBM IMS entry queue will be created.
      */
     createOrUpdateImsEntryQueue: (id: string, data: IbmMQImsEntryQueue, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15134,7 +15019,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name DeleteImsEntryQueue
      * @summary Deletes the specified IBM IMS entry queue
      * @request DELETE:/service/ibmMQTracing/imsEntryQueue/{id}
      */
@@ -15149,7 +15033,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name GetQueueManager
      * @summary Gets the parameters of the specified queue manager
      * @request GET:/service/ibmMQTracing/queueManager/{name}
      */
@@ -15161,12 +15044,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the queue manager with the specified ID doesn’t exist, a new queue manager will be created.
-     *
-     * @tags Service - IBM MQ tracing
-     * @name PutQueueManager
-     * @summary Updates the specified queue manager or creates a new one
-     * @request PUT:/service/ibmMQTracing/queueManager/{name}
+     * Service - IBM MQ tracing \
+     * `PUT:/service/ibmMQTracing/queueManager/{name}` \
+     * Updates the specified queue manager or creates a new one \
+     * 
+     * ---
+     * @returns If the queue manager with the specified ID doesn’t exist, a new queue manager will be created.
      */
     putQueueManager: (name: string, data: QueueManager, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15180,7 +15063,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name DeleteQueueManager
      * @summary Deletes the specified queue manager
      * @request DELETE:/service/ibmMQTracing/queueManager/{name}
      */
@@ -15192,12 +15074,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description This endpoint is used to provide Dynatrace with your IBM MQ setup regarding alias, remote and cluster queues. This is required to facilitate end to end tracing for messages send via IBM MQ where sender and receiver use different queue names. Without this information Dynatrace would still trace all requests, but would not be able to stitch service calls that use these IBM MQ features.
-     *
-     * @tags Service - IBM MQ tracing
-     * @name GetQueueManagers
-     * @summary Lists all available queue managers
-     * @request GET:/service/ibmMQTracing/queueManager
+     * Service - IBM MQ tracing \
+     * `GET:/service/ibmMQTracing/queueManager` \
+     * Lists all available queue managers \
+     * 
+     * ---
+     * @returns This endpoint is used to provide Dynatrace with your IBM MQ setup regarding alias, remote and cluster queues. This is required to facilitate end to end tracing for messages send via IBM MQ where sender and receiver use different queue names. Without this information Dynatrace would still trace all requests, but would not be able to stitch service calls that use these IBM MQ features.
      */
     getQueueManagers: (params: RequestParams = {}) =>
       this.request<StubList, any>({
@@ -15210,7 +15092,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name ValidateImsEntryQueueForPost
      * @summary Validates new IBM IMS entry queues for the `POST /service/ibmMQTracing/imsEntryQueue` request
      * @request POST:/service/ibmMQTracing/imsEntryQueue/validator
      */
@@ -15226,7 +15107,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name ValidateImsEntryQueueForPut
      * @summary Validates update of existing IBM IMS entry queues for the `PUT /service/ibmMQTracing/imsEntryQueue/{id}` request
      * @request POST:/service/ibmMQTracing/imsEntryQueue/{id}/validator
      */
@@ -15242,7 +15122,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - IBM MQ tracing
-     * @name ValidateQueueManager
      * @summary Validates the queue manager update for the `PUT /service/ibmMQTracing/queueManager/{name}` request
      * @request POST:/service/ibmMQTracing/queueManager/{name}/validator
      */
@@ -15258,7 +15137,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request attributes
-     * @name ListRequestAttributesConfigs
      * @summary Lists all available request attributes
      * @request GET:/service/requestAttributes
      */
@@ -15270,12 +15148,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as IDs are automatically assigned.
-     *
-     * @tags Service - Request attributes
-     * @name CreateRequestAttributesConfig
-     * @summary Creates a new request attribute
-     * @request POST:/service/requestAttributes
+     * Service - Request attributes \
+     * `POST:/service/requestAttributes` \
+     * Creates a new request attribute \
+     * 
+     * ---
+     * @returns The body must not provide an ID as IDs are automatically assigned.
      */
     createRequestAttributesConfig: (data: RequestAttribute, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15289,7 +15167,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request attributes
-     * @name GetRequestAttributesConfig
      * @summary Shows the properties of the specified request attribute
      * @request GET:/service/requestAttributes/{id}
      */
@@ -15309,7 +15186,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request attributes
-     * @name UpdateRequestAttributesConfig
      * @summary Updates an existing request attribute or creates a new one
      * @request PUT:/service/requestAttributes/{id}
      */
@@ -15325,7 +15201,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request attributes
-     * @name DeleteRequestAttributesConfig
      * @summary Deletes the specified request attribute
      * @request DELETE:/service/requestAttributes/{id}
      */
@@ -15340,7 +15215,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request attributes
-     * @name ValidateCreateRequestAttributesConfig
      * @summary Validates new request attributes for the `POST /requestAttributes` request
      * @request POST:/service/requestAttributes/validator
      */
@@ -15356,7 +15230,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request attributes
-     * @name ValidateUpdateRequestAttributesConfig
      * @summary Validate updates of existing request attribute for the `PUT /requestAttributes/{id}` request
      * @request POST:/service/requestAttributes/{id}/validator
      */
@@ -15372,7 +15245,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request naming
-     * @name ListRequestNaming
      * @summary Lists all request naming rules along with their parameters
      * @request GET:/service/requestNaming
      */
@@ -15384,12 +15256,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The new rule goes to the end of the rules list and will be the last to evaluate. Existing rules remain unaffected.
-     *
-     * @tags Service - Request naming
-     * @name CreateRequestNaming
-     * @summary Creates a new request naming rule
-     * @request POST:/service/requestNaming
+     * Service - Request naming \
+     * `POST:/service/requestNaming` \
+     * Creates a new request naming rule \
+     * 
+     * ---
+     * @returns The new rule goes to the end of the rules list and will be the last to evaluate. Existing rules remain unaffected.
      */
     createRequestNaming: (
       data: RequestNaming,
@@ -15408,7 +15280,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request naming
-     * @name GetRequestNaming
      * @summary Gets the parameters of the specified request naming rule
      * @request GET:/service/requestNaming/{id}
      */
@@ -15420,12 +15291,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
-     *
-     * @tags Service - Request naming
-     * @name UpdateRequestNaming
-     * @summary Updates the specified request naming rule
-     * @request PUT:/service/requestNaming/{id}
+     * Service - Request naming \
+     * `PUT:/service/requestNaming/{id}` \
+     * Updates the specified request naming rule \
+     * 
+     * ---
+     * @returns If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
      */
     updateRequestNaming: (id: string, data: RequestNaming, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15439,7 +15310,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request naming
-     * @name DeleteRequestNaming
      * @summary Deletes the specified request naming rule
      * @request DELETE:/service/requestNaming/{id}
      */
@@ -15451,12 +15321,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description This request reorders the request namings according to the given list of IDs. Request namings not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
-     *
-     * @tags Service - Request naming
-     * @name OrderRequestNaming
-     * @summary Reorders the request namings
-     * @request PUT:/service/requestNaming/order
+     * Service - Request naming \
+     * `PUT:/service/requestNaming/order` \
+     * Reorders the request namings \
+     * 
+     * ---
+     * @returns This request reorders the request namings according to the given list of IDs. Request namings not present in the body of the request will retain their relative ordering but will be ordered *after* all those present in the request.
      */
     orderRequestNaming: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15470,7 +15340,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request naming
-     * @name ValidateCreateRequestNaming
      * @summary Validates the new request naming rule for the `POST /requestNaming` request
      * @request POST:/service/requestNaming/validator
      */
@@ -15483,12 +15352,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
-     *
-     * @tags Service - Request naming
-     * @name ValidateUpdateRequestNaming
-     * @summary Validates the new request naming for the `PUT /requestNaming/{id}` request
-     * @request POST:/service/requestNaming/{id}/validator
+     * Service - Request naming \
+     * `POST:/service/requestNaming/{id}/validator` \
+     * Validates the new request naming for the `PUT /requestNaming/{id}` request \
+     * 
+     * ---
+     * @returns If the rule with the specified ID doesn't exist, a new rule will be created at the end of the rules list and will be the last to evaluate.
      */
     validateUpdateRequestNaming: (id: string, data: RequestNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15499,12 +15368,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Lists all extensions which currently are renamed to e.g., `Image`
-     *
-     * @tags Service - Request naming
-     * @name Get
-     * @summary Lists the global service resource requests.
-     * @request GET:/service/resourceNaming
+     * Service - Request naming \
+     * `GET:/service/resourceNaming` \
+     * Lists the global service resource requests. \
+     * 
+     * ---
+     * @returns Lists all extensions which currently are renamed to e.g., `Image`
      */
     get: (params: RequestParams = {}) =>
       this.request<ResourceNaming, any>({
@@ -15514,12 +15383,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Update all extensions which are renamed to `Image` or `Binary`
-     *
-     * @tags Service - Request naming
-     * @name Put
-     * @summary Updates the global service resource requests.
-     * @request PUT:/service/resourceNaming
+     * Service - Request naming \
+     * `PUT:/service/resourceNaming` \
+     * Updates the global service resource requests. \
+     * 
+     * ---
+     * @returns Update all extensions which are renamed to `Image` or `Binary`
      */
     put: (data: ResourceNaming, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15533,7 +15402,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Request naming
-     * @name Validate
      * @summary Validates new resource requests settings for the `PUT /service/resourceRequest` request.
      * @request POST:/service/resourceNaming/validator
      */
@@ -15549,7 +15417,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web request
-     * @name ListRequestDetectionRules
      * @summary Lists all full web request service detection rules
      * @request GET:/service/detectionRules/FULL_WEB_REQUEST
      */
@@ -15561,12 +15428,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Service - Detection full web request
-     * @name CreateRequestDetectionRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/FULL_WEB_REQUEST
+     * Service - Detection full web request \
+     * `POST:/service/detectionRules/FULL_WEB_REQUEST` \
+     * Creates a new service detection rule \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createRequestDetectionRule: (
       data: FullWebRequestRule,
@@ -15585,7 +15452,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web request
-     * @name GetRequestDetectionRule
      * @summary Gets the properties of the specified service detection rule
      * @request GET:/service/detectionRules/FULL_WEB_REQUEST/{id}
      */
@@ -15597,12 +15463,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a rule with the specified ID doesn't exist, a new rule is created and appended to the end of the rule list. The request keeps the existing order of rules, unless the **order** parameter is set.
-     *
-     * @tags Service - Detection full web request
-     * @name UpdateRequestDetectionRule
-     * @summary Updates an existing service detection rule
-     * @request PUT:/service/detectionRules/FULL_WEB_REQUEST/{id}
+     * Service - Detection full web request \
+     * `PUT:/service/detectionRules/FULL_WEB_REQUEST/{id}` \
+     * Updates an existing service detection rule \
+     * 
+     * ---
+     * @returns If a rule with the specified ID doesn't exist, a new rule is created and appended to the end of the rule list. The request keeps the existing order of rules, unless the **order** parameter is set.
      */
     updateRequestDetectionRule: (id: string, data: FullWebRequestRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15616,7 +15482,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web request
-     * @name DeleteRequestDetectionRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/FULL_WEB_REQUEST/{id}
      */
@@ -15628,12 +15493,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
-     *
-     * @tags Service - Detection full web request
-     * @name OrderRequestDetectionRules
-     * @summary Reorders the service detection rules of the specified type
-     * @request PUT:/service/detectionRules/FULL_WEB_REQUEST/order
+     * Service - Detection full web request \
+     * `PUT:/service/detectionRules/FULL_WEB_REQUEST/order` \
+     * Reorders the service detection rules of the specified type \
+     * 
+     * ---
+     * @returns The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
      */
     orderRequestDetectionRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15647,7 +15512,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web request
-     * @name ValidateCreateRequestDetectionRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/FULL_WEB_REQUEST` request
      * @request POST:/service/detectionRules/FULL_WEB_REQUEST/validator
      */
@@ -15663,7 +15527,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web request
-     * @name ValidateUpdateRequestDetectionRule
      * @summary Validates the payload for the `PUT /service/detectionRules/FULL_WEB_REQUEST/{id}` request
      * @request POST:/service/detectionRules/FULL_WEB_REQUEST/{id}/validator
      */
@@ -15679,7 +15542,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web service
-     * @name ListServiceDetectionRules
      * @summary Lists all full web service detection rules
      * @request GET:/service/detectionRules/FULL_WEB_SERVICE
      */
@@ -15691,12 +15553,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as it will be automatically assigned.
-     *
-     * @tags Service - Detection full web service
-     * @name CreateServiceDetectionRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/FULL_WEB_SERVICE
+     * Service - Detection full web service \
+     * `POST:/service/detectionRules/FULL_WEB_SERVICE` \
+     * Creates a new service detection rule \
+     * 
+     * ---
+     * @returns The body must not provide an ID as it will be automatically assigned.
      */
     createServiceDetectionRule: (
       data: FullWebServiceRule,
@@ -15715,7 +15577,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web service
-     * @name GetServiceDetectionRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/FULL_WEB_SERVICE/{id}
      */
@@ -15727,12 +15588,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created and appended to the end of the rule list. The request keeps an existing order of rules, unless the **order** parameter is set.
-     *
-     * @tags Service - Detection full web service
-     * @name UpdateServiceDetectionRule
-     * @summary Updates an existing service detection rule
-     * @request PUT:/service/detectionRules/FULL_WEB_SERVICE/{id}
+     * Service - Detection full web service \
+     * `PUT:/service/detectionRules/FULL_WEB_SERVICE/{id}` \
+     * Updates an existing service detection rule \
+     * 
+     * ---
+     * @returns If the rule with the specified ID doesn't exist, a new rule will be created and appended to the end of the rule list. The request keeps an existing order of rules, unless the **order** parameter is set.
      */
     updateServiceDetectionRule: (id: string, data: FullWebServiceRule, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -15746,7 +15607,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web service
-     * @name DeleteServiceDetectionRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/FULL_WEB_SERVICE/{id}
      */
@@ -15758,12 +15618,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
-     *
-     * @tags Service - Detection full web service
-     * @name OrderServiceDetectionRules
-     * @summary Reorders the service detection rules of the specified type
-     * @request PUT:/service/detectionRules/FULL_WEB_SERVICE/order
+     * Service - Detection full web service \
+     * `PUT:/service/detectionRules/FULL_WEB_SERVICE/order` \
+     * Reorders the service detection rules of the specified type \
+     * 
+     * ---
+     * @returns The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
      */
     orderServiceDetectionRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15777,7 +15637,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web service
-     * @name ValidateCreateServiceDetectionRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/FULL_WEB_SERVICE` request
      * @request POST:/service/detectionRules/FULL_WEB_SERVICE/validator
      */
@@ -15793,7 +15652,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection full web service
-     * @name ValidateUpdateServiceDetectionRule
      * @summary Validate the payload for the `PUT /ruleBasedServiceDetection/FULL_WEB_SERVICE/{id}` request
      * @request POST:/service/detectionRules/FULL_WEB_SERVICE/{id}/validator
      */
@@ -15809,7 +15667,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web request
-     * @name ListOpaqueAndExternalWebRequestDetectionRules
      * @summary Lists all opaque and external web request service detection rules
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
      */
@@ -15821,12 +15678,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as it will be automatically assigned.
-     *
-     * @tags Service - Detection opaque and external web request
-     * @name CreateOpaqueAndExternalWebRequestDetectionRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST
+     * Service - Detection opaque and external web request \
+     * `POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST` \
+     * Creates a new service detection rule \
+     * 
+     * ---
+     * @returns The body must not provide an ID as it will be automatically assigned.
      */
     createOpaqueAndExternalWebRequestDetectionRule: (
       data: OpaqueAndExternalWebRequestRule,
@@ -15845,7 +15702,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web request
-     * @name GetOpaqueAndExternalWebRequestDetectionRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}
      */
@@ -15857,12 +15713,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created and appended to the end of the rule list. The request keeps an existing order of rules, unless the **order** parameter is set.
-     *
-     * @tags Service - Detection opaque and external web request
-     * @name UpdateOpaqueAndExternalWebRequestDetectionRule
-     * @summary Updates an existing service detection rule
-     * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}
+     * Service - Detection opaque and external web request \
+     * `PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}` \
+     * Updates an existing service detection rule \
+     * 
+     * ---
+     * @returns If the rule with the specified ID doesn't exist, a new rule will be created and appended to the end of the rule list. The request keeps an existing order of rules, unless the **order** parameter is set.
      */
     updateOpaqueAndExternalWebRequestDetectionRule: (
       id: string,
@@ -15880,7 +15736,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web request
-     * @name DeleteOpaqueAndExternalWebRequestDetectionRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}
      */
@@ -15892,12 +15747,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
-     *
-     * @tags Service - Detection opaque and external web request
-     * @name OrderOpaqueAndExternalWebRequestDetectionRules
-     * @summary Reorders the service detection rules of the specified type
-     * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order
+     * Service - Detection opaque and external web request \
+     * `PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/order` \
+     * Reorders the service detection rules of the specified type \
+     * 
+     * ---
+     * @returns The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
      */
     orderOpaqueAndExternalWebRequestDetectionRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -15911,7 +15766,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web request
-     * @name ValidateCreateOpaqueAndExternalWebRequestDetectionRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/validator
      */
@@ -15930,7 +15784,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web request
-     * @name ValidateUpdateOpaqueAndExternalWebRequestDetectionRule
      * @summary Validate the payload for the `PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_REQUEST/{id}/validator
      */
@@ -15950,7 +15803,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web service
-     * @name ListOpaqueAndExternalWebServiceRules
      * @summary Lists all opaque and external web service detection rules
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
      */
@@ -15962,12 +15814,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as it will be automatically assigned.
-     *
-     * @tags Service - Detection opaque and external web service
-     * @name CreateOpaqueAndExternalWebServiceRule
-     * @summary Creates a new service detection rule
-     * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE
+     * Service - Detection opaque and external web service \
+     * `POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE` \
+     * Creates a new service detection rule \
+     * 
+     * ---
+     * @returns The body must not provide an ID as it will be automatically assigned.
      */
     createOpaqueAndExternalWebServiceRule: (
       data: OpaqueAndExternalWebServiceRule,
@@ -15986,7 +15838,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web service
-     * @name GetOpaqueAndExternalWebServiceRule
      * @summary Shows the properties of the specified service detection rule
      * @request GET:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}
      */
@@ -15998,12 +15849,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the rule with the specified ID doesn't exist, a new rule will be created and appended to the end of the rule list. The request keeps an existing order of rules, unless the **order** parameter is set.
-     *
-     * @tags Service - Detection opaque and external web service
-     * @name UpdateOpaqueAndExternalWebServiceRule
-     * @summary Updates an existing service detection rule
-     * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}
+     * Service - Detection opaque and external web service \
+     * `PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}` \
+     * Updates an existing service detection rule \
+     * 
+     * ---
+     * @returns If the rule with the specified ID doesn't exist, a new rule will be created and appended to the end of the rule list. The request keeps an existing order of rules, unless the **order** parameter is set.
      */
     updateOpaqueAndExternalWebServiceRule: (
       id: string,
@@ -16021,7 +15872,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web service
-     * @name DeleteOpaqueAndExternalWebServiceRule
      * @summary Deletes the specified service detection rule
      * @request DELETE:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}
      */
@@ -16033,12 +15883,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
-     *
-     * @tags Service - Detection opaque and external web service
-     * @name OrderOpaqueAndExternalWebServiceRules
-     * @summary Reorders the service detection rules of the specified type
-     * @request PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/order
+     * Service - Detection opaque and external web service \
+     * `PUT:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/order` \
+     * Reorders the service detection rules of the specified type \
+     * 
+     * ---
+     * @returns The request reorders the rules of the specified type according to the order of the IDs in the body of the request. Rules that are omitted in the body of the request will retain their relative order but will be placed *after* all those present in the request.
      */
     orderOpaqueAndExternalWebServiceRules: (data: StubList, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -16052,7 +15902,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web service
-     * @name ValidateCreateOpaqueAndExternalWebServiceRule
      * @summary Validates the payload for the `POST /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_SERVICE` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/validator
      */
@@ -16071,7 +15920,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Service - Detection opaque and external web service
-     * @name ValidateUpdateOpaqueAndExternalWebServiceRule
      * @summary Validate the payload for the `PUT /ruleBasedServiceDetection/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}` request
      * @request POST:/service/detectionRules/OPAQUE_AND_EXTERNAL_WEB_SERVICE/{id}/validator
      */
@@ -16092,7 +15940,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name GetDashboardStubsList
      * @summary Lists all dashboards of the environment
      * @request GET:/dashboards
      */
@@ -16105,12 +15952,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by Dynatrace.
-     *
-     * @tags Dashboards
-     * @name CreateDashboard
-     * @summary Creates a dashboard
-     * @request POST:/dashboards
+     * Dashboards \
+     * `POST:/dashboards` \
+     * Creates a dashboard \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by Dynatrace.
      */
     createDashboard: (data: Dashboard, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -16124,7 +15971,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name GetDashboard
      * @summary Gets the properties of the specified dashboard
      * @request GET:/dashboards/{id}
      */
@@ -16136,12 +15982,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the dashboard with the specified ID doesn't exist, a new dashboard is created
-     *
-     * @tags Dashboards
-     * @name UpdateDashboard
-     * @summary Updates the specified dashboard
-     * @request PUT:/dashboards/{id}
+     * Dashboards \
+     * `PUT:/dashboards/{id}` \
+     * Updates the specified dashboard \
+     * 
+     * ---
+     * @returns If the dashboard with the specified ID doesn't exist, a new dashboard is created
      */
     updateDashboard: (id: string, data: Dashboard, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -16155,7 +16001,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name DeleteDashboard
      * @summary Deletes the specified dashboard
      * @request DELETE:/dashboards/{id}
      */
@@ -16170,7 +16015,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name GetDashboardSharingSettings
      * @summary Gets the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
      * @request GET:/dashboards/{id}/shareSettings
      */
@@ -16185,7 +16029,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name UpdateShareSettings
      * @summary Updates the sharing configuration of the specified dashboard | maturity=EARLY_ADOPTER
      * @request PUT:/dashboards/{id}/shareSettings
      */
@@ -16198,12 +16041,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID.
-     *
-     * @tags Dashboards
-     * @name ValidateDashboardCreation
-     * @summary Validates the payload for the 'POST /dashboards' request
-     * @request POST:/dashboards/validator
+     * Dashboards \
+     * `POST:/dashboards/validator` \
+     * Validates the payload for the 'POST /dashboards' request \
+     * 
+     * ---
+     * @returns The body must not provide an ID.
      */
     validateDashboardCreation: (data: Dashboard, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -16217,7 +16060,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name ValidateDashboardUpdate
      * @summary Validates the payload for the 'PUT /dashboards/{id}' request
      * @request POST:/dashboards/{id}/validator
      */
@@ -16233,7 +16075,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Dashboards
-     * @name ValidateShareSettingsUpdate
      * @summary Validates the payload for the 'PUT /dashboards/{id}/shareSettings' request | maturity=EARLY_ADOPTER
      * @request POST:/dashboards/{id}/shareSettings/validator
      */
@@ -16250,7 +16091,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Data privacy and security
-     * @name GetDataPrivacySettings1
      * @summary Lists the global data privacy and security settings
      * @request GET:/dataPrivacy
      */
@@ -16262,12 +16102,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description This request updates global settings, affecting all your applications. To update application-specific data privacy settings, use the [**PUT data privacy of a web application**](https://dt-url.net/q403sv9) request.
-     *
-     * @tags Data privacy and security
-     * @name UpdateDataPrivacySettings1
-     * @summary Updates the global data privacy and security settings
-     * @request PUT:/dataPrivacy
+     * Data privacy and security \
+     * `PUT:/dataPrivacy` \
+     * Updates the global data privacy and security settings \
+     * 
+     * ---
+     * @returns This request updates global settings, affecting all your applications. To update application-specific data privacy settings, use the [**PUT data privacy of a web application**](https://dt-url.net/q403sv9) request.
      */
     updateDataPrivacySettings1: (data: DataPrivacyAndSecurity, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -16281,7 +16121,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Data privacy and security
-     * @name ValidateDataPrivacySettings1
      * @summary Validates the payload for the `PUT /dataPrivacy` request
      * @request POST:/dataPrivacy/validator
      */
@@ -16298,7 +16137,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtensionConfigurations
      * @summary Returns list of all local configuration instances for given extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/instances
      */
@@ -16318,7 +16156,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name CreateLocalExtensionConfiguration
      * @summary Creates instance of local configuration for given extension | maturity=EARLY_ADOPTER
      * @request POST:/extensions/{id}/instances
      */
@@ -16334,7 +16171,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtension
      * @summary Lists the properties of the specified extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}
      */
@@ -16346,12 +16182,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Deletion of the extension file uninstalls the extension, making it unavailable for use.
-     *
-     * @tags Extensions
-     * @name DeleteExtension
-     * @summary Deletes the ZIP file of the specified extension | maturity=EARLY_ADOPTER
-     * @request DELETE:/extensions/{id}
+     * Extensions \
+     * `DELETE:/extensions/{id}` \
+     * Deletes the ZIP file of the specified extension | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Deletion of the extension file uninstalls the extension, making it unavailable for use.
      */
     deleteExtension: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -16364,7 +16200,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetLocalExtensionConfiguration
      * @summary Returns instance of local configuration for given extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/instances/{configurationId}
      */
@@ -16379,7 +16214,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name UpdateLocalExtensionConfiguration
      * @summary Updates instance of local configuration for given extension | maturity=EARLY_ADOPTER
      * @request PUT:/extensions/{id}/instances/{configurationId}
      */
@@ -16400,7 +16234,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name DeleteLocalExtensionConfiguration
      * @summary Deletes an existing configuration of the extension | maturity=EARLY_ADOPTER
      * @request DELETE:/extensions/{id}/instances/{configurationId}
      */
@@ -16415,7 +16248,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtensionBinary
      * @summary Downloads the ZIP file of the specified extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/binary
      */
@@ -16430,7 +16262,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtensionGlobalConfiguration
      * @summary Get the global configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/global
      */
@@ -16445,7 +16276,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name UpdateGlobalExtensionConfiguration
      * @summary Updates the configuration of the specified OneAgent or JMX extension | maturity=EARLY_ADOPTER
      * @request PUT:/extensions/{id}/global
      */
@@ -16461,7 +16291,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtensionStates
      * @summary Lists the states of the specified extension | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{id}/states
      */
@@ -16499,7 +16328,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetExtensions
      * @summary Lists all uploaded extensions | maturity=EARLY_ADOPTER
      * @request GET:/extensions
      */
@@ -16515,7 +16343,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name UploadExtension
      * @summary Uploads a ZIP extension file | maturity=EARLY_ADOPTER
      * @request POST:/extensions
      */
@@ -16533,7 +16360,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetHostsForTechnology
      * @summary Lists all available hosts that have specified technology running | maturity=EARLY_ADOPTER
      * @request GET:/extensions/{technology}/availableHosts
      */
@@ -16740,7 +16566,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name GetRemoteExtensionModules
      * @summary List available ActiveGate extension modules | maturity=EARLY_ADOPTER
      * @request GET:/extensions/activeGateExtensionModules
      */
@@ -16755,7 +16580,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name ValidateExtension
      * @summary Validates a ZIP extension file for `POST/extensions` request | maturity=EARLY_ADOPTER
      * @request POST:/extensions/validator
      */
@@ -16773,7 +16597,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Extensions
-     * @name ValidateLocalExtensionConfiguration
      * @summary Validates the payload for the `POST /extensions/{id}/instances` request | maturity=EARLY_ADOPTER
      * @request POST:/extensions/{id}/instances/validator
      */
@@ -16790,7 +16613,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Frequent issue detection
-     * @name GetFrequentIssueDetectionConfig
      * @summary Gets the configuration of frequent issue detection
      * @request GET:/frequentIssueDetection
      */
@@ -16805,7 +16627,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Frequent issue detection
-     * @name UpdateFrequentIssueDetectionConfig
      * @summary Updates the configuration of frequent issue detection
      * @request PUT:/frequentIssueDetection
      */
@@ -16821,7 +16642,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Frequent issue detection
-     * @name ValidateFrequentIssueDetectionConfig
      * @summary Validates the payload for the `PUT /frequentIssueDetection` request
      * @request POST:/frequentIssueDetection/validator
      */
@@ -16838,7 +16658,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Geographic regions - IP address mapping
-     * @name GetGeolocationRegionsIpAddress
      * @summary Gets the configuration of mapping between IP address and geographic regions
      * @request GET:/geographicRegions/ipAddressMappings
      */
@@ -16850,12 +16669,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request overwrites the existing configuration. Any rules not presented in the payload will be lost.
-     *
-     * @tags RUM - Geographic regions - IP address mapping
-     * @name PutGeolocationRegionsIpAddress
-     * @summary Updates the configuration of mapping between IP address and geographic regions
-     * @request PUT:/geographicRegions/ipAddressMappings
+     * RUM - Geographic regions - IP address mapping \
+     * `PUT:/geographicRegions/ipAddressMappings` \
+     * Updates the configuration of mapping between IP address and geographic regions \
+     * 
+     * ---
+     * @returns The request overwrites the existing configuration. Any rules not presented in the payload will be lost.
      */
     putGeolocationRegionsIpAddress: (data: IpAddressMappings, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -16869,7 +16688,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Geographic regions - IP address mapping
-     * @name ValidateGeolocationRegionsIpAddress
      * @summary Validates the payload for the `PUT /geographicRegions/ipAddressMappings` request
      * @request POST:/geographicRegions/ipAddressMappings/validator
      */
@@ -16885,7 +16703,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Geographic regions - custom client IP headers
-     * @name GetGeolocationRegionsIpHeaders
      * @summary Gets the configuration of custom client IP headers
      * @request GET:/geographicRegions/ipDetectionHeaders
      */
@@ -16897,12 +16714,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The request overwrites the existing configuration. Any headers not presented in the payload will be lost.
-     *
-     * @tags RUM - Geographic regions - custom client IP headers
-     * @name PutGeolocationRegionsIpHeaders
-     * @summary Updates the configuration of custom client IP headers
-     * @request PUT:/geographicRegions/ipDetectionHeaders
+     * RUM - Geographic regions - custom client IP headers \
+     * `PUT:/geographicRegions/ipDetectionHeaders` \
+     * Updates the configuration of custom client IP headers \
+     * 
+     * ---
+     * @returns The request overwrites the existing configuration. Any headers not presented in the payload will be lost.
      */
     putGeolocationRegionsIpHeaders: (data: IpDetectionHeaders, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -16916,7 +16733,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags RUM - Geographic regions - custom client IP headers
-     * @name ValidateGeolocationRegionsIpHeaders
      * @summary Validates the payload for the `PUT /geographicRegions/ipDetectionHeaders` request
      * @request POST:/geographicRegions/ipDetectionHeaders/validator
      */
@@ -16933,7 +16749,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent in a host group
-     * @name GetAutoUpdateConfig2
      * @summary Gets the configuration of OneAgent auto-update in the specified host group
      * @request GET:/hostgroups/{id}/autoupdate
      */
@@ -16945,12 +16760,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description OneAgents are updated several minutes after the change of configuration. The process can take more time depending on number of OneAgents in the update queue.
-     *
-     * @tags OneAgent in a host group
-     * @name UpdateAutoUpdateConfig1
-     * @summary Updates the configuration of OneAgent auto-update in the specified host group
-     * @request PUT:/hostgroups/{id}/autoupdate
+     * OneAgent in a host group \
+     * `PUT:/hostgroups/{id}/autoupdate` \
+     * Updates the configuration of OneAgent auto-update in the specified host group \
+     * 
+     * ---
+     * @returns OneAgents are updated several minutes after the change of configuration. The process can take more time depending on number of OneAgents in the update queue.
      */
     updateAutoUpdateConfig1: (id: string, data: HostGroupAutoUpdateConfig, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -16964,7 +16779,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent in a host group
-     * @name ValidateAutoUpdateConfig2
      * @summary Validates the payload for the `PUT /hostgroups/{id}/autoupdate` request
      * @request POST:/hostgroups/{id}/autoupdate/validator
      */
@@ -16980,7 +16794,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent in a host group
-     * @name GetHostGroupConfig
      * @summary Gets the OneAgent configuration in the specified host group
      * @request GET:/hostgroups/{id}
      */
@@ -16996,7 +16809,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Management zones
-     * @name ListManagementZones
      * @summary Lists all configured management zones
      * @request GET:/managementZones
      */
@@ -17008,12 +16820,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Management zones
-     * @name CreateManagementZone
-     * @summary Creates a new management zone
-     * @request POST:/managementZones
+     * Management zones \
+     * `POST:/managementZones` \
+     * Creates a new management zone \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createManagementZone: (data: ManagementZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -17027,7 +16839,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Management zones
-     * @name GetManagementZone
      * @summary Lists the parameters of the specified management zone
      * @request GET:/managementZones/{id}
      */
@@ -17040,12 +16851,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a management zone with the specified ID doesn't exist, a new one is created.
-     *
-     * @tags Management zones
-     * @name UpdateManagementZone
-     * @summary Updates the specified management zone
-     * @request PUT:/managementZones/{id}
+     * Management zones \
+     * `PUT:/managementZones/{id}` \
+     * Updates the specified management zone \
+     * 
+     * ---
+     * @returns If a management zone with the specified ID doesn't exist, a new one is created.
      */
     updateManagementZone: (id: string, data: ManagementZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -17059,7 +16870,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Management zones
-     * @name DeleteManagementZone
      * @summary Deletes the specified management zone
      * @request DELETE:/managementZones/{id}
      */
@@ -17074,7 +16884,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Management zones
-     * @name ValidateCreateManagementZone
      * @summary Validates a new management zone for the `POST /managementZones` request
      * @request POST:/managementZones/validator
      */
@@ -17090,7 +16899,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Management zones
-     * @name ValidateUpdateManagementZone
      * @summary Validate updates of existing management zone for the `PUT /managementZones/{id}` request
      * @request POST:/managementZones/{id}/validator
      */
@@ -17107,7 +16915,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Log monitoring
-     * @name GetLogMetricConfig
      * @summary Gets the definition of the specified custom log metric | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/log/{metricKey}
      */
@@ -17119,12 +16926,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the metric definition with the specified key already exists, it is updated.
-     *
-     * @tags Calculated metrics - Log monitoring
-     * @name UpdateOrCreateLogMetricConfig
-     * @summary Creates a new custom log metric | maturity=EARLY_ADOPTER
-     * @request PUT:/calculatedMetrics/log/{metricKey}
+     * Calculated metrics - Log monitoring \
+     * `PUT:/calculatedMetrics/log/{metricKey}` \
+     * Creates a new custom log metric | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If the metric definition with the specified key already exists, it is updated.
      */
     updateOrCreateLogMetricConfig: (metricKey: string, data: LogMetricConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -17138,7 +16945,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Log monitoring
-     * @name DeleteLogMetricConfig
      * @summary Deletes the specified custom log metric definition | maturity=EARLY_ADOPTER
      * @request DELETE:/calculatedMetrics/log/{metricKey}
      */
@@ -17153,7 +16959,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Log monitoring
-     * @name ListLogMetricConfigs
      * @summary Lists all custom log metrics configured in your environment | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/log
      */
@@ -17168,7 +16973,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Log monitoring
-     * @name ValidateMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/log/{metricKey}` request. | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/log/{metricKey}/validator
      */
@@ -17184,7 +16988,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name ListMobileMetrics
      * @summary Lists all calculated metrics for mobile and custom apps configured in your environment
      * @request GET:/calculatedMetrics/mobile
      */
@@ -17199,7 +17002,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name CreateMobileMetric
      * @summary Creates a new calculated metric for a mobile or custom app
      * @request POST:/calculatedMetrics/mobile
      */
@@ -17215,7 +17017,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name GetMobileMetric
      * @summary Gets the descriptor of the specified calculated metric for mobile or custom app
      * @request GET:/calculatedMetrics/mobile/{metricKey}
      */
@@ -17230,7 +17031,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name UpdateMobileMetric
      * @summary Updates the specified calculated metric for a mobile or custom app
      * @request PUT:/calculatedMetrics/mobile/{metricKey}
      */
@@ -17246,7 +17046,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name DeleteMobileMetric
      * @summary Deletes the specified calculated metric for mobile or custom app
      * @request DELETE:/calculatedMetrics/mobile/{metricKey}
      */
@@ -17261,7 +17060,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name ValidateCreateMobileMetric
      * @summary Validates the payload for the `POST /calculatedMetrics/mobile` request
      * @request POST:/calculatedMetrics/mobile/validator
      */
@@ -17277,7 +17075,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Mobile & custom applications
-     * @name ValidateUpdateMobileMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/mobile/{metricKey}` request
      * @request POST:/calculatedMetrics/mobile/{metricKey}/validator
      */
@@ -17293,7 +17090,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Web applications
-     * @name ListRumMetrics
      * @summary Lists all calculated web application metrics
      * @request GET:/calculatedMetrics/rum
      */
@@ -17308,7 +17104,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Web applications
-     * @name CreateRumMetric
      * @summary Creates a new calculated web application metric
      * @request POST:/calculatedMetrics/rum
      */
@@ -17324,7 +17119,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Web applications
-     * @name GetRumMetric
      * @summary Gets the descriptor of the specified calculated web application metric
      * @request GET:/calculatedMetrics/rum/{metricKey}
      */
@@ -17339,7 +17133,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Web applications
-     * @name UpdateRumMetric
      * @summary Updates the specified calculated web application metric
      * @request PUT:/calculatedMetrics/rum/{metricKey}
      */
@@ -17355,7 +17148,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Web applications
-     * @name DeleteRumMetric
      * @summary Deletes the specified calculated web application metric
      * @request DELETE:/calculatedMetrics/rum/{metricKey}
      */
@@ -17367,12 +17159,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID.
-     *
-     * @tags Calculated metrics - Web applications
-     * @name ValidateCreateRumMetric
-     * @summary Validates the payload for the `POST /calculatedMetrics/rum` request
-     * @request POST:/calculatedMetrics/rum/validator
+     * Calculated metrics - Web applications \
+     * `POST:/calculatedMetrics/rum/validator` \
+     * Validates the payload for the `POST /calculatedMetrics/rum` request \
+     * 
+     * ---
+     * @returns The body must not provide an ID.
      */
     validateCreateRumMetric: (data: WebApplicationMetric, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -17386,7 +17178,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Web applications
-     * @name ValidateUpdateRumMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/rum/{metricKey}` request
      * @request POST:/calculatedMetrics/rum/{metricKey}/validator
      */
@@ -17402,7 +17193,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name ListServiceMetrics
      * @summary Lists all calculated service metrics configured in your environment
      * @request GET:/calculatedMetrics/service
      */
@@ -17417,7 +17207,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name CreateServiceMetric
      * @summary Creates a new calculated service metric
      * @request POST:/calculatedMetrics/service
      */
@@ -17433,7 +17222,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name GetServiceMetric
      * @summary Gets the descriptor of the specified calculated service metric
      * @request GET:/calculatedMetrics/service/{metricKey}
      */
@@ -17445,12 +17233,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If the calculated service metric with the specified key doesn't exist, a new metric is created.
-     *
-     * @tags Calculated metrics - Services
-     * @name UpdateServiceMetric
-     * @summary Updates the specified calculated service metric
-     * @request PUT:/calculatedMetrics/service/{metricKey}
+     * Calculated metrics - Services \
+     * `PUT:/calculatedMetrics/service/{metricKey}` \
+     * Updates the specified calculated service metric \
+     * 
+     * ---
+     * @returns If the calculated service metric with the specified key doesn't exist, a new metric is created.
      */
     updateServiceMetric: (metricKey: string, data: CalculatedServiceMetric, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -17464,7 +17252,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name DeleteServiceMetric
      * @summary Deletes the specified calculated service metric
      * @request DELETE:/calculatedMetrics/service/{metricKey}
      */
@@ -17479,7 +17266,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name ValidateCreateServiceMetric
      * @summary Validates the payload for the `POST /calculatedMetric/service` request
      * @request POST:/calculatedMetrics/service/validator
      */
@@ -17495,7 +17281,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Services
-     * @name ValidateUpdateServiceMetric
      * @summary Validates the payload for the `PUT /calculatedMetric/service/{id}` request
      * @request POST:/calculatedMetrics/service/{metricKey}/validator
      */
@@ -17511,7 +17296,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name ListSyntheticMetrics
      * @summary Lists all calculated synthetic metrics available in your environment | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/synthetic
      */
@@ -17526,7 +17310,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name CreateSyntheticMetric
      * @summary Creates a new calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/synthetic
      */
@@ -17542,7 +17325,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name GetSyntheticMetric
      * @summary Gets the descriptor of the specified calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request GET:/calculatedMetrics/synthetic/{metricKey}
      */
@@ -17557,7 +17339,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name UpdateSyntheticMetric
      * @summary Updates the specified calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request PUT:/calculatedMetrics/synthetic/{metricKey}
      */
@@ -17573,7 +17354,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name DeleteSyntheticMetric
      * @summary Deletes the specified calculated synthetic metric | maturity=EARLY_ADOPTER
      * @request DELETE:/calculatedMetrics/synthetic/{metricKey}
      */
@@ -17588,7 +17368,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name ValidateCreateSyntheticMetric
      * @summary Validates the payload for the `POST /calculatedMetrics/synthetic` request | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/synthetic/validator
      */
@@ -17604,7 +17383,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Calculated metrics - Synthetic
-     * @name ValidateUpdateSyntheticMetric
      * @summary Validates the payload for the `PUT /calculatedMetrics/synthetic/{metricKey}` request | maturity=EARLY_ADOPTER
      * @request POST:/calculatedMetrics/synthetic/{metricKey}/validator
      */
@@ -17621,7 +17399,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name ListNotificationConfigs
      * @summary Lists all notification configurations available in your environment
      * @request GET:/notifications
      */
@@ -17636,7 +17413,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name CreateNotificationConfig
      * @summary Creates a new notification configuration
      * @request POST:/notifications
      */
@@ -17652,7 +17428,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name GetNotificationConfig
      * @summary Gets the properties of the specified notification configuration
      * @request GET:/notifications/{id}
      */
@@ -17664,12 +17439,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a notification configuration with the specified ID doesn't exist, a new configuration is created.
-     *
-     * @tags Notifications
-     * @name UpdateNotificationConfig
-     * @summary Updates an existing notification configuration or creates a new one
-     * @request PUT:/notifications/{id}
+     * Notifications \
+     * `PUT:/notifications/{id}` \
+     * Updates an existing notification configuration or creates a new one \
+     * 
+     * ---
+     * @returns If a notification configuration with the specified ID doesn't exist, a new configuration is created.
      */
     updateNotificationConfig: (id: string, data: NotificationConfig, params: RequestParams = {}) =>
       this.request<NotificationConfigStub, ErrorEnvelope>({
@@ -17683,7 +17458,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name DeleteNotificationConfig
      * @summary Deletes the specified notification configuration
      * @request DELETE:/notifications/{id}
      */
@@ -17698,7 +17472,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name ValidateCreateNotificationConfig
      * @summary Validates the payload for the `POST /notifications` request
      * @request POST:/notifications/validator
      */
@@ -17714,7 +17487,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Notifications
-     * @name ValidateUpdateNotificationConfig
      * @summary Validates the payload the `PUT /notifications/{id}` request
      * @request POST:/notifications/{id}/validator
      */
@@ -17731,7 +17503,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetRemotePluginEndpoints
      * @summary Lists endpoints of the specified ActiveGate plugin
      * @request GET:/plugins/{id}/endpoints
      */
@@ -17743,12 +17514,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID of the endpoint, as IDs are automatically assigned.
-     *
-     * @tags Plugins
-     * @name CreateRemotePluginEndpoint
-     * @summary Creates a new endpoint for the specified ActiveGate plugin
-     * @request POST:/plugins/{id}/endpoints
+     * Plugins \
+     * `POST:/plugins/{id}/endpoints` \
+     * Creates a new endpoint for the specified ActiveGate plugin \
+     * 
+     * ---
+     * @returns The body must not provide an ID of the endpoint, as IDs are automatically assigned.
      */
     createRemotePluginEndpoint: (id: string, data: RemotePluginEndpoint, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -17762,7 +17533,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetPluginBinary
      * @summary Downloads the ZIP file of the specified plugin
      * @request GET:/plugins/{id}/binary
      */
@@ -17774,12 +17544,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Deletion of the plugin file uninstalls the plugin, making it unavailable for use.
-     *
-     * @tags Plugins
-     * @name DeletePlugin
-     * @summary Deletes the ZIP file of the specified plugin
-     * @request DELETE:/plugins/{id}/binary
+     * Plugins \
+     * `DELETE:/plugins/{id}/binary` \
+     * Deletes the ZIP file of the specified plugin \
+     * 
+     * ---
+     * @returns Deletion of the plugin file uninstalls the plugin, making it unavailable for use.
      */
     deletePlugin: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -17792,7 +17562,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetRemotePluginEndpoint
      * @summary Gets parameters of the specified endpoint of the ActiveGate plugin
      * @request GET:/plugins/{id}/endpoints/{endpointId}
      */
@@ -17807,7 +17576,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name UpdateRemotePluginEndpoint
      * @summary Updates an existing endpoint of the ActiveGate plugin
      * @request PUT:/plugins/{id}/endpoints/{endpointId}
      */
@@ -17828,7 +17596,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name DeleteRemotePluginEndpoint
      * @summary Deletes an existing endpoint of the ActiveGate plugin
      * @request DELETE:/plugins/{id}/endpoints/{endpointId}
      */
@@ -17843,7 +17610,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetPlugin
      * @summary Lists the properties of the specified plugin
      * @request GET:/plugins/{id}
      */
@@ -17858,7 +17624,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetPluginStates
      * @summary Lists the states of the specified plugin
      * @request GET:/plugins/{id}/states
      */
@@ -17873,7 +17638,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetPlugins
      * @summary Lists all uploaded plugins
      * @request GET:/plugins
      */
@@ -17888,7 +17652,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name UploadPlugin
      * @summary Uploads a ZIP plugin file
      * @request POST:/plugins
      */
@@ -17906,7 +17669,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name GetRemotePluginModules
      * @summary List available ActiveGate plugin modules
      * @request GET:/plugins/activeGatePluginModules
      */
@@ -17921,7 +17683,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name ValidatePlugin
      * @summary Validates a ZIP plugin file for `POST/plugins` request
      * @request POST:/plugins/validator
      */
@@ -17939,7 +17700,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Plugins
-     * @name ValidateRemotePluginEndpoint
      * @summary Validates the payload for the `POST /plugins/{id}/endpoints` request
      * @request POST:/plugins/{id}/endpoints/validator
      */
@@ -17956,7 +17716,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name ListRemoteEnvironmentConfigs
      * @summary Lists all remote environment configurations | maturity=EARLY_ADOPTER
      * @request GET:/remoteEnvironments
      */
@@ -17968,12 +17727,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server. Be sure to prepare a token with the **Fetch data from a remote environment** (`RestRequestForwarding`) scope. You can create such a token via [Tokens API](https://dt-url.net/ff23kmx).
-     *
-     * @tags Remote environments
-     * @name CreateRemoteEnvironmentConfig
-     * @summary Creates a new remote environment configuration | maturity=EARLY_ADOPTER
-     * @request POST:/remoteEnvironments
+     * Remote environments \
+     * `POST:/remoteEnvironments` \
+     * Creates a new remote environment configuration | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server. Be sure to prepare a token with the **Fetch data from a remote environment** (`RestRequestForwarding`) scope. You can create such a token via [Tokens API](https://dt-url.net/ff23kmx).
      */
     createRemoteEnvironmentConfig: (data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<RemoteEnvironmentConfigStub, ErrorEnvelope>({
@@ -17987,7 +17746,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name GetRemoteEnvironmentConfig
      * @summary Gets the properties of the specified remote environment configuration | maturity=EARLY_ADOPTER
      * @request GET:/remoteEnvironments/{id}
      */
@@ -17999,12 +17757,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a remote environment configuration with the specified ID doesn't exist, a new configuration is created.
-     *
-     * @tags Remote environments
-     * @name UpdateRemoteEnvironmentConfig
-     * @summary Updates an existing remote environment configuration or creates a new one | maturity=EARLY_ADOPTER
-     * @request PUT:/remoteEnvironments/{id}
+     * Remote environments \
+     * `PUT:/remoteEnvironments/{id}` \
+     * Updates an existing remote environment configuration or creates a new one | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If a remote environment configuration with the specified ID doesn't exist, a new configuration is created.
      */
     updateRemoteEnvironmentConfig: (id: string, data: RemoteEnvironmentConfigDto, params: RequestParams = {}) =>
       this.request<RemoteEnvironmentConfigStub, ErrorEnvelope>({
@@ -18018,7 +17776,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name DeleteRemoteEnvironmentConfig
      * @summary Deletes the specified remote environment configuration | maturity=EARLY_ADOPTER
      * @request DELETE:/remoteEnvironments/{id}
      */
@@ -18033,7 +17790,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name ValidateCreateRemoteEnvironmentConfig
      * @summary Validates the payload for the `POST /remoteEnvironments` request | maturity=EARLY_ADOPTER
      * @request POST:/remoteEnvironments/validator
      */
@@ -18049,7 +17805,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Remote environments
-     * @name ValidateUpdateRemoteEnvironmentConfig
      * @summary Validates the payload for the `PUT /remoteEnvironments/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/remoteEnvironments/{id}/validator
      */
@@ -18066,7 +17821,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Reports
-     * @name GetReport
      * @summary Gets the properties of the specified report | maturity=EARLY_ADOPTER
      * @request GET:/reports/{id}
      */
@@ -18078,12 +17832,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a report with the specified ID doesn't exist, a new report is created.
-     *
-     * @tags Reports
-     * @name CreateOrUpdateReport
-     * @summary Updates an existing report | maturity=EARLY_ADOPTER
-     * @request PUT:/reports/{id}
+     * Reports \
+     * `PUT:/reports/{id}` \
+     * Updates an existing report | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If a report with the specified ID doesn't exist, a new report is created.
      */
     createOrUpdateReport: (id: string, data: DashboardReport, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18097,7 +17851,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Reports
-     * @name DeleteReport
      * @summary Deletes the specified report | maturity=EARLY_ADOPTER
      * @request DELETE:/reports/{id}
      */
@@ -18112,7 +17865,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Reports
-     * @name ListReports
      * @summary Lists all reports available in your environment | maturity=EARLY_ADOPTER
      * @request GET:/reports
      */
@@ -18125,12 +17877,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Reports
-     * @name CreateReport
-     * @summary Creates a report | maturity=EARLY_ADOPTER
-     * @request POST:/reports
+     * Reports \
+     * `POST:/reports` \
+     * Creates a report | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createReport: (data: DashboardReport, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18144,7 +17896,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Reports
-     * @name SubscribeReport
      * @summary Subscribes to the specified report | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/subscribe
      */
@@ -18160,7 +17911,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Reports
-     * @name UnsubscribeReport
      * @summary Unsubscribes from the specified report | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/unsubscribe
      */
@@ -18176,7 +17926,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Reports
-     * @name ValidateCreateOrUpdateReport
      * @summary Validates the payload for the `PUT /reports/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/reports/{id}/validator
      */
@@ -18189,12 +17938,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID.
-     *
-     * @tags Reports
-     * @name ValidateCreateReport
-     * @summary Validates the payload for the `POST /reports` request | maturity=EARLY_ADOPTER
-     * @request POST:/reports/validator
+     * Reports \
+     * `POST:/reports/validator` \
+     * Validates the payload for the `POST /reports` request | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The body must not provide an ID.
      */
     validateCreateReport: (data: DashboardReport, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -18209,7 +17958,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name GetSingle
      * @summary Gets the metadata of the symbolication file belonging to the specified app version. There always can exist only one file per os and version
      * @request GET:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}
      */
@@ -18231,7 +17979,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name CreateOrUpdate
      * @summary Upload a symbolication file. Either a ProGuard file for Android or a zip file containing all the iOS dSYM files.
      * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}
      */
@@ -18255,7 +18002,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name DeleteSingleFile
      * @summary Delete the symbolication file belonging to the given application, os and version
      * @request DELETE:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}
      */
@@ -18277,7 +18023,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name CreateOrUpdatePinning
      * @summary Pin or unpin all symbolication files of a app version. A pinned file will not be deleted automtically, when running out of space.
      * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning
      */
@@ -18301,7 +18046,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name GetAllPerApplication
      * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) for one single mobile application from the Symbol File Store of this tenant.
      * @request GET:/symfiles/{applicationId}
      */
@@ -18316,7 +18060,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name DeleteApp
      * @summary Deletes all symbolication file belonging to the Dynatrace App specified
      * @request DELETE:/symfiles/{applicationId}
      */
@@ -18331,7 +18074,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name GetAll
      * @summary Lists the metadata of all symbolication files (ProGuard files for Android or dSYM files for iOS Apps) from the Symbol File Store.
      * @request GET:/symfiles
      */
@@ -18346,7 +18088,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name GetDssClientUrl
      * @summary Gets a download link for the latest version of the DTXDssClient.
      * @request GET:/symfiles/dtxdss-download
      */
@@ -18361,7 +18102,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name GetInfo
      * @summary Retrieves information about used/empty diskspace, number of stored files,....
      * @request GET:/symfiles/info
      */
@@ -18376,7 +18116,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name GetSupportedVersion
      * @summary Returns the supported file format version for iOS symbol files.
      * @request GET:/symfiles/ios/supportedversion
      */
@@ -18391,7 +18130,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Mobile Deobfuscation and Symbolication
-     * @name ValidatePinning
      * @summary Validate updates of existing request attribute for the `PUT /{applicationId}/{packageName}/{os}/{versionName}/pinning` request.
      * @request PUT:/symfiles/{applicationId}/{packageName}/{os}/{versionCode}/{versionName}/pinning/validator
      */
@@ -18416,7 +18154,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags OneAgent - Environment-wide configuration
-     * @name GetTechGlobalConfigs
      * @summary Gets the global monitoring configuration of technologies.
      * @request GET:/technologies
      */
@@ -18429,12 +18166,12 @@ export class internalConfig extends APIBase {
   };
   aws = {
     /**
-     * @description You'll need it for the role-based AWS authentication.
-     *
-     * @tags AWS credentials configuration
-     * @name ReadIamExternalIdToken
-     * @summary Gets the external ID token for setting an IAM role
-     * @request GET:/aws/iamExternalId
+     * AWS credentials configuration \
+     * `GET:/aws/iamExternalId` \
+     * Gets the external ID token for setting an IAM role \
+     * 
+     * ---
+     * @returns You'll need it for the role-based AWS authentication.
      */
     readIamExternalIdToken: (params: RequestParams = {}) =>
       this.request<AwsIamToken, any>({
@@ -18447,7 +18184,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags AWS credentials configuration
-     * @name ListAwsCredentialConfigs
      * @summary Lists all available AWS credentials configurations
      * @request GET:/aws/credentials
      */
@@ -18459,12 +18195,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags AWS credentials configuration
-     * @name CreateAwsCredentialsConfig
-     * @summary Creates a new AWS credentials configuration
-     * @request POST:/aws/credentials
+     * AWS credentials configuration \
+     * `POST:/aws/credentials` \
+     * Creates a new AWS credentials configuration \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createAwsCredentialsConfig: (data: AwsCredentialsConfig, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18478,7 +18214,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags AWS credentials configuration
-     * @name GetAwsCredentialsConfig
      * @summary Gets the configuration of the specified AWS credentials
      * @request GET:/aws/credentials/{id}
      */
@@ -18493,7 +18228,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags AWS credentials configuration
-     * @name UpdateAwsCredentialsConfig
      * @summary Updates an existing AWS credentials configuration
      * @request PUT:/aws/credentials/{id}
      */
@@ -18509,7 +18243,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags AWS credentials configuration
-     * @name DeleteAwsCredentialsConfig
      * @summary Deletes the specified AWS credentials configuration
      * @request DELETE:/aws/credentials/{id}
      */
@@ -18524,7 +18257,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags AWS credentials configuration
-     * @name ValidateCreateAwsCredentialsConfig
      * @summary Validates the payload for the `POST /aws/credentials` request
      * @request POST:/aws/credentials/validator
      */
@@ -18540,7 +18272,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags AWS credentials configuration
-     * @name ValidateUpdateAwsCredentialsConfig
      * @summary Validates the payload for the `PUT /aws/credentials/{id}` request
      * @request POST:/aws/credentials/{id}/validator
      */
@@ -18553,12 +18284,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Lists the account ids of all allowlisted accounts in AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name GetAllAllowlistedAccounts
-     * @summary Gets the information about all allowlisted accounts in AWS PrivateLink
-     * @request GET:/aws/privateLink/allowlistedAccounts
+     * AWS PrivateLink \
+     * `GET:/aws/privateLink/allowlistedAccounts` \
+     * Gets the information about all allowlisted accounts in AWS PrivateLink \
+     * 
+     * ---
+     * @returns Lists the account ids of all allowlisted accounts in AWS PrivateLink for this tenant
      */
     getAllAllowlistedAccounts: (params: RequestParams = {}) =>
       this.request<AllowlistedAwsAccountList, any>({
@@ -18568,12 +18299,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Gets all configuration settings for AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name GetPrivateLinkConfig
-     * @summary Gets the configuration information about AWS PrivateLink
-     * @request GET:/aws/privateLink
+     * AWS PrivateLink \
+     * `GET:/aws/privateLink` \
+     * Gets the configuration information about AWS PrivateLink \
+     * 
+     * ---
+     * @returns Gets all configuration settings for AWS PrivateLink for this tenant
      */
     getPrivateLinkConfig: (params: RequestParams = {}) =>
       this.request<AwsPrivateLinkConfig, any>({
@@ -18583,12 +18314,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Updates the configuration settings for AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name PutPrivateLinkConfig
-     * @summary Updates the configuration information about AWS PrivateLink
-     * @request PUT:/aws/privateLink
+     * AWS PrivateLink \
+     * `PUT:/aws/privateLink` \
+     * Updates the configuration information about AWS PrivateLink \
+     * 
+     * ---
+     * @returns Updates the configuration settings for AWS PrivateLink for this tenant
      */
     putPrivateLinkConfig: (data: AwsPrivateLinkConfig, params: RequestParams = {}) =>
       this.request<AwsPrivateLinkConfig, any>({
@@ -18599,12 +18330,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Updates the given AWS account id in the allowlisted accounts in AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name PutAllowlistedAccount
-     * @summary Updates the given AWS account id in the allowlist in AWS PrivateLink
-     * @request PUT:/aws/privateLink/allowlistedAccounts/{id}
+     * AWS PrivateLink \
+     * `PUT:/aws/privateLink/allowlistedAccounts/{id}` \
+     * Updates the given AWS account id in the allowlist in AWS PrivateLink \
+     * 
+     * ---
+     * @returns Updates the given AWS account id in the allowlisted accounts in AWS PrivateLink for this tenant
      */
     putAllowlistedAccount: (id: string, data: AllowlistedAwsAccount, params: RequestParams = {}) =>
       this.request<AllowlistedAwsAccount, ErrorEnvelope>({
@@ -18615,12 +18346,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description Removes the given AWS account id from the allowlisted accounts in AWS PrivateLink for this tenant
-     *
-     * @tags AWS PrivateLink
-     * @name RemoveAllowlistedAccount
-     * @summary Removes one AWS account from the allowlist in AWS PrivateLink
-     * @request DELETE:/aws/privateLink/allowlistedAccounts/{id}
+     * AWS PrivateLink \
+     * `DELETE:/aws/privateLink/allowlistedAccounts/{id}` \
+     * Removes one AWS account from the allowlist in AWS PrivateLink \
+     * 
+     * ---
+     * @returns Removes the given AWS account id from the allowlisted accounts in AWS PrivateLink for this tenant
      */
     removeAllowlistedAccount: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -18634,7 +18365,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Azure credentials configuration
-     * @name ListAzureCredentialsConfigs
      * @summary Lists all available Azure credentials configurations
      * @request GET:/azure/credentials
      */
@@ -18646,12 +18376,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Azure credentials configuration
-     * @name CreateAzureCredentialsConfig
-     * @summary Creates a new Azure credentials configuration
-     * @request POST:/azure/credentials
+     * Azure credentials configuration \
+     * `POST:/azure/credentials` \
+     * Creates a new Azure credentials configuration \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createAzureCredentialsConfig: (data: AzureCredentialsCreation, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18665,7 +18395,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Azure credentials configuration
-     * @name GetAzureCredentialsConfig
      * @summary Gets the configuration of the specified Azure credentials
      * @request GET:/azure/credentials/{id}
      */
@@ -18677,12 +18406,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description * You can't change the Application ID or Directory ID of an Azure configuration. If you need to change them, create a new credentials configuration. * If a configuration with the specified ID doesn't exist, a new configuration is created.
-     *
-     * @tags Azure credentials configuration
-     * @name UpdateAzureCredentialsConfig
-     * @summary Updates an existing Azure credentials configuration
-     * @request PUT:/azure/credentials/{id}
+     * Azure credentials configuration \
+     * `PUT:/azure/credentials/{id}` \
+     * Updates an existing Azure credentials configuration \
+     * 
+     * ---
+     * @returns * You can't change the Application ID or Directory ID of an Azure configuration. If you need to change them, create a new credentials configuration. * If a configuration with the specified ID doesn't exist, a new configuration is created.
      */
     updateAzureCredentialsConfig: (id: string, data: AzureCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18696,7 +18425,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Azure credentials configuration
-     * @name DeleteAzureCredentialsConfig
      * @summary Deletes the specified Azure credentials configuration
      * @request DELETE:/azure/credentials/{id}
      */
@@ -18711,7 +18439,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Azure credentials configuration
-     * @name ValidateAzureCredentialsConfig
      * @summary Validates the payload for the `POST /azure/credentials` request
      * @request POST:/azure/credentials/validator
      */
@@ -18727,7 +18454,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Azure credentials configuration
-     * @name ValidateConfigurationUpdate
      * @summary Validates the payload for the `PUT /azure/credentials/{id}` request
      * @request POST:/azure/credentials/{id}/validator
      */
@@ -18744,7 +18470,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name ListCloudFoundryCredentialsConfigs
      * @summary List all the Cloud Foundry foundations credentials. | maturity=EARLY_ADOPTER
      * @request GET:/cloudFoundry/credentials
      */
@@ -18759,7 +18484,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name CreateCloudFoundryCredentialsConfig
      * @summary Create new credentials for a single foundation. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials
      */
@@ -18775,7 +18499,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name GetCloudFoundryCredentialsConfig
      * @summary Show the properties for the specified Cloud Foundry foundation credentials. | maturity=EARLY_ADOPTER
      * @request GET:/cloudFoundry/credentials/{id}
      */
@@ -18790,7 +18513,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name UpdateCloudFoundryCredentialsConfig
      * @summary Create or update credentials for a single Cloud Foundry foundation. | maturity=EARLY_ADOPTER
      * @request PUT:/cloudFoundry/credentials/{id}
      */
@@ -18806,7 +18528,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name DeleteCloudFoundryCredentialsConfig
      * @summary Delete the specified Cloud Foundry foundation credentials. | maturity=EARLY_ADOPTER
      * @request DELETE:/cloudFoundry/credentials/{id}
      */
@@ -18821,7 +18542,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name ValidateCreateCloudFoundryCredentialsConfig
      * @summary Validate that creating credentials would be successful. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials/validator
      */
@@ -18837,7 +18557,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Cloud Foundry credentials configuration
-     * @name ValidateUpdateCloudFoundryCredentialsConfig
      * @summary Validate that updating or creating credentials would be successful. | maturity=EARLY_ADOPTER
      * @request POST:/cloudFoundry/credentials/{id}/validator
      */
@@ -18858,7 +18577,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Kubernetes credentials configuration
-     * @name ListKubernetesCredentialsConfigs
      * @summary Lists all available Kubernetes credentials configurations | maturity=EARLY_ADOPTER
      * @request GET:/kubernetes/credentials
      */
@@ -18870,12 +18588,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID as it will be automatically assigned by the Dynatrace server.
-     *
-     * @tags Kubernetes credentials configuration
-     * @name CreateKubernetesCredentialsConfig
-     * @summary Creates a new Kubernetes credentials configuration | maturity=EARLY_ADOPTER
-     * @request POST:/kubernetes/credentials
+     * Kubernetes credentials configuration \
+     * `POST:/kubernetes/credentials` \
+     * Creates a new Kubernetes credentials configuration | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The body must not provide an ID as it will be automatically assigned by the Dynatrace server.
      */
     createKubernetesCredentialsConfig: (data: KubernetesCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18889,7 +18607,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Kubernetes credentials configuration
-     * @name GetKubernetesCredentialsConfig
      * @summary Gets the configuration of the specified Kubernetes credentials | maturity=EARLY_ADOPTER
      * @request GET:/kubernetes/credentials/{id}
      */
@@ -18901,12 +18618,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description You can't change the URL of the Kubernetes cluster. If a configuration with the specified ID doesn't exist, a new configuration is created. IDs of entities are computed server side upon creation. If you want to create a new entity, use the POST method without an ID. To update an existing entity, use the PUT method with an existing, valid ID. To re-create an entity under a specific ID, a valid ID must be provided with the PUT method.
-     *
-     * @tags Kubernetes credentials configuration
-     * @name UpdateKubernetesCredentialsConfig
-     * @summary Updates an existing Kubernetes credentials configuration | maturity=EARLY_ADOPTER
-     * @request PUT:/kubernetes/credentials/{id}
+     * Kubernetes credentials configuration \
+     * `PUT:/kubernetes/credentials/{id}` \
+     * Updates an existing Kubernetes credentials configuration | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can't change the URL of the Kubernetes cluster. If a configuration with the specified ID doesn't exist, a new configuration is created. IDs of entities are computed server side upon creation. If you want to create a new entity, use the POST method without an ID. To update an existing entity, use the PUT method with an existing, valid ID. To re-create an entity under a specific ID, a valid ID must be provided with the PUT method.
      */
     updateKubernetesCredentialsConfig: (id: string, data: KubernetesCredentials, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18920,7 +18637,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Kubernetes credentials configuration
-     * @name DeleteKubernetesCredentialsConfig
      * @summary Deletes the specified Kubernetes credentials configuration | maturity=EARLY_ADOPTER
      * @request DELETE:/kubernetes/credentials/{id}
      */
@@ -18935,7 +18651,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Kubernetes credentials configuration
-     * @name ValidateCreateKubernetesCredentialsConfig
      * @summary Validates the payload for the `POST /kubernetes/credentials` request | maturity=EARLY_ADOPTER
      * @request POST:/kubernetes/credentials/validator
      */
@@ -18951,7 +18666,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Kubernetes credentials configuration
-     * @name ValidateUpdateKubernetesCredentialsConfig
      * @summary Validates the payload for the `PUT /kubernetes/credentials/{id}` request | maturity=EARLY_ADOPTER
      * @request POST:/kubernetes/credentials/{id}/validator
      */
@@ -18968,7 +18682,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name ListMaintenanceWindows
      * @summary Lists all available maintenance windows
      * @request GET:/maintenanceWindows
      */
@@ -18980,12 +18693,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
-     *
-     * @tags Maintenance windows
-     * @name CreateMaintenanceWindow
-     * @summary Creates a new maintenance window
-     * @request POST:/maintenanceWindows
+     * Maintenance windows \
+     * `POST:/maintenanceWindows` \
+     * Creates a new maintenance window \
+     * 
+     * ---
+     * @returns The body must not provide an ID. An ID is assigned automatically by the Dynatrace server.
      */
     createMaintenanceWindow: (data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -18999,7 +18712,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name GetMaintenanceWindow
      * @summary Gets the properties of the specified maintenance window
      * @request GET:/maintenanceWindows/{id}
      */
@@ -19011,12 +18723,12 @@ export class internalConfig extends APIBase {
       }),
 
     /**
-     * @description If a maintenance window with the specified ID doesn't exist, a new one is created.
-     *
-     * @tags Maintenance windows
-     * @name UpdateMaintenanceWindow
-     * @summary Updates an existing maintenance window
-     * @request PUT:/maintenanceWindows/{id}
+     * Maintenance windows \
+     * `PUT:/maintenanceWindows/{id}` \
+     * Updates an existing maintenance window \
+     * 
+     * ---
+     * @returns If a maintenance window with the specified ID doesn't exist, a new one is created.
      */
     updateMaintenanceWindow: (id: string, data: MaintenanceWindow, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -19030,7 +18742,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name DeleteMaintenanceWindow
      * @summary Deletes the specified maintenance window
      * @request DELETE:/maintenanceWindows/{id}
      */
@@ -19045,7 +18756,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name ValidateCreateMaintenanceWindow
      * @summary Validates the payload for the `POST /maintenancewindow` request
      * @request POST:/maintenanceWindows/validator
      */
@@ -19061,7 +18771,6 @@ export class internalConfig extends APIBase {
      * No description
      *
      * @tags Maintenance windows
-     * @name ValidateUpdateMaintenanceWindow
      * @summary Validates the payload for the `PUT /maintenancewindow/{id}` request
      * @request POST:/maintenanceWindows/{id}/validator
      */

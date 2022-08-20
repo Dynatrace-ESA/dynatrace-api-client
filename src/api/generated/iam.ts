@@ -692,7 +692,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerGetUsers
      * @summary Lists all users of an account
      * @request GET:/iam/v1/accounts/{accountUuid}/users
      */
@@ -708,7 +707,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerCreateUserForAccount
      * @summary Creates a new user in an account
      * @request POST:/iam/v1/accounts/{accountUuid}/users
      */
@@ -725,7 +723,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerGetUserGroups
      * @summary Lists all groups of a user
      * @request GET:/iam/v1/accounts/{accountUuid}/users/{email}
      */
@@ -741,7 +738,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerAddUserToGroups
      * @summary Adds a user to groups. Any existing group membership remains unaffected.
      * @request POST:/iam/v1/accounts/{accountUuid}/users/{email}
      */
@@ -758,7 +754,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerRemoveUserFromAccount
      * @summary Removes a user from an account
      * @request DELETE:/iam/v1/accounts/{accountUuid}/users/{email}
      */
@@ -773,7 +768,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerReplaceUserGroups
      * @summary Sets group membership of a user. Any existing membership is overwritten.
      * @request PUT:/iam/v1/accounts/{accountUuid}/users/{email}/groups
      */
@@ -795,7 +789,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UsersControllerRemoveUserFromGroups
      * @summary Removes a user from groups
      * @request DELETE:/iam/v1/accounts/{accountUuid}/users/{email}/groups
      */
@@ -816,7 +809,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Group management
-     * @name GroupsControllerGetGroups
      * @summary Lists all user groups of an account
      * @request GET:/iam/v1/accounts/{accountUuid}/groups
      */
@@ -832,7 +824,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Group management
-     * @name GroupsControllerCreateGroups
      * @summary Creates new user groups
      * @request POST:/iam/v1/accounts/{accountUuid}/groups
      */
@@ -850,7 +841,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Group management
-     * @name GroupsControllerGetUsersForGroup
      * @summary Lists all members of a group
      * @request GET:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/users
      */
@@ -866,7 +856,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Group management
-     * @name GroupsControllerEditGroup
      * @summary Edits a user group
      * @request PUT:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}
      */
@@ -888,7 +877,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Group management
-     * @name GroupsControllerDeleteGroup
      * @summary Deletes a user group
      * @request DELETE:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}
      */
@@ -903,7 +891,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Permission Management
-     * @name PermissionsControllerGetGroupPermissions
      * @summary Get all permissions for a group
      * @request GET:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
      */
@@ -919,7 +906,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Permission Management
-     * @name PermissionsControllerAddGroupPermissions
      * @summary Add permissions to a group
      * @request POST:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
      */
@@ -941,7 +927,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Permission Management
-     * @name PermissionsControllerOverwriteGroupPermissions
      * @summary Set permissions for a group
      * @request PUT:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
      */
@@ -963,7 +948,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Permission Management
-     * @name PermissionsControllerRemoveGroupPermissions
      * @summary Remove a permission from a group
      * @request DELETE:/iam/v1/accounts/{accountUuid}/groups/{groupUuid}/permissions
      */
@@ -1001,7 +985,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerGetPolicyOverviewList
      * @summary Lists all policies for a level, including inherited from higher levels
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/policies/aggregate
      */
@@ -1017,7 +1000,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerGetLevelPolicies
      * @summary Lists all native policies of a level
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/policies
      */
@@ -1033,7 +1015,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerCreateLevelPolicy
      * @summary Creates a new policy
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/policies
      */
@@ -1056,7 +1037,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerValidateNewLevelPolicy
      * @summary Validates the payload for the `POST /iam/v1/repo/{levelType}/{levelId}/policies` request
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/policies/validation
      */
@@ -1079,7 +1059,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerValidateLevelPolicy
      * @summary Validates the payload for the `PUT /iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}` request
      * @request POST:/iam/v1/repo/{levelType}/{levelId}/policies/validation/{policyUuid}
      */
@@ -1103,7 +1082,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerGetLevelPolicy
      * @summary Gets a policy
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}
      */
@@ -1121,12 +1099,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description If the specified policy doesn't exist, a new one is created.
-     *
-     * @tags Policy management
-     * @name PolicyControllerUpdateLevelPolicy
-     * @summary Updates a policy
-     * @request PUT:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}
+     * Policy management \
+     * `PUT:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}` \
+     * Updates a policy \
+     * 
+     * ---
+     * @returns If the specified policy doesn't exist, a new one is created.
      */
     policyControllerUpdateLevelPolicy: (
       levelType: string,
@@ -1148,7 +1126,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerDeleteLevelPolicy
      * @summary Deletes a policy
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/policies/{policyUuid}
      */
@@ -1169,7 +1146,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerGetPolicyUuidsBindings
      * @summary Lists all policies for a user group
      * @request GET:/iam/v1/repo/{levelType}/{levelId}/bindings/groups/{groupUuid}
      */
@@ -1187,12 +1163,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description The request overwrites exisiting policies.
-     *
-     * @tags Policy management
-     * @name PolicyControllerUpdatePolicyBindingsToGroup
-     * @summary Updates policies for a user group
-     * @request PUT:/iam/v1/repo/{levelType}/{levelId}/bindings/groups/{groupUuid}
+     * Policy management \
+     * `PUT:/iam/v1/repo/{levelType}/{levelId}/bindings/groups/{groupUuid}` \
+     * Updates policies for a user group \
+     * 
+     * ---
+     * @returns The request overwrites exisiting policies.
      */
     policyControllerUpdatePolicyBindingsToGroup: (
       levelType: string,
@@ -1210,12 +1186,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description A policy binding shows which user groups use the policy.
-     *
-     * @tags Policy management
-     * @name PolicyControllerGetLevelPolicyBindings
-     * @summary Lists all policy bindings of a level
-     * @request GET:/iam/v1/repo/{levelType}/{levelId}/bindings
+     * Policy management \
+     * `GET:/iam/v1/repo/{levelType}/{levelId}/bindings` \
+     * Lists all policy bindings of a level \
+     * 
+     * ---
+     * @returns A policy binding shows which user groups use the policy.
      */
     policyControllerGetLevelPolicyBindings: (levelType: string, levelId: string, params: RequestParams = {}) =>
       this.request<LevelPolicyBindingDto, ErrorDto>({
@@ -1226,12 +1202,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description The request overwrited all existing bindings.
-     *
-     * @tags Policy management
-     * @name PolicyControllerUpdateLevelPolicyBindings
-     * @summary Updates policy bindings of a level
-     * @request PUT:/iam/v1/repo/{levelType}/{levelId}/bindings
+     * Policy management \
+     * `PUT:/iam/v1/repo/{levelType}/{levelId}/bindings` \
+     * Updates policy bindings of a level \
+     * 
+     * ---
+     * @returns The request overwrited all existing bindings.
      */
     policyControllerUpdateLevelPolicyBindings: (
       levelType: string,
@@ -1251,7 +1227,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerDeleteLevelPolicyBindings
      * @summary Deletes all policy bindings from a level
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/bindings
      */
@@ -1263,12 +1238,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description Existing bindings remain unaffected.
-     *
-     * @tags Policy management
-     * @name PolicyControllerAppendLevelPolicyBindings
-     * @summary Adds policy bindings to a level
-     * @request POST:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}
+     * Policy management \
+     * `POST:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}` \
+     * Adds policy bindings to a level \
+     * 
+     * ---
+     * @returns Existing bindings remain unaffected.
      */
     policyControllerAppendLevelPolicyBindings: (
       levelType: string,
@@ -1290,7 +1265,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerDeleteLevelPolicyBindingsForPolicy
      * @summary Deletes all bindings of a policy
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}
      */
@@ -1310,7 +1284,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Policy management
-     * @name PolicyControllerDeleteLevelPolicyBindingsForPolicyAndGroup
      * @summary Deletes a policy binding from a user group
      * @request DELETE:/iam/v1/repo/{levelType}/{levelId}/bindings/{policyUuid}/{groupUuid}
      */
@@ -1332,7 +1305,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Quota management
-     * @name QuotaControllerGetQuota
      * @summary Gets the host units quota of an account
      * @request GET:/env/v1/accounts/{accountUuid}/quotas/host-monitoring
      */
@@ -1348,7 +1320,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Quota management
-     * @name QuotaControllerSplitHostMonitoringCredits
      * @summary Updates environment-level host unit quotas
      * @request PATCH:/env/v1/accounts/{accountUuid}/quotas/host-monitoring
      */
@@ -1369,7 +1340,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Quota management
-     * @name QuotaControllerEnableOverage
      * @summary Sets the host units overage
      * @request PUT:/env/v1/accounts/{accountUuid}/quotas/host-monitoring/environments/{environmentUuid}/overage
      */
@@ -1391,7 +1361,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Environment management
-     * @name EnvironmentResourcesControllerGetEnvironmentResources
      * @summary Lists all environments and management zones of an account
      * @request GET:/env/v1/accounts/{accountUuid}/environments
      */
@@ -1408,7 +1377,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Reference Data
-     * @name ReferenceDataControllerGetTimezones
      * @summary Get names of all timezones available
      * @request GET:/ref/v1/time-zones
      */
@@ -1424,7 +1392,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Reference Data
-     * @name ReferenceDataControllerGetRegions
      * @summary Get names of all regions available
      * @request GET:/ref/v1/regions
      */
@@ -1440,7 +1407,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Reference Data
-     * @name ReferenceDataControllerGetPermissions
      * @summary Get names of all permissions available for any given account
      * @request GET:/ref/v1/account/permissions
      */
@@ -1457,7 +1423,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetClaSubscriptions
      * @summary Lists all Dynatrace platform subscriptions of an account
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions
      */
@@ -1473,7 +1438,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetClaSubscriptionClusterDetails
      * @summary Lists all clusters of an account
      * @request GET:/sub/v1/accounts/{accountUuid}/clusters
      */
@@ -1489,7 +1453,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetClaSubscriptionEnvironmentDetails
      * @summary Lists all clusters of an account
      * @request GET:/sub/v1/accounts/{accountUuid}/environments
      */
@@ -1502,12 +1465,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by specifying the timeframe during which the consumption happened.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetProductLevelClaLicenseConsumptionData
-     * @summary Gets the consumption of a subscription
-     * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/consumption
+     * Dynatrace platform subscription \
+     * `GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/consumption` \
+     * Gets the consumption of a subscription \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying the timeframe during which the consumption happened.
      */
     limaClaControllerGetProductLevelClaLicenseConsumptionData: (
       accountUuid: string,
@@ -1528,12 +1491,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description The endpoint is available only for Dynatrace Managed accounts.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetClusterLevelClaLicenseConsumptionData
-     * @summary Gets the cluster-level consumption of a subscription
-     * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/consumption
+     * Dynatrace platform subscription \
+     * `GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/consumption` \
+     * Gets the cluster-level consumption of a subscription \
+     * 
+     * ---
+     * @returns The endpoint is available only for Dynatrace Managed accounts.
      */
     limaClaControllerGetClusterLevelClaLicenseConsumptionData: (
       accountUuid: string,
@@ -1558,7 +1521,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetTenantLevelClaLicenseConsumptionData
      * @summary Gets the environment-level consumption of a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/consumption
      */
@@ -1585,7 +1547,6 @@ export class internalIam extends APIBase {
      * No description
      *
      * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetClaLicenseDetailsById
      * @summary Gets the active term of a subscription
      * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/term
      */
@@ -1602,12 +1563,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerGetClaBudgetLimits
-     * @summary Lists limits for a subscription
-     * @request GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/limits
+     * Dynatrace platform subscription \
+     * `GET:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/limits` \
+     * Lists limits for a subscription \
+     * 
+     * ---
+     * @returns [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted.
      */
     limaClaControllerGetClaBudgetLimits: (accountUuid: string, subscriptionId: number, params: RequestParams = {}) =>
       this.request<ClaBudgetLimitRecordListDto, any>({
@@ -1618,12 +1579,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the cluster exceeds the limit, the cluster will stop the monitoring. The endpoint is available only for Dynatrace Managed accounts.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerAddClaBudgetLimitForCluster
-     * @summary Creates a limit for a cluster
-     * @request POST:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/{clusterUuid}/limits
+     * Dynatrace platform subscription \
+     * `POST:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/{clusterUuid}/limits` \
+     * Creates a limit for a cluster \
+     * 
+     * ---
+     * @returns [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the cluster exceeds the limit, the cluster will stop the monitoring. The endpoint is available only for Dynatrace Managed accounts.
      */
     limaClaControllerAddClaBudgetLimitForCluster: (
       accountUuid: string,
@@ -1642,12 +1603,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the cluster exceeds the limit, the cluster will stop the monitoring. The endpoint is available only for Dynatrace Managed accounts.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerUpdateClaBudgetLimitForCluster
-     * @summary Updates the limit for a cluster
-     * @request PUT:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/{clusterUuid}/limits
+     * Dynatrace platform subscription \
+     * `PUT:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/clusters/{clusterUuid}/limits` \
+     * Updates the limit for a cluster \
+     * 
+     * ---
+     * @returns [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the cluster exceeds the limit, the cluster will stop the monitoring. The endpoint is available only for Dynatrace Managed accounts.
      */
     limaClaControllerUpdateClaBudgetLimitForCluster: (
       accountUuid: string,
@@ -1666,12 +1627,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the environment exceeds the limit, the environment will stop the monitoring.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerAddClaBudgetLimitForEnvironment
-     * @summary Creates a limit for an environment
-     * @request POST:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/{environmentUuid}/limits
+     * Dynatrace platform subscription \
+     * `POST:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/{environmentUuid}/limits` \
+     * Creates a limit for an environment \
+     * 
+     * ---
+     * @returns [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the environment exceeds the limit, the environment will stop the monitoring.
      */
     limaClaControllerAddClaBudgetLimitForEnvironment: (
       accountUuid: string,
@@ -1690,12 +1651,12 @@ export class internalIam extends APIBase {
       }),
 
     /**
-     * @description [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the environment exceeds the limit, the environment will stop the monitoring.
-     *
-     * @tags Dynatrace platform subscription
-     * @name LimaClaControllerUpdateClaBudgetLimitForEnvironment
-     * @summary Updates the limit for an environment
-     * @request PUT:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/{environmentUuid}/limits
+     * Dynatrace platform subscription \
+     * `PUT:/sub/v1/accounts/{accountUuid}/subscriptions/{subscriptionId}/environments/{environmentUuid}/limits` \
+     * Updates the limit for an environment \
+     * 
+     * ---
+     * @returns [Limits](https://dt-url.net/yz03uq5) help you control the usage of your annual [commit](https://dt-url.net/i503u3z). If no limit is set, the commit is consumed until it is exhausted. If the consumption on the environment exceeds the limit, the environment will stop the monitoring.
      */
     limaClaControllerUpdateClaBudgetLimitForEnvironment: (
       accountUuid: string,

@@ -100,6 +100,11 @@ const stringReplacementPatches = [
         // Remove secure properties.
         rx: /\n\s+secure: (true|false),/g,
         value: ""
+    },
+    {
+        // Remove @name jsdoc decorator.
+        rx: /\n\s+\* @name [^\n]+/g,
+        value: ""
     }
 ]
 
@@ -112,12 +117,33 @@ getFiles(targetDir).forEach(file => {
         fileText = fileText.replace(replacer.rx, replacer.value);
     })
 
-
-    // animal.json
     let fName = file.split('.')[0];
     fName = fName.split('-').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join('').split('.')[0]
 
     fileText = fileText.replace("export class Api extends APIBase", `export class internal${fName} extends APIBase`);
+
+    // Map description text (details of return value)
+    const commentRx = /\* @description (?<description>.+?)\n\s+\*\n(?<indent>\s+)\* @tags (?<tags>.+?)\n\s+\* @summary (?<summary>.+?)\n\s+\* @request (?<path>.+?)\n/g;
+
+    fileText = fileText.replace(commentRx, (match, description, indent, tags, summary, path, index, srcstring) => {
+        /**
+         * RUM - User sessions \
+         * `GET:/userSessionQueryLanguage/table` \
+         * Returns the result of the query as a table structure
+         * 
+         * ---
+         * @returns The result is a flat list of rows containing the requested columns.
+         */
+
+        return [
+            `* ${tags} \\`,
+            `\`${path}\` \\`,
+            `${summary} \\`,
+            ``,
+            `---`,
+            `@returns ${description}`,
+        ].join('\n' + indent + "* ") + '\n';
+    });
 
     fs.writeFileSync(targetDir + file, fileText);
 });

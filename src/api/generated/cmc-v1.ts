@@ -843,7 +843,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Backup configuration
-     * @name CheckBackupDirForCluster
      * @summary Check if given directory is valid for backup in the cluster
      * @request GET:/backup/clusterCheckDir
      */
@@ -860,7 +859,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Backup configuration
-     * @name GetBackupConfig
      * @summary Return backup configuration overview
      * @request GET:/backup/config
      */
@@ -876,7 +874,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Backup configuration
-     * @name ChangeBackupConfig
      * @summary Change backup configuration
      * @request PUT:/backup/config
      */
@@ -893,7 +890,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Backup configuration
-     * @name GetStatusOfChangeBackupConfig
      * @summary Check status of change backup configuration
      * @request GET:/backup/config/status
      */
@@ -910,7 +906,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetInstallerMetadata
      * @summary Get installer metadata
      * @request GET:/bootstrapManagement/files/installerMetadata
      */
@@ -926,7 +921,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetActiveGateConfigProperties
      * @summary Get ActiveGate config properties
      * @request GET:/bootstrapManagement/files/ag/configProperties
      */
@@ -942,7 +936,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetActiveGateSecureConfigProperties
      * @summary Get ActiveGate secure config properties
      * @request GET:/bootstrapManagement/files/ag/secureConfigProperties
      */
@@ -958,7 +951,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GenerateNewNodeId
      * @summary Get new node id
      * @request POST:/bootstrapManagement/newNodeId
      */
@@ -974,7 +966,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetSecureConfigProperties
      * @summary Get secure config properties
      * @request GET:/bootstrapManagement/files/secureConfigProperties
      */
@@ -990,7 +981,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetRuntimeProperties
      * @summary Get runtime properties
      * @request GET:/bootstrapManagement/files/runtimeProperties
      */
@@ -1006,7 +996,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetKeyStore
      * @summary Get key store
      * @request GET:/bootstrapManagement/files/keyStore
      */
@@ -1022,7 +1011,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Startup configuration
-     * @name GetConfigProperties
      * @summary Get config properties
      * @request GET:/bootstrapManagement/files/configProperties
      */
@@ -1039,7 +1027,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name GetWebUiAddress
      * @summary Get WebUi address
      * @request GET:/endpoint/webUiAddress
      */
@@ -1055,7 +1042,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name UpdateWebUiAddress
      * @summary Update WebUi address
      * @request POST:/endpoint/webUiAddress
      */
@@ -1073,7 +1059,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name GetBeaconForwarderAddress
      * @summary Get beacon forwarder address
      * @request GET:/endpoint/beaconForwarderAddress
      */
@@ -1089,7 +1074,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name UpdateBeaconForwarderAddress
      * @summary Update beacon forwarder address
      * @request POST:/endpoint/beaconForwarderAddress
      */
@@ -1107,7 +1091,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name GetNodeIpForDomain
      * @summary Get node IP for domain
      * @request GET:/endpoint/publicIp/domain/{nodeId}
      */
@@ -1123,7 +1106,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name StoreNodeIpForDomain
      * @summary Store node IP for domain
      * @request PUT:/endpoint/publicIp/domain/{nodeId}
      */
@@ -1141,7 +1123,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name GetNodeIpForAgents
      * @summary Get node IP for OneAgents
      * @request GET:/endpoint/publicIp/agents/{nodeId}
      */
@@ -1157,7 +1138,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name StoreNodeIpForAgents
      * @summary Store node IP for OneAgents
      * @request PUT:/endpoint/publicIp/agents/{nodeId}
      */
@@ -1174,7 +1154,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name GetRootCdnAddress
      * @summary Get root CDN address
      * @request GET:/endpoint/cdnAddress
      */
@@ -1190,7 +1169,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Public endpoints
-     * @name UpdateRootCdnAddress
      * @summary Update root CDN address
      * @request POST:/endpoint/cdnAddress
      */
@@ -1209,7 +1187,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster
-     * @name NodesConfiguration
      * @summary Cluster nodes configuration
      * @request GET:/cluster/configuration
      */
@@ -1224,7 +1201,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster
-     * @name ConfigureNodes
      * @summary Configure cluster nodes responsibilities
      * @request POST:/cluster/configuration
      */
@@ -1241,7 +1217,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster
-     * @name GetClustersInfo
      * @summary Get information about known servers
      * @request GET:/cluster
      */
@@ -1257,7 +1232,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster
-     * @name ConfigureNodesStatus
      * @summary Get cluster nodes configuration current status
      * @request GET:/cluster/configuration/status
      */
@@ -1272,7 +1246,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster
-     * @name ConfigureNodesRequestStatus
      * @summary Get cluster nodes configuration request status
      * @request GET:/cluster/configuration/status/{requestedAt}
      */
@@ -1288,7 +1261,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetPrepareClusterForReplicationProgress
      * @summary Get progress status of cluster preparation for a replication | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterReplicationPreparation
      */
@@ -1304,7 +1276,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name InitPrepareClusterForReplication
      * @summary Start procedure of cluster preparation for a replication | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/clusterReplicationPreparation
      */
@@ -1319,7 +1290,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMultiDcTopologyDraft
      * @summary Get cluster topology draft | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/datacenterTopology
      */
@@ -1335,7 +1305,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name CreateMultiDcTopologyDraft
      * @summary Create cluster topology draft | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/datacenterTopology
      */
@@ -1351,7 +1320,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name DeleteMultiDcTopologyDraft
      * @summary Delete cluster topology draft | maturity=EARLY_ADOPTER
      * @request DELETE:/multiDc/migration/datacenterTopology
      */
@@ -1366,7 +1334,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name InitTopologyConfiguration
      * @summary Start cluster topology configuration - open firewall ports | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/clusterNodes/currentDc
      */
@@ -1381,7 +1348,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetTopologyConfiguration
      * @summary Get topology configuration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterNodes/currentDc/{requestId}
      */
@@ -1396,7 +1362,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMultiDcNodekeeperHealthcheck
      * @summary Get nodekeeper helathcheck | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/nodekeeper/healthCheck
      */
@@ -1411,7 +1376,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name InitMigrateCassandraOldDatacenter
      * @summary Start cassandra migration in current datacenter | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/cassandra/currentDc
      */
@@ -1426,7 +1390,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMigrateCassandraOldDatacenter
      * @summary Get cassandra migration status in current datacenter | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/cassandra/currentDc/{requestId}
      */
@@ -1441,7 +1404,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name InitMigrateCassandraNewDatacenter
      * @summary Start cassandra migration in new datacenter | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/cassandra/newDc
      */
@@ -1456,7 +1418,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMigrateCassandraNewDatacenter
      * @summary Get cassandra migration status in new datacenter | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/cassandra/newDc/{requestId}
      */
@@ -1471,7 +1432,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name MigrateElasticsearch
      * @summary Start elasticsearch migration | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/elasticsearch
      */
@@ -1486,7 +1446,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMigrateElasticsearchStatus
      * @summary Get elasticsearch migration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/elasticsearch/{requestId}
      */
@@ -1501,7 +1460,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetVerifyElasticsearchMigration
      * @summary Verify elasticsearch migration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/elasticsearch/indexMigrationStatus
      */
@@ -1516,7 +1474,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetVerifyCassandraStatus
      * @summary Verify cassandra rebuild status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/cassandra/rebuildStatus
      */
@@ -1531,7 +1488,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name MigrateServer
      * @summary Start server migration in current datacenter | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/server
      */
@@ -1546,7 +1502,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMigrateServerStatus
      * @summary Get server migration status | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/server/{requestId}
      */
@@ -1561,7 +1516,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name InitDatacenterCleanUp
      * @summary Clean up lost datacenter settings | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/lostDatacenterCleanUp
      */
@@ -1576,7 +1530,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name FinishMigration
      * @summary Finish migration | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/migration/finish
      */
@@ -1591,7 +1544,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetClusterState
      * @summary Get cluster state of migration from single to multi datacenter cluster and its sub steps | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterState
      */
@@ -1607,7 +1559,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name ModifyClusterState
      * @summary Modify the overall cluster state of migration from single to multi datacenter cluster | maturity=EARLY_ADOPTER
      * @request PUT:/multiDc/migration/clusterState
      */
@@ -1626,7 +1577,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetSubStepState
      * @summary Get sub step of migration from single to multi datacenter cluster | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/clusterState/{subStep}
      */
@@ -1642,7 +1592,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name ModifySubStepState
      * @summary Modify sub step of migration from single to multi datacenter cluster | maturity=EARLY_ADOPTER
      * @request PUT:/multiDc/migration/clusterState/{subStep}
      */
@@ -1662,7 +1611,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Migration to multi-datacenter deployment
-     * @name GetMigrationStateForAllComponents
      * @summary Get state of in-server config migration (from single to multi datacenter cluster) | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/migration/inServerconfigState
      */
@@ -1678,7 +1626,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch disaster recovery in multi-datacenter deployment
-     * @name GetRecoverStatus
      * @summary Get status of disaster recovery. | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/restore/elasticsearch/recover
      */
@@ -1693,7 +1640,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch disaster recovery in multi-datacenter deployment
-     * @name StartRecover
      * @summary Recover elasticsearch from a snapshot on one datacenter. | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/restore/elasticsearch/recover
      */
@@ -1708,7 +1654,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch disaster recovery in multi-datacenter deployment
-     * @name StartComponentsAfterMigration
      * @summary Get status after server migration and start components in disaster recovery | maturity=EARLY_ADOPTER
      * @request GET:/multiDc/restore/server/recovery/{requestId}
      */
@@ -1723,7 +1668,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch disaster recovery in multi-datacenter deployment
-     * @name StartComponentsAfterMigration1
      * @summary Migrate servers and start components after disaster recovery | maturity=EARLY_ADOPTER
      * @request POST:/multiDc/restore/server/recovery
      */
@@ -1739,7 +1683,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch Management API
-     * @name CheckElasticsearchUpgradePossibility
      * @summary Checks if it is safe to upgrade elasticsearch
      * @request GET:/elastic/upgradeStatus
      */
@@ -1759,7 +1702,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch Management API
-     * @name CreateAutoFollowPattern
      * @summary Creates auto follow pattern for MultiDC environment
      * @request POST:/elastic/ccr/autoFollowPattern
      */
@@ -1775,7 +1717,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Elasticsearch Management API
-     * @name DeleteAutoFollowPattern
      * @summary Deletes auto follow pattern for MultiDC environment
      * @request DELETE:/elastic/ccr/autoFollowPattern
      */
@@ -1792,7 +1733,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Firewall configuration
-     * @name AddClusterNodes
      * @summary Add cluster node
      * @request POST:/firewallManagement/addClusterNode
      */
@@ -1809,7 +1749,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Firewall configuration
-     * @name GetClusterNodes
      * @summary Get cluster nodes
      * @request GET:/firewallManagement/clusterNodes
      */
@@ -1825,7 +1764,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Firewall configuration
-     * @name GetAsyncNodeRemovalStatus
      * @request GET:/firewallManagement/removeClusterNode
      */
     getAsyncNodeRemovalStatus: (params: RequestParams = {}) =>
@@ -1839,7 +1777,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Firewall configuration
-     * @name RemoveClusterNodes
      * @summary Remove cluster node
      * @request POST:/firewallManagement/removeClusterNode
      */
@@ -1856,7 +1793,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Firewall configuration
-     * @name RemoveClusterNodesDeleteMethod
      * @request DELETE:/firewallManagement/removeClusterNode/{ip}
      */
     removeClusterNodesDeleteMethod: (
@@ -1873,12 +1809,12 @@ export class internalCmcV1 extends APIBase {
   };
   nodeManagement = {
     /**
-     * @description This API allows you to override cassandra read quorum of this particular server instance. Other server instances are not affected. Note that this will not be persisted, after server restart this override will be lost! Typically you only need it in multi-datacenter fail-over scenarios. To reset the overrides call the API with the UNSET value.
-     *
-     * @tags Cluster node
-     * @name ForceCassandraQuorumOverride
-     * @summary Override cassandra read quorum at runtime only for this particular server instance
-     * @request PUT:/nodeManagement/cassandraQuorumOverride/{quorum}
+     * Cluster node \
+     * `PUT:/nodeManagement/cassandraQuorumOverride/{quorum}` \
+     * Override cassandra read quorum at runtime only for this particular server instance \
+     * 
+     * ---
+     * @returns This API allows you to override cassandra read quorum of this particular server instance. Other server instances are not affected. Note that this will not be persisted, after server restart this override will be lost! Typically you only need it in multi-datacenter fail-over scenarios. To reset the overrides call the API with the UNSET value.
      */
     forceCassandraQuorumOverride: (
       quorum:
@@ -1901,12 +1837,12 @@ export class internalCmcV1 extends APIBase {
       }),
 
     /**
-     * @description Does not return actual used read quorum if no override is set, in this case UNSET is returned.
-     *
-     * @tags Cluster node
-     * @name GetCassandraQuorumOverride
-     * @summary Get the cassandra read quorum override.
-     * @request GET:/nodeManagement/cassandraQuorumOverride
+     * Cluster node \
+     * `GET:/nodeManagement/cassandraQuorumOverride` \
+     * Get the cassandra read quorum override. \
+     * 
+     * ---
+     * @returns Does not return actual used read quorum if no override is set, in this case UNSET is returned.
      */
     getCassandraQuorumOverride: (params: RequestParams = {}) =>
       this.request<void, any>({
@@ -1919,7 +1855,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name TryLockRemoval
      * @request PUT:/nodeManagement/tryLockRemoval
      */
     tryLockRemoval: (
@@ -1937,7 +1872,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name UnlockRemoval
      * @request PUT:/nodeManagement/unlockRemoval
      */
     unlockRemoval: (query?: { id?: number; ip?: string; removalStopReason?: string }, params: RequestParams = {}) =>
@@ -1949,12 +1883,12 @@ export class internalCmcV1 extends APIBase {
       }),
 
     /**
-     * @description Responses with status of current node removal (if it's already running) and statuses of historical removals.
-     *
-     * @tags Cluster node
-     * @name GetNodeRemovalStatus
-     * @summary Get node removal status
-     * @request GET:/nodeManagement/nodeRemovalStatus
+     * Cluster node \
+     * `GET:/nodeManagement/nodeRemovalStatus` \
+     * Get node removal status \
+     * 
+     * ---
+     * @returns Responses with status of current node removal (if it's already running) and statuses of historical removals.
      */
     getNodeRemovalStatus: (params: RequestParams = {}) =>
       this.request<void, any>({
@@ -1967,7 +1901,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name DeadNodeCleaning
      * @request DELETE:/nodeManagement/deadNodeCleaning
      */
     deadNodeCleaning: (
@@ -1985,7 +1918,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name TriggerRemoveNode
      * @summary Remove node
      * @request POST:/nodeManagement/triggerRemoveNode
      */
@@ -2001,7 +1933,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name SetInstallerStatus
      * @request POST:/nodeManagement/installerStatus
      */
     setInstallerStatus: (data: InstallerStatusDto, query?: { ip?: string }, params: RequestParams = {}) =>
@@ -2017,7 +1948,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name TryLockJoining
      * @request PUT:/nodeManagement/tryLockJoining
      */
     tryLockJoining: (query?: { ip?: string }, params: RequestParams = {}) =>
@@ -2032,7 +1962,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name FinalizeJoining
      * @request PUT:/nodeManagement/finalizeJoining
      */
     finalizeJoining: (
@@ -2056,7 +1985,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name InitializeNodeJoining
      * @request POST:/nodeManagement/joining
      */
     initializeNodeJoining: (
@@ -2074,7 +2002,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name GetNodeJoining
      * @request GET:/nodeManagement/joining/{requestId}
      */
     getNodeJoining: (requestId: string, params: RequestParams = {}) =>
@@ -2088,7 +2015,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name InitializeNodeJoinCheck
      * @summary Initialize verification if a node can be added to the cluster
      * @request POST:/nodeManagement/join/check
      */
@@ -2108,7 +2034,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name GetNodeJoin
      * @summary Verification if a node can be added to the cluster status
      * @request GET:/nodeManagement/join/check/{requestId}
      */
@@ -2124,7 +2049,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name NodeRestart
      * @summary Restart node
      * @request POST:/nodeManagement/nodeRestart
      */
@@ -2139,7 +2063,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name GetNodeServerStatus
      * @summary Get node's server status
      * @request GET:/nodeManagement/nodeServerStatus
      */
@@ -2169,7 +2092,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name GetNodeProductVersion
      * @summary Get product version
      * @request GET:/nodeManagement/productVersion
      */
@@ -2185,7 +2107,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Cluster node
-     * @name GetNodekeeperProductVersion
      * @request GET:/nodeManagement/nodekeeperProductVersion
      */
     getNodekeeperProductVersion: (params: RequestParams = {}) =>
@@ -2196,12 +2117,12 @@ export class internalCmcV1 extends APIBase {
       }),
 
     /**
-     * @description This API allows you to define which nodes can perform cluster-wide responsibilities, for example metric aging or problem detection, by specifying nodes IDs. Typically you only need it in multi-datacenter fail-over scenarios. To reset the overrides call the API with an empty list of node IDs.
-     *
-     * @tags Cluster node
-     * @name ResponsibilityOverride
-     * @summary Override which nodes can perform internal responsibilities
-     * @request PUT:/nodeManagement/responsibilityOverride
+     * Cluster node \
+     * `PUT:/nodeManagement/responsibilityOverride` \
+     * Override which nodes can perform internal responsibilities \
+     * 
+     * ---
+     * @returns This API allows you to define which nodes can perform cluster-wide responsibilities, for example metric aging or problem detection, by specifying nodes IDs. Typically you only need it in multi-datacenter fail-over scenarios. To reset the overrides call the API with an empty list of node IDs.
      */
     responsibilityOverride: (data: ResponsibilityOverrideDto, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -2216,7 +2137,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Preferences
-     * @name GetProperties
      * @summary Get Dynatrace Managed specific properties
      * @request GET:/preferences
      */
@@ -2232,7 +2152,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Preferences
-     * @name UpdateProperties
      * @summary Update properties
      * @request POST:/preferences
      */
@@ -2251,7 +2170,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SMTP settings
-     * @name GetSmtpConfiguration
      * @summary Get SMTP configuration
      * @request GET:/smtp
      */
@@ -2267,7 +2185,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SMTP settings
-     * @name UpdateSmtpConfiguration
      * @summary Update SMTP configuration
      * @request POST:/smtp
      */
@@ -2282,12 +2199,12 @@ export class internalCmcV1 extends APIBase {
       }),
 
     /**
-     * @description You can send only one test email per minute
-     *
-     * @tags SMTP settings
-     * @name SendTestEmail
-     * @summary Send test email
-     * @request POST:/smtp/sendTestMessage/{emailAddress}
+     * SMTP settings \
+     * `POST:/smtp/sendTestMessage/{emailAddress}` \
+     * Send test email \
+     * 
+     * ---
+     * @returns You can send only one test email per minute
      */
     sendTestEmail: (emailAddress: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2301,7 +2218,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SSL certificates
-     * @name GetStoringSslCertificateStatus
      * @summary Get certificate-storage status
      * @request GET:/sslCertificate/store/{entityType}/{entityId}
      */
@@ -2321,7 +2237,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SSL certificates
-     * @name StoreSslCertificateStatus
      * @summary Store SSL certificate status
      * @request POST:/sslCertificate/store/{entityType}/{entityId}
      */
@@ -2344,7 +2259,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SSL certificates
-     * @name GetSslCertificateDetails
      * @summary SSL certificate details.
      * @request GET:/sslCertificate/{entityType}/{entityId}
      */
@@ -2361,7 +2275,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SSO configuration
-     * @name GetSamlSpCert
      * @summary Get SAML SP X.509 certificate details
      * @request GET:/sso/saml/sp/cert
      */
@@ -2377,7 +2290,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags SSO configuration
-     * @name UpdateSamlSpCert
      * @summary Update SAML SP X.509 certificate
      * @request PUT:/sso/saml/sp/cert
      */
@@ -2395,7 +2307,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Support Archives
-     * @name GetSupportArchive
      * @summary Get support upgrade file
      * @request GET:/supportArchive/{id}
      */
@@ -2410,7 +2321,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Support Archives
-     * @name CancelSupportArchiveCreation
      * @summary Cancel support upgrade generation
      * @request PUT:/supportArchive/{id}
      */
@@ -2425,7 +2335,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Support Archives
-     * @name DeleteSupportArchive
      * @summary Delete existing support archive
      * @request DELETE:/supportArchive/{id}
      */
@@ -2440,7 +2349,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Support Archives
-     * @name GetSupportArchiveStatus
      * @summary Get support upgrade generation status
      * @request GET:/supportArchive/{id}/status
      */
@@ -2456,7 +2364,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Support Archives
-     * @name GetSupportArchiveReport
      * @summary Get support upgrade generation report
      * @request GET:/supportArchive/{id}/report
      */
@@ -2472,7 +2379,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Support Archives
-     * @name StartCreatingSupportArchive
      * @summary Trigger support upgrade generation
      * @request POST:/supportArchive
      */
@@ -2491,7 +2397,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Updates
-     * @name GetClusterUpgradeStartupState
      * @summary Get system precondition check state for the cluster
      * @request GET:/upgradeManagement/clusterUpgradeStartupState
      */
@@ -2507,7 +2412,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Updates
-     * @name GetInstallationFileList
      * @summary Get list of installation files and their cluster-wide availability information
      * @request GET:/upgradeManagement/installationFiles
      */
@@ -2522,7 +2426,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Updates
-     * @name EditInstallationBatch
      * @summary Modify update package state. Particular package might be excluded from download or re-downloaded.
      * @request PUT:/upgradeManagement/installationFiles/{type}/{version}
      */
@@ -2553,7 +2456,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Updates
-     * @name RemoveInstallationBatch
      * @summary Trigger removal of installation package
      * @request DELETE:/upgradeManagement/installationFiles/{type}/{version}
      */
@@ -2581,7 +2483,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Updates
-     * @name TriggerManualUpgrade
      * @summary Trigger manual cluster upgrade
      * @request POST:/upgradeManagement/triggerUpgrade
      */
@@ -2597,7 +2498,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name CreateGroups
      * @summary Create groups
      * @request POST:/groups/bulk
      */
@@ -2615,7 +2515,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name GetGroups
      * @summary Get groups
      * @request GET:/groups
      */
@@ -2631,7 +2530,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name UpdateGroup
      * @summary Update group
      * @request PUT:/groups
      */
@@ -2649,7 +2547,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name CreateGroup
      * @summary Create group
      * @request POST:/groups
      */
@@ -2667,7 +2564,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name GetGroup
      * @summary Get group
      * @request GET:/groups/{groupId}
      */
@@ -2683,7 +2579,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name RemoveGroup
      * @summary Delete group
      * @request DELETE:/groups/{groupId}
      */
@@ -2696,12 +2591,12 @@ export class internalCmcV1 extends APIBase {
       }),
 
     /**
-     * @description This is a list of management zone specific permissions only. Environment permissions are not taken into account here. Groups with permissions for whole environments can also see all management zones defined in these environments, even if they have no management zone specific permissions and the list returned by this request is empty.
-     *
-     * @tags User groups
-     * @name GetManagementZonesPermissions
-     * @summary Get management zone permissions for all groups
-     * @request GET:/groups/managementZones
+     * User groups \
+     * `GET:/groups/managementZones` \
+     * Get management zone permissions for all groups \
+     * 
+     * ---
+     * @returns This is a list of management zone specific permissions only. Environment permissions are not taken into account here. Groups with permissions for whole environments can also see all management zones defined in these environments, even if they have no management zone specific permissions and the list returned by this request is empty.
      */
     getManagementZonesPermissions: (params: RequestParams = {}) =>
       this.request<MzPermissionsForGroup[], any>({
@@ -2715,7 +2610,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User groups
-     * @name UpdateManagementZonesPermissionsForGroup
      * @summary Update management zone permissions for a single group
      * @request PUT:/groups/managementZones
      */
@@ -2729,12 +2623,12 @@ export class internalCmcV1 extends APIBase {
       }),
 
     /**
-     * @description This is a list of management zone specific permissions only. Environment permissions are not taken into account here. Groups with permissions for whole environments can also see all management zones defined in these environments, even if they have no management zone specific permissions and the list returned by this request is empty.
-     *
-     * @tags User groups
-     * @name GetManagementZonesPermissionsForGroup
-     * @summary Get management zone permissions for a given group
-     * @request GET:/groups/managementZones/{groupId}
+     * User groups \
+     * `GET:/groups/managementZones/{groupId}` \
+     * Get management zone permissions for a given group \
+     * 
+     * ---
+     * @returns This is a list of management zone specific permissions only. Environment permissions are not taken into account here. Groups with permissions for whole environments can also see all management zones defined in these environments, even if they have no management zone specific permissions and the list returned by this request is empty.
      */
     getManagementZonesPermissionsForGroup: (groupId: string, params: RequestParams = {}) =>
       this.request<MzPermissionsForGroup, void>({
@@ -2749,7 +2643,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Users
-     * @name GetUsers
      * @summary Get users
      * @request GET:/users
      */
@@ -2765,7 +2658,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Users
-     * @name UpdateUser
      * @summary Update user
      * @request PUT:/users
      */
@@ -2783,7 +2675,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Users
-     * @name CreateUser
      * @summary Create user
      * @request POST:/users
      */
@@ -2801,7 +2692,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Users
-     * @name CreateUsers
      * @summary Create users
      * @request POST:/users/bulk
      */
@@ -2819,7 +2709,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Users
-     * @name GetUser
      * @summary Get user
      * @request GET:/users/{id}
      */
@@ -2835,7 +2724,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Users
-     * @name RemoveUser
      * @summary Delete user
      * @request DELETE:/users/{id}
      */
@@ -2852,7 +2740,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name GetAuthenticationMode
      * @summary Get authentication mode
      * @request GET:/userRepository/authenticationMode
      */
@@ -2868,7 +2755,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name UpdateAuthenticationMode
      * @summary Update authentication mode
      * @request POST:/userRepository/authenticationMode
      */
@@ -2886,7 +2772,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name GetLdapConnectionConfiguration
      * @summary Get LDAP configuration
      * @request GET:/userRepository/ldap/connectionConfiguration
      */
@@ -2902,7 +2787,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name UpdateLdapConnection
      * @summary Update LDAP connection
      * @request POST:/userRepository/ldap/connectionConfiguration
      */
@@ -2919,7 +2803,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name GetLdapGroupsQuery
      * @summary Get LDAP group configuration
      * @request GET:/userRepository/ldap/queryGroups
      */
@@ -2935,7 +2818,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name UpdateLdapGroupsQuery
      * @summary Update LDAP groups query configuration
      * @request POST:/userRepository/ldap/queryGroups
      */
@@ -2952,7 +2834,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name GetLdapLdapUsersQuery
      * @summary Get LDAP users query configuration
      * @request GET:/userRepository/ldap/queryUsers
      */
@@ -2968,7 +2849,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags User repository configuration
-     * @name UpdateLdapUsersQueryDescImpl
      * @summary Update LDAP users query configuration
      * @request POST:/userRepository/ldap/queryUsers
      */
@@ -2986,7 +2866,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name TestConnectionInSingleDcMode
      * @summary Test Internet connection using given proxy configuration
      * @request PUT:/proxy/test
      */
@@ -3004,7 +2883,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name TestConnectionInMultiDcMode
      * @summary Test Internet connection from specific Data Center using given proxy configuration (Multi Data Center deployment)
      * @request PUT:/proxy/test/{dc}
      */
@@ -3022,7 +2900,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name GetSingleDcConfiguration
      * @summary Get cluster proxy configuration
      * @request GET:/proxy/configuration
      */
@@ -3038,7 +2915,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name ModifySingleDcConfiguration
      * @summary Set/update cluster proxy configuration
      * @request PUT:/proxy/configuration
      */
@@ -3055,7 +2931,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name DeleteSingleDcConfiguration
      * @summary Remove cluster proxy configuration
      * @request DELETE:/proxy/configuration
      */
@@ -3071,7 +2946,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name GetAllMultiDcConfigurations
      * @summary Get proxy configurations for all Data Centers (Multi Data Center deployment)
      * @request GET:/proxy/configurations
      */
@@ -3087,7 +2961,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name GetOneOfMultiDcConfiguration
      * @summary Get Data Center proxy configuration (Multi Data Center deployment)
      * @request GET:/proxy/configurations/{dc}
      */
@@ -3103,7 +2976,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name ModifyOneOfMultiDcConfiguration
      * @summary Set/update Data Center proxy configuration (Multi Data Center deployment)
      * @request PUT:/proxy/configurations/{dc}
      */
@@ -3120,7 +2992,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Internet proxy
-     * @name DeleteOneOfMultiDcConfiguration
      * @summary Remove Data Center proxy configuration (Multi Data Center deployment)
      * @request DELETE:/proxy/configurations/{dc}
      */
@@ -3137,7 +3008,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Password policy
-     * @name GetDefaultPasswordPolicy
      * @summary Get default's realm password policy configuration
      * @request GET:/passwordPolicy
      */
@@ -3153,7 +3023,6 @@ export class internalCmcV1 extends APIBase {
      * No description
      *
      * @tags Password policy
-     * @name UpdatePasswordPolicy
      * @summary Update password policy configuration
      * @request PUT:/passwordPolicy
      */

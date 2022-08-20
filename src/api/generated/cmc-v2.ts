@@ -2707,7 +2707,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags License
-     * @name GetBillingHour
      * @summary Retrieve license consumption
      * @request GET:/license/consumption/hour
      */
@@ -2720,12 +2719,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description Export license consumption data as a ZIP archive.
-     *
-     * @tags License
-     * @name GetBillingArchive
-     * @summary Export license consumption data
-     * @request GET:/license/consumption
+     * License \
+     * `GET:/license/consumption` \
+     * Export license consumption data \
+     * 
+     * ---
+     * @returns Export license consumption data as a ZIP archive.
      */
     getBillingArchive: (query?: { startTs?: number; endTs?: number }, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -2740,7 +2739,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Environments
-     * @name GetSingleEnvironment
      * @summary Gets the properties of the specified environment.
      * @request GET:/environments/{id}
      */
@@ -2761,12 +2759,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description If the environment with the specified ID does not exist, a new environment will be created.
-     *
-     * @tags Environments
-     * @name CreateOrUpdateEnvironment
-     * @summary Updates an existing environment or creates a new one.
-     * @request PUT:/environments/{id}
+     * Environments \
+     * `PUT:/environments/{id}` \
+     * Updates an existing environment or creates a new one. \
+     * 
+     * ---
+     * @returns If the environment with the specified ID does not exist, a new environment will be created.
      */
     createOrUpdateEnvironment: (
       id: string,
@@ -2786,7 +2784,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Environments
-     * @name DeleteEnvironment
      * @summary Deletes the specified environment. An environment must be disabled before it can be deleted.
      * @request DELETE:/environments/{id}
      */
@@ -2798,12 +2795,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description The newly created token is owned by the same user who owns the token used for authentication of creation call. It has the scopes 'apiTokens.read' and 'apiTokens.write' (for usage with token API v2) and 'TenantTokenManagement' (for usage with token API v1).
-     *
-     * @tags Environments
-     * @name CreateTokenManagementToken
-     * @summary Creates a new tenant management token for an environment.
-     * @request POST:/environments/{id}/tokenManagementToken
+     * Environments \
+     * `POST:/environments/{id}/tokenManagementToken` \
+     * Creates a new tenant management token for an environment. \
+     * 
+     * ---
+     * @returns The newly created token is owned by the same user who owns the token used for authentication of creation call. It has the scopes 'apiTokens.read' and 'apiTokens.write' (for usage with token API v2) and 'TenantTokenManagement' (for usage with token API v1).
      */
     createTokenManagementToken: (id: string, data: CreateEnvironmentTokenManagementToken, params: RequestParams = {}) =>
       this.request<Token, ErrorEnvelope>({
@@ -2817,7 +2814,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Environments
-     * @name GetAllEnvironments
      * @summary Lists all existing environments.
      * @request GET:/environments
      */
@@ -2844,7 +2840,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Environments
-     * @name CreateEnvironment
      * @summary Creates a new environment.
      * @request POST:/environments
      */
@@ -2862,7 +2857,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Remote access
-     * @name AccessRequestChangeState
      * @summary Change state of access request
      * @request PUT:/remoteaccess/requests/{requestId}/state
      */
@@ -2878,7 +2872,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Remote access
-     * @name GetAllAccessRequests
      * @summary Get all access requests
      * @request GET:/remoteaccess/requests
      */
@@ -2894,7 +2887,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Remote access
-     * @name AddAccessRequest
      * @summary Grant remote access permission
      * @request POST:/remoteaccess/requests
      */
@@ -2911,7 +2903,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Remote access
-     * @name GetAccessRequest
      * @summary Get access request
      * @request GET:/remoteaccess/requests/{requestId}
      */
@@ -2928,7 +2919,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags User management
-     * @name GetConcurrentSessionPolicyConfig
      * @summary Get user sessions configuration
      * @request GET:/clusterConfig/userSessions
      */
@@ -2944,7 +2934,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags User management
-     * @name UpdateConcurrentSessionPolicyConfig
      * @summary Update user sessions configuration
      * @request PUT:/clusterConfig/userSessions
      */
@@ -2962,7 +2951,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags User management
-     * @name GetUserSessions
      * @summary Get user sessions
      * @request GET:/userSessions
      */
@@ -2979,7 +2967,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags User management
-     * @name RemoveUserSession
      * @summary Remove user sessions for a given user
      * @request DELETE:/userSessions
      */
@@ -2996,7 +2983,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name GetAutoUpdateConfigById
      * @summary Gets the configuration of auto-update for the specified ActiveGate
      * @request GET:/activeGates/{agId}/autoUpdate
      */
@@ -3011,7 +2997,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name PutAutoUpdateConfigById
      * @summary Updates the configuration of auto-update for the specified ActiveGate
      * @request PUT:/activeGates/{agId}/autoUpdate
      */
@@ -3027,7 +3012,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name ValidateAutoUpdateConfigById
      * @summary Validates the payload for the `POST /activeGates/{agId}/autoUpdate` request.
      * @request POST:/activeGates/{agId}/autoUpdate/validator
      */
@@ -3043,7 +3027,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name GetClusterGlobalAutoUpdateConfig
      * @summary Gets the global auto-update configuration of cluster ActiveGates.
      * @request GET:/activeGates/autoUpdate
      */
@@ -3058,7 +3041,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name PutClusterGlobalAutoUpdateConfig
      * @summary Puts the global auto-update configuration of cluster ActiveGates.
      * @request PUT:/activeGates/autoUpdate
      */
@@ -3074,7 +3056,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name ValidateClusterGlobalAutoUpdateConfig
      * @summary Validates the payload for the `POST /activeGates/autoUpdate` request.
      * @request POST:/activeGates/autoUpdate/validator
      */
@@ -3090,7 +3071,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name GetGlobalAutoUpdateConfigForTenant
      * @summary Gets the global auto-update configuration of environment ActiveGates.
      * @request GET:/activeGates/autoUpdate/{envId}
      */
@@ -3105,7 +3085,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name PutGlobalAutoUpdateConfigForTenant
      * @summary Puts the global auto-update configuration of environment ActiveGates.
      * @request PUT:/activeGates/autoUpdate/{envId}
      */
@@ -3125,7 +3104,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name ValidateGlobalAutoUpdateConfigForTenant
      * @summary Validates the payload for the `POST /activeGates/autoUpdate/{envId}` request.
      * @request POST:/activeGates/autoUpdate/{envId}/validator
      */
@@ -3142,12 +3120,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description The response includes ActiveGates that have both completed (successful and failed) jobs and jobs in progress.
-     *
-     * @tags ActiveGates - Auto-update jobs
-     * @name GetAllUpdateJobList
-     * @summary List ActiveGates with update jobs
-     * @request GET:/activeGates/updateJobs
+     * ActiveGates - Auto-update jobs \
+     * `GET:/activeGates/updateJobs` \
+     * List ActiveGates with update jobs \
+     * 
+     * ---
+     * @returns The response includes ActiveGates that have both completed (successful and failed) jobs and jobs in progress.
      */
     getAllUpdateJobList: (
       query?: {
@@ -3170,12 +3148,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description The job can update the ActiveGate to the specified version or the latest available one.
-     *
-     * @tags ActiveGates - Auto-update jobs
-     * @name GetUpdateJobListByAgId
-     * @summary Lists update jobs for the specified ActiveGate
-     * @request GET:/activeGates/{agId}/updateJobs
+     * ActiveGates - Auto-update jobs \
+     * `GET:/activeGates/{agId}/updateJobs` \
+     * Lists update jobs for the specified ActiveGate \
+     * 
+     * ---
+     * @returns The job can update the ActiveGate to the specified version or the latest available one.
      */
     getUpdateJobListByAgId: (
       agId: string,
@@ -3202,7 +3180,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name CreateUpdateJobForAg
      * @summary Creates a new update job for the specified ActiveGate
      * @request POST:/activeGates/{agId}/updateJobs
      */
@@ -3218,7 +3195,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name GetUpdateJobByJobIdForAg
      * @summary Gets the parameters of the specified update job
      * @request GET:/activeGates/{agId}/updateJobs/{jobId}
      */
@@ -3233,7 +3209,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name DeleteUpdateJobByJobIdForAg
      * @summary Deletes the specified update job
      * @request DELETE:/activeGates/{agId}/updateJobs/{jobId}
      */
@@ -3248,7 +3223,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name ValidateUpdateJobForAg
      * @summary Validates the payload for the `POST /activeGates/{agId}/updateJobs` request.
      * @request POST:/activeGates/{agId}/updateJobs/validator
      */
@@ -3261,12 +3235,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description The response includes all ActiveGates that are currently connected to the environment or have been connected during last 2 hours.
-     *
-     * @tags ActiveGates
-     * @name GetAllActiveGates
-     * @summary Lists all available ActiveGates
-     * @request GET:/activeGates
+     * ActiveGates \
+     * `GET:/activeGates` \
+     * Lists all available ActiveGates \
+     * 
+     * ---
+     * @returns The response includes all ActiveGates that are currently connected to the environment or have been connected during last 2 hours.
      */
     getAllActiveGates: (
       query?: {
@@ -3344,7 +3318,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates
-     * @name GetOneActiveGateById
      * @summary Gets the details of the specified ActiveGate
      * @request GET:/activeGates/{agId}
      */
@@ -3360,7 +3333,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetActiveGateInstallerAvailableVersions
      * @summary Lists all available versions of ActiveGate installer
      * @request GET:/deployment/installer/gateway/versions/{osType}
      */
@@ -3377,7 +3349,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetAllNetworkZones
      * @summary Lists all existing network zones | maturity=EARLY_ADOPTER
      * @request GET:/networkZones
      */
@@ -3392,7 +3363,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetSingleNetworkZone
      * @summary Gets parameters of the specified network zone | maturity=EARLY_ADOPTER
      * @request GET:/networkZones/{id}
      */
@@ -3404,12 +3374,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description If the network zone with the specified ID does not exist, a new network zone is created. The ID is not case sensitive. Dynatrace stores the ID in lowercase.
-     *
-     * @tags Network zones
-     * @name CreateOrUpdateNetworkZone
-     * @summary Updates an existing network zone or creates a new one | maturity=EARLY_ADOPTER
-     * @request PUT:/networkZones/{id}
+     * Network zones \
+     * `PUT:/networkZones/{id}` \
+     * Updates an existing network zone or creates a new one | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns If the network zone with the specified ID does not exist, a new network zone is created. The ID is not case sensitive. Dynatrace stores the ID in lowercase.
      */
     createOrUpdateNetworkZone: (id: string, data: NetworkZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -3420,12 +3390,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description You can only delete an empty network zone (a zone that no ActiveGate or OneAgent is using). If the network zone is used as an alternative zone for any OneAgent, it will be automatically removed from the list of possible alternatives.
-     *
-     * @tags Network zones
-     * @name DeleteNetworkZone
-     * @summary Deletes the specified network zone | maturity=EARLY_ADOPTER
-     * @request DELETE:/networkZones/{id}
+     * Network zones \
+     * `DELETE:/networkZones/{id}` \
+     * Deletes the specified network zone | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can only delete an empty network zone (a zone that no ActiveGate or OneAgent is using). If the network zone is used as an alternative zone for any OneAgent, it will be automatically removed from the list of possible alternatives.
      */
     deleteNetworkZone: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -3436,12 +3406,12 @@ export class internalCmcV2 extends APIBase {
   };
   tokens = {
     /**
-     * @description The token itself is **not** exposed.
-     *
-     * @tags Tokens
-     * @name GetTokenMetadata
-     * @summary Lists token metadata by token ID
-     * @request GET:/tokens/{id}
+     * Tokens \
+     * `GET:/tokens/{id}` \
+     * Lists token metadata by token ID \
+     * 
+     * ---
+     * @returns The token itself is **not** exposed.
      */
     getTokenMetadata: (id: string, params: RequestParams = {}) =>
       this.request<TokenMetadata, ErrorEnvelope>({
@@ -3454,7 +3424,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Tokens
-     * @name UpdateToken
      * @summary Updates the specified token
      * @request PUT:/tokens/{id}
      */
@@ -3470,7 +3439,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Tokens
-     * @name DeleteToken
      * @summary Deletes the specified token
      * @request DELETE:/tokens/{id}
      */
@@ -3485,7 +3453,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Tokens
-     * @name GetTokenMetadataBySecret
      * @summary Lists token metadata by token itself
      * @request POST:/tokens/lookup
      */
@@ -3498,12 +3465,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by adding parameters. The token has to match *all* the specified parameters. You can also specify the limit of returned tokens. **This list may contain tokens which were created automatically** (e.g. InstallerDownload, Mobile, ...) and are not visible on the `Settings` page. Deleting those might have unintended side-effects as they might still be in use.
-     *
-     * @tags Tokens
-     * @name ListTokens
-     * @summary Lists available tokens in your environment
-     * @request GET:/tokens
+     * Tokens \
+     * `GET:/tokens` \
+     * Lists available tokens in your environment \
+     * 
+     * ---
+     * @returns You can narrow down the output by adding parameters. The token has to match *all* the specified parameters. You can also specify the limit of returned tokens. **This list may contain tokens which were created automatically** (e.g. InstallerDownload, Mobile, ...) and are not visible on the `Settings` page. Deleting those might have unintended side-effects as they might still be in use.
      */
     listTokens: (
       query?: {
@@ -3537,12 +3504,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description The newly created token will be owned by the same user who owns the token used for authentication of the call.
-     *
-     * @tags Tokens
-     * @name CreateToken
-     * @summary Creates a new token
-     * @request POST:/tokens
+     * Tokens \
+     * `POST:/tokens` \
+     * Creates a new token \
+     * 
+     * ---
+     * @returns The newly created token will be owned by the same user who owns the token used for authentication of the call.
      */
     createToken: (data: CreateToken, params: RequestParams = {}) =>
       this.request<Token, ErrorEnvelope>({
@@ -3557,7 +3524,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - configuration resource
-     * @name GetPolicyStatementConfiguration
      * @summary Gets configuration for policy statements. Available values for services, permissions, conditions and operators
      * @request GET:/iam/configuration/policystatements
      */
@@ -3577,7 +3543,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name GetPolicyUuids
      * @summary Get policy UUIDs for a given level by level ID and group
      * @request GET:/iam/repo/{level-type}/{level-id}/bindings/groups/{group-uuid}
      */
@@ -3593,7 +3558,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name Replace
      * @summary Create or update policy bindings within a level for a group
      * @request PUT:/iam/repo/{level-type}/{level-id}/bindings/groups/{group-uuid}
      */
@@ -3616,7 +3580,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name GetAll
      * @summary Get policy bindings for a level
      * @request GET:/iam/repo/{level-type}/{level-id}/bindings
      */
@@ -3632,7 +3595,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name Replace1
      * @summary Update policy bindings within a level
      * @request PUT:/iam/repo/{level-type}/{level-id}/bindings
      */
@@ -3654,7 +3616,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name Delete2
      * @summary Delete all policy bindings from a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/bindings
      */
@@ -3669,7 +3630,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name Append
      * @summary Append policy bindings within a level
      * @request POST:/iam/repo/{level-type}/{level-id}/bindings/{policy-uuid}
      */
@@ -3692,7 +3652,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name Delete1
      * @summary Delete all policy bindings within a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/bindings/{policy-uuid}
      */
@@ -3707,7 +3666,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies bindings
-     * @name Delete
      * @summary Delete a policy binding from a group within a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/bindings/{policy-uuid}/{group-uuid}
      */
@@ -3722,7 +3680,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name GetPolicyOverviewList
      * @summary Get overview of all policies for a given level, descendant and ancestor levels
      * @request GET:/iam/repo/{level-type}/{level-id}/policies/aggregate
      */
@@ -3738,7 +3695,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name GetAll1
      * @summary Get all policies for a level
      * @request GET:/iam/repo/{level-type}/{level-id}/policies
      */
@@ -3755,7 +3711,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name Create
      * @summary Create a policy within a level
      * @request POST:/iam/repo/{level-type}/{level-id}/policies
      */
@@ -3773,7 +3728,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name Get
      * @summary Get a policy within a level
      * @request GET:/iam/repo/{level-type}/{level-id}/policies/{uuid}
      */
@@ -3789,7 +3743,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name Put
      * @summary Update or create a new policy within a level
      * @request PUT:/iam/repo/{level-type}/{level-id}/policies/{uuid}
      */
@@ -3813,7 +3766,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name Delete3
      * @summary Delete a policy from a level
      * @request DELETE:/iam/repo/{level-type}/{level-id}/policies/{uuid}
      */
@@ -3835,7 +3787,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name Validate
      * @summary Validates policy before creation or update
      * @request POST:/iam/repo/{level-type}/{level-id}/policies/validation
      */
@@ -3858,7 +3809,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - policies management
-     * @name Validate1
      * @summary Validates policy before creation or update
      * @request POST:/iam/repo/{level-type}/{level-id}/policies/validation/{policy-uuid}
      */
@@ -3882,7 +3832,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - organizational levels
-     * @name GetDescendants
      * @summary Get descendant organizational levels for a given level by level ID
      * @request GET:/iam/organizational-levels/{level-type}/{level-id}/descendants
      */
@@ -3898,7 +3847,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags IAM - organizational levels
-     * @name Get1
      * @summary Get an organizational level by level ID
      * @request GET:/iam/organizational-levels/{level-type}/{level-id}
      */
@@ -3915,7 +3863,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name GetSettingsObjects
      * @summary Lists available settings objects | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects
      */
@@ -3931,12 +3878,12 @@ export class internalCmcV2 extends APIBase {
       }),
 
     /**
-     * @description You can upload several objects at once. In that case each object returns its own response code. Check the response body for details.
-     *
-     * @tags Settings - Objects
-     * @name PostSettingsObjects
-     * @summary Creates a new settings object | maturity=EARLY_ADOPTER
-     * @request POST:/settings/objects
+     * Settings - Objects \
+     * `POST:/settings/objects` \
+     * Creates a new settings object | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can upload several objects at once. In that case each object returns its own response code. Check the response body for details.
      */
     postSettingsObjects: (
       data: SettingsObjectCreate[],
@@ -3955,7 +3902,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name GetSettingsObjectByObjectId
      * @summary Gets the specified settings object | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects/{objectId}
      */
@@ -3970,7 +3916,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name PutSettingsObjectByObjectId
      * @summary Updates an existing settings object | maturity=EARLY_ADOPTER
      * @request PUT:/settings/objects/{objectId}
      */
@@ -3986,7 +3931,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name DeleteSettingsObjectByObjectId
      * @summary Deletes the specified settings object | maturity=EARLY_ADOPTER
      * @request DELETE:/settings/objects/{objectId}
      */
@@ -4002,7 +3946,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Settings - Schemas
-     * @name GetAvailableSchemaDefinitions
      * @summary Lists available settings schemas | maturity=EARLY_ADOPTER
      * @request GET:/settings/schemas
      */
@@ -4017,7 +3960,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Settings - Schemas
-     * @name GetSchemaDefinition
      * @summary Gets parameters of the specified settings schema | maturity=EARLY_ADOPTER
      * @request GET:/settings/schemas/{schemaId}
      */
@@ -4034,7 +3976,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocations
      * @summary Lists all cluster private synthetic locations
      * @request GET:/synthetic/locations
      */
@@ -4049,7 +3990,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name AddLocation
      * @summary Creates a new private synthetic cluster location
      * @request POST:/synthetic/locations
      */
@@ -4065,7 +4005,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocation
      * @summary Gets properties of the specified cluster location
      * @request GET:/synthetic/locations/{locationId}
      */
@@ -4080,7 +4019,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocation
      * @summary Updates the specified private synthetic cluster location
      * @request PUT:/synthetic/locations/{locationId}
      */
@@ -4096,7 +4034,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name RemoveLocation
      * @summary Deletes the specified private synthetic cluster location
      * @request DELETE:/synthetic/locations/{locationId}
      */
@@ -4111,7 +4048,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetNode
      * @summary Lists properties of the specified synthetic cluster node | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/nodes/{nodeId}
      */
@@ -4126,7 +4062,6 @@ export class internalCmcV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetNodes
      * @summary Lists all synthetic cluster nodes | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/nodes
      */

@@ -6301,7 +6301,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Cluster version
-     * @name GetVersion
      * @summary Gets the current version of the Dynatrace server
      * @request GET:/config/clusterversion
      */
@@ -6315,12 +6314,12 @@ export class internalEnvV1 extends APIBase {
   };
   deployment = {
     /**
-     * @description For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
-     *
-     * @tags Deployment
-     * @name DownloadAgentInstallerWithVersion
-     * @summary Downloads OneAgent installer of the specified version
-     * @request GET:/deployment/installer/agent/{osType}/{installerType}/version/{version}
+     * Deployment \
+     * `GET:/deployment/installer/agent/{osType}/{installerType}/version/{version}` \
+     * Downloads OneAgent installer of the specified version \
+     * 
+     * ---
+     * @returns For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
      */
     downloadAgentInstallerWithVersion: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6344,12 +6343,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Downloading the requested version matching deployment orchestration tarball's signature matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadAgentOrchestrationSignatureWithVersion
-     * @summary Downloads the requested version matching OneAgent deployment orchestration tarball's signature
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}/signature
+     * Deployment \
+     * `GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}/signature` \
+     * Downloads the requested version matching OneAgent deployment orchestration tarball's signature \
+     * 
+     * ---
+     * @returns Downloading the requested version matching deployment orchestration tarball's signature matching the requested Orchestration Type (ansible, puppet).
      */
     downloadAgentOrchestrationSignatureWithVersion: (
       orchestrationType: "ansible" | "puppet",
@@ -6363,12 +6362,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Downloading the requested version matching deployment orchestration tarball matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadAgentOrchestrationWithVersion
-     * @summary Downloads the requested version matching OneAgent deployment orchestration tarball
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}
+     * Deployment \
+     * `GET:/deployment/orchestration/agent/{orchestrationType}/version/{version}` \
+     * Downloads the requested version matching OneAgent deployment orchestration tarball \
+     * 
+     * ---
+     * @returns Downloading the requested version matching deployment orchestration tarball matching the requested Orchestration Type (ansible, puppet).
      */
     downloadAgentOrchestrationWithVersion: (
       orchestrationType: "ansible" | "puppet",
@@ -6382,12 +6381,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description For SaaS, the call is executed on an Environment ActiveGate. Be sure to use the base of an ActiveGate, **not** the environment.
-     *
-     * @tags Deployment
-     * @name DownloadBoshReleaseWithVersion
-     * @summary Downloads BOSH release tarballs of the specified version, OneAgent included
-     * @request GET:/deployment/boshrelease/agent/{osType}/version/{version}
+     * Deployment \
+     * `GET:/deployment/boshrelease/agent/{osType}/version/{version}` \
+     * Downloads BOSH release tarballs of the specified version, OneAgent included \
+     * 
+     * ---
+     * @returns For SaaS, the call is executed on an Environment ActiveGate. Be sure to use the base of an ActiveGate, **not** the environment.
      */
     downloadBoshReleaseWithVersion: (
       osType: "windows" | "unix",
@@ -6406,7 +6405,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name DownloadGatewayInstallerWithVersion
      * @summary Downloads the ActiveGate installer of the specified version
      * @request GET:/deployment/installer/gateway/{osType}/version/{version}
      */
@@ -6418,12 +6416,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
-     *
-     * @tags Deployment
-     * @name DownloadLatestAgentInstaller
-     * @summary Downloads the latest OneAgent installer
-     * @request GET:/deployment/installer/agent/{osType}/{installerType}/latest
+     * Deployment \
+     * `GET:/deployment/installer/agent/{osType}/{installerType}/latest` \
+     * Downloads the latest OneAgent installer \
+     * 
+     * ---
+     * @returns For the `paas` or `paas-sh` installer types you can get a configuring installer, by passing additional parameters.
      */
     downloadLatestAgentInstaller: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6446,12 +6444,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Downloading the latest available deployment orchestration script tarball matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadLatestAgentOrchestration
-     * @summary Downloads the latest OneAgent deployment orchestration tarball
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest
+     * Deployment \
+     * `GET:/deployment/orchestration/agent/{orchestrationType}/latest` \
+     * Downloads the latest OneAgent deployment orchestration tarball \
+     * 
+     * ---
+     * @returns Downloading the latest available deployment orchestration script tarball matching the requested Orchestration Type (ansible, puppet).
      */
     downloadLatestAgentOrchestration: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6461,12 +6459,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Downloading the latest available deployment orchestration tarball's sigature matching the requested Orchestration Type (ansible, puppet).
-     *
-     * @tags Deployment
-     * @name DownloadLatestAgentOrchestrationSignature
-     * @summary Downloads the latest OneAgent deployment orchestration tarball's signature
-     * @request GET:/deployment/orchestration/agent/{orchestrationType}/latest/signature
+     * Deployment \
+     * `GET:/deployment/orchestration/agent/{orchestrationType}/latest/signature` \
+     * Downloads the latest OneAgent deployment orchestration tarball's signature \
+     * 
+     * ---
+     * @returns Downloading the latest available deployment orchestration tarball's sigature matching the requested Orchestration Type (ansible, puppet).
      */
     downloadLatestAgentOrchestrationSignature: (orchestrationType: "ansible" | "puppet", params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6479,7 +6477,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name DownloadLatestGatewayInstaller
      * @summary Downloads the configured standard ActiveGate installer of the latest version for the specified OS
      * @request GET:/deployment/installer/gateway/{osType}/latest
      */
@@ -6494,7 +6491,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetActiveGateInstallerAvailableVersions
      * @summary Lists all available versions of ActiveGate installer
      * @request GET:/deployment/installer/gateway/versions/{osType}
      */
@@ -6510,7 +6506,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetActiveGateInstallerConnectionInfo
      * @summary Gets the connectivity information for Environment ActiveGate
      * @request GET:/deployment/installer/gateway/connectioninfo
      */
@@ -6527,7 +6522,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetAgentInstallerAvailableVersions
      * @summary Lists all available versions of OneAgent installer
      * @request GET:/deployment/installer/agent/versions/{osType}/{installerType}
      */
@@ -6552,7 +6546,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetAgentInstallerConnectionInfo
      * @summary Gets the connectivity information for OneAgent
      * @request GET:/deployment/installer/agent/connectioninfo
      */
@@ -6566,12 +6559,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Highest priority first, separated by a semicolon.If no network zone provided the default zone is used. Responds with 404 if network zone is not known.
-     *
-     * @tags Deployment
-     * @name GetAgentInstallerConnectionInfoEndpoints
-     * @summary Gets the list of the ActiveGate-Endpoints to be used for Agents ordered by networkzone-priorities.
-     * @request GET:/deployment/installer/agent/connectioninfo/endpoints
+     * Deployment \
+     * `GET:/deployment/installer/agent/connectioninfo/endpoints` \
+     * Gets the list of the ActiveGate-Endpoints to be used for Agents ordered by networkzone-priorities. \
+     * 
+     * ---
+     * @returns Highest priority first, separated by a semicolon.If no network zone provided the default zone is used. Responds with 404 if network zone is not known.
      */
     getAgentInstallerConnectionInfoEndpoints: (query?: { networkZone?: string }, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -6582,12 +6575,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Returns the OneAgent version of the installer of the specified type. Non-required parameters are only applicable to the `paas` and `paas-sh` installer types.
-     *
-     * @tags Deployment
-     * @name GetAgentInstallerMetaInfo
-     * @summary Gets the latest available version of the OneAgent installer of the specified type
-     * @request GET:/deployment/installer/agent/{osType}/{installerType}/latest/metainfo
+     * Deployment \
+     * `GET:/deployment/installer/agent/{osType}/{installerType}/latest/metainfo` \
+     * Gets the latest available version of the OneAgent installer of the specified type \
+     * 
+     * ---
+     * @returns Returns the OneAgent version of the installer of the specified type. Non-required parameters are only applicable to the `paas` and `paas-sh` installer types.
      */
     getAgentInstallerMetaInfo: (
       osType: "windows" | "unix" | "aix" | "solaris" | "zos",
@@ -6608,12 +6601,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Returns the latest process module config. Passing a previously gotten revision will first do a revision check, and return a 304 response if no changes were detected.
-     *
-     * @tags Deployment
-     * @name GetAgentProcessModuleConfig
-     * @summary Gets the latest process module config | maturity=EARLY_ADOPTER
-     * @request GET:/deployment/installer/agent/processmoduleconfig
+     * Deployment \
+     * `GET:/deployment/installer/agent/processmoduleconfig` \
+     * Gets the latest process module config | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Returns the latest process module config. Passing a previously gotten revision will first do a revision check, and return a 304 response if no changes were detected.
      */
     getAgentProcessModuleConfig: (query?: { revision?: number }, params: RequestParams = {}) =>
       this.request<AgentProcessModuleConfigResponse, void>({
@@ -6628,7 +6621,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Deployment
-     * @name GetBoshReleaseAvailableVersions
      * @summary Gets the list of available OneAgent versions for BOSH release tarballs
      * @request GET:/deployment/boshrelease/versions/{osType}
      */
@@ -6641,12 +6633,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description The checksum is the sha256 hash of the installer file. Result is not stable if **skipMetadata** is set to `false`. For SaaS only works on environment ActiveGates version 1.176 or higher
-     *
-     * @tags Deployment
-     * @name GetBoshReleaseChecksum
-     * @summary Gets the checksum of the specified BOSH release tarbell
-     * @request GET:/deployment/boshrelease/agent/{osType}/version/{version}/checksum
+     * Deployment \
+     * `GET:/deployment/boshrelease/agent/{osType}/version/{version}/checksum` \
+     * Gets the checksum of the specified BOSH release tarbell \
+     * 
+     * ---
+     * @returns The checksum is the sha256 hash of the installer file. Result is not stable if **skipMetadata** is set to `false`. For SaaS only works on environment ActiveGates version 1.176 or higher
      */
     getBoshReleaseChecksum: (
       osType: "windows" | "unix",
@@ -6663,12 +6655,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Get the latest version names of the OneAgent for the Java, Node.js, and Python AWS Lambda runtime.
-     *
-     * @tags Deployment
-     * @name GetLatestLambdaBuildUnits
-     * @summary Get the latest version names of the OneAgent for AWS Lambda
-     * @request GET:/deployment/lambda/agent/latest
+     * Deployment \
+     * `GET:/deployment/lambda/agent/latest` \
+     * Get the latest version names of the OneAgent for AWS Lambda \
+     * 
+     * ---
+     * @returns Get the latest version names of the OneAgent for the Java, Node.js, and Python AWS Lambda runtime.
      */
     getLatestLambdaBuildUnits: (params: RequestParams = {}) =>
       this.request<LatestLambdaLayerNames, any>({
@@ -6680,12 +6672,12 @@ export class internalEnvV1 extends APIBase {
   };
   anonymize = {
     /**
-     * @description The job anonymizes all user sessions in the specified timeframe by masking the specified fields. To identify user sessions to be anonymized you can specify either userID, or IP address, or both. If you specify both the **OR** logic applies. You can't undo the anonymization.
-     *
-     * @tags Anonymization
-     * @name Anonymize
-     * @summary Creates user session anonymization job
-     * @request PUT:/anonymize/anonymizationJobs
+     * Anonymization \
+     * `PUT:/anonymize/anonymizationJobs` \
+     * Creates user session anonymization job \
+     * 
+     * ---
+     * @returns The job anonymizes all user sessions in the specified timeframe by masking the specified fields. To identify user sessions to be anonymized you can specify either userID, or IP address, or both. If you specify both the **OR** logic applies. You can't undo the anonymization.
      */
     anonymize: (
       query?: {
@@ -6735,7 +6727,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Anonymization
-     * @name GetStatus
      * @summary Shows the progress of the specified anonymization job
      * @request GET:/anonymize/anonymizationJobs/{requestId}
      */
@@ -6749,12 +6740,12 @@ export class internalEnvV1 extends APIBase {
   };
   userSessionQueryLanguage = {
     /**
-     * @description The result is a flat list of rows containing the requested columns.
-     *
-     * @tags RUM - User sessions
-     * @name GetUsqlResults
-     * @summary Returns the result of the query as a table structure
-     * @request GET:/userSessionQueryLanguage/table
+     * RUM - User sessions \
+     * `GET:/userSessionQueryLanguage/table` \
+     * Returns the result of the query as a table structure \
+     * 
+     * ---
+     * @returns The result is a flat list of rows containing the requested columns.
      */
     getUsqlResults: (
       query: {
@@ -6778,12 +6769,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description To get a proper tree structure, you need to specify grouping in the query.
-     *
-     * @tags RUM - User sessions
-     * @name GetUsqlResultsAsTree
-     * @summary Returns the result of the query as a tree structure
-     * @request GET:/userSessionQueryLanguage/tree
+     * RUM - User sessions \
+     * `GET:/userSessionQueryLanguage/tree` \
+     * Returns the result of the query as a tree structure \
+     * 
+     * ---
+     * @returns To get a proper tree structure, you need to specify grouping in the query.
      */
     getUsqlResultsAsTree: (
       query: {
@@ -6809,7 +6800,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEventById
      * @summary Gets the parameters of the specified event
      * @request GET:/events/{eventId}
      */
@@ -6822,12 +6812,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Because the possible number of events can be huge, the response is limited to 150 events. You can focus the output by specifying filtering parameters for the request. An event is included in the response, if either start or end timestamp of the event is within the defined timeframe.
-     *
-     * @tags Events
-     * @name QueryEvents
-     * @summary Lists all the events of your environment, along with their parameters
-     * @request GET:/events
+     * Events \
+     * `GET:/events` \
+     * Lists all the events of your environment, along with their parameters \
+     * 
+     * ---
+     * @returns Because the possible number of events can be huge, the response is limited to 150 events. You can focus the output by specifying filtering parameters for the request. An event is included in the response, if either start or end timestamp of the event is within the defined timeframe.
      */
     queryEvents: (
       query?: {
@@ -6984,12 +6974,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description You can use this endpoint to: * Push information-only events from third-party systems such as CI platforms (Jenkins, Bamboo, Electric Cloud, etc.) to provide additional information for Dynatrace automated root cause analysis. The time of event closure is already known and the event IDs are returned instantly. You can report these events for up to **30 days** into the past. The information-only event types are: `CUSTOM_ANNOTATION` `CUSTOM_CONFIGURATION` `CUSTOM_DEPLOYMENT` `CUSTOM_INFO` `MARKED_FOR_TERMINATION` * Push problem-opening events (for example, an error rate increase) to trigger the Dynatrace automated root cause analysis engine.  Correlation IDs are returned instead of event IDs. These events stay open until the specified timeout expires. To prevent expiration, you can refresh these events by sending the same payload again. You can report these events for up to **60 minutes** into the past. The problem-opening event types are (sorted by severity level, descending): `AVAILABILITY_EVENT` `ERROR_EVENT` `PERFORMANCE_EVENT` `RESOURCE_CONTENTION` The actual set of event parameters depends on the type of your event. To find the parameters mapping, see [POST an event](https://dt-url.net/1v63r77) in Dynatrace Documentation.
-     *
-     * @tags Events
-     * @name PostEvent
-     * @summary Pushes custom events to one or more monitored entities
-     * @request POST:/events
+     * Events \
+     * `POST:/events` \
+     * Pushes custom events to one or more monitored entities \
+     * 
+     * ---
+     * @returns You can use this endpoint to: * Push information-only events from third-party systems such as CI platforms (Jenkins, Bamboo, Electric Cloud, etc.) to provide additional information for Dynatrace automated root cause analysis. The time of event closure is already known and the event IDs are returned instantly. You can report these events for up to **30 days** into the past. The information-only event types are: `CUSTOM_ANNOTATION` `CUSTOM_CONFIGURATION` `CUSTOM_DEPLOYMENT` `CUSTOM_INFO` `MARKED_FOR_TERMINATION` * Push problem-opening events (for example, an error rate increase) to trigger the Dynatrace automated root cause analysis engine.  Correlation IDs are returned instead of event IDs. These events stay open until the specified timeout expires. To prevent expiration, you can refresh these events by sending the same payload again. You can report these events for up to **60 minutes** into the past. The problem-opening event types are (sorted by severity level, descending): `AVAILABILITY_EVENT` `ERROR_EVENT` `PERFORMANCE_EVENT` `RESOURCE_CONTENTION` The actual set of event parameters depends on the type of your event. To find the parameters mapping, see [POST an event](https://dt-url.net/1v63r77) in Dynatrace Documentation.
      */
     postEvent: (data: EventCreation, params: RequestParams = {}) =>
       this.request<EventStoreResult, any>({
@@ -7006,7 +6996,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Third party
-     * @name PushEvents
      * @summary Pushes third-party synthetic events to Dynatrace
      * @request POST:/synthetic/ext/events
      */
@@ -7022,7 +7011,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Third party
-     * @name PushStateModification
      * @summary Modifies the operation state of all third-party monitors
      * @request POST:/synthetic/ext/stateModifications
      */
@@ -7038,7 +7026,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Third party
-     * @name TestResults
      * @summary Pushes third-party synthetic monitors, locations, and results to Dynatrace
      * @request POST:/synthetic/ext/tests
      */
@@ -7051,12 +7038,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description The full list can be lengthy, but you can narrow it down by specifying filter query parameters.
-     *
-     * @tags Synthetic - Monitors
-     * @name GetMonitorsCollection
-     * @summary Lists all synthetic monitors in your Dynatrace environment
-     * @request GET:/synthetic/monitors
+     * Synthetic - Monitors \
+     * `GET:/synthetic/monitors` \
+     * Lists all synthetic monitors in your Dynatrace environment \
+     * 
+     * ---
+     * @returns The full list can be lengthy, but you can narrow it down by specifying filter query parameters.
      */
     getMonitorsCollection: (
       query?: {
@@ -7082,7 +7069,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Monitors
-     * @name AddMonitor
      * @summary Creates a new synthetic monitor
      * @request POST:/synthetic/monitors
      */
@@ -7098,7 +7084,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Monitors
-     * @name GetMonitor
      * @summary Gets parameters of the specified synthetic monitor
      * @request GET:/synthetic/monitors/{monitorId}
      */
@@ -7113,7 +7098,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Monitors
-     * @name ReplaceMonitor
      * @summary Updates parameters of the specified synthetic monitor
      * @request PUT:/synthetic/monitors/{monitorId}
      */
@@ -7129,7 +7113,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Monitors
-     * @name DeleteMonitor
      * @summary Deletes the specified synthetic monitor
      * @request DELETE:/synthetic/monitors/{monitorId}
      */
@@ -7144,7 +7127,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocations
      * @summary Lists all synthetic locations (both public and private) available for your environment
      * @request GET:/synthetic/locations
      */
@@ -7163,7 +7145,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name AddLocation
      * @summary Creates a new private synthetic location
      * @request POST:/synthetic/locations
      */
@@ -7179,7 +7160,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocation
      * @summary Gets properties of the specified location
      * @request GET:/synthetic/locations/{locationId}
      */
@@ -7194,7 +7174,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocation
      * @summary Updates the specified synthetic location
      * @request PUT:/synthetic/locations/{locationId}
      */
@@ -7210,7 +7189,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name RemoveLocation
      * @summary Deletes the specified private synthetic location
      * @request DELETE:/synthetic/locations/{locationId}
      */
@@ -7225,7 +7203,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocationsStatus
      * @summary Returns whether public locations are enabled or not | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/locations/status
      */
@@ -7240,7 +7217,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocationsStatus
      * @summary Enable/disable public synthetic locations | maturity=EARLY_ADOPTER
      * @request PUT:/synthetic/locations/status
      */
@@ -7256,7 +7232,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetNode
      * @summary Lists properties of the specified synthetic node
      * @request GET:/synthetic/nodes/{nodeId}
      */
@@ -7271,7 +7246,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetNodes
      * @summary Lists all synthetic nodes available in your environment
      * @request GET:/synthetic/nodes
      */
@@ -7287,7 +7261,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags RUM - JavaScript tag management
-     * @name GetAppRevision
      * @summary Gets the version of the RUM JavaScript code injected into specified application
      * @request GET:/rum/appRevision/{entity}
      */
@@ -7299,12 +7272,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded asynchronously.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetAsyncCodeSnippet
-     * @summary Downloads the asynchronous code snippet
-     * @request GET:/rum/asyncCS/{entity}
+     * RUM - JavaScript tag management \
+     * `GET:/rum/asyncCS/{entity}` \
+     * Downloads the asynchronous code snippet \
+     * 
+     * ---
+     * @returns This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded asynchronously.
      */
     getAsyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
@@ -7314,12 +7287,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Returns the inline code of the most recent OneAgent JavaScript. This is a complete configuration and monitoring code to be manually inserted into your web application code.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetJsInlineScript
-     * @summary Downloads inline code
-     * @request GET:/rum/jsInlineScript/{entity}
+     * RUM - JavaScript tag management \
+     * `GET:/rum/jsInlineScript/{entity}` \
+     * Downloads inline code \
+     * 
+     * ---
+     * @returns Returns the inline code of the most recent OneAgent JavaScript. This is a complete configuration and monitoring code to be manually inserted into your web application code.
      */
     getJsInlineScript: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
@@ -7332,7 +7305,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags RUM - JavaScript tag management
-     * @name GetJsLatestVersion
      * @summary Gets the latest version of OneAgent JavaScript library
      * @request GET:/rum/jsLatestVersion
      */
@@ -7344,12 +7316,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Returns the OneAgent JavaScript tag. This is a complete configuration and monitoring code to be manually inserted into your web application code. The monitoring code is loaded as a separate file from a CDN.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetJsScript
-     * @summary Downloads OneAgent JavaScript tag
-     * @request GET:/rum/jsTag/{entity}
+     * RUM - JavaScript tag management \
+     * `GET:/rum/jsTag/{entity}` \
+     * Downloads OneAgent JavaScript tag \
+     * 
+     * ---
+     * @returns Returns the OneAgent JavaScript tag. This is a complete configuration and monitoring code to be manually inserted into your web application code. The monitoring code is loaded as a separate file from a CDN.
      */
     getJsScript: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
@@ -7359,12 +7331,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Returns a JavaScript tag to be manually inserted into your web application code. The tag references a JavaScript file with full configuration and monitoring code, which causes a lower possible caching duration.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetJsTagComplete
-     * @summary Downloads JavaScript tag
-     * @request GET:/rum/jsTagComplete/{entity}
+     * RUM - JavaScript tag management \
+     * `GET:/rum/jsTagComplete/{entity}` \
+     * Downloads JavaScript tag \
+     * 
+     * ---
+     * @returns Returns a JavaScript tag to be manually inserted into your web application code. The tag references a JavaScript file with full configuration and monitoring code, which causes a lower possible caching duration.
      */
     getJsTagComplete: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
@@ -7377,7 +7349,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags RUM - JavaScript tag management
-     * @name GetManualApps
      * @summary Lists all manually injected applications
      * @request GET:/rum/manualApps
      */
@@ -7389,12 +7360,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded synchronously.
-     *
-     * @tags RUM - JavaScript tag management
-     * @name GetSyncCodeSnippet
-     * @summary Downloads the synchronous code snippet
-     * @request GET:/rum/syncCS/{entity}
+     * RUM - JavaScript tag management \
+     * `GET:/rum/syncCS/{entity}` \
+     * Downloads the synchronous code snippet \
+     * 
+     * ---
+     * @returns This code provides configuration and basic code to be manually inserted into your web application code. The full functionality of the monitoring code is loaded synchronously.
      */
     getSyncCodeSnippet: (entity: string, params: RequestParams = {}) =>
       this.request<string, any>({
@@ -7408,7 +7379,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Maintenance window
-     * @name GetAllMaintenanceWindowConfigs
      * @summary Lists all parameters of all maintenance windows available in your Dynatrace environment.
      * @request GET:/maintenance
      * @deprecated
@@ -7429,7 +7399,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Maintenance window
-     * @name StoreMaintenanceWindowConfig
      * @summary Creates a new or updates an existing maintenance window
      * @request POST:/maintenance
      * @deprecated
@@ -7447,7 +7416,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Maintenance window
-     * @name GetMaintenanceWindowConfig
      * @summary Lists all parameters of the specified maintenance window.
      * @request GET:/maintenance/{uid}
      * @deprecated
@@ -7461,12 +7429,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Deletion cannot be undone.
-     *
-     * @tags Maintenance window
-     * @name RemoveMaintenanceWindowConfig
-     * @summary Deletes the specified maintenance window
-     * @request DELETE:/maintenance/{uid}
+     * Maintenance window \
+     * `DELETE:/maintenance/{uid}` \
+     * Deletes the specified maintenance window \
+     * 
+     * ---
+     * @returns Deletion cannot be undone.
      * @deprecated
      */
     removeMaintenanceWindowConfig: (uid: string, params: RequestParams = {}) =>
@@ -7478,12 +7446,12 @@ export class internalEnvV1 extends APIBase {
   };
   entity = {
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Topology & Smartscape - Application
-     * @name GetApplications
-     * @summary Gets the list of all applications in your environment along with their parameters
-     * @request GET:/entity/applications
+     * Topology & Smartscape - Application \
+     * `GET:/entity/applications` \
+     * Gets the list of all applications in your environment along with their parameters \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getApplications: (
       query?: {
@@ -7520,7 +7488,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Application
-     * @name GetBaselineValuesForSingleApplication
      * @summary Gets baseline data for the specified application | maturity=EARLY_ADOPTER
      * @request GET:/entity/applications/{meIdentifier}/baseline
      */
@@ -7535,7 +7502,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Application
-     * @name GetSingleApplication
      * @summary Gets parameters of the specified application
      * @request GET:/entity/applications/{meIdentifier}
      */
@@ -7550,7 +7516,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Application
-     * @name UpdateApplication
      * @summary Updates parameters of the specified application
      * @request POST:/entity/applications/{meIdentifier}
      */
@@ -7566,7 +7531,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobStatus
      * @summary Gets status of the specified log analysis job
      * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
      */
@@ -7581,7 +7545,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobDelete
      * @summary Deletes or cancels the specified log analysis job
      * @request DELETE:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}
      */
@@ -7593,12 +7556,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobRecords
-     * @summary Gets the content of the analyzed log
-     * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
+     * Log monitoring - Custom devices \
+     * `GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records` \
+     * Gets the content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      */
     customDeviceLogJobRecords: (
       customDeviceId: string,
@@ -7614,12 +7577,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobRecordsFiltered
-     * @summary Gets the filtered content of the analyzed log
-     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records
+     * Log monitoring - Custom devices \
+     * `POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records` \
+     * Gets the filtered content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      */
     customDeviceLogJobRecordsFiltered: (
       customDeviceId: string,
@@ -7637,12 +7600,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobRecordsTop
-     * @summary Gets the top values of fields present in the content of the analyzed log
-     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records/top
+     * Log monitoring - Custom devices \
+     * `POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/jobs/{jobId}/records/top` \
+     * Gets the top values of fields present in the content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
      */
     customDeviceLogJobRecordsTop: (
       customDeviceId: string,
@@ -7658,12 +7621,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description The response returns the ID of the job.
-     *
-     * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogJobStart
-     * @summary Starts the analysis job for the specified custom device log
-     * @request POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/{logPath}
+     * Log monitoring - Custom devices \
+     * `POST:/entity/infrastructure/custom-devices/{customDeviceId}/logs/{logPath}` \
+     * Starts the analysis job for the specified custom device log \
+     * 
+     * ---
+     * @returns The response returns the ID of the job.
      */
     customDeviceLogJobStart: (
       customDeviceId: string,
@@ -7684,7 +7647,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Custom devices
-     * @name CustomDeviceLogList
      * @summary Lists all the available logs on the specified custom device
      * @request GET:/entity/infrastructure/custom-devices/{customDeviceId}/logs
      */
@@ -7699,7 +7661,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Custom device
-     * @name CreateCustomDataPoints
      * @summary Creates or updates a custom device, or reports metric data points to the custom device.
      * @request POST:/entity/infrastructure/custom/{customDeviceId}
      */
@@ -7715,7 +7676,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Hosts
-     * @name HostLogJobStatus
      * @summary Gets status of the specified log analysis job
      * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
      */
@@ -7730,7 +7690,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Hosts
-     * @name HostLogJobDelete
      * @summary Deletes or cancels the specified log analysis job
      * @request DELETE:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}
      */
@@ -7742,12 +7701,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobRecords
-     * @summary Gets the full content of the analyzed log
-     * @request GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
+     * Log monitoring - Hosts \
+     * `GET:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records` \
+     * Gets the full content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      */
     hostLogJobRecords: (
       hostId: string,
@@ -7763,12 +7722,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobRecordsFiltered
-     * @summary Gets the filtered content of the analyzed log
-     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records
+     * Log monitoring - Hosts \
+     * `POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records` \
+     * Gets the filtered content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      */
     hostLogJobRecordsFiltered: (
       hostId: string,
@@ -7786,12 +7745,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobRecordsTop
-     * @summary Gets the top values of fields present in the content of the analyzed log
-     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records/top
+     * Log monitoring - Hosts \
+     * `POST:/entity/infrastructure/hosts/{hostId}/logs/jobs/{jobId}/records/top` \
+     * Gets the top values of fields present in the content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/mkc3rss) request.
      */
     hostLogJobRecordsTop: (hostId: string, jobId: string, data: FilterTopLogRecords, params: RequestParams = {}) =>
       this.request<LogJobRecordsTopValuesRestResult, ErrorEnvelope>({
@@ -7802,12 +7761,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description The response returns the ID of the job.
-     *
-     * @tags Log monitoring - Hosts
-     * @name HostLogJobStart
-     * @summary Starts the analysis job for the specified OS log
-     * @request POST:/entity/infrastructure/hosts/{hostId}/logs/{logPath}
+     * Log monitoring - Hosts \
+     * `POST:/entity/infrastructure/hosts/{hostId}/logs/{logPath}` \
+     * Starts the analysis job for the specified OS log \
+     * 
+     * ---
+     * @returns The response returns the ID of the job.
      */
     hostLogJobStart: (
       hostId: string,
@@ -7828,7 +7787,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Hosts
-     * @name HostLogList
      * @summary Lists all the available OS logs on the specified host
      * @request GET:/entity/infrastructure/hosts/{hostId}/logs
      */
@@ -7840,12 +7798,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Topology & Smartscape - Host
-     * @name GetHosts
-     * @summary Lists all available hosts in your environment
-     * @request GET:/entity/infrastructure/hosts
+     * Topology & Smartscape - Host \
+     * `GET:/entity/infrastructure/hosts` \
+     * Lists all available hosts in your environment \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getHosts: (
       query?: {
@@ -7885,7 +7843,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Host
-     * @name GetSingleHost
      * @summary Gets parameters of the specified host
      * @request GET:/entity/infrastructure/hosts/{meIdentifier}
      */
@@ -7900,7 +7857,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Host
-     * @name UpdateHost
      * @summary Updates properties of the specified host
      * @request POST:/entity/infrastructure/hosts/{meIdentifier}
      */
@@ -7916,7 +7872,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Host
-     * @name RemoveTags
      * @summary Remove tag of the specified host
      * @request DELETE:/entity/infrastructure/hosts/{meIdentifier}/tags/{tag}
      */
@@ -7931,7 +7886,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobStatus
      * @summary Gets status of the specified log analysis job
      * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
      */
@@ -7946,7 +7900,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobDelete
      * @summary Deletes or cancels the specified log analysis job
      * @request DELETE:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}
      */
@@ -7958,12 +7911,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobRecords
-     * @summary Gets the content of the analyzed log
-     * @request GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
+     * Log monitoring - Process groups \
+     * `GET:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records` \
+     * Gets the content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      */
     processGroupLogJobRecords: (
       pgId: string,
@@ -7979,12 +7932,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobRecordsFiltered
-     * @summary Gets the content of the analyzed log
-     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records
+     * Log monitoring - Process groups \
+     * `POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records` \
+     * Gets the content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/wve3r83) request. Long results split into several pages. By default, a page contains 100 results. You can change this value with the **pageSize** query parameter, up to 10,000.
      */
     processGroupLogJobRecordsFiltered: (
       pgId: string,
@@ -8002,12 +7955,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
-     *
-     * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobRecordsTop
-     * @summary Gets the top values of fields present in the content of the analyzed log
-     * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records/top
+     * Log monitoring - Process groups \
+     * `POST:/entity/infrastructure/process-groups/{pgId}/logs/jobs/{jobId}/records/top` \
+     * Gets the top values of fields present in the content of the analyzed log \
+     * 
+     * ---
+     * @returns Results are available only when the status of the analysis job for this log is `READY`. To check the job status, use the [GET analysis job status](https://dt-url.net/usg3rbv) request.
      */
     processGroupLogJobRecordsTop: (
       pgId: string,
@@ -8026,7 +7979,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogJobStart
      * @summary Starts analysis job for the specified process group log
      * @request POST:/entity/infrastructure/process-groups/{pgId}/logs/{logPath}
      */
@@ -8049,7 +8001,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Log monitoring - Process groups
-     * @name ProcessGroupLogList
      * @summary Lists all the available logs of the specified process group
      * @request GET:/entity/infrastructure/process-groups/{pgId}/logs
      */
@@ -8061,12 +8012,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Topology & Smartscape - Process group
-     * @name GetProcessGroups
-     * @summary Lists all process groups of your environment, along with their parameters
-     * @request GET:/entity/infrastructure/process-groups
+     * Topology & Smartscape - Process group \
+     * `GET:/entity/infrastructure/process-groups` \
+     * Lists all process groups of your environment, along with their parameters \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getProcessGroups: (
       query?: {
@@ -8104,7 +8055,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Process group
-     * @name GetSingleProcessGroup
      * @summary List properties of the specified process group
      * @request GET:/entity/infrastructure/process-groups/{meIdentifier}
      */
@@ -8119,7 +8069,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Process group
-     * @name UpdateProcessGroup
      * @summary Updates properties of the specified process group
      * @request POST:/entity/infrastructure/process-groups/{meIdentifier}
      */
@@ -8132,12 +8081,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Topology & Smartscape - Process
-     * @name GetProcesses
-     * @summary Lists all monitored processes along with their parameters
-     * @request GET:/entity/infrastructure/processes
+     * Topology & Smartscape - Process \
+     * `GET:/entity/infrastructure/processes` \
+     * Lists all monitored processes along with their parameters \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getProcesses: (
       query?: {
@@ -8178,7 +8127,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Process
-     * @name GetSingleProcess
      * @summary List properties of the specified process
      * @request GET:/entity/infrastructure/processes/{meIdentifier}
      */
@@ -8193,7 +8141,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Service
-     * @name GetBaselineValuesForSingleService
      * @summary Gets baseline data for the specified service | maturity=EARLY_ADOPTER
      * @request GET:/entity/services/{meIdentifier}/baseline
      */
@@ -8205,12 +8152,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Topology & Smartscape - Service
-     * @name GetServices
-     * @summary Lists all available services in your environment
-     * @request GET:/entity/services
+     * Topology & Smartscape - Service \
+     * `GET:/entity/services` \
+     * Lists all available services in your environment \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying filtering parameters for the request. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the URL-encoded cursor from the **Next-Page-Key** response header in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getServices: (
       query?: {
@@ -8247,7 +8194,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Service
-     * @name GetSingleService
      * @summary Gets parameters of the specified service
      * @request GET:/entity/services/{meIdentifier}
      */
@@ -8262,7 +8208,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Topology & Smartscape - Service
-     * @name UpdateService
      * @summary Updates parameters of the specified service
      * @request POST:/entity/services/{meIdentifier}
      */
@@ -8276,12 +8221,12 @@ export class internalEnvV1 extends APIBase {
   };
   oneagents = {
     /**
-     * @description You can narrow down the output by specifying filtering parameters for the request. The response is limited to 500 items. Use the **nextPageKey** cursor to obtain subsequent results.
-     *
-     * @tags OneAgent on a host
-     * @name GetHostsWithSpecificAgents
-     * @summary Gets the list of hosts with OneAgent deployment information for each host
-     * @request GET:/oneagents
+     * OneAgent on a host \
+     * `GET:/oneagents` \
+     * Gets the list of hosts with OneAgent deployment information for each host \
+     * 
+     * ---
+     * @returns You can narrow down the output by specifying filtering parameters for the request. The response is limited to 500 items. Use the **nextPageKey** cursor to obtain subsequent results.
      */
     getHostsWithSpecificAgents: (
       query?: {
@@ -8425,7 +8370,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name CloseProblem
      * @summary Closes the specified problem and adds a closing comment to it
      * @request POST:/problem/details/{problemId}/close
      */
@@ -8441,7 +8385,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name UpdateComment
      * @summary Updates an existing comment to the specified problem
      * @request PUT:/problem/details/{problemId}/comments/{commentId}
      */
@@ -8457,7 +8400,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name DeleteComment
      * @summary Deletes an existing comment to the specified problem.
      * @request DELETE:/problem/details/{problemId}/comments/{commentId}
      */
@@ -8472,7 +8414,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name GetComment
      * @summary Gets all the comments to the specified problem
      * @request GET:/problem/details/{problemId}/comments
      */
@@ -8487,7 +8428,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name PushComment
      * @summary Adds a new comment to the specified problem
      * @request POST:/problem/details/{problemId}/comments
      */
@@ -8503,7 +8443,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name GetDetails
      * @summary Gets the properties of the specified problem
      * @request GET:/problem/details/{problemId}
      */
@@ -8515,12 +8454,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description A problem is included in the response, if either start or end timestamp of the problem is within the defined timeframe. The output is limited to **5,000** problems. You can narrow it down by specifying query parameters.
-     *
-     * @tags Problem
-     * @name GetFeed
-     * @summary Gets the information about problems within the specified timeframe
-     * @request GET:/problem/feed
+     * Problem \
+     * `GET:/problem/feed` \
+     * Gets the information about problems within the specified timeframe \
+     * 
+     * ---
+     * @returns A problem is included in the response, if either start or end timestamp of the problem is within the defined timeframe. The output is limited to **5,000** problems. You can narrow it down by specifying query parameters.
      */
     getFeed: (
       query?: {
@@ -8564,7 +8503,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Problem
-     * @name GetProblemStatus
      * @summary Lists the number of open problems, split by impact level
      * @request GET:/problem/status
      */
@@ -8580,7 +8518,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Threshold
-     * @name CreateCustomThreshold
      * @summary Creates or updates an existing threshold for a plugin or a custom event
      * @request PUT:/thresholds/{thresholdId}
      * @deprecated
@@ -8597,7 +8534,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Threshold
-     * @name DeleteCustomThreshold
      * @summary Deletes the specified threshold
      * @request DELETE:/thresholds/{thresholdId}
      * @deprecated
@@ -8613,7 +8549,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Threshold
-     * @name ReadCustomThresholds
      * @summary Gets all configured thresholds for plugins and custom events in your environment
      * @request GET:/thresholds
      * @deprecated
@@ -8631,12 +8566,12 @@ export class internalEnvV1 extends APIBase {
   };
   timeseries = {
     /**
-     * @description To obtain data points, set **includeData** to `true`. You can obtain either data points or the scalar result of the specified timeseries, depending on the **queryMode**. To obtain data points, you must specify the timeframe, either as **relativeTime** or as a combination of **startTimestamp** and **endTimestamp**. You must also provide the **aggregationType**, supported by the metric.
-     *
-     * @tags Timeseries
-     * @name ReadTimeseriesData
-     * @summary Gets the parameters of the specified metric and, optionally, its data points
-     * @request GET:/timeseries/{timeseriesIdentifier}
+     * Timeseries \
+     * `GET:/timeseries/{timeseriesIdentifier}` \
+     * Gets the parameters of the specified metric and, optionally, its data points \
+     * 
+     * ---
+     * @returns To obtain data points, set **includeData** to `true`. You can obtain either data points or the scalar result of the specified timeseries, depending on the **queryMode**. To obtain data points, you must specify the timeframe, either as **relativeTime** or as a combination of **startTimestamp** and **endTimestamp**. You must also provide the **aggregationType**, supported by the metric.
      */
     readTimeseriesData: (
       timeseriesIdentifier: string,
@@ -8679,7 +8614,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Timeseries
-     * @name CreateCustomTimeseries
      * @summary Creates a new custom metric
      * @request PUT:/timeseries/{timeseriesIdentifier}
      */
@@ -8696,12 +8630,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description Provides advanced filtering possibilities, comparing to the `GET /timeseries/{metricIdentifier}` request.
-     *
-     * @tags Timeseries
-     * @name ReadTimeseriesComplex
-     * @summary Lists all available metric data points, matching the specified parameters
-     * @request POST:/timeseries/{timeseriesIdentifier}
+     * Timeseries \
+     * `POST:/timeseries/{timeseriesIdentifier}` \
+     * Lists all available metric data points, matching the specified parameters \
+     * 
+     * ---
+     * @returns Provides advanced filtering possibilities, comparing to the `GET /timeseries/{metricIdentifier}` request.
      */
     readTimeseriesComplex: (timeseriesIdentifier: string, data: TimeseriesQueryMessage, params: RequestParams = {}) =>
       this.request<TimeseriesQueryResultWrapper, any>({
@@ -8715,7 +8649,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Timeseries
-     * @name DeleteCustomTimeseries
      * @summary Deletes the specified custom metric
      * @request DELETE:/timeseries/{timeseriesIdentifier}
      */
@@ -8727,12 +8660,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description You can specify filtering parameters to return only matched metrics. If no parameters are specified, the call will list all the defined metrics.
-     *
-     * @tags Timeseries
-     * @name GetAllTimeseriesDefinitions
-     * @summary Lists all metric definitions, with the parameters of each metric
-     * @request GET:/timeseries
+     * Timeseries \
+     * `GET:/timeseries` \
+     * Lists all metric definitions, with the parameters of each metric \
+     * 
+     * ---
+     * @returns You can specify filtering parameters to return only matched metrics. If no parameters are specified, the call will list all the defined metrics.
      */
     getAllTimeseriesDefinitions: (
       query?: { source?: "ALL" | "BUILTIN" | "CUSTOM" | "PLUGIN" | "REMOTE_PLUGIN"; detailedSource?: string },
@@ -8750,7 +8683,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Cluster time
-     * @name GetCurrentClusterTime
      * @summary Gets the current time of the Dynatrace server in UTC milliseconds
      * @request GET:/time
      */
@@ -8763,12 +8695,12 @@ export class internalEnvV1 extends APIBase {
   };
   tokens = {
     /**
-     * @description You can narrow down the output by adding parameters. The token has to match *all* the specified parameters. You can also specify the limit of returned tokens. **This list may contain tokens which were created automatically** (e.g. InstallerDownload, Mobile, ...) and are not visible on the `Settings` page. Deleting those might have unintended side-effects as they might still be in use.
-     *
-     * @tags Tokens
-     * @name ListTokens
-     * @summary Lists available tokens in your environment
-     * @request GET:/tokens
+     * Tokens \
+     * `GET:/tokens` \
+     * Lists available tokens in your environment \
+     * 
+     * ---
+     * @returns You can narrow down the output by adding parameters. The token has to match *all* the specified parameters. You can also specify the limit of returned tokens. **This list may contain tokens which were created automatically** (e.g. InstallerDownload, Mobile, ...) and are not visible on the `Settings` page. Deleting those might have unintended side-effects as they might still be in use.
      */
     listTokens: (
       query?: {
@@ -8859,12 +8791,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description The newly created token will be owned by the same user who owns the token used for authentication of the call.
-     *
-     * @tags Tokens
-     * @name CreateToken
-     * @summary Creates a new token
-     * @request POST:/tokens
+     * Tokens \
+     * `POST:/tokens` \
+     * Creates a new token \
+     * 
+     * ---
+     * @returns The newly created token will be owned by the same user who owns the token used for authentication of the call.
      */
     createToken: (data: CreateToken, params: RequestParams = {}) =>
       this.request<Token, ErrorEnvelope>({
@@ -8875,12 +8807,12 @@ export class internalEnvV1 extends APIBase {
       }),
 
     /**
-     * @description The token itself is **not** exposed.
-     *
-     * @tags Tokens
-     * @name GetTokenMetadata
-     * @summary Lists token metadata by token ID
-     * @request GET:/tokens/{id}
+     * Tokens \
+     * `GET:/tokens/{id}` \
+     * Lists token metadata by token ID \
+     * 
+     * ---
+     * @returns The token itself is **not** exposed.
      */
     getTokenMetadata: (id: string, params: RequestParams = {}) =>
       this.request<TokenMetadata, ErrorEnvelope>({
@@ -8893,7 +8825,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Tokens
-     * @name UpdateToken
      * @summary Updates the specified token
      * @request PUT:/tokens/{id}
      */
@@ -8909,7 +8840,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Tokens
-     * @name DeleteToken
      * @summary Deletes the specified token
      * @request DELETE:/tokens/{id}
      */
@@ -8924,7 +8854,6 @@ export class internalEnvV1 extends APIBase {
      * No description
      *
      * @tags Tokens
-     * @name GetTokenMetadataBySecret
      * @summary Lists token metadata by token itself
      * @request POST:/tokens/lookup
      */

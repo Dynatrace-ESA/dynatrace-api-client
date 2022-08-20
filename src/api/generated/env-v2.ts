@@ -5719,7 +5719,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name GetAutoUpdateConfigById
      * @summary Gets the configuration of auto-update for the specified ActiveGate
      * @request GET:/activeGates/{agId}/autoUpdate
      */
@@ -5734,7 +5733,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name PutAutoUpdateConfigById
      * @summary Updates the configuration of auto-update for the specified ActiveGate
      * @request PUT:/activeGates/{agId}/autoUpdate
      */
@@ -5750,7 +5748,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name ValidateAutoUpdateConfigById
      * @summary Validates the payload for the `POST /activeGates/{agId}/autoUpdate` request.
      * @request POST:/activeGates/{agId}/autoUpdate/validator
      */
@@ -5766,7 +5763,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name GetGlobalAutoUpdateConfigForTenant
      * @summary Gets the global auto-update configuration of environment ActiveGates.
      * @request GET:/activeGates/autoUpdate
      */
@@ -5781,7 +5777,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name PutGlobalAutoUpdateConfigForTenant
      * @summary Puts the global auto-update configuration of environment ActiveGates.
      * @request PUT:/activeGates/autoUpdate
      */
@@ -5797,7 +5792,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update configuration
-     * @name ValidateGlobalAutoUpdateConfigForTenant
      * @summary Validates the payload for the `POST /activeGates/autoUpdate` request.
      * @request POST:/activeGates/autoUpdate/validator
      */
@@ -5810,12 +5804,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The response includes ActiveGates that have both completed (successful and failed) jobs and jobs in progress.
-     *
-     * @tags ActiveGates - Auto-update jobs
-     * @name GetAllUpdateJobList
-     * @summary List ActiveGates with update jobs
-     * @request GET:/activeGates/updateJobs
+     * ActiveGates - Auto-update jobs \
+     * `GET:/activeGates/updateJobs` \
+     * List ActiveGates with update jobs \
+     * 
+     * ---
+     * @returns The response includes ActiveGates that have both completed (successful and failed) jobs and jobs in progress.
      */
     getAllUpdateJobList: (
       query?: {
@@ -5838,12 +5832,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The job can update the ActiveGate to the specified version or the latest available one.
-     *
-     * @tags ActiveGates - Auto-update jobs
-     * @name GetUpdateJobListByAgId
-     * @summary Lists update jobs for the specified ActiveGate
-     * @request GET:/activeGates/{agId}/updateJobs
+     * ActiveGates - Auto-update jobs \
+     * `GET:/activeGates/{agId}/updateJobs` \
+     * Lists update jobs for the specified ActiveGate \
+     * 
+     * ---
+     * @returns The job can update the ActiveGate to the specified version or the latest available one.
      */
     getUpdateJobListByAgId: (
       agId: string,
@@ -5870,7 +5864,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name CreateUpdateJobForAg
      * @summary Creates a new update job for the specified ActiveGate
      * @request POST:/activeGates/{agId}/updateJobs
      */
@@ -5886,7 +5879,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name GetUpdateJobByJobIdForAg
      * @summary Gets the parameters of the specified update job
      * @request GET:/activeGates/{agId}/updateJobs/{jobId}
      */
@@ -5901,7 +5893,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name DeleteUpdateJobByJobIdForAg
      * @summary Deletes the specified update job
      * @request DELETE:/activeGates/{agId}/updateJobs/{jobId}
      */
@@ -5916,7 +5907,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates - Auto-update jobs
-     * @name ValidateUpdateJobForAg
      * @summary Validates the payload for the `POST /activeGates/{agId}/updateJobs` request.
      * @request POST:/activeGates/{agId}/updateJobs/validator
      */
@@ -5929,12 +5919,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The response includes all ActiveGates that are currently connected to the environment or have been connected during last 2 hours.
-     *
-     * @tags ActiveGates
-     * @name GetAllActiveGates
-     * @summary Lists all available ActiveGates
-     * @request GET:/activeGates
+     * ActiveGates \
+     * `GET:/activeGates` \
+     * Lists all available ActiveGates \
+     * 
+     * ---
+     * @returns The response includes all ActiveGates that are currently connected to the environment or have been connected during last 2 hours.
      */
     getAllActiveGates: (
       query?: {
@@ -6012,7 +6002,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags ActiveGates
-     * @name GetOneActiveGateById
      * @summary Gets the details of the specified ActiveGate
      * @request GET:/activeGates/{agId}
      */
@@ -6025,12 +6014,12 @@ export class internalEnvV2 extends APIBase {
   };
   entities = {
     /**
-     * @description Lists entities observed within the specified timeframe along with their properties. When you query entities of the `SERVICE_METHOD` type, only the following requests are returned: * [Key requests](https://dt-url.net/a903u9s) * Top X requests that are used for [baselining](https://dt-url.net/0j23uqb) * Requests that have caused a [problem](https://dt-url.net/pf43uqg) You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Monitored entities
-     * @name GetEntities
-     * @summary Gets the information about monitored entities
-     * @request GET:/entities
+     * Monitored entities \
+     * `GET:/entities` \
+     * Gets the information about monitored entities \
+     * 
+     * ---
+     * @returns Lists entities observed within the specified timeframe along with their properties. When you query entities of the `SERVICE_METHOD` type, only the following requests are returned: * [Key requests](https://dt-url.net/a903u9s) * Top X requests that are used for [baselining](https://dt-url.net/0j23uqb) * Requests that have caused a [problem](https://dt-url.net/pf43uqg) You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getEntities: (
       query?: {
@@ -6055,7 +6044,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Monitored entities
-     * @name GetEntity
      * @summary Gets the properties of the specified monitored entity
      * @request GET:/entities/{entityId}
      */
@@ -6075,7 +6063,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Monitored entities
-     * @name PushCustomDevice
      * @summary Creates or updates a custom device
      * @request POST:/entities/custom
      */
@@ -6092,7 +6079,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Monitored entities
-     * @name GetEntityType
      * @summary Gets a list of properties for the specified entity type
      * @request GET:/entityTypes/{type}
      */
@@ -6104,12 +6090,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Monitored entities
-     * @name GetEntityTypes
-     * @summary Gets a list of properties for all entity types
-     * @request GET:/entityTypes
+     * Monitored entities \
+     * `GET:/entityTypes` \
+     * Gets a list of properties for all entity types \
+     * 
+     * ---
+     * @returns You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getEntityTypes: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
       this.request<EntityTypeList, void>({
@@ -6121,12 +6107,12 @@ export class internalEnvV2 extends APIBase {
   };
   events = {
     /**
-     * @description The ingestion of custom events consumes [Davis Data Units](https://dt-url.net/ddu) (DDUs) from the events pool.
-     *
-     * @tags Events
-     * @name CreateEvent
-     * @summary Ingests a custom event | maturity=EARLY_ADOPTER
-     * @request POST:/events/ingest
+     * Events \
+     * `POST:/events/ingest` \
+     * Ingests a custom event | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The ingestion of custom events consumes [Davis Data Units](https://dt-url.net/ddu) (DDUs) from the events pool.
      */
     createEvent: (data: EventIngest, params: RequestParams = {}) =>
       this.request<EventIngestResults, any>({
@@ -6140,7 +6126,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEvent
      * @summary Gets the properties of an event | maturity=EARLY_ADOPTER
      * @request GET:/events/{eventId}
      */
@@ -6155,7 +6140,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEvents
      * @summary Lists events within the specified timeframe | maturity=EARLY_ADOPTER
      * @request GET:/events
      */
@@ -6182,7 +6166,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEventProperties
      * @summary Lists all event properties | maturity=EARLY_ADOPTER
      * @request GET:/eventProperties
      */
@@ -6198,7 +6181,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEventProperty
      * @summary Gets the details of an event property | maturity=EARLY_ADOPTER
      * @request GET:/eventProperties/{propertyKey}
      */
@@ -6214,7 +6196,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEventType
      * @summary Gets the properties of an event type | maturity=EARLY_ADOPTER
      * @request GET:/eventTypes/{eventType}
      */
@@ -6229,7 +6210,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Events
-     * @name GetEventTypes
      * @summary Lists all event types | maturity=EARLY_ADOPTER
      * @request GET:/eventTypes
      */
@@ -6246,7 +6226,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Metrics
-     * @name Metric
      * @summary Gets the descriptor of the specified metric
      * @request GET:/metrics/{metricKey}
      */
@@ -6258,12 +6237,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description Deletion cannot be undone! You can't delete a metric if it has data points ingested within the last two hours.
-     *
-     * @tags Metrics
-     * @name Delete
-     * @summary Deletes the specified metric
-     * @request DELETE:/metrics/{metricKey}
+     * Metrics \
+     * `DELETE:/metrics/{metricKey}` \
+     * Deletes the specified metric \
+     * 
+     * ---
+     * @returns Deletion cannot be undone! You can't delete a metric if it has data points ingested within the last two hours.
      */
     delete: (metricKey: string, params: RequestParams = {}) =>
       this.request<void, void>({
@@ -6273,12 +6252,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description You can narrow down the output by selecting metrics in the **metricSelector** field. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the cursor from the **nextPageKey** field of the response in the **nextPageKey** query parameter to obtain subsequent pages. All other query parameters must be omitted.
-     *
-     * @tags Metrics
-     * @name AllMetrics
-     * @summary Lists all available metrics
-     * @request GET:/metrics
+     * Metrics \
+     * `GET:/metrics` \
+     * Lists all available metrics \
+     * 
+     * ---
+     * @returns You can narrow down the output by selecting metrics in the **metricSelector** field. You can additionally limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Then use the cursor from the **nextPageKey** field of the response in the **nextPageKey** query parameter to obtain subsequent pages. All other query parameters must be omitted.
      */
     allMetrics: (
       query?: {
@@ -6300,12 +6279,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The following limits apply: * The amount of aggregated data points in the response is limited to 1,000 * The amount of series in the response is limited to 1,000 * The amount of data points per series is limited to 10,080 (minutes of one week) * The overall amount of data points is limited to 100,000
-     *
-     * @tags Metrics
-     * @name Query
-     * @summary Gets data points of the specified metrics
-     * @request GET:/metrics/query
+     * Metrics \
+     * `GET:/metrics/query` \
+     * Gets data points of the specified metrics \
+     * 
+     * ---
+     * @returns The following limits apply: * The amount of aggregated data points in the response is limited to 1,000 * The amount of series in the response is limited to 1,000 * The amount of data points per series is limited to 10,080 (minutes of one week) * The overall amount of data points is limited to 100,000
      */
     query: (
       query?: { metricSelector?: string; resolution?: string; from?: string; to?: string; entitySelector?: string },
@@ -6322,7 +6301,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Metrics
-     * @name Ingest
      * @summary Pushes metric data points to Dynatrace
      * @request POST:/metrics/ingest
      */
@@ -6339,7 +6317,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetSingleNetworkZone
      * @summary Gets parameters of the specified network zone
      * @request GET:/networkZones/{id}
      */
@@ -6351,12 +6328,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description If the network zone with the specified ID does not exist, a new network zone is created. The ID is not case sensitive. Dynatrace stores the ID in lowercase.
-     *
-     * @tags Network zones
-     * @name CreateOrUpdateNetworkZone
-     * @summary Updates an existing network zone or creates a new one
-     * @request PUT:/networkZones/{id}
+     * Network zones \
+     * `PUT:/networkZones/{id}` \
+     * Updates an existing network zone or creates a new one \
+     * 
+     * ---
+     * @returns If the network zone with the specified ID does not exist, a new network zone is created. The ID is not case sensitive. Dynatrace stores the ID in lowercase.
      */
     createOrUpdateNetworkZone: (id: string, data: NetworkZone, params: RequestParams = {}) =>
       this.request<EntityShortRepresentation, ErrorEnvelope>({
@@ -6367,12 +6344,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description You can only delete an empty network zone (a zone that no ActiveGate or OneAgent is using). If the network zone is used as an alternative zone for any OneAgent, it will be automatically removed from the list of possible alternatives.
-     *
-     * @tags Network zones
-     * @name DeleteNetworkZone
-     * @summary Deletes the specified network zone
-     * @request DELETE:/networkZones/{id}
+     * Network zones \
+     * `DELETE:/networkZones/{id}` \
+     * Deletes the specified network zone \
+     * 
+     * ---
+     * @returns You can only delete an empty network zone (a zone that no ActiveGate or OneAgent is using). If the network zone is used as an alternative zone for any OneAgent, it will be automatically removed from the list of possible alternatives.
      */
     deleteNetworkZone: (id: string, params: RequestParams = {}) =>
       this.request<void, ErrorEnvelope>({
@@ -6385,7 +6362,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetAllNetworkZones
      * @summary Lists all existing network zones
      * @request GET:/networkZones
      */
@@ -6400,7 +6376,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetHostStats
      * @summary Gets the statistics about hosts using the network zone
      * @request GET:/networkZones/{id}/hostConnectionStatistics
      */
@@ -6428,7 +6403,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name GetNetworkZoneSettings
      * @summary Gets the global configuration of network zones
      * @request GET:/networkZoneSettings
      */
@@ -6443,7 +6417,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Network zones
-     * @name UpdateNetworkZoneSettings
      * @summary Updates the global configuration of network zones
      * @request PUT:/networkZoneSettings
      */
@@ -6457,12 +6430,12 @@ export class internalEnvV2 extends APIBase {
   };
   tags = {
     /**
-     * @description Automatically applied tags and imported tags are not included.
-     *
-     * @tags Monitored entities - Custom tags
-     * @name GetTags
-     * @summary Gets a list of custom tags applied to the specified entities
-     * @request GET:/tags
+     * Monitored entities - Custom tags \
+     * `GET:/tags` \
+     * Gets a list of custom tags applied to the specified entities \
+     * 
+     * ---
+     * @returns Automatically applied tags and imported tags are not included.
      */
     getTags: (query: { entitySelector: string; from?: string; to?: string }, params: RequestParams = {}) =>
       this.request<CustomEntityTags, any>({
@@ -6473,12 +6446,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description All existing tags remain unaffected.
-     *
-     * @tags Monitored entities - Custom tags
-     * @name PostTags
-     * @summary Adds custom tags to the specified entities
-     * @request POST:/tags
+     * Monitored entities - Custom tags \
+     * `POST:/tags` \
+     * Adds custom tags to the specified entities \
+     * 
+     * ---
+     * @returns All existing tags remain unaffected.
      */
     postTags: (
       query: { entitySelector: string; from?: string; to?: string },
@@ -6497,7 +6470,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Monitored entities - Custom tags
-     * @name DeleteTags
      * @summary Deletes the specified tag from the specified entities
      * @request DELETE:/tags
      */
@@ -6521,12 +6493,12 @@ export class internalEnvV2 extends APIBase {
   };
   activeGateTokens = {
     /**
-     * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Access Tokens - ActiveGate tokens
-     * @name ListTokens
-     * @summary Lists all available ActiveGate tokens | maturity=EARLY_ADOPTER
-     * @request GET:/activeGateTokens
+     * Access Tokens - ActiveGate tokens \
+     * `GET:/activeGateTokens` \
+     * Lists all available ActiveGate tokens | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     listTokens: (query?: { nextPageKey?: string; pageSize?: number }, params: RequestParams = {}) =>
       this.request<ActiveGateTokenList, ErrorEnvelope>({
@@ -6537,12 +6509,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The newly created token will be owned by the same user who owns the token used for authentication of the call.
-     *
-     * @tags Access Tokens - ActiveGate tokens
-     * @name CreateToken
-     * @summary Creates a new ActiveGate token | maturity=EARLY_ADOPTER
-     * @request POST:/activeGateTokens
+     * Access Tokens - ActiveGate tokens \
+     * `POST:/activeGateTokens` \
+     * Creates a new ActiveGate token | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The newly created token will be owned by the same user who owns the token used for authentication of the call.
      */
     createToken: (data: ActiveGateTokenCreate, params: RequestParams = {}) =>
       this.request<ActiveGateTokenCreated, ErrorEnvelope>({
@@ -6553,12 +6525,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The token secret is **not** exposed.
-     *
-     * @tags Access Tokens - ActiveGate tokens
-     * @name GetToken
-     * @summary Gets metadata of an ActiveGate token | maturity=EARLY_ADOPTER
-     * @request GET:/activeGateTokens/{tokenIdentifier}
+     * Access Tokens - ActiveGate tokens \
+     * `GET:/activeGateTokens/{tokenIdentifier}` \
+     * Gets metadata of an ActiveGate token | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns The token secret is **not** exposed.
      */
     getToken: (tokenIdentifier: string, params: RequestParams = {}) =>
       this.request<ActiveGateToken, ErrorEnvelope>({
@@ -6571,7 +6543,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Access Tokens - ActiveGate tokens
-     * @name RevokeToken
      * @summary Deletes an ActiveGate token | maturity=EARLY_ADOPTER
      * @request DELETE:/activeGateTokens/{tokenIdentifier}
      */
@@ -6584,12 +6555,12 @@ export class internalEnvV2 extends APIBase {
   };
   apiTokens = {
     /**
-     * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Access Tokens - API tokens
-     * @name ListApiTokens
-     * @summary Lists all available API tokens
-     * @request GET:/apiTokens
+     * Access Tokens - API tokens \
+     * `GET:/apiTokens` \
+     * Lists all available API tokens \
+     * 
+     * ---
+     * @returns You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     listApiTokens: (
       query?: {
@@ -6611,12 +6582,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The newly created token will be owned by the same user who owns the token used for authentication of the call.
-     *
-     * @tags Access Tokens - API tokens
-     * @name CreateApiToken
-     * @summary Creates a new API token
-     * @request POST:/apiTokens
+     * Access Tokens - API tokens \
+     * `POST:/apiTokens` \
+     * Creates a new API token \
+     * 
+     * ---
+     * @returns The newly created token will be owned by the same user who owns the token used for authentication of the call.
      */
     createApiToken: (data: ApiTokenCreate, params: RequestParams = {}) =>
       this.request<ApiTokenCreated, ErrorEnvelope>({
@@ -6627,12 +6598,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description The token secret is **not** exposed.
-     *
-     * @tags Access Tokens - API tokens
-     * @name GetApiToken
-     * @summary Gets API token metadata by token ID
-     * @request GET:/apiTokens/{id}
+     * Access Tokens - API tokens \
+     * `GET:/apiTokens/{id}` \
+     * Gets API token metadata by token ID \
+     * 
+     * ---
+     * @returns The token secret is **not** exposed.
      */
     getApiToken: (id: string, params: RequestParams = {}) =>
       this.request<ApiToken, ErrorEnvelope | void>({
@@ -6645,7 +6616,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Access Tokens - API tokens
-     * @name UpdateApiToken
      * @summary Updates an API token
      * @request PUT:/apiTokens/{id}
      */
@@ -6661,7 +6631,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Access Tokens - API tokens
-     * @name DeleteApiToken
      * @summary Deletes an API token
      * @request DELETE:/apiTokens/{id}
      */
@@ -6676,7 +6645,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Access Tokens - API tokens
-     * @name LookupApiToken
      * @summary Gets API token metadata by token secret
      * @request POST:/apiTokens/lookup
      */
@@ -6693,7 +6661,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Audit Logs
-     * @name GetLog
      * @summary Gets the specified entry of the audit log | maturity=EARLY_ADOPTER
      * @request GET:/auditlogs/{id}
      */
@@ -6705,12 +6672,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
-     *
-     * @tags Audit Logs
-     * @name GetLogs
-     * @summary Gets the audit log of your Dynatrace environment | maturity=EARLY_ADOPTER
-     * @request GET:/auditlogs
+     * Audit Logs \
+     * `GET:/auditlogs` \
+     * Gets the audit log of your Dynatrace environment | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can limit the output by using pagination: 1. Specify the number of results per page in the **pageSize** query parameter. 2. Use the cursor from the **nextPageKey** field of the previous response in the **nextPageKey** query parameter to obtain subsequent pages.
      */
     getLogs: (
       query?: { nextPageKey?: string; pageSize?: number; filter?: string; from?: string; to?: string; sort?: string },
@@ -6725,12 +6692,12 @@ export class internalEnvV2 extends APIBase {
   };
   davis = {
     /**
-     * @description You can narrow down the output by providing the management zone and pagination. If you specify a management zone, only problems originating from that zone are included to the request.
-     *
-     * @tags Davis security advisor
-     * @name GetAdviceForSecurityProblems
-     * @summary Provides advice for security problems. | maturity=EARLY_ADOPTER
-     * @request GET:/davis/securityAdvices
+     * Davis security advisor \
+     * `GET:/davis/securityAdvices` \
+     * Provides advice for security problems. | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can narrow down the output by providing the management zone and pagination. If you specify a management zone, only problems originating from that zone are included to the request.
      */
     getAdviceForSecurityProblems: (
       query?: { managementZoneFilter?: string; nextPageKey?: string; pageSize?: number },
@@ -6748,7 +6715,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name GetRemediationItems
      * @summary Gets the remediation items for a security problem. | maturity=EARLY_ADOPTER
      * @request GET:/securityProblems/{id}/remediationItems
      */
@@ -6764,7 +6730,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name GetSecurityProblem
      * @summary Gets the specified security problem | maturity=EARLY_ADOPTER
      * @request GET:/securityProblems/{id}
      */
@@ -6780,7 +6745,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name GetSecurityProblems
      * @summary Lists all security problems | maturity=EARLY_ADOPTER
      * @request GET:/securityProblems
      */
@@ -6807,7 +6771,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name MuteSecurityProblem
      * @summary Mutes the specified security problem. | maturity=EARLY_ADOPTER
      * @request POST:/securityProblems/{id}/mute
      */
@@ -6823,7 +6786,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name SetRemediationItemMuteState
      * @summary Sets the mute state of a remediation item of a security problem. | maturity=EARLY_ADOPTER
      * @request PUT:/securityProblems/{id}/remediationItems/{itemId}/muteState
      */
@@ -6844,7 +6806,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Security problems
-     * @name UnmuteSecurityProblem
      * @summary Un-mutes the specified security problem. | maturity=EARLY_ADOPTER
      * @request POST:/securityProblems/{id}/unmute
      */
@@ -6861,7 +6822,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name GetActiveEnvironmentConfiguration
      * @summary Gets the active environment configuration version of the specified extension 2.0
      * @request GET:/extensions/{extensionName}/environmentConfiguration
      */
@@ -6876,7 +6836,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name UpdateExtensionEnvironmentConfiguration
      * @summary Updates the active environment configuration version of the extension 2.0
      * @request PUT:/extensions/{extensionName}/environmentConfiguration
      */
@@ -6896,7 +6855,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ActivateExtensionEnvironmentConfiguration
      * @summary Activates the environment configuration from the specified version of the extension 2.0
      * @request POST:/extensions/{extensionName}/environmentConfiguration
      */
@@ -6916,7 +6874,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name DeleteEnvironmentConfiguration
      * @summary Deactivates the environment configuration of the specified extension 2.0
      * @request DELETE:/extensions/{extensionName}/environmentConfiguration
      */
@@ -6931,7 +6888,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ExtensionMonitoringConfigurations
      * @summary Lists all the monitoring configurations of the specified extension 2.0
      * @request GET:/extensions/{extensionName}/monitoringConfigurations
      */
@@ -6951,7 +6907,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name CreateMonitoringConfiguration
      * @summary Creates new monitoring configuration for the specified extension 2.0
      * @request POST:/extensions/{extensionName}/monitoringConfigurations
      */
@@ -6971,7 +6926,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ExtensionConfigurationSchema
      * @summary Gets the configuration schema of the specified version of the extension 2.0
      * @request GET:/extensions/{extensionName}/{extensionVersion}/schema
      */
@@ -6986,7 +6940,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ExtensionDetails
      * @summary Gets details of the specified version of the extension 2.0
      * @request GET:/extensions/{extensionName}/{extensionVersion}
      */
@@ -7001,7 +6954,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name RemoveExtension
      * @summary Deletes the specified version of the extension 2.0
      * @request DELETE:/extensions/{extensionName}/{extensionVersion}
      */
@@ -7016,7 +6968,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name GetEnvironmentConfigurationEvents
      * @summary List of the latest extension environment configuration events
      * @request GET:/extensions/{extensionName}/environmentConfiguration/events
      */
@@ -7036,7 +6987,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name GetExtensionMonitoringConfigurationEvents
      * @summary Gets the list of the events linked to specific monitoring configuration
      * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}/events
      */
@@ -7065,7 +7015,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name GetExtensionMonitoringConfigurationStatus
      * @summary Gets the most recent status of the execution of given monitoring configuration
      * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}/status
      */
@@ -7084,7 +7033,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name GetSchemaFile
      * @summary Gets the extension 2.0 schema file in the specified version
      * @request GET:/extensions/schemas/{schemaVersion}/{fileName}
      */
@@ -7099,7 +7047,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ListExtensionVersions
      * @summary Lists all versions of the extension 2.0
      * @request GET:/extensions/{extensionName}
      */
@@ -7119,7 +7066,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ListExtensions
      * @summary Lists all the extensions 2.0 available in your environment
      * @request GET:/extensions
      */
@@ -7135,7 +7081,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name UploadExtension
      * @summary Uploads or verifies a new extension 2.0
      * @request POST:/extensions
      */
@@ -7153,7 +7098,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ListSchemaFiles
      * @summary Lists all the files available for the specified extension 2.0 schema version
      * @request GET:/extensions/schemas/{schemaVersion}
      */
@@ -7168,7 +7112,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name ListSchemas
      * @summary Lists all the extension 2.0 schemas versions available in your environment
      * @request GET:/extensions/schemas
      */
@@ -7183,7 +7126,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name MonitoringConfigurationDetails
      * @summary Gets the details of the specified monitoring configuration
      * @request GET:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
      */
@@ -7198,7 +7140,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name UpdateMonitoringConfiguration
      * @summary Updates the specified monitoring configuration
      * @request PUT:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
      */
@@ -7219,7 +7160,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Extensions 2.0
-     * @name RemoveMonitoringConfiguration
      * @summary Deletes the specified monitoring configuration
      * @request DELETE:/extensions/{extensionName}/monitoringConfigurations/{configurationId}
      */
@@ -7235,7 +7175,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name CloseProblem
      * @summary Closes the specified problem and adds a closing comment on it
      * @request POST:/problems/{problemId}/close
      */
@@ -7251,7 +7190,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name GetComments
      * @summary Gets all comments on the specified problem
      * @request GET:/problems/{problemId}/comments
      */
@@ -7267,7 +7205,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name CreateComment
      * @summary Adds a new comment on the specified problem
      * @request POST:/problems/{problemId}/comments
      */
@@ -7283,7 +7220,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name GetComment
      * @summary Gets the specified comment on a problem
      * @request GET:/problems/{problemId}/comments/{commentId}
      */
@@ -7298,7 +7234,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name UpdateComment
      * @summary Updates the specified comment on a problem
      * @request PUT:/problems/{problemId}/comments/{commentId}
      */
@@ -7314,7 +7249,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name DeleteComment
      * @summary Deletes the specified comment from a problem
      * @request DELETE:/problems/{problemId}/comments/{commentId}
      */
@@ -7329,7 +7263,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name GetProblem
      * @summary Gets the properties of the specified problem
      * @request GET:/problems/{problemId}
      */
@@ -7345,7 +7278,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Problems
-     * @name GetProblems
      * @summary Lists problems observed within the specified timeframe
      * @request GET:/problems
      */
@@ -7371,12 +7303,12 @@ export class internalEnvV2 extends APIBase {
   };
   logs = {
     /**
-     * @description Ingested logs are stored in the indexed log storage. This endpoint requires an ActiveGate with the **Log Analytics Collector** module enabled.
-     *
-     * @tags Logs
-     * @name StoreLog
-     * @summary Pushes log records to Dynatrace | maturity=EARLY_ADOPTER
-     * @request POST:/logs/ingest
+     * Logs \
+     * `POST:/logs/ingest` \
+     * Pushes log records to Dynatrace | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Ingested logs are stored in the indexed log storage. This endpoint requires an ActiveGate with the **Log Analytics Collector** module enabled.
      */
     storeLog: (data: LogMessageJson, params: RequestParams = {}) =>
       this.request<SuccessEnvelope, ErrorEnvelope>({
@@ -7387,12 +7319,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description Returns the aggregated number of occurrences of log values divided into time slots. It is possible that the timeframe covered by results exceeds the specified timeframe. In that case the request returns fewer time slots than specified in the **timeBuckets** query parameter.
-     *
-     * @tags Logs
-     * @name GetLogHistogramData
-     * @summary Gets aggregated log records | maturity=EARLY_ADOPTER
-     * @request GET:/logs/aggregate
+     * Logs \
+     * `GET:/logs/aggregate` \
+     * Gets aggregated log records | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Returns the aggregated number of occurrences of log values divided into time slots. It is possible that the timeframe covered by results exceeds the specified timeframe. In that case the request returns fewer time slots than specified in the **timeBuckets** query parameter.
      */
     getLogHistogramData: (
       query?: {
@@ -7413,12 +7345,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description Returns the first *X* records (specified in the **limit** query parameter). Log records are sorted by the criteria specified in the **sort** query parameter. If the query is too large to be processed in a single request, it is divided into slices. In that case the first response contains the **nextSliceKey** cursor for the second slice. Use it in the **nextSliceKey** query parameter to obtain the second slice, which contains **nextSliceKey** cursor for the third slice, and so on. Results can be distributed unevenly between slices and some slices might be empty.
-     *
-     * @tags Logs
-     * @name GetLogRecords
-     * @summary Reads log records | maturity=EARLY_ADOPTER
-     * @request GET:/logs/search
+     * Logs \
+     * `GET:/logs/search` \
+     * Reads log records | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns Returns the first *X* records (specified in the **limit** query parameter). Log records are sorted by the criteria specified in the **sort** query parameter. If the query is too large to be processed in a single request, it is divided into slices. In that case the first response contains the **nextSliceKey** cursor for the second slice. Use it in the **nextSliceKey** query parameter to obtain the second slice, which contains **nextSliceKey** cursor for the third slice, and so on. Results can be distributed unevenly between slices and some slices might be empty.
      */
     getLogRecords: (
       query?: { from?: string; to?: string; limit?: number; query?: string; sort?: string; nextSliceKey?: string },
@@ -7436,7 +7368,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Releases
-     * @name GetReleases
      * @summary Returns all releases | maturity=EARLY_ADOPTER
      * @request GET:/releases
      */
@@ -7464,7 +7395,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name GetSettingsObjectByObjectId
      * @summary Gets the specified settings object | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects/{objectId}
      */
@@ -7479,7 +7409,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name PutSettingsObjectByObjectId
      * @summary Updates an existing settings object | maturity=EARLY_ADOPTER
      * @request PUT:/settings/objects/{objectId}
      */
@@ -7495,7 +7424,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name DeleteSettingsObjectByObjectId
      * @summary Deletes the specified settings object | maturity=EARLY_ADOPTER
      * @request DELETE:/settings/objects/{objectId}
      */
@@ -7511,7 +7439,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Settings - Objects
-     * @name GetSettingsObjects
      * @summary Lists available settings objects | maturity=EARLY_ADOPTER
      * @request GET:/settings/objects
      */
@@ -7527,12 +7454,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description You can upload several objects at once. In that case each object returns its own response code. Check the response body for details.
-     *
-     * @tags Settings - Objects
-     * @name PostSettingsObjects
-     * @summary Creates a new settings object | maturity=EARLY_ADOPTER
-     * @request POST:/settings/objects
+     * Settings - Objects \
+     * `POST:/settings/objects` \
+     * Creates a new settings object | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can upload several objects at once. In that case each object returns its own response code. Check the response body for details.
      */
     postSettingsObjects: (
       data: SettingsObjectCreate[],
@@ -7551,7 +7478,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Settings - Schemas
-     * @name GetAvailableSchemaDefinitions
      * @summary Lists available settings schemas | maturity=EARLY_ADOPTER
      * @request GET:/settings/schemas
      */
@@ -7566,7 +7492,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Settings - Schemas
-     * @name GetSchemaDefinition
      * @summary Gets parameters of the specified settings schema | maturity=EARLY_ADOPTER
      * @request GET:/settings/schemas/{schemaId}
      */
@@ -7580,12 +7505,12 @@ export class internalEnvV2 extends APIBase {
   };
   slo = {
     /**
-     * @description By default the values are calculated for the SLO's own timeframe. You can use a custom timeframe: 1. Set the **timeFrame** parameter to `GTF`. 2. Provide the timeframe in **from** and **to** parameters.
-     *
-     * @tags Service-level objectives
-     * @name GetSlo
-     * @summary Lists all available SLOs along with calculated values
-     * @request GET:/slo
+     * Service-level objectives \
+     * `GET:/slo` \
+     * Lists all available SLOs along with calculated values \
+     * 
+     * ---
+     * @returns By default the values are calculated for the SLO's own timeframe. You can use a custom timeframe: 1. Set the **timeFrame** parameter to `GTF`. 2. Provide the timeframe in **from** and **to** parameters.
      */
     getSlo: (
       query?: {
@@ -7615,7 +7540,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Service-level objectives
-     * @name CreateSlo
      * @summary Creates a new SLO
      * @request POST:/slo
      */
@@ -7628,12 +7552,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description If **from** and **to** parameters are provided, the SLO is calculated for that timeframe; otherwise the SLO's own timeframe is used.
-     *
-     * @tags Service-level objectives
-     * @name GetSloById
-     * @summary Gets parameters and the calculated value of an SLO
-     * @request GET:/slo/{id}
+     * Service-level objectives \
+     * `GET:/slo/{id}` \
+     * Gets parameters and the calculated value of an SLO \
+     * 
+     * ---
+     * @returns If **from** and **to** parameters are provided, the SLO is calculated for that timeframe; otherwise the SLO's own timeframe is used.
      */
     getSloById: (
       id: string,
@@ -7651,7 +7575,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Service-level objectives
-     * @name UpdateSloById
      * @summary Updates an existing SLO
      * @request PUT:/slo/{id}
      */
@@ -7667,7 +7590,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Service-level objectives
-     * @name DeleteSlo
      * @summary Deletes an SLO
      * @request DELETE:/slo/{id}
      */
@@ -7683,7 +7605,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetConfiguration
      * @summary Gets set of synthetic related parameters defined for whole tenant (affects all monitors and all private locations). | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/config
      */
@@ -7698,7 +7619,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateConfiguration
      * @summary Updates set of synthetic related parameters defined for whole tenant (affects all monitors and all private locations). | maturity=EARLY_ADOPTER
      * @request PUT:/synthetic/config
      */
@@ -7714,7 +7634,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - HTTP monitor execution
-     * @name GetExecutionResult
      * @summary Returns detailed information about last HTTP monitor execution. | maturity=EARLY_ADOPTER
      * @request GET:/synthetic/execution/{monitorId}/{resultType}
      */
@@ -7735,7 +7654,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocations
      * @summary Lists all synthetic locations (both public and private) available for your environment
      * @request GET:/synthetic/locations
      */
@@ -7754,7 +7672,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name AddLocation
      * @summary Creates a new private synthetic location
      * @request POST:/synthetic/locations
      */
@@ -7770,7 +7687,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocation
      * @summary Gets properties of the specified location
      * @request GET:/synthetic/locations/{locationId}
      */
@@ -7782,12 +7698,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description For public locations you can only change the location status.
-     *
-     * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocation
-     * @summary Updates the specified synthetic location
-     * @request PUT:/synthetic/locations/{locationId}
+     * Synthetic - Locations, nodes and configuration \
+     * `PUT:/synthetic/locations/{locationId}` \
+     * Updates the specified synthetic location \
+     * 
+     * ---
+     * @returns For public locations you can only change the location status.
      */
     updateLocation: (locationId: string, data: SyntheticLocationUpdate, params: RequestParams = {}) =>
       this.request<void, any>({
@@ -7801,7 +7717,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name RemoveLocation
      * @summary Deletes the specified private synthetic location
      * @request DELETE:/synthetic/locations/{locationId}
      */
@@ -7816,7 +7731,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetLocationsStatus
      * @summary Checks the status of public synthetic locations
      * @request GET:/synthetic/locations/status
      */
@@ -7831,7 +7745,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name UpdateLocationsStatus
      * @summary Changes the status of public synthetic locations
      * @request PUT:/synthetic/locations/status
      */
@@ -7847,7 +7760,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetNode
      * @summary Lists properties of the specified synthetic node
      * @request GET:/synthetic/nodes/{nodeId}
      */
@@ -7862,7 +7774,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Synthetic - Locations, nodes and configuration
-     * @name GetNodes
      * @summary Lists all synthetic nodes available in your environment
      * @request GET:/synthetic/nodes
      */
@@ -7875,12 +7786,12 @@ export class internalEnvV2 extends APIBase {
   };
   tenantTokenRotation = {
     /**
-     * @description To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
-     *
-     * @tags Access tokens - Tenant tokens
-     * @name CancelRotation
-     * @summary Cancels tenant token rotation
-     * @request POST:/tenantTokenRotation/cancel
+     * Access tokens - Tenant tokens \
+     * `POST:/tenantTokenRotation/cancel` \
+     * Cancels tenant token rotation \
+     * 
+     * ---
+     * @returns To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
      */
     cancelRotation: (params: RequestParams = {}) =>
       this.request<TenantTokenConfig, ErrorEnvelope>({
@@ -7890,12 +7801,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
-     *
-     * @tags Access tokens - Tenant tokens
-     * @name FinishRotation
-     * @summary Finishes tenant token rotation
-     * @request POST:/tenantTokenRotation/finish
+     * Access tokens - Tenant tokens \
+     * `POST:/tenantTokenRotation/finish` \
+     * Finishes tenant token rotation \
+     * 
+     * ---
+     * @returns To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
      */
     finishRotation: (params: RequestParams = {}) =>
       this.request<TenantTokenConfig, ErrorEnvelope>({
@@ -7905,12 +7816,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
-     *
-     * @tags Access tokens - Tenant tokens
-     * @name StartRotation
-     * @summary Starts tenant token rotation
-     * @request POST:/tenantTokenRotation/start
+     * Access tokens - Tenant tokens \
+     * `POST:/tenantTokenRotation/start` \
+     * Starts tenant token rotation \
+     * 
+     * ---
+     * @returns To learn how to rotate tokens, see [Token rotation](https://dt-url.net/1543sf6) in Dynatrace Documentation.
      */
     startRotation: (params: RequestParams = {}) =>
       this.request<TenantTokenConfig, ErrorEnvelope>({
@@ -7924,7 +7835,6 @@ export class internalEnvV2 extends APIBase {
      * No description
      *
      * @tags Units
-     * @name Unit
      * @summary Gets the metadata of the specified unit | maturity=EARLY_ADOPTER
      * @request GET:/units/{unitId}
      */
@@ -7936,12 +7846,12 @@ export class internalEnvV2 extends APIBase {
       }),
 
     /**
-     * @description You can either list all available units, or only list units which match the filter criteria of the **unitSelector**. You can also change the fields that are included in the response, by specifying them in the **fields** parameter.
-     *
-     * @tags Units
-     * @name AllUnits
-     * @summary Lists all available units | maturity=EARLY_ADOPTER
-     * @request GET:/units
+     * Units \
+     * `GET:/units` \
+     * Lists all available units | maturity=EARLY_ADOPTER \
+     * 
+     * ---
+     * @returns You can either list all available units, or only list units which match the filter criteria of the **unitSelector**. You can also change the fields that are included in the response, by specifying them in the **fields** parameter.
      */
     allUnits: (query?: { unitSelector?: string; fields?: string }, params: RequestParams = {}) =>
       this.request<UnitCollection, any>({
