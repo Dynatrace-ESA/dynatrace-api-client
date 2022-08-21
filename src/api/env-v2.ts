@@ -1,7 +1,7 @@
-import { checkEnvironment, checkConnection } from "./shared";
 import { EntitiesList, internalEnvV2 as EnvironmentV2 } from "./generated/env-v2";
 import { DynatraceConnection } from "../types/dynatrace-connection";
 import { RequestOptions } from "@dt-esa/dynatrace-api-balancer";
+import { APIOptions } from "../types/options";
 
 /**
  * @title Dynatrace Environment API
@@ -19,13 +19,15 @@ import { RequestOptions } from "@dt-esa/dynatrace-api-balancer";
  */
 export class DynatraceEnvironmentAPIV2 extends EnvironmentV2 {
 
-    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
-        super(environment, "api/v2", customAxios);
+    constructor(connection: DynatraceConnection, options: APIOptions = {}) {
+        super(connection, "api/v2", options.customAxios);
 
-        if (testConnection) {
-            checkEnvironment(environment, 'env');
-            checkConnection(this);
-        }
+        if (!options.skipConnectionStringCheck)
+            this.createConnectionString(connection, 'env');
+
+        if (!options.skipConnectivityCheck)
+            this.testConnectivity();
+
     }
 
     entities = {

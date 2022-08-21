@@ -1,6 +1,6 @@
-import { checkEnvironment, checkConnection } from "./shared";
 import { internalCmcV2 as ClusterManagementV2 } from './generated/cmc-v2';
 import { DynatraceConnection } from "../types/dynatrace-connection";
+import { APIOptions } from "../types/options";
 
 /**
  * @title Dynatrace Cluster API
@@ -23,13 +23,14 @@ import { DynatraceConnection } from "../types/dynatrace-connection";
  */
 export class DynatraceClusterManagementAPIV2 extends ClusterManagementV2 {
 
-    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
-        super(environment, "", customAxios);
+    constructor(connection: DynatraceConnection, options: APIOptions = {}) {
+        super(connection, "", options.customAxios);
 
-        if (testConnection) {
-            checkEnvironment(environment, "cmc");
-            checkConnection(this, "cmc");
-        }
+        if (!options.skipConnectionStringCheck)
+            this.createConnectionString(connection, 'cmc');
+
+        if (!options.skipConnectivityCheck)
+            this.testConnectivity();
     }
 
     /**

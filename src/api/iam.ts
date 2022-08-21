@@ -1,5 +1,5 @@
-import { checkConnection } from "./shared";
 import { internalIam as AccountManagement } from "./generated/iam";
+import { APIOptions } from "../types/options";
 
 /**
  * @title Dynatrace Account Management API
@@ -12,12 +12,18 @@ import { internalIam as AccountManagement } from "./generated/iam";
 const endpoint = "https://api.dynatrace.com/iam/v1/";
 export class DynatraceAccountManagementAPI extends AccountManagement {
 
-    constructor(private token: string, testConnection = true, customAxios?) {
-        super({ baseUrl: endpoint, token }, '', customAxios);
+    constructor(private token: string, options: APIOptions = {}) {
+        super({ baseUrl: endpoint, token }, '', options.customAxios);
 
-        if (testConnection) {
-            checkConnection(this, "iam");
-        }
+        // if (testConnection) {
+        //     checkConnection(this, "iam");
+        // }
+
+        // if (!options.skipConnectionStringCheck)
+        //     this.createConnectionString(token, 'env');
+
+        // if (!options.skipConnectivityCheck)
+        //     this.testConnectivity();
         console.warn("Untested interface.");
     }
 

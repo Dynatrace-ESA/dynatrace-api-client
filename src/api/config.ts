@@ -1,6 +1,6 @@
-import { checkEnvironment, checkConnection } from "./shared";
 import { internalConfig as EnvironmentConfig } from './generated/config';
 import { DynatraceConnection } from "../types/dynatrace-connection";
+import { APIOptions } from '../types/options';
 
 /**
  * @title Dynatrace Configuration API
@@ -14,12 +14,13 @@ import { DynatraceConnection } from "../types/dynatrace-connection";
  * * We may add new enum constants without incrementing the API version; thus, clients need to handle unknown enum constants gracefully.
  */
 export class DynatraceConfigurationAPI extends EnvironmentConfig {
-    constructor(environment: DynatraceConnection, testConnection = true, customAxios?) {
-        super(environment, "api/config/v1", customAxios);
+    constructor(connection: DynatraceConnection, options: APIOptions = {}) {
+        super(connection, "api/config/v1", options.customAxios);
 
-        if (testConnection) {
-            checkEnvironment(environment, 'env');
-            checkConnection(this, "env");
-        }
+        if (!options.skipConnectionStringCheck)
+            this.createConnectionString(connection, 'env');
+
+        if (!options.skipConnectivityCheck)
+            this.testConnectivity();
     }
 }

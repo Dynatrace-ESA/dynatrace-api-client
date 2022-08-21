@@ -1,6 +1,6 @@
 import { DynatraceConnection } from "../types/dynatrace-connection";
+import { APIOptions } from "../types/options";
 import { internalEnvV1 as EnvironmentV1, UserSession, UserSessionErrors, UserSessionEvents, UserSessionUserAction } from "./generated/env-v1";
-import { checkEnvironment, checkConnection } from "./shared";
 
 type UserAction = UserSessionUserAction & { "usersession.userSessionId": string };
 type UserEvent  = UserSessionEvents     & { "usersession.userSessionId": string };
@@ -20,13 +20,14 @@ type UserError  = UserSessionErrors     & { "usersession.userSessionId": string 
  */
 export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
-    constructor(options: DynatraceConnection, testConnection = true, customAxios?) {
-        super(options, "api/v1", customAxios);
+    constructor(connection: DynatraceConnection, options: APIOptions = {}) {
+        super(connection, "api/v1", options.customAxios);
 
-        if (testConnection) {
-            checkEnvironment(options, 'env');
-            checkConnection(this);
-        }
+        if (!options.skipConnectionStringCheck) 
+            this.createConnectionString(connection, 'env');
+
+        if (!options.skipConnectivityCheck) 
+            this.testConnectivity();
     }
 
     userSessionQueryLanguage = {
