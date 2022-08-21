@@ -12,6 +12,11 @@ export class APIBase {
     private requester: DirectAPIRequest;
     private tokenId: string;
     private environmentId: string;
+    private log = {
+        info: (text: string) => console.info(text),
+        warn: (text: string) => console.warn(text),
+        error: (text: string) => console.error(text)
+    };
 
     constructor(protected environment: DynatraceConnection, private apiRoute: string, private customAxios?: DirectAPIRequest) {
         this.requester = new DirectAPIRequest();
@@ -111,7 +116,7 @@ export class APIBase {
 
 
         const sTime = new Date().getTime();
-        console.log("Connecting to your Dynatrace instance...");
+        this.log.info("Connecting to your Dynatrace instance...");
 
         let tokenMeta: TokenMetadata;
 
@@ -132,6 +137,12 @@ export class APIBase {
                     }
                 });
             }
+
+            // Check for missing permisisons on the token.
+            const missingPermissions = permissions.filter(p => !tokenMeta.scopes.includes(p as any));
+            if (missingPermissions)
+                throw `API token [${this.tokenId}] on environment [${this.environmentId}] is missing permission(s) [${missingPermissions.join()}].`;
+
         }
         catch (ex) {
             throw `Failed to connect to the Dynatrace API with token [${this.tokenId}] on environment [${this.environmentId}].`;
@@ -144,7 +155,7 @@ export class APIBase {
             throw `API token [${this.tokenId}] on environment [${this.environmentId}] is expired.`;
 
 
-        console.log('Connected to your Dynatrace instance in', (new Date().getTime() - sTime), 'ms');
+        this.log.info(`Connected to your Dynatrace instance in ${new Date().getTime() - sTime} ms`);
     }
 
     protected createConnectionString(environment: DynatraceConnection, mode) {

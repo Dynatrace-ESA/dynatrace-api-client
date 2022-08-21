@@ -225,7 +225,6 @@ export type APIOptions = {
      */
     requiredTokenScopes?: TokenScope[],
     /**
-     * ### !! NOT IMPLEMENTED !!
      * Provide a logger interface for emitting log events to the client application. 
      */
     logger?: {
