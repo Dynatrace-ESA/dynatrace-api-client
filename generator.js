@@ -18,7 +18,7 @@ const stringReplacementPatches = [
         rx: /^\/\* eslint-disable \*\//,
         value: [
             "import { APIBase } from \"../../apibase\";",
-            "import { RequestOptions as RequestParams } from \"@dt-esa/dynatrace-api-balancer\";"
+            "import { RequestOptions as RequestParams, File } from \"../../types/options\";"
         ].join('\n')
     },
     {
