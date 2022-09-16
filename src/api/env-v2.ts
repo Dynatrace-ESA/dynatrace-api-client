@@ -1,7 +1,6 @@
 import { EntitiesList, internalEnvV2 as EnvironmentV2 } from "./generated/env-v2";
 import { DynatraceConnection } from "../types/dynatrace-connection";
-import { RequestOptions } from "@dt-esa/dynatrace-api-balancer";
-import { APIOptions } from "../types/options";
+import { APIOptions, RequestOptions } from '../types/options';
 
 /**
  * @title Dynatrace Environment API

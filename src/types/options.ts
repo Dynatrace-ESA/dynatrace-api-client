@@ -233,3 +233,8 @@ export type APIOptions = {
         error: (text: string) => {}
     }
 }
+
+export type RequestOptions = {
+    paging?: boolean
+}
+export type File = unknown;

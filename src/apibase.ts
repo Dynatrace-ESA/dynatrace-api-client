@@ -1,15 +1,90 @@
 import { dynatraceSaaSUrlRegex, dynatraceTokenRegex, dynatraceUrlRegex } from '@dt-esa/platform-constants';
-import { DirectAPIRequest } from "@dt-esa/dynatrace-api-balancer";
 import { DynatraceConnection } from "./types/dynatrace-connection";
 import { TokenMetadata } from "./api/generated/env-v1";
 import { knownScopes } from './types/options';
+import axios from 'axios';
+import { Subject } from 'rxjs';
+
+export class ConnectionCreatedEvent { 
+    constructor(public evt: { url: string, method: string }) {}
+}
+export class ConnectionClosedEvent { 
+    constructor(public evt: { url: string, method: string, error?: Error }) {}
+}
+export class ConnectionProgressEvent { 
+    constructor(public evt: { url: string, method: string, state: string, progress: number }) {}
+}
+// export type ConnectionProgressEvent = Subject<ConnectionCreatedEvent | ConnectionClosedEvent | ConnectionProgressEvent>;
+/**
+ * Singleton class that you can listen to the "onObservable" event 
+ */
+export class DynatraceApiClient {
+    private static _connections = 0;
+    public static get connections() {
+        return this._connections;
+    }
+
+    private static observables: {[key: string]: {
+        url: string,
+        method: string, 
+        subject: Subject<any>
+    }} = {};
+
+    public static createConnection(id: number, url: string, method: string) {
+        this.observables[id] = {
+            url, 
+            method,
+            subject: new Subject()
+        }
+        // Bind new observable on the export
+        this.callbacks.forEach(cb => {
+            cb(this.observables[id]);
+        });
+        this.observables[id].subject.next(
+            new ConnectionCreatedEvent({
+                url: this.observables[id].url,
+                method: this.observables[id].method,
+            })
+        );
+    }
+
+    public static closeConnection(id: number, error?: any) {
+        this.observables[id].subject.next(
+            new ConnectionClosedEvent({
+                url: this.observables[id].url,
+                method: this.observables[id].method,
+                error
+            })
+        );
+        this.observables[id].subject.complete(); // ???
+    }
+
+    public static onProgress(id: number, mode: "up" | "down", progress: number) {
+        this.observables[id].subject.next(
+            new ConnectionProgressEvent({
+                url: this.observables[id].url,
+                method: this.observables[id].method,
+                state: mode,
+                progress: progress
+            })
+        )
+    }
+
+    private static callbacks = [];
+    public static onEvent(callback: (observable: Subject<ConnectionCreatedEvent | ConnectionClosedEvent | ConnectionProgressEvent>) => {}) {
+        this.callbacks.push(callback);
+    }
+    public static offEvent(callback: any) {
+        this.callbacks.splice(this.callbacks.findIndex(c => c === callback), 1);
+    }
+}
+
+let ctxId = 0;
 
 /**
  * Base API handler class. This is inherited for the generated API clients.
  */
 export class APIBase {
-
-    private requester: DirectAPIRequest;
     private tokenId: string;
     private environmentId: string;
     private log = {
@@ -18,8 +93,7 @@ export class APIBase {
         error: (text: string) => console.error(text)
     };
 
-    constructor(protected environment: DynatraceConnection, private apiRoute: string, private customAxios?: DirectAPIRequest) {
-        this.requester = new DirectAPIRequest();
+    constructor(protected environment: DynatraceConnection, private apiRoute: string, private customAxios?: any) {
 
         // Get a token ID that IS NOT the entire token.
         this.tokenId = this.environment.token.includes('.')
@@ -66,16 +140,46 @@ export class APIBase {
 
         headers['Authorization'] = 'Api-Token ' + token;
 
-        const data: T = await this.requester.fetch<T>({
-            ...params,
-            url: tenantUrl + apiPath,
-            params: query,
-            method: method as any,
-            data: body,
-            headers,
-        });
+        let data;
+        let tries = 0;
+        let isFailed = false;
+        do {
+            let id = ctxId++;
 
-        return data;
+            DynatraceApiClient.createConnection(id, tenantUrl + apiPath, method);
+
+            try {
+                const res: any = await axios({
+                    ...params,
+                    url: tenantUrl + apiPath,
+                    params: query,
+                    method: method as any,
+                    data: body,
+                    headers,
+                    // browser only
+                    onUploadProgress: function (evt) {
+                        DynatraceApiClient.onProgress(id, "up", 1)
+                    },
+                    // browser only
+                    onDownloadProgress: function (evt) {
+                        DynatraceApiClient.onProgress(id, "down", 1)
+                    },
+                });
+                DynatraceApiClient.closeConnection(id);
+
+                data = res.data;
+                isFailed = false;
+            }
+            catch(err) {
+                DynatraceApiClient.closeConnection(id, err);
+                if (err.status == 429 || err.status == 502)
+                    isFailed = true;
+            }
+
+            // 10 retries, exit if we get a non-retry signaling code.
+        } while(tries++ < 10 && isFailed)
+
+        return data as T;
     }
 
     public useBase(url: string) {
@@ -124,10 +228,10 @@ export class APIBase {
         // 1. connect to the endpoint.
         // 2. if we have the permissions listed on the params
         try {
-            if (this.apiRoute.includes("config")) {
+            // if (this.apiRoute.includes("config")) {
 
-            }
-            else {
+            // }
+            // else {
                 tokenMeta = await this.request<TokenMetadata>({
                     path: "",
                     fullPath: "api/v1/tokens/lookup",
@@ -136,15 +240,16 @@ export class APIBase {
                         token: this.environment.token
                     }
                 });
-            }
+            // }
 
             // Check for missing permisisons on the token.
             const missingPermissions = permissions.filter(p => !tokenMeta.scopes.includes(p as any));
-            if (missingPermissions)
+            if (missingPermissions.length > 0)
                 throw `API token [${this.tokenId}] on environment [${this.environmentId}] is missing permission(s) [${missingPermissions.join()}].`;
 
         }
         catch (ex) {
+            console.log(ex)
             throw `Failed to connect to the Dynatrace API with token [${this.tokenId}] on environment [${this.environmentId}].`;
         }
 

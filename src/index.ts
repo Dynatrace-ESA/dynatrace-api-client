@@ -10,5 +10,6 @@ export * from "./api/tenant-api";
 // Types
 export * from "./types/dynatrace-connection";
 
+export * from "./apibase";
 
 // Interfaces are exposed only by importing specific files.

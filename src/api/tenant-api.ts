@@ -1,6 +1,7 @@
 import { dynatraceTokenRegex } from "@dt-esa/platform-constants";
 import { DynatraceEnvironmentAPIV2, DynatraceConfigurationAPI } from "..";
 import { DynatraceConnection } from "../types/dynatrace-connection";
+import { APIOptions } from "../types/options";
 import { DynatraceEnvironmentAPIV1 } from "./env-v1";
 
 /**
@@ -16,10 +17,18 @@ export class DynatraceTenantAPI {
     v2: DynatraceEnvironmentAPIV2;
     config: DynatraceConfigurationAPI;
 
-    constructor(protected environment: DynatraceConnection, testConnection = true, customAxios?) {
-        this.v1 = new DynatraceEnvironmentAPIV1(environment, testConnection, customAxios);
-        this.v2 = new DynatraceEnvironmentAPIV2(environment, false, customAxios);
-        this.config = new DynatraceConfigurationAPI(environment, false, customAxios);
+    constructor(protected environment: DynatraceConnection, options?: APIOptions) {
+        this.v1 = new DynatraceEnvironmentAPIV1(environment, options);
+        this.v2 = new DynatraceEnvironmentAPIV2(environment, {
+            skipConnectionStringCheck: true,
+            skipConnectivityCheck: true,
+            logger: options?.logger
+        });
+        this.config = new DynatraceConfigurationAPI(environment, {
+            skipConnectionStringCheck: true,
+            skipConnectivityCheck: true,
+            logger: options?.logger
+        });
     }
 
     public useBase(url: string) {

@@ -28,8 +28,11 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
         if (!options.skipConnectivityCheck) 
             this.testConnectivity();
-    }
 
+    }
+        
+    private readonly usql = this.userSessionQueryLanguage;
+    
     userSessionQueryLanguage = {
         /**
          * RUM - User sessions \
@@ -39,7 +42,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
          * ---
          * @returns The result is a flat list of rows containing the requested columns.
          */
-        getUsqlResults: super.userSessionQueryLanguage.getUsqlResults,
+        getUsqlResults: this.usql.getUsqlResults,
 
         /**
          * RUM - User sessions \
@@ -49,7 +52,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
          * ---
          * @returns To get a proper tree structure, you need to specify grouping in the query.
          */
-        getUsqlResultsAsTree: super.userSessionQueryLanguage.getUsqlResultsAsTree,
+        getUsqlResultsAsTree: this.usql.getUsqlResultsAsTree,
 
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
