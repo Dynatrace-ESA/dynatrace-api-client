@@ -260,7 +260,9 @@ export class APIBase {
             throw `API token [${this.tokenId}] on environment [${this.environmentId}] is expired.`;
 
 
-        this.log.info(`Connected to your Dynatrace instance in ${new Date().getTime() - sTime} ms`);
+        const d = new Date().getTime() - sTime;
+        this.log.info(`Connected to your Dynatrace instance in ${d} ms`);
+        return d;
     }
 
     protected createConnectionString(environment: DynatraceConnection, mode) {
