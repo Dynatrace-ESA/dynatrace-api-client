@@ -21,7 +21,7 @@ type UserError  = UserSessionErrors     & { "usersession.userSessionId": string 
 export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
     constructor(connection: DynatraceConnection, options: APIOptions = {}) {
-        super(connection, "api/v1", options.customAxios);
+        super(connection, "api/v1", options);
 
         if (!options.skipConnectionStringCheck) 
             this.createConnectionString(connection, 'env');

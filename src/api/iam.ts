@@ -13,7 +13,7 @@ const endpoint = "https://api.dynatrace.com/iam/v1/";
 export class DynatraceAccountManagementAPI extends AccountManagement {
 
     constructor(private token: string, options: APIOptions = {}) {
-        super({ baseUrl: endpoint, token }, '', options.customAxios);
+        super({ baseUrl: endpoint, token }, '', options);
 
         // if (testConnection) {
         //     checkConnection(this, "iam");

@@ -19,7 +19,7 @@ import { APIOptions, RequestOptions } from '../types/options';
 export class DynatraceEnvironmentAPIV2 extends EnvironmentV2 {
 
     constructor(connection: DynatraceConnection, options: APIOptions = {}) {
-        super(connection, "api/v2", options.customAxios);
+        super(connection, "api/v2", options);
 
         if (!options.skipConnectionStringCheck)
             this.createConnectionString(connection, 'env');

@@ -20,7 +20,7 @@ import { APIOptions } from "../types/options";
 export class DynatraceClusterManagementAPIV1 extends ClusterManagementV1 {
 
     constructor(connection: DynatraceConnection, options: APIOptions = {}) {
-        super(connection, "", options.customAxios);
+        super(connection, "", options);
 
         if (!options.skipConnectionStringCheck)
             this.createConnectionString(connection, 'cmc');

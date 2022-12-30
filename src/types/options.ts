@@ -232,6 +232,19 @@ export type APIOptions = {
         warn: (text: string) => {},
         error: (text: string) => {}
     }
+
+    /**
+     * Amount of time in ms to wait between 429 responses
+     * default `1000`
+     */
+    retryDelay?: number
+    
+    /**
+     * Amount of times to retry 429 transactions.
+     * default `10`
+     * set to `-1` to infinitely retry.
+     */
+    retryCount?: number
 }
 
 export type RequestOptions = {

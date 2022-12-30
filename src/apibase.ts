@@ -1,7 +1,7 @@
 import { dynatraceSaaSUrlRegex, dynatraceTokenRegex, dynatraceUrlRegex } from '@dt-esa/platform-constants';
 import { DynatraceConnection } from "./types/dynatrace-connection";
 import { TokenMetadata } from "./api/generated/env-v1";
-import { knownScopes } from './types/options';
+import { APIOptions, knownScopes } from './types/options';
 import axios from 'axios';
 import { Subject } from 'rxjs';
 
@@ -79,6 +79,8 @@ export class DynatraceApiClient {
     }
 }
 
+const sleep = t => new Promise(r => setTimeout(r, t));
+
 let ctxId = 0;
 
 /**
@@ -93,7 +95,13 @@ export class APIBase {
         error: (text: string) => console.error(text)
     };
 
-    constructor(protected environment: DynatraceConnection, private apiRoute: string, private customAxios?: any) {
+    private options: APIOptions;
+
+    constructor(
+        protected environment: DynatraceConnection, 
+        private apiRoute: string, 
+        options: APIOptions = {}
+        ) {
 
         // Get a token ID that IS NOT the entire token.
         this.tokenId = this.environment.token.includes('.')
@@ -101,12 +109,25 @@ export class APIBase {
             : this.environment.token.split('.').slice(0, 2).join('.');
 
         const envUrl = this.resolveUrl();
+
         // Get the environment ID for logging purposes.
         this.environmentId = dynatraceUrlRegex.test(envUrl) ?
             envUrl.match(dynatraceUrlRegex).groups['saasTenantId'] ||
             envUrl.match(dynatraceUrlRegex).groups['managedTenantId'] ||
             envUrl.match(dynatraceUrlRegex).groups['activeGateTenantId'] :
-            "unknown"
+            "unknown";
+        
+        this.options = {
+            skipConnectivityCheck: options.skipConnectivityCheck,
+            skipConnectionStringCheck: options.skipConnectionStringCheck,
+            requiredTokenScopes: options.requiredTokenScopes,
+            retryDelay: typeof options.retryDelay
+                ? options.retryDelay
+                : 1000,
+            retryCount: typeof options.retryCount
+                ? options.retryCount
+                : 10
+        };
     }
 
     private resolveUrl() {
@@ -128,15 +149,17 @@ export class APIBase {
         headers = {}, 
         ...params
     }): Promise<T> => {
+
         const token: string = this.environment.token;
         const apiPath: string = fullPath || this.apiRoute + path;
         const tenantUrl: string = this.resolveUrl();
 
         // Validation of assignments.
-        if (!apiPath) throw "Missing API Path.";
-        if (!method)  throw "Missing HTTP Method.";
-        if (!token)   throw "Missing API Token.";
-        if (/^(PUT|POST)$/i.test(method) && !body) throw "Missing Payload.";
+        if (!apiPath) throw new Error("Missing API Path.");
+        if (!method)  throw new Error("Missing HTTP Method.");
+        if (!token)   throw new Error("Missing API Token.");
+        if (/^(PUT|POST)$/i.test(method) && !body) 
+            throw new Error("Missing Payload.");
 
         headers['Authorization'] = 'Api-Token ' + token;
 
@@ -146,6 +169,9 @@ export class APIBase {
         do {
             let id = ctxId++;
 
+            if (isFailed)
+                await sleep(this.options.retryDelay);
+                
             DynatraceApiClient.createConnection(id, tenantUrl + apiPath, method);
 
             try {
@@ -174,10 +200,17 @@ export class APIBase {
                 DynatraceApiClient.closeConnection(id, err);
                 if (err.status == 429 || err.status == 502)
                     isFailed = true;
+                else 
+                    throw err;
             }
 
             // 10 retries, exit if we get a non-retry signaling code.
-        } while(tries++ < 10 && isFailed)
+        } while (
+            isFailed && (
+                this.options.retryCount == -1 ||
+                tries++ < this.options.retryCount
+            )
+        )
 
         return data as T;
     }
