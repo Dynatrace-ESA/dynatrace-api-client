@@ -228,9 +228,9 @@ export type APIOptions = {
      * Provide a logger interface for emitting log events to the client application. 
      */
     logger?: {
-        info: (text: string) => {},
-        warn: (text: string) => {},
-        error: (text: string) => {}
+        info: (text: string) => void,
+        warn: (text: string) => void,
+        error: (text: string) => void
     }
 
     /**

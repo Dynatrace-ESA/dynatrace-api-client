@@ -15,6 +15,7 @@ export class ConnectionProgressEvent {
     constructor(public evt: { url: string, method: string, state: string, progress: number }) {}
 }
 // export type ConnectionProgressEvent = Subject<ConnectionCreatedEvent | ConnectionClosedEvent | ConnectionProgressEvent>;
+
 /**
  * Singleton class that you can listen to the "onObservable" event 
  */
@@ -31,6 +32,7 @@ export class DynatraceApiClient {
     }} = {};
 
     public static createConnection(id: number, url: string, method: string) {
+        
         this.observables[id] = {
             url, 
             method,
@@ -128,12 +130,15 @@ export class APIBase {
                 ? options.retryCount
                 : 10
         };
+
+        if (options.logger)
+            this.log = options.logger;
     }
 
     private resolveUrl() {
         if (this.environment.baseUrl || this.environment.tenantId) {
-            if (!this.environment.baseUrl) throw "Base url does not exist.";
-            if (!this.environment.tenantId) throw "";
+            if (!this.environment.baseUrl) throw new Error("Base url does not exist.");
+            if (!this.environment.tenantId) throw new Error("Could not identify tenant.");
             return this.environment.baseUrl + '/' + this.environment.tenantId + '/';
         }
 
@@ -149,7 +154,6 @@ export class APIBase {
         headers = {}, 
         ...params
     }): Promise<T> => {
-
         const token: string = this.environment.token;
         const apiPath: string = fullPath || this.apiRoute + path;
         const tenantUrl: string = this.resolveUrl();
@@ -169,8 +173,10 @@ export class APIBase {
         do {
             let id = ctxId++;
 
-            if (isFailed)
+            if (isFailed) {
+                this.log.info(`Request: ${apiPath} got 429 -- waiting ${this.options.retryDelay}ms`);
                 await sleep(this.options.retryDelay);
+            }
                 
             DynatraceApiClient.createConnection(id, tenantUrl + apiPath, method);
 
@@ -211,6 +217,10 @@ export class APIBase {
                 tries++ < this.options.retryCount
             )
         )
+        
+        if (tries >= this.options.retryCount) {
+            this.log.error(`Request: ${apiPath} retried too many times ${tries}`);
+        }
 
         return data as T;
     }
@@ -229,7 +239,7 @@ export class APIBase {
             return this;
         }
 
-        throw Error("Invalid Token: " + token);
+        throw new Error("Invalid Token: " + token);
     }
     public useUrl(url: string) {
         this.environment.url = url;
@@ -248,12 +258,12 @@ export class APIBase {
             if (guessScope)
                 return guessScope;
             else 
-                throw `Encountered unknown permission ${p}`;
+                throw new Error(`Encountered unknown permission ${p}`);
         });
 
 
         const sTime = new Date().getTime();
-        this.log.info("Connecting to your Dynatrace instance...");
+        this.log.info("Connecting to your Dynatrace instance");
 
         let tokenMeta: TokenMetadata;
 
@@ -278,19 +288,19 @@ export class APIBase {
             // Check for missing permisisons on the token.
             const missingPermissions = permissions.filter(p => !tokenMeta.scopes.includes(p as any));
             if (missingPermissions.length > 0)
-                throw `API token [${this.tokenId}] on environment [${this.environmentId}] is missing permission(s) [${missingPermissions.join()}].`;
+                throw new Error(`API token [${this.tokenId}] on environment [${this.environmentId}] is missing permission(s) [${missingPermissions.join()}].`);
 
         }
         catch (ex) {
             console.log(ex)
-            throw `Failed to connect to the Dynatrace API with token [${this.tokenId}] on environment [${this.environmentId}].`;
+            throw new Error(`Failed to connect to the Dynatrace API with token [${this.tokenId}] on environment [${this.environmentId}].`);
         }
 
         if (tokenMeta.revoked)
-            throw `API token [${this.tokenId}] on environment [${this.environmentId}] is revoked.`;
+            throw new Error(`API token [${this.tokenId}] on environment [${this.environmentId}] is revoked.`);
 
         if (tokenMeta.expires && (tokenMeta.expires < new Date().getTime()))
-            throw `API token [${this.tokenId}] on environment [${this.environmentId}] is expired.`;
+            throw new Error(`API token [${this.tokenId}] on environment [${this.environmentId}] is expired.`);
 
 
         const d = new Date().getTime() - sTime;
@@ -300,19 +310,19 @@ export class APIBase {
 
     protected createConnectionString(environment: DynatraceConnection, mode) {
         if (!environment.token)
-            throw "Connection Token is not present.";
+            throw new Error("Connection Token is not present.");
 
         if (mode != 'env') {
             if (environment.baseUrl || environment.tenantId)
-                throw "Tenant ID and Base URL may not be specified on this API interface.";
+                throw new Error("Tenant ID and Base URL may not be specified on this API interface.");
             if (!environment.url)
-                throw "Connection URL is not present.";
+                throw new Error("Connection URL is not present.");
 
             return;
         }
 
         if (!environment.url)
-            throw "Connection URL is not present.";
+            throw new Error("Connection URL is not present.");
 
         if (environment.url)
             environment.url = environment.url.trim();
@@ -331,8 +341,8 @@ export class APIBase {
 
         // TODO: Load balancers will break here
         if (!dynatraceUrlRegex.test(environment.url))
-            throw 'You must provide a valid SaaS URL or Managed URL in the format "https://abc12345.live.dynatrace.com/" or "https://my.managed-dynatrace.local/e/12345678-1234-1234-1234-123456789abc/"';
+            throw new Error('You must provide a valid SaaS URL or Managed URL in the format "https://abc12345.live.dynatrace.com/" or "https://my.managed-dynatrace.local/e/12345678-1234-1234-1234-123456789abc/"');
         if (!dynatraceTokenRegex.test(environment.token))
-            throw "Connection Token is not valid.";
+            throw new Error("Connection Token is not valid.");
     }
 }
