@@ -97,13 +97,11 @@ export class APIBase {
         error: (text: string) => console.error(text)
     };
 
-    private options: APIOptions;
-
     constructor(
         protected environment: DynatraceConnection, 
         private apiRoute: string, 
-        options: APIOptions = {}
-        ) {
+        private options: APIOptions = {}
+    ) {
 
         // Get a token ID that IS NOT the entire token.
         this.tokenId = this.environment.token.includes('.')
@@ -119,17 +117,8 @@ export class APIBase {
             envUrl.match(dynatraceUrlRegex).groups['activeGateTenantId'] :
             "unknown";
         
-        this.options = {
-            skipConnectivityCheck: options.skipConnectivityCheck,
-            skipConnectionStringCheck: options.skipConnectionStringCheck,
-            requiredTokenScopes: options.requiredTokenScopes,
-            retryDelay: typeof options.retryDelay
-                ? options.retryDelay
-                : 1000,
-            retryCount: typeof options.retryCount
-                ? options.retryCount
-                : 10
-        };
+        this.options.retryDelay = typeof options.retryDelay == 'number' ? options.retryDelay : 1000;
+        this.options.retryCount = typeof options.retryCount == 'number' ? options.retryCount : 10;
 
         if (options.logger)
             this.log = options.logger;
