@@ -100,7 +100,7 @@ export class APIBase {
     constructor(
         protected environment: DynatraceConnection, 
         private apiRoute: string, 
-        private options: APIOptions = {}
+        protected options: APIOptions = {}
     ) {
 
         // Get a token ID that IS NOT the entire token.

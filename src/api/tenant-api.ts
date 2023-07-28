@@ -22,12 +22,22 @@ export class DynatraceTenantAPI {
         this.v2 = new DynatraceEnvironmentAPIV2(environment, {
             skipConnectionStringCheck: true,
             skipConnectivityCheck: true,
-            logger: options?.logger
+            logger: options?.logger,
+            customAxios: options?.customAxios,
+            headers: options?.headers,
+            requiredTokenScopes: options?.requiredTokenScopes,
+            retryCount: options?.retryCount,
+            retryDelay: options?.retryDelay
         });
         this.config = new DynatraceConfigurationAPI(environment, {
             skipConnectionStringCheck: true,
             skipConnectivityCheck: true,
-            logger: options?.logger
+            logger: options?.logger,
+            customAxios: options?.customAxios,
+            headers: options?.headers,
+            requiredTokenScopes: options?.requiredTokenScopes,
+            retryCount: options?.retryCount,
+            retryDelay: options?.retryDelay
         });
     }
 
