@@ -341,8 +341,8 @@ export class APIBase {
 
         // TODO: Load balancers will break here
         if (!dynatraceUrlRegex.test(environment.url))
-            throw new Error('You must provide a valid SaaS URL or Managed URL in the format "https://abc12345.live.dynatrace.com/" or "https://my.managed-dynatrace.local/e/12345678-1234-1234-1234-123456789abc/"');
+            console.warn('You must provide a valid SaaS URL or Managed URL in the format "https://abc12345.live.dynatrace.com/" or "https://my.managed-dynatrace.local/e/12345678-1234-1234-1234-123456789abc/"');
         if (!dynatraceTokenRegex.test(environment.token))
-            throw new Error("Connection Token is not valid.");
+            console.warn("Connection Token is not valid.");
     }
 }
