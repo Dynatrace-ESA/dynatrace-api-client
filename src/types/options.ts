@@ -209,6 +209,11 @@ export type APIOptions = {
      * TODO: Type correctly.
      */
     customAxios?: any,
+
+    /**
+     * 
+     */
+    headers?: { key: string, value: string }[] | { [key: string]: string },
     /**
      * Set to `true` to skip the tenant connectivity check.
      */

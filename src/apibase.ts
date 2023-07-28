@@ -167,6 +167,15 @@ export class APIBase {
 
         headers['Authorization'] = 'Api-Token ' + token;
 
+        // Apply custom headers.
+        if (this.options.headers) {
+            if (Array.isArray(this.options.headers))
+                this.options.headers.forEach(h => headers[h.key] = h.value);
+            else {
+                Object.keys(this.options.headers).forEach(h => headers[h] = this.options.headers[h])
+            }
+        }
+
         let data;
         let tries = 0;
         let isFailed = false;
@@ -181,7 +190,7 @@ export class APIBase {
             DynatraceApiClient.createConnection(id, tenantUrl + apiPath, method);
 
             try {
-                const res: any = await axios({
+                const res: any = await (this.options.customAxios || axios)({
                     ...params,
                     url: tenantUrl + apiPath,
                     params: query,
