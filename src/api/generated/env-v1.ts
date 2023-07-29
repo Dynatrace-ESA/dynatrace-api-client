@@ -9153,7 +9153,7 @@ export class internalEnvV1 extends APIBase {
      * ---
      * @returns The result is a flat list of rows containing the requested columns.
      */
-    getUsqlResultAsTable: (
+    getUsqlResults: (
       query: {
         query: string;
         startTimestamp?: number;
@@ -9182,7 +9182,7 @@ export class internalEnvV1 extends APIBase {
      * ---
      * @returns To get a proper tree structure, you need to specify grouping in the query.
      */
-    getUsqlResultAsTree: (
+    getUsqlResultsAsTree: (
       query: {
         query: string;
         startTimestamp?: number;

@@ -81,13 +81,13 @@ const stringReplacementPatches = [
     },
     {
         // Remove extraneous HttpResponse object.
-        rx: /DtaqlResultAsTree/g,
-        value: "UsqlResultsAsTree"
+        rx: /getUsqlResultAsTree/g,
+        value: "getUsqlResultsAsTree"
     },
     {
         // Remove extraneous HttpResponse object.
-        rx: /DtaqlResultAsTable/g,
-        value: "UsqlResults"
+        rx: /getUsqlResultAsTable/g,
+        value: "getUsqlResults"
     },
     // We implicitly decide on security contexts, so here we override the annotation and objects
     // that are passed between the contexts.
