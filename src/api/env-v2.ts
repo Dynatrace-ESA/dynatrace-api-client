@@ -29,7 +29,18 @@ export class DynatraceEnvironmentAPIV2 extends EnvironmentV2 {
 
     }
 
-    entities = {
+    entities: EnvironmentV2['entities'] & {
+        getEntitiesCount: (query?: {
+            nextPageKey?: string;
+            pageSize?: number;
+            entitySelector?: string;
+            from?: string;
+            to?: string;
+            fields?: string;
+            sort?: string;
+        },
+        params?: Object) => Promise<number>
+    } = {
         ...this.entities,
         getEntitiesCount: async (query?: {
             nextPageKey?: string;
