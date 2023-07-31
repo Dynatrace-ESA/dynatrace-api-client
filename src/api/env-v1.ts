@@ -29,29 +29,9 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
         if (!options.skipConnectivityCheck) 
             this.testConnectivity();
     }
-    
-    private readonly usql = this.userSessionQueryLanguage;
-    
+        
     userSessionQueryLanguage = {
-        /**
-         * RUM - User sessions \
-         * `GET:/userSessionQueryLanguage/table` \
-         * Returns the result of the query as a table structure \
-         * 
-         * ---
-         * @returns The result is a flat list of rows containing the requested columns.
-         */
-        getUsqlResults: this.usql.getUsqlResults as EnvironmentV1['userSessionQueryLanguage']['getUsqlResults'],
-
-        /**
-         * RUM - User sessions \
-         * `GET:/userSessionQueryLanguage/tree` \
-         * Returns the result of the query as a tree structure \
-         * 
-         * ---
-         * @returns To get a proper tree structure, you need to specify grouping in the query.
-         */
-        getUsqlResultsAsTree: this.usql.getUsqlResultsAsTree as EnvironmentV1['userSessionQueryLanguage']['getUsqlResultsAsTree'],
+        ...super.userSessionQueryLanguage,
 
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
@@ -162,6 +142,14 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
         }, requestArgs?): Promise<(UserError & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
     }
 
+    /**
+     * use `usql` instead. 
+     * @hidden
+     * @deprecated
+     * @invalid
+     */
+    // userSessionQueryLanguage: undefined;
+
     private async fetchChunkedUSQLdata(query, requestArgs, table, metric) {
         // I do not know why this is 1000.
         const pageSize = 1000; 
@@ -270,3 +258,4 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
         }) || [];
     }
 }
+
