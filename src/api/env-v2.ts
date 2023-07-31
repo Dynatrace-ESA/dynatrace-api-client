@@ -50,7 +50,7 @@ export class DynatraceEnvironmentAPIV2 extends EnvironmentV2 {
             to?: string;
             fields?: string;
             sort?: string;
-        }, params?: RequestOptions): Promise<number> => {
+        }, params: RequestOptions = {}): Promise<number> => {
             query.pageSize = 1;
             params.paging = false;
 
