@@ -6,6 +6,7 @@ type UserAction = UserSessionUserAction & { "usersession.userSessionId": string 
 type UserEvent  = UserSessionEvents     & { "usersession.userSessionId": string };
 type UserError  = UserSessionErrors     & { "usersession.userSessionId": string };
 
+const $usql = Symbol("USQL");
 
 /**
  * @title Dynatrace Environment API
@@ -20,20 +21,7 @@ type UserError  = UserSessionErrors     & { "usersession.userSessionId": string 
  */
 export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
 
-    constructor(connection: DynatraceConnection, options: APIOptions = {}) {
-        super(connection, "api/v1", options);
-
-        if (!options.skipConnectionStringCheck) 
-            this.createConnectionString(connection, 'env');
-
-        if (!options.skipConnectivityCheck) 
-            this.testConnectivity();
-    }
-        
-    userSessionQueryLanguage = {
-        getUsqlResults: super.userSessionQueryLanguage.getUsqlResults as EnvironmentV1['userSessionQueryLanguage']['getUsqlResults'],
-        getUsqlResultsAsTree: super.userSessionQueryLanguage.getUsqlResultsAsTree as EnvironmentV1['userSessionQueryLanguage']['getUsqlResultsAsTree'],
-
+    userSessionQueryLanguage: EnvironmentV1['userSessionQueryLanguage'] & {
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
          * Caveats:
@@ -54,12 +42,12 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
          * @param requestArgs 
          * 
          */
-        getAllUserSessions: <T = {}>(query: {
+        getAllUserSessions:  <T = {}>(query: {
             customMetrics?: string[],
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<(UserSession & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usersession", "*"),
+        }, requestArgs?) => Promise<(UserSession & T)[]>,
 
         /**
          * A method to return all user actions from a tenant in the specified timeframe.
@@ -86,7 +74,8 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<(UserAction & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "useraction", "usersession.userSessionId, *"),
+        }, requestArgs?) => Promise<(UserAction & T)[]>,
+
 
         /**
          * A method to return all user events from a tenant in the specified timeframe.
@@ -113,7 +102,8 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<(UserEvent & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "userevent", "usersession.userSessionId, *"),
+        }, requestArgs?) => Promise<(UserEvent & T)[]>,
+
 
         /**
          * A method to return all user errors from a tenant in the specified timeframe.
@@ -140,7 +130,35 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?): Promise<(UserError & T)[]> => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
+        }, requestArgs?) => Promise<(UserError & T)[]>
+    };
+
+    constructor(connection: DynatraceConnection, options: APIOptions = {}) {
+        super(connection, "api/v1", options);
+
+        const oldUSQL = this.userSessionQueryLanguage;
+        this.userSessionQueryLanguage = this[$usql];
+        this.userSessionQueryLanguage.getUsqlResults = oldUSQL.getUsqlResults;
+        this.userSessionQueryLanguage.getUsqlResultsAsTree = oldUSQL.getUsqlResultsAsTree;
+        
+        if (!options.skipConnectionStringCheck) 
+            this.createConnectionString(connection, 'env');
+
+        if (!options.skipConnectivityCheck) 
+            this.testConnectivity();
+    }
+    
+    /**
+     * Hide the real USQL interface so we can actually override the damn thing
+     */
+    private [$usql] = {
+        getUsqlResults: ((...args) => super.userSessionQueryLanguage.getUsqlResults(...args)) as EnvironmentV1['userSessionQueryLanguage']['getUsqlResults'],
+        getUsqlResultsAsTree: ((...args) => super.userSessionQueryLanguage.getUsqlResultsAsTree(...args)) as EnvironmentV1['userSessionQueryLanguage']['getUsqlResultsAsTree'],
+
+        getAllUserSessions: (query, requestArgs) => this.fetchChunkedUSQLdata(query, requestArgs, "usersession", "*"),
+        getAllUserActions: (query, requestArgs) => this.fetchChunkedUSQLdata(query, requestArgs, "useraction", "usersession.userSessionId, *"),
+        getAllUserEvents: (query, requestArgs) => this.fetchChunkedUSQLdata(query, requestArgs, "userevent", "usersession.userSessionId, *"),
+        getAllUserErrors: (query, requestArgs) => this.fetchChunkedUSQLdata(query, requestArgs, "usererror", "usersession.userSessionId, *"),
     }
 
     /**
