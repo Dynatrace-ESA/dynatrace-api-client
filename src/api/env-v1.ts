@@ -31,7 +31,8 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
     }
         
     userSessionQueryLanguage = {
-        ...super.userSessionQueryLanguage,
+        getUsqlResults: super.userSessionQueryLanguage.getUsqlResults as EnvironmentV1['userSessionQueryLanguage']['getUsqlResults'],
+        getUsqlResultsAsTree: super.userSessionQueryLanguage.getUsqlResultsAsTree as EnvironmentV1['userSessionQueryLanguage']['getUsqlResultsAsTree'],
 
         /**
          * A method to return all user sessions from a tenant in the specified timeframe.
