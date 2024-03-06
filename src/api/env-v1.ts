@@ -1,5 +1,5 @@
 import { DynatraceConnection } from "../types/dynatrace-connection";
-import { APIOptions } from "../types/options";
+import { APIOptions, RequestOptions } from "../types/options";
 import { internalEnvV1 as EnvironmentV1, UserSession, UserSessionErrors, UserSessionEvents, UserSessionUserAction } from "./generated/env-v1";
 
 type UserAction = UserSessionUserAction & { "usersession.userSessionId": string };
@@ -47,7 +47,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?) => Promise<(UserSession & T)[]>,
+        }, requestArgs?: RequestOptions) => Promise<(UserSession & T)[]>,
 
         /**
          * A method to return all user actions from a tenant in the specified timeframe.
@@ -74,7 +74,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?) => Promise<(UserAction & T)[]>,
+        }, requestArgs?: RequestOptions) => Promise<(UserAction & T)[]>,
 
 
         /**
@@ -102,7 +102,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?) => Promise<(UserEvent & T)[]>,
+        }, requestArgs?: RequestOptions) => Promise<(UserEvent & T)[]>,
 
 
         /**
@@ -130,7 +130,7 @@ export class DynatraceEnvironmentAPIV1 extends EnvironmentV1 {
             usqlFilter?: string,
             startTimestamp?: number;
             endTimestamp?: number;
-        }, requestArgs?) => Promise<(UserError & T)[]>
+        }, requestArgs?: RequestOptions) => Promise<(UserError & T)[]>
     };
 
     constructor(connection: DynatraceConnection, options: APIOptions = {}) {

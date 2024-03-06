@@ -1,8 +1,8 @@
 import { dynatraceSaaSUrlRegex, dynatraceTokenRegex, dynatraceUrlRegex } from '@dt-esa/platform-constants';
 import { DynatraceConnection } from "./types/dynatrace-connection";
 import { TokenMetadata } from "./api/generated/env-v1";
-import { APIOptions, knownScopes } from './types/options';
-import axios from 'axios';
+import { APIOptions, RequestOptions, knownScopes } from './types/options';
+import axios, { AxiosStatic } from 'axios';
 import { Subject } from 'rxjs';
 
 export class ConnectionCreatedEvent { 
@@ -99,9 +99,13 @@ export class APIBase {
 
     constructor(
         protected environment: DynatraceConnection, 
-        private apiRoute: string, 
+        private apiRoute: string,
         protected options: APIOptions = {}
     ) {
+        if (typeof environment != "object")
+            throw new Error("Cannot create without an environment");
+        if (typeof environment?.token != 'string')
+            throw new Error("Cannot create an environment without a token");
 
         // Get a token ID that IS NOT the entire token.
         this.tokenId = this.environment.token.includes('.')
@@ -141,6 +145,8 @@ export class APIBase {
         fullPath = null, 
         query = {}, 
         headers = {}, 
+        paging = true,
+        onPageReceived = null,
         ...params
     }): Promise<T> => {
         const token: string = this.environment.token;
@@ -179,7 +185,7 @@ export class APIBase {
             DynatraceApiClient.createConnection(id, tenantUrl + apiPath, method);
 
             try {
-                const res: any = await (this.options.customAxios || axios)({
+                const res: any = await ((this.options.customAxios || axios) as AxiosStatic)({
                     ...params,
                     url: tenantUrl + apiPath,
                     params: query,
@@ -198,6 +204,13 @@ export class APIBase {
                 DynatraceApiClient.closeConnection(id);
 
                 data = res.data;
+
+                if (typeof data.nextPageKey == "string" && paging != false) {
+                    return this.autoPage(apiPath, data, {
+                        onPageReceived,
+                    }) as T;
+                }
+
                 isFailed = false;
             }
             catch(err) {
@@ -221,6 +234,66 @@ export class APIBase {
         }
 
         return data as T;
+    }
+
+    private async autoPage(path: string, firstPage: Object, reqParams: RequestOptions) {
+        const key = this.resolveEntries(path);
+
+        const entries: Object[] = key ? firstPage : firstPage[key];
+
+        if (!key || !Array.isArray(entries)) {
+            // console.warn("Cannot automatically page data");
+            return firstPage;
+        }
+
+        let nextPageKey = firstPage['nextPageKey'];
+        do {
+            const result = await this.request({
+                path,
+                method: "GET",
+                format: "json",
+                query: { nextPageKey },
+                paging: false,
+                ...reqParams
+            });
+            nextPageKey = result['nextPageKey'];
+
+            const newEntries: Object[] = key ? result : result[key];
+
+            if (typeof reqParams.onPageReceived == "function") {
+                reqParams.onPageReceived(result);
+            }
+            else {
+                entries.push(...newEntries);
+            }
+        }
+        while (nextPageKey);
+
+        if (typeof reqParams.onPageReceived == "function") {
+            return 1;
+        }
+        else {
+            return firstPage;
+        }
+    }
+
+    private resolveEntries(path: string) {
+        switch(true) {
+            case /api\/v1\/userSessionQueryLanguage\/(table|tree)/    .test(path): return 'values';
+            case /api\/v2\/entities/                                  .test(path): return 'entities';
+            case /api\/v1\/oneagents/                                 .test(path): return 'hosts';
+            case /api\/v1\/config\/clusterversion/                    .test(path): return 'version';
+            case /api\/config\/v1\/(managementZones|autoTags)/        .test(path): return 'values';
+            case /api\/v2\/entityTypes/                               .test(path): return 'types';
+            case /api\/v2\/problems/                                  .test(path): return 'problems';
+            case /api\/v2\/metrics\/query/                            .test(path): return 'result';
+            case /api\/v2\/metrics/                                   .test(path): return 'metrics';
+            case /api\/v2\/auditlogs/                                 .test(path): return 'auditLogs';
+            case /api\/v2\/settings\/(schemas|objects)/               .test(path): return 'items';
+            case /api\/v1\/synthetic\/monitors/                       .test(path): return 'monitors';
+            case /api\/v2\/activeGates/                               .test(path): return 'activeGates';
+            case /api\/v2\/tags/                                      .test(path): return 'tags';
+        }
     }
 
     public useBase(url: string) {

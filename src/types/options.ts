@@ -253,6 +253,14 @@ export type APIOptions = {
 }
 
 export type RequestOptions = {
-    paging?: boolean
+    /**
+     * Set to `false` to disable automatic pagination
+     */
+    paging?: boolean,
+    /**
+     * Set to handle each page of data as it's received. 
+     * Will prevent memory buildup while fetching many entities.
+     */
+    onPageReceived?: (page: Object) => void
 }
 export type File = unknown;
