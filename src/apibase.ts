@@ -205,10 +205,20 @@ export class APIBase {
 
                 data = res.data;
 
+                // If there are more pages to go through, begin running autoPage.
                 if (typeof data.nextPageKey == "string" && paging != false) {
+                    onPageReceived?.(data);
                     return this.autoPage(apiPath, data, {
                         onPageReceived,
-                    }) as T;
+                    }) as any as T;
+                }
+                // If there is only one page and onPageReceived is specified
+                else if (typeof onPageReceived == "function") {
+                    onPageReceived(data);
+                    return 1 as any;
+                }
+                else {
+                    return data as T;
                 }
 
                 isFailed = false;
@@ -236,6 +246,9 @@ export class APIBase {
         return data as T;
     }
 
+    /**
+     * Receive the n pages left in the dataset.
+     */
     private async autoPage(path: string, firstPage: Object, reqParams: RequestOptions) {
         const key = this.resolveEntries(path);
 
