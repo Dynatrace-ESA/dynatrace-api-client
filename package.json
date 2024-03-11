@@ -1,6 +1,6 @@
 {
   "name": "@dt-esa/dynatrace-api-client",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "",
   "main": "./dist/index.js",
   "files": [
@@ -30,7 +30,8 @@
     "get-spec:cmc2": "rm src/spec/iam.json; curl -o src/spec/iam.json https://.../api/v2/spec3?api-token=$TENANT_TOKEN",
     "get-spec:iam": "rm src/spec/iam.json; curl -o src/spec/iam.json https://api.dynatrace.com/spec-json",
     "get-spec": "npm-run-all -p get-spec:config get-spec:env1 get-spec:env2 get-spec:cmc1 get-spec:cmc2 get-spec:iam",
-    "doc": "typedoc src/index.ts"
+    "doc": "typedoc src/index.ts",
+    "publish": "npm version patch --force; npm run build; npm publish"
   },
   "ava": {
     "typescript": {
