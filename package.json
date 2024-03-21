@@ -31,7 +31,7 @@
     "get-spec:iam": "rm src/spec/iam.json; curl -o src/spec/iam.json https://api.dynatrace.com/spec-json",
     "get-spec": "npm-run-all -p get-spec:config get-spec:env1 get-spec:env2 get-spec:cmc1 get-spec:cmc2 get-spec:iam",
     "doc": "typedoc src/index.ts",
-    "publish": "npm version patch --force; npm run build; npm publish"
+    "pub": "npm version patch --force; npm run build; npm publish"
   },
   "ava": {
     "typescript": {

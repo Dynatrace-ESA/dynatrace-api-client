@@ -252,7 +252,7 @@ export class APIBase {
     private async autoPage(path: string, firstPage: Object, reqParams: RequestOptions) {
         const key = this.resolveEntries(path);
 
-        const entries: Object[] = key ? firstPage : firstPage[key];
+        const entries: Object[] = key ? firstPage[key] : null;
 
         if (!key || !Array.isArray(entries)) {
             // console.warn("Cannot automatically page data");
@@ -260,34 +260,14 @@ export class APIBase {
         }
 
         let nextPageKey = firstPage['nextPageKey'];
-        do {
-            const result = await this.request({
-                path,
-                method: "GET",
-                format: "json",
-                query: { nextPageKey },
-                paging: false,
-                ...reqParams
-            });
-            nextPageKey = result['nextPageKey'];
-
-            const newEntries: Object[] = key ? result : result[key];
-
-            if (typeof reqParams.onPageReceived == "function") {
-                reqParams.onPageReceived(result);
-            }
-            else {
-                entries.push(...newEntries);
-            }
-        }
-        while (nextPageKey);
-
-        if (typeof reqParams.onPageReceived == "function") {
-            return 1;
-        }
-        else {
-            return firstPage;
-        }
+        return this.request({
+            fullPath: path,
+            method: "GET",
+            format: "json",
+            query: { nextPageKey },
+            paging: false,
+            ...reqParams as any
+        });
     }
 
     private resolveEntries(path: string) {
